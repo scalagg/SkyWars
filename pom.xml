@@ -34,6 +34,20 @@
             <scope>system</scope>
             <systemPath>${project.basedir}/libs/spigot-1.8.8-R0.1-SNAPSHOT-latest (4).jar</systemPath>
         </dependency>
+        <dependency>
+            <groupId>com.sk89q</groupId>
+            <artifactId>worldedit</artifactId>
+            <version>6.1.9-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/worldedit-1.8.8.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.boydti</groupId>
+            <artifactId>fawe-api</artifactId>
+            <version>latest</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/FastAsyncWorldEdit.jar</systemPath>
+        </dependency>
     </dependencies>
 
     <build>

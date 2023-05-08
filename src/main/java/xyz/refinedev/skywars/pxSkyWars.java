@@ -1,5 +1,12 @@
 package xyz.refinedev.skywars;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import org.bukkit.Location;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.util.BlockVector;
+import org.bukkit.util.Vector;
 import xyz.refinedev.phoenix.Phoenix;
 import xyz.refinedev.phoenix.SharedAPI;
 import xyz.refinedev.skywars.config.SkyWarsConfig;
@@ -7,8 +14,12 @@ import xyz.refinedev.commands.PaperCommandManager;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.plugin.java.JavaPlugin;
+import xyz.refinedev.skywars.handler.AchievementHandler;
+import xyz.refinedev.skywars.handler.ArenaHandler;
+import xyz.refinedev.skywars.handler.GameHandler;
 import xyz.refinedev.skywars.handler.ProfileHandler;
 import xyz.refinedev.skywars.listener.ProfileListener;
+import xyz.refinedev.skywars.utils.serialization.*;
 
 /**
  * This Project is the property of Phoenix Development © 2022
@@ -24,8 +35,12 @@ import xyz.refinedev.skywars.listener.ProfileListener;
 public class pxSkyWars extends JavaPlugin {
     @Getter private static pxSkyWars instance;
 
+    private Gson gson;
     private PaperCommandManager commandHandler;
     private ProfileHandler profileHandler;
+    private AchievementHandler achievementHandler;
+    private GameHandler gameHandler;
+    private ArenaHandler arenaHandler;
 
     @Override
     public void onEnable() {
@@ -33,7 +48,19 @@ public class pxSkyWars extends JavaPlugin {
 
         SkyWarsConfig.IMP.reload();
 
+        this.gson = new GsonBuilder()
+                .registerTypeHierarchyAdapter(PotionEffect.class, new PotionEffectAdapter())
+                .registerTypeHierarchyAdapter(ItemStack.class, new ItemStackAdapter())
+                .registerTypeHierarchyAdapter(Location.class, new LocationAdapter())
+                .registerTypeHierarchyAdapter(Vector.class, new VectorAdapter())
+                .registerTypeAdapter(BlockVector.class, new BlockVectorAdapter())
+                .serializeNulls()
+                .create();
+
         this.profileHandler = new ProfileHandler(SharedAPI.getInstance());
+        this.achievementHandler = new AchievementHandler();
+        this.arenaHandler = new ArenaHandler(this);
+        this.gameHandler = new GameHandler();
 
         getServer().getPluginManager().registerEvents(new ProfileListener(this), this);
 
