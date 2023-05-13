@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -11,6 +12,7 @@ import xyz.refinedev.phoenix.utils.item.ItemBuilder;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * @author Creaxx
@@ -30,7 +32,7 @@ public enum PlayerKit {
             new ItemStack(Material.IRON_CHESTPLATE),
             new ItemStack(Material.IRON_LEGGINGS),
             new ItemStack(Material.IRON_BOOTS)
-    )),
+    ), player -> {}),
 
     MAGICIAN("Magician", Arrays.asList(
             new ItemStack(Material.DIAMOND_SWORD),
@@ -44,10 +46,17 @@ public enum PlayerKit {
             new ItemBuilder(Material.DIAMOND_CHESTPLATE).addUnsafeEnchantment(Enchantment.PROTECTION_FIRE, 1).toItemStack(),
             new ItemStack(Material.IRON_LEGGINGS),
             new ItemStack(Material.IRON_BOOTS)
-    ));
+    ), player -> {});
 
     private final String displayName;
     private final List<ItemStack> items;
     private final List<ItemStack> armor;
+    private final Consumer<Player> playerConsumer;
+
+    public void giveKit(Player player) {
+        player.sendMessage("giving kit " + displayName);
+        player.getInventory().setContents(items.toArray(new ItemStack[36]));
+        player.updateInventory();
+    }
 
 }

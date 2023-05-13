@@ -10,6 +10,8 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Skull;
+import org.bukkit.metadata.FixedMetadataValue;
+import xyz.refinedev.skywars.game.chest.ChestType;
 import xyz.refinedev.skywars.handler.ArenaHandler;
 import xyz.refinedev.skywars.pxSkyWars;
 import xyz.refinedev.skywars.utils.AngleUtils;
@@ -17,6 +19,7 @@ import xyz.refinedev.skywars.utils.Callback;
 import xyz.refinedev.skywars.utils.cuboid.Cuboid;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.function.Predicate;
 
@@ -25,6 +28,8 @@ import java.util.function.Predicate;
  * See {@link xyz.refinedev.skywars.arena} for a comparision of
  * {@link Arena}s and {@link ArenaSchematic}s.
  */
+
+@Getter
 public final class Arena {
 
     /**
@@ -53,6 +58,9 @@ public final class Arena {
      * For purposes of arena definition
      */
     private List<Location> spawns;
+
+
+    private Map<Location, ChestType> chests;
 
     /**
      * Spectator spawn location for this arena
@@ -128,6 +136,28 @@ public final class Arena {
                     }
 
                     break;
+                case CREEPER:
+                    chests.put(skullLocation, ChestType.SPAWN);
+
+                    block.setType(Material.AIR);
+                    block.setMetadata("placedByGame", new FixedMetadataValue(pxSkyWars.getInstance(), true));
+
+                    if (below.getType() == Material.FENCE) {
+                        below.setType(Material.AIR);
+                    }
+
+                    break;
+                case WITHER:
+                    chests.put(skullLocation, ChestType.MIDDLE);
+
+                    block.setType(Material.AIR);
+                    block.setMetadata("placedByGame", new FixedMetadataValue(pxSkyWars.getInstance(), true));
+
+                    if (below.getType() == Material.FENCE) {
+                        below.setType(Material.AIR);
+                    }
+
+                    break;
                 default:
                     break;
             }
@@ -179,13 +209,5 @@ public final class Arena {
     @Override
     public int hashCode() {
         return Objects.hash(schematic, copy);
-    }
-
-    public List<Location> getSpawns() {
-        return spawns;
-    }
-
-    public Cuboid getBounds() {
-        return bounds;
     }
 }

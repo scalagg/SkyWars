@@ -3,8 +3,10 @@ package xyz.refinedev.skywars.profile;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import xyz.refinedev.phoenix.SharedAPI;
 import xyz.refinedev.phoenix.utils.Exclude;
 import xyz.refinedev.skywars.achievement.Achievement;
+import xyz.refinedev.skywars.game.kit.PlayerKit;
 import xyz.refinedev.skywars.game.state.PlayerState;
 import xyz.refinedev.skywars.pxSkyWars;
 
@@ -43,7 +45,8 @@ public class SkyWarsProfile {
 
     private List<Achievement> ownedAchievements = new ArrayList<>();
 
-    @Exclude public PlayerState state = PlayerState.ALIVE;
+    @Exclude private PlayerState state = PlayerState.ALIVE;
+    @Exclude private PlayerKit playerKit = PlayerKit.SCOUT;
 
     public void load() {
         CompletableFuture.runAsync(() -> {
@@ -86,6 +89,14 @@ public class SkyWarsProfile {
         this.deaths++;
     }
 
+    public void incrementWins() {
+        this.wins++;
+    }
+
+    public void incrementLosses() {
+        this.losses++;
+    }
+
     public void setName(String name) {
         this.name = name;
         this.lowerCaseName = name.toLowerCase();
@@ -97,5 +108,9 @@ public class SkyWarsProfile {
 
     public void removeSouls(int amount) {
         this.souls -= amount;
+    }
+
+    public String getNiceName() {
+        return SharedAPI.getInstance().getProfileHandler().getProfile(uniqueId).getNameWithColor();
     }
 }

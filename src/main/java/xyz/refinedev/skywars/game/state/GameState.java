@@ -7,7 +7,6 @@ package xyz.refinedev.skywars.game.state;
 public enum GameState {
 
     WAITING,
-    STARTING,
     RUNNING,
     ENDED
 

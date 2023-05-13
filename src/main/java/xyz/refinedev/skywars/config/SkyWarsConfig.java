@@ -17,6 +17,7 @@ public class SkyWarsConfig extends ConfigUtil {
     @Ignore
     public static final SkyWarsConfig IMP = new SkyWarsConfig();
 
+
     public void reload() {
         File file = new File("plugins/pxSkyWars/config.yml");
         load(file);
