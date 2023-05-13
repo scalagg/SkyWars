@@ -14,10 +14,8 @@ import xyz.refinedev.commands.PaperCommandManager;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.plugin.java.JavaPlugin;
-import xyz.refinedev.skywars.handler.AchievementHandler;
-import xyz.refinedev.skywars.handler.ArenaHandler;
-import xyz.refinedev.skywars.handler.GameHandler;
-import xyz.refinedev.skywars.handler.ProfileHandler;
+import xyz.refinedev.skywars.handler.*;
+import xyz.refinedev.skywars.listener.HotbarListener;
 import xyz.refinedev.skywars.listener.ProfileListener;
 import xyz.refinedev.skywars.utils.serialization.*;
 
@@ -41,6 +39,8 @@ public class pxSkyWars extends JavaPlugin {
     private AchievementHandler achievementHandler;
     private GameHandler gameHandler;
     private ArenaHandler arenaHandler;
+    private HotbarHandler hotbarHandler;
+
 
     @Override
     public void onEnable() {
@@ -61,8 +61,10 @@ public class pxSkyWars extends JavaPlugin {
         this.achievementHandler = new AchievementHandler();
         this.arenaHandler = new ArenaHandler(this);
         this.gameHandler = new GameHandler();
+        this.hotbarHandler = new HotbarHandler();
 
         getServer().getPluginManager().registerEvents(new ProfileListener(this), this);
+        getServer().getPluginManager().registerEvents(new HotbarListener(this), this);
 
         this.commandHandler = Phoenix.getInstance().getCommandHandler();
     }
