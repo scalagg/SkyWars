@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import xyz.refinedev.phoenix.utils.Exclude;
 import xyz.refinedev.skywars.achievement.Achievement;
-import xyz.refinedev.skywars.game.state.SkyWarsPlayerState;
+import xyz.refinedev.skywars.game.state.PlayerState;
 import xyz.refinedev.skywars.pxSkyWars;
 
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ public class SkyWarsProfile {
 
     private List<Achievement> ownedAchievements = new ArrayList<>();
 
-    @Exclude public SkyWarsPlayerState state = SkyWarsPlayerState.ALIVE;
+    @Exclude public PlayerState state = PlayerState.ALIVE;
 
     public void load() {
         CompletableFuture.runAsync(() -> {

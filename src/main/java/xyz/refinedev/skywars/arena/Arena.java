@@ -16,6 +16,7 @@ import xyz.refinedev.skywars.utils.AngleUtils;
 import xyz.refinedev.skywars.utils.Callback;
 import xyz.refinedev.skywars.utils.cuboid.Cuboid;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
 
@@ -49,18 +50,9 @@ public final class Arena {
     private Cuboid bounds;
 
     /**
-     * Team 1 spawn location for this arena
-     * For purposes of arena definition we ignore
-     * non-two-teamed matches.
+     * For purposes of arena definition
      */
-    private Location spawn1;
-
-    /**
-     * Team 2 spawn location for this arena
-     * For purposes of arena definition we ignore
-     * non-two-teamed matches.
-     */
-    private Location spawn2;
+    private List<Location> spawns;
 
     /**
      * Spectator spawn location for this arena
@@ -96,22 +88,7 @@ public final class Arena {
             return spectatorSpawn;
         }
 
-        int xDiff = Math.abs(spawn1.getBlockX() - spawn2.getBlockX());
-        int yDiff = Math.abs(spawn1.getBlockY() - spawn2.getBlockY());
-        int zDiff = Math.abs(spawn1.getBlockZ() - spawn2.getBlockZ());
-
-        int newX = Math.min(spawn1.getBlockX(), spawn2.getBlockX()) + (xDiff / 2);
-        int newY = Math.min(spawn1.getBlockY(), spawn2.getBlockY()) + (yDiff / 2);
-        int newZ = Math.min(spawn1.getBlockZ(), spawn2.getBlockZ()) + (zDiff / 2);
-
-        ArenaHandler arenaHandler = pxSkyWars.getInstance().getArenaHandler();
-        spectatorSpawn = new Location(arenaHandler.getArenaWorld(), newX, newY, newZ);
-
-        while (spectatorSpawn.getBlock().getType().isSolid()) {
-            spectatorSpawn = spectatorSpawn.add(0, 1, 0);
-        }
-
-        return spectatorSpawn;
+        return spawns.get(0);
     }
 
     private void scanLocations() {
@@ -141,17 +118,8 @@ public final class Arena {
                     }
 
                     break;
-                case ZOMBIE:
-                    spawn1 = skullLocation;
-
-                    block.setType(Material.AIR);
-
-                    if (below.getType() == Material.FENCE) {
-                        below.setType(Material.AIR);
-                    }
-                    break;
-                case CREEPER:
-                    spawn2 = skullLocation;
+                case PLAYER:
+                    spawns.add(skullLocation);
 
                     block.setType(Material.AIR);
 
@@ -165,8 +133,8 @@ public final class Arena {
             }
         });
 
-        Preconditions.checkNotNull(spawn1, "Team 1 spawn (zombie head) cannot be null.");
-        Preconditions.checkNotNull(spawn2, "Team 2 spawn (creeper head) cannot be null.");
+        Preconditions.checkNotNull(spawns, "Spawns (player head) cannot be null.");
+        Preconditions.checkArgument(!spawns.isEmpty(), "Spawns (player head) cannot be empty.");
     }
 
     private void forEachBlock(Callback<Block> callback) {
@@ -213,12 +181,8 @@ public final class Arena {
         return Objects.hash(schematic, copy);
     }
 
-    public Location getSpawn1() {
-        return spawn1;
-    }
-
-    public Location getSpawn2() {
-        return spawn2;
+    public List<Location> getSpawns() {
+        return spawns;
     }
 
     public Cuboid getBounds() {

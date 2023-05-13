@@ -16,7 +16,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>xyz.refinedev.phoenix</groupId>
+            <groupId>gg.soup.phoenix</groupId>
             <artifactId>bukkit</artifactId>
             <version>1.0</version>
             <scope>provided</scope>
