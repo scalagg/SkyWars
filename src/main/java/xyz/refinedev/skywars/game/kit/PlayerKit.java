@@ -4,11 +4,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import xyz.refinedev.phoenix.utils.item.ItemBuilder;
@@ -35,7 +32,7 @@ public enum PlayerKit {
             new ItemStack(Material.IRON_CHESTPLATE),
             new ItemStack(Material.IRON_LEGGINGS),
             new ItemStack(Material.IRON_BOOTS)
-    ), player -> {}),
+    )),
 
     MAGICIAN("Magician", Arrays.asList(
             new ItemStack(Material.DIAMOND_SWORD),
@@ -49,7 +46,7 @@ public enum PlayerKit {
             new ItemBuilder(Material.DIAMOND_CHESTPLATE).addUnsafeEnchantment(Enchantment.PROTECTION_FIRE, 1).toItemStack(),
             new ItemStack(Material.IRON_LEGGINGS),
             new ItemStack(Material.IRON_BOOTS)
-    ), player -> {}),
+    )),
     ARMORER("Armorer", Arrays.asList(
             new ItemStack(Material.IRON_PICKAXE),
             new ItemStack(Material.IRON_AXE)
@@ -58,7 +55,7 @@ public enum PlayerKit {
             new ItemBuilder(Material.DIAMOND_CHESTPLATE).addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1).toItemStack(),
             new ItemStack(Material.IRON_LEGGINGS),
             new ItemStack(Material.DIAMOND_BOOTS)
-    ), player -> {}),
+    )),
     CHAMPION("Champion", Arrays.asList(
             new ItemBuilder(Material.DIAMOND_SWORD).addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 2).toItemStack(),
             new ItemStack(Material.IRON_PICKAXE),
@@ -70,7 +67,7 @@ public enum PlayerKit {
             new ItemStack(Material.IRON_CHESTPLATE),
             new ItemStack(Material.IRON_LEGGINGS),
             new ItemStack(Material.IRON_BOOTS)
-        ), player -> {}),
+    )),
 
     BOWMAN("Bowman", Arrays.asList(
             new ItemBuilder(Material.BOW).addUnsafeEnchantment(Enchantment.ARROW_DAMAGE, 2).toItemStack(),
@@ -83,7 +80,7 @@ public enum PlayerKit {
             new ItemStack(Material.IRON_CHESTPLATE),
             new ItemStack(Material.IRON_LEGGINGS),
             new ItemStack(Material.IRON_BOOTS)
-        ), player -> {}),
+    )),
 
     HEALER("Healer", Arrays.asList(
             new ItemBuilder(Material.POTION).addCustomPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 12 * 20, 1), true).toItemStack(),
@@ -97,7 +94,7 @@ public enum PlayerKit {
             new ItemStack(Material.IRON_CHESTPLATE),
             new ItemStack(Material.IRON_LEGGINGS),
             new ItemStack(Material.IRON_BOOTS)
-        ), player -> {}),
+    )),
 
     PYROMANCER("Pyromancer", Arrays.asList(
             new ItemBuilder(Material.POTION).addCustomPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 90 * 20, 1), true).toItemStack(),
@@ -111,7 +108,7 @@ public enum PlayerKit {
             new ItemStack(Material.IRON_CHESTPLATE),
             new ItemStack(Material.IRON_LEGGINGS),
             new ItemBuilder(Material.DIAMOND_BOOTS).addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4).addUnsafeEnchantment(Enchantment.PROTECTION_FIRE, 6).toItemStack()
-        ), player -> {}),
+    )),
 
     Paladin("Paladin", Arrays.asList(
             new ItemStack(Material.IRON_SWORD),
@@ -123,15 +120,14 @@ public enum PlayerKit {
             new ItemStack(Material.IRON_CHESTPLATE),
             new ItemStack(Material.IRON_LEGGINGS),
             new ItemBuilder(Material.DIAMOND_BOOTS).addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 3).toItemStack()
-    ), player -> {}),
+    )),
 
-    
+
     ;
 
     private final String displayName;
     private final List<ItemStack> items;
     private final List<ItemStack> armor;
-    private final Consumer<Player> playerConsumer;
 
     public void giveKit(Player player) {
         player.sendMessage("giving kit " + displayName);
