@@ -33,7 +33,7 @@ import xyz.refinedev.skywars.utils.serialization.*;
 @Getter
 @Setter
 public class pxSkyWars extends JavaPlugin {
-    @Getter private static pxSkyWars instance;
+    @Getter public static pxSkyWars instance;
 
     private Gson gson;
     private PaperCommandManager commandHandler;
