@@ -220,34 +220,6 @@ public final class ArenaHandler {
         return schematics.values().stream().filter(s -> s.getName().equalsIgnoreCase(schematicName)).findFirst().orElse(null);
     }
 
-    public Optional<Arena> getWithNoAllocation(Predicate<ArenaSchematic> acceptableSchematicPredicate) {
-        List<Arena> acceptableArenas = new ArrayList<>();
-
-        for (ArenaSchematic schematic : schematics.values()) {
-            if (!acceptableSchematicPredicate.test(schematic)) {
-                continue;
-            }
-
-            if (!arenaInstances.containsKey(schematic.getName())) {
-                continue;
-            }
-
-            for (Arena arena : arenaInstances.get(schematic.getName()).values()) {
-                if (!arena.isInUse()) {
-                    acceptableArenas.add(arena);
-                }
-            }
-        }
-
-        if (acceptableArenas.isEmpty()) {
-            return Optional.empty();
-        }
-
-        Arena selected = acceptableArenas.get(ThreadLocalRandom.current().nextInt(acceptableArenas.size()));
-
-        return Optional.of(selected);
-    }
-
     /**
      * Attempts to allocate an arena for use, using the Predicate provided to determine
      * which arenas are eligible for use. Handles calling {@link ArenaAllocatedEvent}

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Material;
 import org.bukkit.material.MaterialData;
+import xyz.refinedev.skywars.game.state.GameType;
 import xyz.refinedev.skywars.handler.ArenaHandler;
 
 import java.io.File;
@@ -15,10 +16,11 @@ import java.util.List;
 public final class ArenaSchematic {
 
     @Getter private String name;
+    @Getter @Setter private String displayName;
     @Setter private boolean enabled = false;
-    @Getter @Setter private List<String> kits = new ArrayList<>();
     @Getter @Setter private MaterialData icon = new MaterialData(Material.WOOL);
     @Getter @Setter private int gridIndex;
+    @Getter @Setter private GameType gameType;
     @Getter @Setter private int positiveRatings = 0;
     @Getter @Setter private int negativeRatings = 0;
 

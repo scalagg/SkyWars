@@ -1,5 +1,6 @@
 package xyz.refinedev.skywars.game;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -37,9 +38,10 @@ public class SkyWarsGame {
     private final GameType gameType;
     private final Arena arena;
 
-    private final List<Player> originalPlayers = new ArrayList<>();
     private final List<Player> alivePlayers = new ArrayList<>();
     private final List<Player> spectators = new ArrayList<>();
+
+    private int originalPlayers = 0;
 
     private final Random random = new Random();
     private RefillType refillType = RefillType.FIRST;
@@ -52,6 +54,10 @@ public class SkyWarsGame {
     public void start() {
         this.state = GameState.RUNNING;
 
+        this.nextRefill();
+
+        this.originalPlayers = alivePlayers.size();
+
         for (int i = 0; i < alivePlayers.size(); i++) {
             Player player = alivePlayers.get(i);
             Location spawn = arena.getSpawns().get(i);
@@ -61,8 +67,6 @@ public class SkyWarsGame {
             SkyWarsProfile profile = plugin.getProfileHandler().getProfile(player.getUniqueId());
             profile.getPlayerKit().giveKit(player);
         }
-
-        Tasks.runLater(this::nextRefill, 20 * 60 * 5L);
     }
 
     public void suddenDeath() {
@@ -80,7 +84,6 @@ public class SkyWarsGame {
             return;
         }
 
-        originalPlayers.add(player);
         alivePlayers.add(player);
 
         broadcast(player.getName() + "joined.");
@@ -88,7 +91,6 @@ public class SkyWarsGame {
 
     public void removePlayer(Player player) {
         if (!hasStarted()) {
-            originalPlayers.remove(player);
             alivePlayers.remove(player);
             player.sendMessage("left kid");
             broadcast(player.getName() + " left.");
@@ -100,13 +102,8 @@ public class SkyWarsGame {
 
     public void onDeath(Player player) {
         this.alivePlayers.remove(player);
-        this.spectators.add(player);
 
-        for (Player alivePlayer : alivePlayers) {
-            alivePlayer.hidePlayer(player);
-        }
-
-        player.teleport(arena.getSpectatorSpawn());
+        this.addSpectator(player);
 
         SkyWarsProfile profile = plugin.getProfileHandler().getProfile(player.getUniqueId());
         profile.incrementDeaths();
@@ -121,9 +118,8 @@ public class SkyWarsGame {
 
     public void onDeath(Player player, Player killer) {
         this.alivePlayers.remove(player);
-        this.spectators.add(player);
 
-        player.teleport(arena.getSpectatorSpawn());
+        this.addSpectator(player);
 
         SkyWarsProfile profile = plugin.getProfileHandler().getProfile(player.getUniqueId());
         profile.incrementDeaths();
@@ -151,6 +147,30 @@ public class SkyWarsGame {
         if (canEnd()) onWin(killer);
     }
 
+    public void addSpectator(Player player) {
+        this.spectators.add(player);
+
+        for (Player alivePlayer : alivePlayers) {
+            alivePlayer.hidePlayer(player);
+        }
+
+        for (Player spectator : spectators) {
+            spectator.showPlayer(player);
+        }
+
+        player.teleport(arena.getSpectatorSpawn());
+    }
+
+    public void removeSpectator(Player player) {
+        this.spectators.remove(player);
+
+        SpawnUtil.teleportToSpawn(player);
+
+        for (Player alivePlayer : alivePlayers) {
+            alivePlayer.showPlayer(player);
+        }
+    }
+
     public void onWin(Player player) {
         this.state = GameState.ENDED;
 
@@ -169,7 +189,8 @@ public class SkyWarsGame {
 
         this.spectators.clear();
         this.alivePlayers.clear();
-        this.originalPlayers.clear();
+
+        plugin.getArenaHandler().releaseArena(arena);
     }
 
     public void broadcast(String message) {
@@ -238,5 +259,9 @@ public class SkyWarsGame {
 
     public boolean hasStarted() {
         return state != GameState.WAITING;
+    }
+
+    public boolean isInGame(Player player) {
+        return alivePlayers.contains(player);
     }
 }
