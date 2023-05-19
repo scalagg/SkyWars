@@ -12,8 +12,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum GameType {
 
-    SOLO("Solo", 16),
-    DOUBLES("Doubles", 24);
+    RANKED_SOLO("Solo", 4),
+    RANKED_DOUBLES("Doubles", 8),
+    CASUAL_SOLO("Casual Solo", 16),
+    CASUAL_DOUBLES("Casual Doubles", 32)
+    ;
 
     private final String displayName;
     private final int playerLimit;
