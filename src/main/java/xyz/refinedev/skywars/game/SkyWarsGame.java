@@ -21,6 +21,7 @@ import xyz.refinedev.skywars.game.state.GameState;
 import xyz.refinedev.skywars.game.state.GameType;
 import xyz.refinedev.skywars.profile.SkyWarsProfile;
 import xyz.refinedev.skywars.pxSkyWars;
+import xyz.refinedev.skywars.pxSkywarsConstants;
 import xyz.refinedev.skywars.utils.SpawnUtil;
 
 import java.util.*;
@@ -75,25 +76,25 @@ public class SkyWarsGame {
 
     public void addPlayer(Player player) {
         if (state != GameState.WAITING) {
-            player.sendMessage("game has started");
+            player.sendMessage(Color.translate(pxSkywarsConstants.QUEUE + "&eThe game has &bstarted&e."));
             return;
         }
 
         if (gameType.getPlayerLimit() >= alivePlayers.size()) {
-            player.sendMessage("gaqme is full");
+            player.sendMessage(Color.translate(pxSkywarsConstants.QUEUE + "&eThe game you are joining is &bfull&e."));
             return;
         }
 
         alivePlayers.add(player);
 
-        broadcast(player.getName() + "joined.");
+        broadcast(Color.translate(pxSkywarsConstants.GAME_NAME + "&e" + player.getName() + " &b has joined&e. &7(" + alivePlayers.size() + "/" + gameType.getPlayerLimit() + ")"));
     }
 
     public void removePlayer(Player player) {
         if (!hasStarted()) {
             alivePlayers.remove(player);
-            player.sendMessage("left kid");
-            broadcast(player.getName() + " left.");
+            player.sendMessage(Color.translate(pxSkywarsConstants.QUEUE + "&eYou have &cleft &ethe &bqueue&e."));
+            broadcast(Color.translate(pxSkywarsConstants.GAME_NAME + "&e" + player.getName() + " &b has left&e. &7(" + alivePlayers.size() + "/" + gameType.getPlayerLimit() + ")"));
             return;
         }
 
@@ -110,8 +111,8 @@ public class SkyWarsGame {
         profile.incrementLosses();
         profile.save();
 
-        player.sendMessage("you died");
-        broadcast(profile.getNiceName() + "&f died.");
+        player.sendMessage(Color.translate(pxSkywarsConstants.GAME_NAME + "&eYou have &cdied&e."));
+        broadcast(Color.translate(pxSkywarsConstants.GAME_NAME + "&e" + player.getName() + " &b has been eliminated&e. &7(" + alivePlayers.size() + "/" + gameType.getPlayerLimit() + ")"));
 
         if (canEnd()) onWin(alivePlayers.get(0));
     }
@@ -141,8 +142,8 @@ public class SkyWarsGame {
             }
         }
 
-        player.sendMessage("you died to " + killer.getName());
-        broadcast(killerProfile.getNiceName() + "&f has &d" + type + "&f " + profile.getNiceName() + "&f.");
+        player.sendMessage(Color.translate(pxSkywarsConstants.GAME_NAME + "&eYou have &cdied&e to &b" + killer.getName() + "&e."));
+        broadcast(pxSkywarsConstants.GAME_NAME + killerProfile.getNiceName() + "&f has &d" + type + "&f " + profile.getNiceName() + "&f.");
 
         if (canEnd()) onWin(killer);
     }
@@ -179,7 +180,7 @@ public class SkyWarsGame {
         profile.incrementWins();
         profile.save();
 
-        broadcast(profile.getNiceName() + "&f has won the game!!!");
+        broadcast(Color.translate(pxSkywarsConstants.GAME_NAME + "&e" + player.getDisplayName() + " &b has won the game&e."));
 
         SpawnUtil.teleportToSpawn(player);
 
