@@ -7,6 +7,8 @@ import org.bukkit.ChatColor;
 public class pxSkywarsConstants {
     public static final String GAME_NAME = ChatColor.AQUA +ChatColor.BOLD.toString() + "Skywars " + ChatColor.GRAY + " | " + ChatColor.WHITE;
     public static final String QUEUE = ChatColor.AQUA + ChatColor.BOLD.toString() + "Queue " + ChatColor.GRAY + " | " + ChatColor.WHITE;
+    public static final String GAME = ChatColor.AQUA + ChatColor.BOLD.toString() + "Game " + ChatColor.GRAY + " | " + ChatColor.WHITE;
+    public static final String LOBBY = ChatColor.AQUA + ChatColor.BOLD.toString() + "Lobby " + ChatColor.GRAY + " | " + ChatColor.WHITE;
     public static final String CURRENT_SEASON = "1";
 
 }

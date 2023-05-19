@@ -1,11 +1,18 @@
 package xyz.refinedev.skywars.listener;
 
 import lombok.RequiredArgsConstructor;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import xyz.refinedev.phoenix.SharedAPI;
+import xyz.refinedev.phoenix.profile.Profile;
+import xyz.refinedev.phoenix.utils.Color;
 import xyz.refinedev.skywars.profile.SkyWarsProfile;
 import xyz.refinedev.skywars.pxSkyWars;
+import xyz.refinedev.skywars.pxSkywarsConstants;
 
 import java.util.UUID;
 
@@ -17,6 +24,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ProfileListener implements Listener {
     private final pxSkyWars plugin;
+
 
     @EventHandler
     public void onAsyncPlayerPreLogin(AsyncPlayerPreLoginEvent event) {
@@ -32,5 +40,21 @@ public class ProfileListener implements Listener {
         }
 
         profile.setName(event.getName());
+    }
+    @EventHandler
+    public void onPlayerLogin(PlayerJoinEvent event){
+        Player player = event.getPlayer();
+        Profile profile = SharedAPI.getInstance().getProfileHandler().getProfile(player.getUniqueId());
+
+        if (player.hasPermission("core.staff")){
+            Bukkit.broadcastMessage(Color.translate(pxSkywarsConstants.LOBBY + " &7>>> &4&k;&c&k;&r &7[&cStaff&7] &a" + player.getName() + " &7has joined the lobby! &c&k;&4&k;&r &7<<<"));
+        }
+        if(player.hasPermission("skywars.wc") && !player.isOp()){
+           Bukkit.broadcastMessage(Color.translate(pxSkywarsConstants.LOBBY + " &7>>> &B&K;&3&k;&r &7[&aW&2C&7] &a" + player.getName() + " &7has joined the lobby! &3&k;&b&k; &7<<<"));
+        }
+        if(player.hasPermission("skywars.champion") && !player.isOp()){
+            Bukkit.broadcastMessage(Color.translate(pxSkywarsConstants.LOBBY + " &7>>> &7[&eC&7] &a" + player.getName() + " &7has joined the lobby! &7<<<"));
+        }
+
     }
 }
