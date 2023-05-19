@@ -3,11 +3,12 @@ package xyz.refinedev.skywars.utils.serialization;
 import com.google.gson.*;
 import org.bukkit.Location;
 import org.bukkit.World;
-import xyz.refinedev.bolt.Bolt;
+import xyz.refinedev.skywars.pxSkyWars;
 
 import java.lang.reflect.Type;
 
 public class LocationAdapter implements JsonDeserializer<Location>, JsonSerializer<Location> {
+
 
     @Override
     public JsonElement serialize(Location src, Type typeOfSrc, JsonSerializationContext context) {
@@ -43,7 +44,7 @@ public class LocationAdapter implements JsonDeserializer<Location>, JsonSerializ
 
         JsonObject jsonObject = jsonElement.getAsJsonObject();
 
-        World world = Bolt.getInstance().getServer().getWorld(jsonObject.get("world").getAsString());
+        World world = pxSkyWars.getInstance().getServer().getWorld(jsonObject.get("world").getAsString());
         double x = jsonObject.get("x").getAsDouble();
         double y = jsonObject.get("y").getAsDouble();
         double z = jsonObject.get("z").getAsDouble();
