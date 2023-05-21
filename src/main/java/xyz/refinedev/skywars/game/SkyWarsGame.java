@@ -22,6 +22,7 @@ import xyz.refinedev.skywars.game.state.GameType;
 import xyz.refinedev.skywars.profile.SkyWarsProfile;
 import xyz.refinedev.skywars.pxSkyWars;
 import xyz.refinedev.skywars.pxSkywarsConstants;
+import xyz.refinedev.skywars.utils.RefillUtil;
 import xyz.refinedev.skywars.utils.SpawnUtil;
 
 import java.util.*;
@@ -240,9 +241,9 @@ public class SkyWarsGame {
 
             Chest chest = (Chest) block;
 
-            List<ItemStack> items = entry.getValue() == ChestType.SPAWN ? refillType.getSpawnItems() : refillType.getMiddleItems();
+            List<ItemStack> items = entry.getValue() == ChestType.SPAWN ? RefillUtil.getRandomizedSpawnItems(gameType, refillType) : RefillUtil.getRandomizedMiddleItems(gameType, refillType);
 
-            int itemsToAdd = random.nextInt(4, 8);
+            int itemsToAdd = random.nextInt(1, 6);
 
             Inventory inventory = chest.getBlockInventory();
 

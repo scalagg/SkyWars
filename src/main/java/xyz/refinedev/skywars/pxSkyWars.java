@@ -21,6 +21,8 @@ import xyz.refinedev.skywars.listener.HotbarListener;
 import xyz.refinedev.skywars.listener.ProfileListener;
 import xyz.refinedev.skywars.utils.serialization.*;
 
+import java.util.Random;
+
 /**
  * This Project is the property of Phoenix Development © 2022
  * Redistribution of this Project is not allowed
@@ -42,7 +44,7 @@ public class pxSkyWars extends JavaPlugin {
     private GameHandler gameHandler;
     private ArenaHandler arenaHandler;
     private HotbarHandler hotbarHandler;
-
+    private Random random;
 
     @Override
     public void onEnable() {
@@ -58,6 +60,8 @@ public class pxSkyWars extends JavaPlugin {
                 .registerTypeAdapter(BlockVector.class, new BlockVectorAdapter())
                 .serializeNulls()
                 .create();
+
+        this.random = new Random();
 
         this.profileHandler = new ProfileHandler(SharedAPI.getInstance());
         this.achievementHandler = new AchievementHandler();
