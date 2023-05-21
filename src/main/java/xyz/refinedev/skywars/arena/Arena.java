@@ -143,7 +143,7 @@ public final class Arena {
                     block.setMetadata("placedByGame", new FixedMetadataValue(pxSkyWars.getInstance(), true));
 
                     if (below.getType() == Material.FENCE) {
-                        below.setType(Material.AIR);
+                        below.setType(Material.CHEST);
                     }
 
                     break;
@@ -154,7 +154,7 @@ public final class Arena {
                     block.setMetadata("placedByGame", new FixedMetadataValue(pxSkyWars.getInstance(), true));
 
                     if (below.getType() == Material.FENCE) {
-                        below.setType(Material.AIR);
+                        below.setType(Material.CHEST);
                     }
 
                     break;
