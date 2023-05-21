@@ -5,17 +5,17 @@ import org.apache.commons.lang.StringUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
+import xyz.refinedev.skywars.menu.arena.manage.ManageSchematicMenu;
 import xyz.refinedev.skywars.pxSkyWars;
 import xyz.refinedev.skywars.arena.Arena;
 import xyz.refinedev.skywars.arena.ArenaSchematic;
-import xyz.refinedev.bolt.config.MenuConfig;
 import xyz.refinedev.skywars.handler.ArenaHandler;
-import xyz.refinedev.bolt.menus.arena.manage.ManageSchematicMenu;
 import xyz.refinedev.phoenix.Phoenix;
 import xyz.refinedev.phoenix.menu.api.Button;
 import xyz.refinedev.phoenix.menu.api.pagination.PaginatedMenu;
 import xyz.refinedev.phoenix.utils.item.ItemBuilder;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,13 +30,13 @@ import java.util.Map;
 public class ArenasMenu extends PaginatedMenu {
     @Override
     public String getTitle(Player player) {
-        return MenuConfig.IMP.ARENA_MENUS.ARENA_ADMIN_MENUS.TITLE;
+        return "&b&lArenas Menu";
     }
 
     @Override
     public Map<Integer, Button> getAllPagesButtons(Player player) {
         Map<Integer, Button> slots = new HashMap<>();
-        for (ArenaSchematic schematic : Bolt.getInstance().getArenaHandler().getSchematics()) {
+        for (ArenaSchematic schematic : pxSkyWars.getInstance().getArenaHandler().getSchematics()) {
             if (schematic == null) continue;
             slots.put(slots.size(), new ArenaSlot(schematic));
         }
@@ -49,7 +49,7 @@ public class ArenasMenu extends PaginatedMenu {
 
         @Override
         public ItemStack getItem(Player player) {
-            ArenaHandler arenaHandler = Bolt.getInstance().getArenaHandler();
+            ArenaHandler arenaHandler = pxSkyWars.getInstance().getArenaHandler();
             int totalCopies = 0;
             int inUseCopies = 0;
 
@@ -62,15 +62,21 @@ public class ArenasMenu extends PaginatedMenu {
             }
 
             ItemBuilder item = new ItemBuilder(schematic.getIcon().getItemType());
-            item.setName(MenuConfig.IMP.ARENA_MENUS.ARENA_ADMIN_MENUS.NAME.replace("<schematic>", schematic.getName()));
+            item.setName("&3" + schematic.getName());
             item.setDurability(schematic.getIcon().getData());
-            for (String s : MenuConfig.IMP.ARENA_MENUS.ARENA_ADMIN_MENUS.INFORMATION) {
+            for (String s : Arrays.asList(
+                    "",
+                    "&fFile: &6<file>",
+                    "&fEnabled: &6<enabled>",
+                    "&fCopies: &6<total>",
+                    "&fCopies (Used): &6<used>",
+                    ""
+            )) {
                 item.addLoreLine(s
                         .replace("<file>", schematic.getSchematicFile().getName())
-                        .replace("<enabled>", schematic.isEnabled() ? MenuConfig.IMP.ARENA_MENUS.ARENA_ADMIN_MENUS.ENABLED : MenuConfig.IMP.ARENA_MENUS.ARENA_ADMIN_MENUS.DISABLED)
+                        .replace("<enabled>", schematic.isEnabled() ? "&aEnabled" : "&cDisabled")
                         .replace("<total>", String.valueOf(totalCopies))
                         .replace("<used>", String.valueOf(inUseCopies))
-                        .replace("<kits>", StringUtils.join(schematic.getKits(), ", "))
                 );
             }
             return item.toItemStack();

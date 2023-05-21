@@ -5,16 +5,17 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
+import xyz.refinedev.skywars.menu.arena.ArenasMenu;
 import xyz.refinedev.skywars.pxSkyWars;
 import xyz.refinedev.skywars.arena.ArenaSchematic;
-import xyz.refinedev.bolt.config.MenuConfig;
-import xyz.refinedev.bolt.config.MessageConfig;
+
 import xyz.refinedev.skywars.handler.ArenaHandler;
-import xyz.refinedev.bolt.menus.arena.ArenasMenu;
 import xyz.refinedev.phoenix.Phoenix;
 import xyz.refinedev.phoenix.menu.api.Button;
 import xyz.refinedev.phoenix.utils.Color;
 import xyz.refinedev.phoenix.utils.item.ItemBuilder;
+
+import java.util.Arrays;
 
 @RequiredArgsConstructor
 public final class DeleteButton extends Button {
@@ -23,27 +24,32 @@ public final class DeleteButton extends Button {
     @Override
     public ItemStack getItem(Player player) {
         ItemBuilder item = new ItemBuilder(Material.REDSTONE_BLOCK);
-        item.setName(MenuConfig.IMP.ARENA_MENUS.ARENA_ADMIN_MENUS.DELETE_ARENA_BUTTON_NAME);
-        for (String s : MenuConfig.IMP.ARENA_MENUS.ARENA_ADMIN_MENUS.DELETE_ARENA_BUTTON_LORE) {
-            item.addLoreLine(s.replace("<schematic>", schematic.getName()));
+        item.setName("&4Delete Arena");
+        for (String s : Arrays.asList(
+                "",
+                "&4Caution",
+                "&cThis will delete all copies.",
+                "",
+                "&eClick to delete."
+        )) {
+            item.addLoreLine( schematic.getName());
         }
         return item.toItemStack();
     }
 
     @Override
     public void clicked(Player player, ClickType clickType) {
-        ArenaHandler arenaHandler = Bolt.getInstance().getArenaHandler();
+        ArenaHandler arenaHandler = pxSkyWars.getInstance().getArenaHandler();
 
         if (arenaHandler.getGrid().isBusy()) {
-            player.sendMessage(MessageConfig.IMP.ARENA.GRID_IS_BUSY);
+            player.sendMessage("&cPlease wait for the current operation to finish.");
             return;
         }
 
-        player.sendMessage(Color.translate(MessageConfig.IMP.ARENA.REPASTING_OR_SCALING_ARENAS_STARTING));
+        player.sendMessage(Color.translate("&BSkyWars &8► &cRepasting arena &e" + schematic.getName() + "&c..."));
 
         arenaHandler.getGrid().scaleCopies(schematic, 0, () -> {
-            player.sendMessage(Color.translate(MessageConfig.IMP.ARENA.ARENA_DELETE
-                    .replace("<arena>", schematic.getName())));
+            player.sendMessage(Color.translate("&BSkyWars &8► &cSuccessfully deleted arena &e" + schematic.getName() + "&c."));
             Phoenix.getInstance().getMenuHandler().openMenu(new ArenasMenu(), player);
         });
         arenaHandler.removeSchematic(schematic.getName());

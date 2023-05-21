@@ -9,12 +9,14 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 import xyz.refinedev.skywars.pxSkyWars;
 import xyz.refinedev.skywars.arena.ArenaSchematic;
-import xyz.refinedev.bolt.config.MenuConfig;
-import xyz.refinedev.bolt.config.MessageConfig;
+
 import xyz.refinedev.skywars.handler.ArenaHandler;
 import xyz.refinedev.phoenix.menu.api.Button;
 import xyz.refinedev.phoenix.utils.Color;
 import xyz.refinedev.phoenix.utils.item.ItemBuilder;
+import xyz.refinedev.skywars.utils.SpigotConstants;
+
+import java.util.Arrays;
 
 @RequiredArgsConstructor
 public final class TeleportToModelButton extends Button {
@@ -23,8 +25,11 @@ public final class TeleportToModelButton extends Button {
     @Override
     public ItemStack getItem(Player player) {
         ItemBuilder item = new ItemBuilder(Material.BREWING_STAND_ITEM);
-        item.setName(MenuConfig.IMP.ARENA_MENUS.ARENA_ADMIN_MENUS.TELEPORT_NAME);
-        for (String s : MenuConfig.IMP.ARENA_MENUS.ARENA_ADMIN_MENUS.TELEPORT_LORE) {
+        item.setName("&aTeleport to Model");
+        for (String s : Arrays.asList(
+                "",
+                "&eClick to teleport to model."
+        )) {
             item.addLoreLine(s);
         }
         return item.toItemStack();
@@ -34,7 +39,7 @@ public final class TeleportToModelButton extends Button {
     public void clicked(Player player, ClickType clickType) {
         player.closeInventory();
 
-        ArenaHandler arenaHandler = Bolt.getInstance().getArenaHandler();
+        ArenaHandler arenaHandler = pxSkyWars.getInstance().getArenaHandler();
         Vector arenaStart = schematic.getModelArenaLocation();
 
         // we add 50 so players don't spawn in the very botton corner of
@@ -47,7 +52,7 @@ public final class TeleportToModelButton extends Button {
                 arenaStart.getZ() + 50
         ));
 
-        player.sendMessage(Color.translate(MessageConfig.IMP.ARENA.TELEPORTING_TO_ARENA
+        player.sendMessage(Color.translate(SpigotConstants.GAME + "&eTeleported to model for <arena>."
                 .replace("<arena>", schematic.getName())));
     }
 }
