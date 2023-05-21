@@ -170,6 +170,18 @@ public class ArenaCommand extends BaseCommand {
                 .replace("<arena>", schematic.getName())));
     }
 
+    @Subcommand("displayname")
+    @CommandCompletion("@arenas")
+    @Description("Set the displayname for an arena")
+    @CommandPermission("practice.command.arena.displayname")
+    public void icon(Player sender, @Name("schematic") ArenaSchematic schematic, @Name("displayname") String displayname) {
+        schematic.setDisplayName(displayname);
+        pxSkyWars.getInstance().getArenaHandler().saveSchematics();
+        sender.sendMessage(Color.translate(MessageConfig.IMP.ARENA.ARENA_ICON_CHANGED
+                .replace("<arena>", schematic.getName())));
+    }
+
+
     @Subcommand("list")
     @Description("List all schematics")
     @CommandPermission("practice.command.arena.list")
