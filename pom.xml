@@ -28,6 +28,18 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>gg.soup</groupId>
+            <artifactId>Staff</artifactId>
+            <version>1.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>gg.soup</groupId>
+            <artifactId>Levels</artifactId>
+            <version>1.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>xyz.refinedev</groupId>
             <artifactId>pxBasic</artifactId>
             <version>1.0</version>

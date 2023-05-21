@@ -57,9 +57,19 @@ public class GameHandler {
 
     public SkyWarsGame getGame(Player player) {
         for (SkyWarsGame game : this.games) {
-            if(game.isInGame(player)) return game;
+            if (game.isInGame(player)) return game;
         }
 
         return null;
+    }
+
+    public int getPlaying() {
+        int playing = 0;
+
+        for (SkyWarsGame game : games) {
+            playing = +game.getAlivePlayers().size();
+        }
+
+        return playing;
     }
 }

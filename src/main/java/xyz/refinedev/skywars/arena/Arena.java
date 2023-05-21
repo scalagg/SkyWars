@@ -206,6 +206,10 @@ public final class Arena {
         }
     }
 
+    public ArenaSchematic getArenaSchematic() {
+        return pxSkyWars.getInstance().getArenaHandler().getSchematic(schematic);
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(schematic, copy);

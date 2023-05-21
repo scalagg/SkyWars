@@ -19,6 +19,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import xyz.refinedev.skywars.handler.*;
 import xyz.refinedev.skywars.listener.HotbarListener;
 import xyz.refinedev.skywars.listener.ProfileListener;
+import xyz.refinedev.skywars.scoreboard.ScoreboardAdapter;
+import xyz.refinedev.skywars.scoreboard.api.Assemble;
 import xyz.refinedev.skywars.utils.serialization.*;
 
 import java.util.Random;
@@ -75,5 +77,7 @@ public class pxSkyWars extends JavaPlugin {
         this.commandHandler = Phoenix.getInstance().getCommandHandler();
         this.commandHandler.registerCommand(new ArenaCommand());
         this.commandHandler.registerCommand(new GameCommand(this));
+
+        new Assemble(this, new ScoreboardAdapter(this));
     }
 }

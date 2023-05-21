@@ -37,15 +37,17 @@ public class SkyWarsGame {
     private final pxSkyWars plugin;
     private final UUID gameId = UUID.randomUUID();
 
+    @Getter
     private final GameType gameType;
+    @Getter
     private final Arena arena;
 
+    @Getter
     private final List<Player> alivePlayers = new ArrayList<>();
     private final List<Player> spectators = new ArrayList<>();
-
-    private int originalPlayers = 0;
-
     private final Random random = new Random();
+    @Getter
+    private int originalPlayers = 0;
     private RefillType refillType = RefillType.FIRST;
     private GameState state = GameState.WAITING;
 

@@ -12,7 +12,6 @@ import xyz.refinedev.skywars.game.state.GameType;
 import xyz.refinedev.skywars.pxSkyWars;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -117,7 +116,7 @@ public class RefillUtil {
             }
 
             case THIRD: {
-                 break;
+                break;
             }
         }
 
