@@ -66,7 +66,7 @@ public class SkyWarsGame {
             player.teleport(spawn);
 
             SkyWarsProfile profile = plugin.getProfileHandler().getProfile(player.getUniqueId());
-            profile.getPlayerKit().giveKit(player);
+            profile.getSelectedKit().giveKit(player);
         }
     }
 

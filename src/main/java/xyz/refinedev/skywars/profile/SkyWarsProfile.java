@@ -46,7 +46,7 @@ public class SkyWarsProfile {
     private List<Achievement> ownedAchievements = new ArrayList<>();
 
     @Exclude private PlayerState state = PlayerState.ALIVE;
-    @Exclude private PlayerKit playerKit = PlayerKit.SCOUT;
+    @Exclude private PlayerKit selectedKit = PlayerKit.SCOUT;
 
     public void load() {
         CompletableFuture.runAsync(() -> {

@@ -7,7 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import xyz.refinedev.phoenix.Phoenix;
 import xyz.refinedev.phoenix.menu.impl.settings.SettingsMenu;
 import xyz.refinedev.phoenix.utils.item.ItemBuilder;
-import xyz.refinedev.skywars.menu.LoadoutMenu;
+import xyz.refinedev.skywars.menu.KitSelectorMenu;
 import xyz.refinedev.skywars.menu.QueueMenu;
 import xyz.refinedev.skywars.profile.hotbar.HotbarItem;
 
@@ -43,7 +43,7 @@ public class HotbarHandler {
         items.add(new HotbarItem(
                 7,
                 new ItemBuilder(Material.WATCH).setName("&a&lSkywars Loadout").toItemStack(),
-                player -> Phoenix.getInstance().getMenuHandler().openMenu(new LoadoutMenu(), player)
+                player -> Phoenix.getInstance().getMenuHandler().openMenu(new KitSelectorMenu(), player)
         ));
         items.add(new HotbarItem(
                 8,
