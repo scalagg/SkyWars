@@ -1,20 +1,14 @@
 package xyz.refinedev.skywars.handler;
 
 
-
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import xyz.refinedev.phoenix.Phoenix;
-import xyz.refinedev.phoenix.SharedAPI;
 import xyz.refinedev.phoenix.menu.impl.settings.SettingsMenu;
-import gg.soup.azeroth.utilities.ItemBuilder;
-import xyz.refinedev.phoenix.profile.Profile;
-import xyz.refinedev.phoenix.utils.XMaterial;
 import xyz.refinedev.phoenix.utils.item.ItemBuilder;
 import xyz.refinedev.skywars.menu.LoadoutMenu;
 import xyz.refinedev.skywars.menu.QueueMenu;
-import xyz.refinedev.skywars.profile.SkyWarsProfile;
 import xyz.refinedev.skywars.profile.hotbar.HotbarItem;
 
 import java.util.ArrayList;

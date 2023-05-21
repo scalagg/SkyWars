@@ -9,6 +9,8 @@ import org.bukkit.util.BlockVector;
 import org.bukkit.util.Vector;
 import xyz.refinedev.phoenix.Phoenix;
 import xyz.refinedev.phoenix.SharedAPI;
+import xyz.refinedev.skywars.commands.ArenaCommand;
+import xyz.refinedev.skywars.commands.GameCommand;
 import xyz.refinedev.skywars.config.SkyWarsConfig;
 import xyz.refinedev.commands.PaperCommandManager;
 import lombok.Getter;
@@ -60,12 +62,14 @@ public class pxSkyWars extends JavaPlugin {
         this.profileHandler = new ProfileHandler(SharedAPI.getInstance());
         this.achievementHandler = new AchievementHandler();
         this.arenaHandler = new ArenaHandler(this);
-        this.gameHandler = new GameHandler();
+        this.gameHandler = new GameHandler(this);
         this.hotbarHandler = new HotbarHandler();
 
         getServer().getPluginManager().registerEvents(new ProfileListener(this), this);
         getServer().getPluginManager().registerEvents(new HotbarListener(this), this);
 
         this.commandHandler = Phoenix.getInstance().getCommandHandler();
+        this.commandHandler.registerCommand(new ArenaCommand());
+        this.commandHandler.registerCommand(new GameCommand(this));
     }
 }
