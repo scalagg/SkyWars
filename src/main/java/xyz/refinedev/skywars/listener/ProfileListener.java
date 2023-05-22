@@ -12,7 +12,7 @@ import xyz.refinedev.phoenix.profile.Profile;
 import xyz.refinedev.phoenix.utils.Color;
 import xyz.refinedev.skywars.profile.SkyWarsProfile;
 import xyz.refinedev.skywars.pxSkyWars;
-import xyz.refinedev.skywars.pxSkywarsConstants;
+import xyz.refinedev.skywars.utils.SpigotConstants;
 
 import java.util.UUID;
 
@@ -47,13 +47,13 @@ public class ProfileListener implements Listener {
         Profile profile = SharedAPI.getInstance().getProfileHandler().getProfile(player.getUniqueId());
 
         if (player.hasPermission("core.staff")){
-            Bukkit.broadcastMessage(Color.translate(pxSkywarsConstants.LOBBY + " &7>>> &4&k;&c&k;&r &7[&cStaff&7] &a" + player.getName() + " &7has joined the lobby! &c&k;&4&k;&r &7<<<"));
+            Bukkit.broadcastMessage(Color.translate(SpigotConstants.LOBBY + " &7>>> &4&k;&c&k;&r &7[&cStaff&7] &a" + player.getName() + " &7has joined the lobby! &c&k;&4&k;&r &7<<<"));
         }
         if(player.hasPermission("skywars.wc") && !player.isOp()){
-           Bukkit.broadcastMessage(Color.translate(pxSkywarsConstants.LOBBY + " &7>>> &B&K;&3&k;&r &7[&aW&2C&7] &a" + player.getName() + " &7has joined the lobby! &3&k;&b&k; &7<<<"));
+           Bukkit.broadcastMessage(Color.translate(SpigotConstants.LOBBY + " &7>>> &B&K;&3&k;&r &7[&aW&2C&7] &a" + player.getName() + " &7has joined the lobby! &3&k;&b&k; &7<<<"));
         }
         if(player.hasPermission("skywars.champion") && !player.isOp()){
-            Bukkit.broadcastMessage(Color.translate(pxSkywarsConstants.LOBBY + " &7>>> &7[&eC&7] &a" + player.getName() + " &7has joined the lobby! &7<<<"));
+            Bukkit.broadcastMessage(Color.translate(SpigotConstants.LOBBY + " &7>>> &7[&eC&7] &a" + player.getName() + " &7has joined the lobby! &7<<<"));
         }
 
     }

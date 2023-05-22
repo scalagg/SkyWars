@@ -11,12 +11,16 @@ import xyz.refinedev.commands.ConditionFailedException;
 import xyz.refinedev.commands.annotation.*;
 import xyz.refinedev.phoenix.Phoenix;
 import xyz.refinedev.phoenix.utils.Color;
+import xyz.refinedev.skywars.arena.Arena;
+import xyz.refinedev.skywars.arena.ArenaGrid;
 import xyz.refinedev.skywars.arena.ArenaSchematic;
 import xyz.refinedev.skywars.handler.ArenaHandler;
 import xyz.refinedev.skywars.menu.arena.ArenasMenu;
 import xyz.refinedev.skywars.pxSkyWars;
+import xyz.refinedev.skywars.utils.SpigotConstants;
 
 import java.io.File;
+import java.util.Arrays;
 
 @CommandAlias("arena")
 @CommandPermission("practice.command.arena")
@@ -41,7 +45,15 @@ public class ArenaCommand extends BaseCommand {
     @Description("View the ratings of an arena")
     @CommandPermission("practice.command.arena.ratings")
     public void ratings(CommandSender sender, @Name("schematic") ArenaSchematic schematic) {
-        for (String s : MessageConfig.IMP.ARENA.RATING_LINES) {
+        for (String s : Arrays.asList(
+                "&7&m------------------------------",
+                "&b&l<arena> Ratings",
+                "&7&m------------------------------",
+                " &e● &fPositive: &a<positive>",
+                " &e● &fNegative: &c<negative>",
+                " &e● &fRating Bar: <ratingBar>",
+                "&7&m------------------------------"
+        )) {
             sender.sendMessage(Color.translate(s
                     .replace("<arena>", schematic.getName())
                     .replace("<positive>", String.valueOf(schematic.getPositiveRatings()))
@@ -54,10 +66,10 @@ public class ArenaCommand extends BaseCommand {
     @CommandPermission("practice.command.arena.create")
     @Description("Create and load a schematic from world edit as an arena")
     public void arenaCreateSchematic(Player sender, @Name("schematic") String schematicName) {
-        ArenaHandler arenaHandler = Bolt.getInstance().getArenaHandler();
+        ArenaHandler arenaHandler = pxSkyWars.getInstance().getArenaHandler();
 
         if (arenaHandler.getSchematic(schematicName) != null) {
-            throw new ConditionFailedException(Color.translate(MessageConfig.IMP.ARENA.ALREADY_EXISTS
+            throw new ConditionFailedException(Color.translate(SpigotConstants.GAME + " &cAn arena with the name &b<arena>&c already exists."
                     .replace("<arena>", schematicName)));
         }
 
@@ -65,7 +77,7 @@ public class ArenaCommand extends BaseCommand {
         File schemFile = schematic.getSchematicFile();
 
         if (!schemFile.exists()) {
-            throw new ConditionFailedException(Color.translate(MessageConfig.IMP.ARENA.FILE_NOT_FOUND
+            throw new ConditionFailedException(Color.translate(SpigotConstants.GAME + " &cThe schematic &b<arena>&c does not exist at <path>."
                     .replace("<arena>", schematicName)
                     .replace("<path>", schemFile.getPath())));
         }
@@ -79,7 +91,7 @@ public class ArenaCommand extends BaseCommand {
             throw new RuntimeException(ex);
         }
 
-        sender.sendMessage(Color.translate(MessageConfig.IMP.ARENA.SCHEMATIC_CREATE
+        sender.sendMessage(Color.translate(SpigotConstants.GAME + " &aSuccessfully created the schematic &b<arena>&a."
                 .replace("<arena>", schematicName)));
     }
 
@@ -88,17 +100,24 @@ public class ArenaCommand extends BaseCommand {
     @Description("List all arenas")
     @CommandPermission("practice.command.arena.listarenas")
     public void arenaListArenas(Player sender, @Name("schematic") ArenaSchematic schematic) {
-        for (String s : Color.translate(MessageConfig.IMP.ARENA.LIST_ARENAS)) {
+        for (String s : Color.translate(Arrays.asList(
+                "&7&m------------------------------",
+                "&b&l<arena> &7(Arenas)",
+                "&7&m------------------------------",
+                " <arenas>",
+                "&7&m------------------------------"
+        ))) {
 
             if (s.contains("<arenas>")) {
                 for (Arena arena : arenaHandler.getArenas(schematic)) {
                     String locationStr = locToStr(arena.getSpectatorSpawn());
-                    String occupiedStr = arena.isInUse() ? Color.translate(MessageConfig.IMP.ARENA.ARENA_STATUS_IN_USE) : Color.translate(MessageConfig.IMP.ARENA.ARENA_STATUS_OPEN);
+                    String occupiedStr = arena.isInUse() ? Color.translate(SpigotConstants.GAME + "&cThis arena is in use!") : Color.translate(SpigotConstants.GAME + "&aThis arena is not in use!" );
 
-                    sender.sendMessage(Color.translate(MessageConfig.IMP.ARENA.ARENA_COPY_INFORMATION
+                    sender.sendMessage(Color.translate("&e● &c<copy>&7: <location> &7- <status>"
                             .replace("<copy>", String.valueOf(arena.getCopy()))
                             .replace("<location>", locationStr)
-                            .replace("<status>", occupiedStr)));
+                            .replace("<status>", occupiedStr))
+                    );
                 }
                 continue;
             }
@@ -115,18 +134,20 @@ public class ArenaCommand extends BaseCommand {
         int currentCopies = arenaHandler.countArenas(schematic);
 
         if (currentCopies == 0) {
-            throw new ConditionFailedException(Color.translate(MessageConfig.IMP.ARENA.NO_ARENA_COPIES_AVAILABLE
+            throw new ConditionFailedException(Color.translate(SpigotConstants.GAME + "&cThere are no arenas for &b<arena>&c."
                     .replace("<arena>", schematic.getName())));
         }
 
         ArenaGrid arenaGrid = arenaHandler.getGrid();
 
-        sender.sendMessage(Color.translate(MessageConfig.IMP.ARENA.REPASTING_OR_SCALING_ARENAS_STARTING));
+        sender.sendMessage(Color.translate(SpigotConstants.GAME + "&cRepasting &b<copies>&c copies of&b <schematic>&c..."));
 
         arenaGrid.scaleCopies(schematic, 0, () -> {
-            sender.sendMessage(Color.translate(MessageConfig.IMP.ARENA.CREATING_NEW_COPIES));
+            sender.sendMessage(Color.translate(SpigotConstants.GAME + "&cRepasted <copies> copies of &b<schematic>&c."
+                    .replace("<copies>", String.valueOf(currentCopies))
+                    .replace("<schematic>", schematic.getName())));
 
-            arenaGrid.scaleCopies(schematic, currentCopies, () -> sender.sendMessage(Color.translate(MessageConfig.IMP.ARENA.SCHEMATICS_REPASTED
+            arenaGrid.scaleCopies(schematic, currentCopies, () -> sender.sendMessage(Color.translate(SpigotConstants.GAME + "&cRepasted &b<copies> &ccopies of &b<schematic>&c."
                     .replace("<copies>", String.valueOf(currentCopies))
                     .replace("<schematic>", schematic.getName()))));
         });
@@ -138,9 +159,9 @@ public class ArenaCommand extends BaseCommand {
     @Description("Scale schematics to a specific size")
     @CommandPermission("practice.command.arena.scale")
     public void arenaScale(Player sender, @Name("schematic") ArenaSchematic schematic, @Name("count") int count) {
-        sender.sendMessage(Color.translate(MessageConfig.IMP.ARENA.REPASTING_OR_SCALING_ARENAS_STARTING));
+        sender.sendMessage(Color.translate(SpigotConstants.GAME + "&cRepasting &b<copies>&c copies of &b<schematic>&c..."));
 
-        arenaHandler.getGrid().scaleCopies(schematic, count, () -> sender.sendMessage(Color.translate(MessageConfig.IMP.ARENA.ARENA_SCALE
+        arenaHandler.getGrid().scaleCopies(schematic, count, () -> sender.sendMessage(Color.translate(SpigotConstants.GAME + "&cRepasted &b<copies>&c copies of &b<schematic>&c."
                 .replace("<arena>", schematic.getName())
                 .replace("<count>", String.valueOf(count)))));
     }
@@ -150,9 +171,9 @@ public class ArenaCommand extends BaseCommand {
     @Description("Rescale all schematics and their arenas")
     @CommandPermission("practice.command.arena.scaleall")
     public void arenaRescaleAll(Player sender, @Name("count") int count) {
-        ArenaHandler arenaHandler = Bolt.getInstance().getArenaHandler();
-        sender.sendMessage(Color.translate(MessageConfig.IMP.ARENA.REPASTING_OR_SCALING_ARENAS_STARTING));
-        arenaHandler.getGrid().scaleall(count, () -> sender.sendMessage(Color.translate(MessageConfig.IMP.ARENA.SCALING_ALL_ARENAS.replace("<count>", String.valueOf(count)))));
+        ArenaHandler arenaHandler = pxSkyWars.getInstance().getArenaHandler();
+        sender.sendMessage(Color.translate(SpigotConstants.GAME + "Repasting <copies> copies of <schematic>..."));
+        arenaHandler.getGrid().scaleall(count, () -> sender.sendMessage(Color.translate(SpigotConstants.GAME + "&cStarted scalling all arenas! &8(&7<count>&8)".replace("<count>", String.valueOf(count)))));
     }
 
     @Subcommand("icon")
@@ -161,12 +182,12 @@ public class ArenaCommand extends BaseCommand {
     @CommandPermission("practice.command.arena.icon")
     public void icon(Player sender, @Name("schematic") ArenaSchematic schematic) {
         if (sender.getItemInHand() == null) {
-            throw new ConditionFailedException(Color.translate(MessageConfig.IMP.ARENA.HOLD_AN_ITEM));
+            throw new ConditionFailedException(Color.translate(SpigotConstants.GAME + "&cYou must be holding an item." ));
         }
 
         schematic.setIcon(sender.getItemInHand().getData());
-        Bolt.getInstance().getArenaHandler().saveSchematics();
-        sender.sendMessage(Color.translate(MessageConfig.IMP.ARENA.ARENA_ICON_CHANGED
+        pxSkyWars.getInstance().getArenaHandler().saveSchematics();
+        sender.sendMessage(Color.translate(SpigotConstants.GAME + "&cSet the icon for &b<arena>&c."
                 .replace("<arena>", schematic.getName())));
     }
 
@@ -177,7 +198,7 @@ public class ArenaCommand extends BaseCommand {
     public void icon(Player sender, @Name("schematic") ArenaSchematic schematic, @Name("displayname") String displayname) {
         schematic.setDisplayName(displayname);
         pxSkyWars.getInstance().getArenaHandler().saveSchematics();
-        sender.sendMessage(Color.translate(MessageConfig.IMP.ARENA.ARENA_ICON_CHANGED
+        sender.sendMessage(Color.translate(SpigotConstants.GAME + "&cSet the displayname for &b<arena>&c."
                 .replace("<arena>", schematic.getName())));
     }
 
@@ -186,12 +207,18 @@ public class ArenaCommand extends BaseCommand {
     @Description("List all schematics")
     @CommandPermission("practice.command.arena.list")
     public void arenaListSchems(Player sender) {
-        ArenaHandler arenaHandler = Bolt.getInstance().getArenaHandler();
-        for (String s : Color.translate(MessageConfig.IMP.ARENA.LIST_SCHEMATICS)){
+        ArenaHandler arenaHandler = pxSkyWars.getInstance().getArenaHandler();
+        for (String s : Color.translate(Arrays.asList(
+                "&7&m------------------------------",
+                "&3&lSchematics &7(Total: <total>)",
+                "&7&m------------------------------",
+                " <list>",
+                "&7&m------------------------------"
+        ))){
             if (s.contains("<list>")) {
                 arenaHandler.getSchematics().forEach(schematic -> {
                     int size = arenaHandler.getArenas(schematic).size();
-                    sender.sendMessage(Color.translate(MessageConfig.IMP.ARENA.LIST_OF_SCHEMATICS
+                    sender.sendMessage(Color.translate("&e● &b<arena> &7| &fCopies: &e<copies>"
                             .replace("<arena>", schematic.getName())
                             .replace("<copies>", String.valueOf(size))));
                 });

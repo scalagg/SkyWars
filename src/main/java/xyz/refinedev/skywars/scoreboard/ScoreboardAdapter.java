@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import xyz.refinedev.cosmetics.pxCosmetics;
 import xyz.refinedev.levels.level.Level;
 import xyz.refinedev.levels.pxLevels;
 import xyz.refinedev.phoenix.SharedAPI;
@@ -28,7 +29,7 @@ public class ScoreboardAdapter implements AssembleAdapter {
 
     @Override
     public String getTitle(Player player) {
-        return "I Cri With My Little I";
+        return "&b&lStellarMC &cVenus";
     }
 
     @Override
@@ -42,21 +43,32 @@ public class ScoreboardAdapter implements AssembleAdapter {
             SkyWarsGame game = plugin.getGameHandler().getGame(player);
 
             lines.add("&f");
-            lines.add("&7■ &fMap: &a" + game.getArena().getArenaSchematic().getDisplayName());
-            lines.add("&7■ &fAlive: &a" + game.getAlivePlayers().size() + "/" + game.getOriginalPlayers());
-            lines.add("&7■ &fKit: &a" + profile.getSelectedKit().getDisplayName());
+            lines.add("&7■ &fMap: &3" + game.getArena().getArenaSchematic().getDisplayName());
+            lines.add("&7■ &fAlive: &3" + game.getAlivePlayers().size() + "/" + game.getOriginalPlayers());
+            lines.add("&7■ &fKit: &3" + profile.getSelectedKit().getDisplayName());
+            lines.add("");
+            lines.add("&7stellarmc.gg");
         } else {
+            lines.add("&f");
+            lines.add("&b&lYou&7:");
             lines.add("&7■ &fRank: " + phoenix.getHighestRank().getDisplayName());
-
+            Profile phoenixprofile = SharedAPI.getInstance().getProfileHandler().getProfile(player.getUniqueId());
+            lines.add("&7■ &fCoins: &3" + pxCosmetics.getInstance().getProfileHandler().getProfile(player.getUniqueId()).getCoins() + "&e⛃");
+            if(phoenixprofile.getDisguiseData().isDisguised()) {
+                lines.add("&7■ &c&lDisguised as&7:");
+                lines.add("&7 " + phoenixprofile.getDisguiseData().getDisguiseName());
+            }
             int exp = SharedAPI.getInstance().getLevelHook().getExperience(phoenix, "skywars");
             Level level = pxLevels.getInstance().getLevelHandler().getLevelByExp(exp);
 
             lines.add("&7■ &fLevel: " + level.getFormattedName());
-            lines.add(getProgressBar(exp, level.getExperienceNeeded(), 10));
+            lines.add(getProgressBar(exp, level.getExperienceNeeded(), 10) + " &3" + exp + "/" + level.getExperienceNeeded());
             lines.add("");
-            lines.add("&f&lOnline");
-            lines.add("&7■ &fAll: &a" + Bukkit.getOnlinePlayers().stream().filter(p -> SharedAPI.getInstance().getModUtilsHook().canSee(phoenix, SharedAPI.getInstance().getProfileHandler().getProfile(p.getUniqueId()))).count());
-            lines.add("&7■ &fPlaying: &a" + plugin.getGameHandler().getPlaying());
+            lines.add("&b&lOnline&7:");
+            lines.add("&7■ &fAll: &3" + Bukkit.getOnlinePlayers().stream().filter(p -> SharedAPI.getInstance().getModUtilsHook().canSee(phoenix, SharedAPI.getInstance().getProfileHandler().getProfile(p.getUniqueId()))).count());
+            lines.add("&7■ &fPlaying: &3" + plugin.getGameHandler().getPlaying());
+            lines.add("");
+            lines.add("&7stellarmc.gg");
         }
 
 
