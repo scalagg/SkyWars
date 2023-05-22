@@ -76,7 +76,7 @@ public class pxSkyWars extends JavaPlugin {
 
         this.commandHandler = Phoenix.getInstance().getCommandHandler();
 //        this.commandHandler.registerCommand(new ArenaCommand());
-//        this.commandHandler.registerCommand(new GameCommand(this));
+        this.commandHandler.registerCommand(new GameCommand(this));
 
         new Assemble(this, new ScoreboardAdapter(this));
     }
