@@ -14,6 +14,7 @@ import xyz.refinedev.phoenix.utils.server.LocationSerilization;
 public class SpawnUtil {
 
     public void teleportToSpawn(Player player) {
+        //TODO: fix
 //        player.teleport(LocationSerilization.deserializeLocation(BasicConfig.IMP.SETTINGS.TELEPORT_LOCATION));
     }
 

@@ -10,6 +10,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import xyz.refinedev.phoenix.SharedAPI;
 import xyz.refinedev.phoenix.profile.Profile;
 import xyz.refinedev.phoenix.utils.Color;
+import xyz.refinedev.skywars.item.impl.*;
 import xyz.refinedev.skywars.profile.SkyWarsProfile;
 import xyz.refinedev.skywars.pxSkyWars;
 import xyz.refinedev.skywars.utils.SpigotConstants;
@@ -60,5 +61,11 @@ public class ProfileListener implements Listener {
                     + player.getName() + " &7has joined the lobby! &7<<<"));
         }
 
+        player.getInventory().clear();
+        player.getInventory().setItem(0, new QueueItem(player).getItem(player));
+        player.getInventory().setItem(1, new ProfileItem(player).getItem(player));
+        player.getInventory().setItem(4, new CosmeticItem(player).getItem(player));
+        player.getInventory().setItem(7, new LoadoutItem(player).getItem(player));
+        player.getInventory().setItem(8, new SettingsItem(player).getItem(player));
     }
 }

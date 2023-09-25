@@ -9,7 +9,6 @@ import org.bukkit.util.BlockVector;
 import org.bukkit.util.Vector;
 import xyz.refinedev.phoenix.Phoenix;
 import xyz.refinedev.phoenix.SharedAPI;
-import xyz.refinedev.skywars.arena.Arena;
 import xyz.refinedev.skywars.arena.ArenaSchematic;
 import xyz.refinedev.skywars.commands.ArenaCommand;
 import xyz.refinedev.skywars.commands.GameCommand;
@@ -19,12 +18,13 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.refinedev.skywars.handler.*;
-import xyz.refinedev.skywars.listener.HotbarListener;
+import xyz.refinedev.skywars.item.listeners.ItemListener;
 import xyz.refinedev.skywars.listener.ProfileListener;
 import xyz.refinedev.skywars.scoreboard.ScoreboardAdapter;
 import xyz.refinedev.skywars.scoreboard.api.Assemble;
 import xyz.refinedev.skywars.utils.serialization.*;
 
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -48,7 +48,6 @@ public class pxSkyWars extends JavaPlugin {
     private AchievementHandler achievementHandler;
     private GameHandler gameHandler;
     private ArenaHandler arenaHandler;
-    private HotbarHandler hotbarHandler;
     private Random random;
 
     @Override
@@ -72,10 +71,11 @@ public class pxSkyWars extends JavaPlugin {
         this.achievementHandler = new AchievementHandler();
         this.arenaHandler = new ArenaHandler(this);
         this.gameHandler = new GameHandler(this);
-        this.hotbarHandler = new HotbarHandler();
 
-        getServer().getPluginManager().registerEvents(new ProfileListener(this), this);
-        getServer().getPluginManager().registerEvents(new HotbarListener(this), this);
+        Arrays.asList(
+                new ProfileListener(this),
+                new ItemListener()
+        ).forEach(listener -> this.getServer().getPluginManager().registerEvents(listener, this));
 
         commandHandler = Phoenix.getInstance().getCommandHandler();
         commandHandler.getCommandContexts().registerContext(ArenaSchematic.class, c -> {
