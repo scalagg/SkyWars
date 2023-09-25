@@ -58,14 +58,14 @@ public class ScoreboardAdapter implements AssembleAdapter {
                 lines.add("&7■ &c&lDisguised as&7:");
                 lines.add("&7 " + phoenixprofile.getDisguiseData().getDisguiseName());
             }
-            int exp = SharedAPI.getInstance().getLevelHook().getExperience(phoenix, "skywars");
+            int exp = SharedAPI.getInstance().getLevelHook().getExperience(phoenix);
             Level level = pxLevels.getInstance().getLevelHandler().getLevelByExp(exp);
 
             lines.add("&7■ &fLevel: " + level.getFormattedName());
             lines.add(getProgressBar(exp, level.getExperienceNeeded(), 10) + " &3" + exp + "/" + level.getExperienceNeeded());
             lines.add("");
             lines.add("&b&lOnline&7:");
-            lines.add("&7■ &fAll: &3" + Bukkit.getOnlinePlayers().stream().filter(p -> SharedAPI.getInstance().getModUtilsHook().canSee(phoenix, SharedAPI.getInstance().getProfileHandler().getProfile(p.getUniqueId()))).count());
+            lines.add("&7■ &fPlayers: &3" + Bukkit.getOnlinePlayers().size());
             lines.add("&7■ &fPlaying: &3" + plugin.getGameHandler().getPlaying());
             lines.add("");
             lines.add("&7stellarmc.gg");
