@@ -2,6 +2,7 @@ package xyz.refinedev.skywars.game;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -38,8 +39,9 @@ public class SkyWarsGame {
 
     @Getter
     private final GameType gameType;
-    @Getter
-    private final Arena arena;
+
+    @Getter @Setter
+    private Arena arena;
 
     @Getter
     private final List<Player> alivePlayers = new ArrayList<>();
@@ -50,6 +52,12 @@ public class SkyWarsGame {
     private int originalPlayers = 0;
     private RefillType refillType = RefillType.FIRST;
     private GameState state = GameState.WAITING;
+
+    public SkyWarsGame(pxSkyWars plugin, GameType gameType, Arena arena) {
+        this.plugin = plugin;
+        this.gameType = gameType;
+        this.arena = arena;
+    }
 
     public void waiting() {
         Tasks.runLater(this::start, 15 * 20L);
@@ -194,7 +202,7 @@ public class SkyWarsGame {
         this.spectators.clear();
         this.alivePlayers.clear();
 
-        plugin.getArenaHandler().releaseArena(arena);
+        plugin.getArenaHandler().getWorldManager().deleteWorld(arena.getWorld());
     }
 
     public void broadcast(String message) {

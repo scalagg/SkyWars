@@ -10,6 +10,7 @@ import org.bukkit.util.Vector;
 import xyz.refinedev.phoenix.Phoenix;
 import xyz.refinedev.phoenix.SharedAPI;
 import xyz.refinedev.skywars.arena.ArenaSchematic;
+import xyz.refinedev.skywars.arena.listener.ArenaModelEditorListener;
 import xyz.refinedev.skywars.commands.ArenaCommand;
 import xyz.refinedev.skywars.commands.GameCommand;
 import xyz.refinedev.skywars.config.SkyWarsConfig;
@@ -19,6 +20,7 @@ import lombok.Setter;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.refinedev.skywars.handler.*;
 import xyz.refinedev.skywars.item.listeners.ItemListener;
+import xyz.refinedev.skywars.listener.ArenaItemResetListener;
 import xyz.refinedev.skywars.listener.ProfileListener;
 import xyz.refinedev.skywars.scoreboard.ScoreboardAdapter;
 import xyz.refinedev.skywars.scoreboard.api.Assemble;
@@ -69,12 +71,13 @@ public class pxSkyWars extends JavaPlugin {
 
         this.profileHandler = new ProfileHandler(SharedAPI.getInstance());
         this.achievementHandler = new AchievementHandler();
-        this.arenaHandler = new ArenaHandler(this);
+        this.arenaHandler = new ArenaHandler();
         this.gameHandler = new GameHandler(this);
 
         Arrays.asList(
                 new ProfileListener(this),
-                new ItemListener()
+                new ItemListener(),
+                new ArenaModelEditorListener()
         ).forEach(listener -> this.getServer().getPluginManager().registerEvents(listener, this));
 
         commandHandler = Phoenix.getInstance().getCommandHandler();
@@ -94,5 +97,10 @@ public class pxSkyWars extends JavaPlugin {
         commandHandler.registerCommand(new GameCommand(this));
 
         new Assemble(this, new ScoreboardAdapter(this));
+    }
+
+    @Override
+    public void onDisable() {
+        arenaHandler.saveSchematics();
     }
 }

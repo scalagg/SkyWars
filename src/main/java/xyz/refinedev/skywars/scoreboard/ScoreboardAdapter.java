@@ -64,7 +64,7 @@ public class ScoreboardAdapter implements AssembleAdapter {
             Level level = pxLevels.getInstance().getLevelHandler().getLevelByExp(exp);
 
             lines.add("&7■ &fLevel: " + level.getFormattedName());
-            lines.add(getProgressBar(exp, level.getExperienceNeeded(), 10) + " &3" + exp + "/" + level.getExperienceNeeded());
+//            lines.add(getProgressBar(exp, level.getExperienceNeeded(), 10) + " &3" + exp + "/" + level.getExperienceNeeded());
             lines.add("");
             lines.add("&b&lOnline&7:");
             lines.add("&7■ &fAll: &3" + Bukkit.getOnlinePlayers().stream().filter(p -> SharedAPI.getInstance().getModUtilsHook().isVanished(p.getUniqueId())).count());
@@ -77,10 +77,10 @@ public class ScoreboardAdapter implements AssembleAdapter {
         return lines;
     }
 
-    public String getProgressBar(int current, int max, int totalBars) {
-        float percent = (float) current / max;
-        int progressBars = (int) (totalBars * percent);
-
-        return Strings.repeat(ChatColor.YELLOW.toString() + '▋', progressBars) + Strings.repeat(ChatColor.GRAY.toString() + '▋', totalBars - progressBars);
-    }
+//    public String getProgressBar(int current, int max, int totalBars) {
+//        float percent = (float) current / max;
+//        int progressBars = (int) (totalBars * percent);
+//
+//        return Strings.repeat(ChatColor.YELLOW.toString() + '▋', progressBars) + Strings.repeat(ChatColor.GRAY.toString() + '▋', totalBars - progressBars);
+//    }
 }

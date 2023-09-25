@@ -2,18 +2,17 @@ package xyz.refinedev.skywars.utils.cuboid;
 
 import com.sk89q.worldedit.Vector;
 import lombok.Data;
-import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
-import org.bukkit.Location;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Data
-public class Cuboid implements Cloneable {
+public class Cuboid implements Iterable<Block>, Cloneable {
 
     private String worldName;
     private int x1, y1, z1;
@@ -32,6 +31,7 @@ public class Cuboid implements Cloneable {
         );
 
     }
+
 
     /**
      * Construct a Cuboid in the given World and xyz coords
@@ -525,4 +525,51 @@ public class Cuboid implements Cloneable {
         }
     }
 
+    public static class CuboidIterator implements Iterator<Block> {
+        private World w;
+        private int baseX, baseY, baseZ;
+        private int x, y, z;
+        private int sizeX, sizeY, sizeZ;
+
+        public CuboidIterator(World w, int x1, int y1, int z1, int x2, int y2, int z2) {
+            this.w = w;
+            this.baseX = Math.min(x1, x2);
+            this.baseY = Math.min(y1, y2);
+            this.baseZ = Math.min(z1, z2);
+            this.sizeX = Math.abs(x2 - x1) + 1;
+            this.sizeY = Math.abs(y2 - y1) + 1;
+            this.sizeZ = Math.abs(z2 - z1) + 1;
+            this.x = this.y = this.z = 0;
+        }
+
+        public boolean hasNext() {
+            return this.x < this.sizeX && this.y < this.sizeY && this.z < this.sizeZ;
+        }
+
+        public Block next() {
+            Block b = this.w.getBlockAt(this.baseX + this.x, this.baseY + this.y, this.baseZ + this.z);
+            if (++x >= this.sizeX) {
+                this.x = 0;
+                if (++this.y >= this.sizeY) {
+                    this.y = 0;
+                    ++this.z;
+                }
+            }
+            return b;
+        }
+
+        public void remove() {
+        }
+    }
+
+    public Iterator<Block> iterator() {
+        return new CuboidIterator(this.getWorld(), this.x1, this.y1, this.z1, this.x2, this.y2, this.z2);
+    }
+
+    public boolean isEmpty() {
+        for (Block b : this) {
+            if (b.getType() != Material.AIR) return false;
+        }
+        return true;
+    }
 }
