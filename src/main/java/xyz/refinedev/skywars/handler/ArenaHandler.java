@@ -4,16 +4,17 @@ import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.io.Files;
 import com.google.gson.reflect.TypeToken;
+import com.grinderwolf.swm.api.SlimePlugin;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
+import xyz.refinedev.skywars.arena.WorldManager;
 import xyz.refinedev.skywars.listener.ArenaItemResetListener;
 import xyz.refinedev.skywars.pxSkyWars;
 import xyz.refinedev.skywars.arena.Arena;
-import xyz.refinedev.skywars.arena.ArenaGrid;
 import xyz.refinedev.skywars.arena.ArenaSchematic;
 import xyz.refinedev.skywars.utils.events.arena.ArenaAllocatedEvent;
 import xyz.refinedev.skywars.utils.events.arena.ArenaReleasedEvent;
@@ -33,55 +34,30 @@ import java.util.function.Predicate;
 public final class ArenaHandler {
 
     public static final File WORLD_EDIT_SCHEMATICS_FOLDER = new File(JavaPlugin.getPlugin(WorldEditPlugin.class).getDataFolder(), "schematics");
-    private static final String ARENA_INSTANCES_FILE_NAME = "arenaInstances.json";
     private static final String SCHEMATICS_FILE_NAME = "schematics.json";
 
-    // schematic -> (instance id -> Arena instance)
-    private final Map<String, Map<Integer, Arena>> arenaInstances = new HashMap<>();
+    @Getter
+    private final WorldManager worldManager = new WorldManager((SlimePlugin) Bukkit.getPluginManager().getPlugin("SlimeWorldManager"));
     // schematic name -> ArenaSchematic instance
     private final Map<String, ArenaSchematic> schematics = new TreeMap<>();
-
-    @Getter
-    private final ArenaGrid grid = new ArenaGrid();
-    private final pxSkyWars plugin;
 
     public void removeSchematic(String name) {
         schematics.remove(name);
     }
 
-    public ArenaHandler(pxSkyWars plugin) {
-        this.plugin = plugin;
-
+    public ArenaHandler() {
         Bukkit.getPluginManager().registerEvents(new ArenaItemResetListener(), pxSkyWars.getInstance());
 
         File folder = pxSkyWars.getInstance().getDataFolder();
 
-        File arenaInstancesFile = new File(folder, ARENA_INSTANCES_FILE_NAME);
         File schematicsFile = new File(folder, SCHEMATICS_FILE_NAME);
 
         try {
-            // parsed as a List<Arena> and then inserted into Map<String, Map<Integer. Arena>>
-            if (arenaInstancesFile.exists()) {
-                try (Reader arenaInstancesReader = Files.newReader(arenaInstancesFile, Charsets.UTF_8)) {
-                    Type arenaListType = new TypeToken<List<Arena>>() {}.getType();
-                    List<Arena> arenaList = plugin.getGson().fromJson(arenaInstancesReader, arenaListType);
-
-                    for (Arena arena : arenaList) {
-                        // create inner Map for schematic if not present
-                        arenaInstances.computeIfAbsent(arena.getSchematic(), i -> new HashMap<>());
-
-                        // register this copy with the inner Map
-                        arenaInstances.get(arena.getSchematic()).put(arena.getCopy(), arena);
-                    }
-                }
-            }
-
             // parsed as a List<ArenaSchematic> and then inserted into Map<String, ArenaSchematic>
             if (schematicsFile.exists()) {
                 try (Reader schematicsFileReader = Files.newReader(schematicsFile, Charsets.UTF_8)) {
-                    Type schematicListType = new TypeToken<List<ArenaSchematic>>() {
-                    }.getType();
-                    List<ArenaSchematic> schematicList = plugin.getGson().fromJson(schematicsFileReader, schematicListType);
+                    Type schematicListType = new TypeToken<List<ArenaSchematic>>() {}.getType();
+                    List<ArenaSchematic> schematicList = pxSkyWars.getInstance().getGson().fromJson(schematicsFileReader, schematicListType);
 
                     for (ArenaSchematic schematic : schematicList) {
                         this.schematics.put(schematic.getName(), schematic);
@@ -94,43 +70,17 @@ public final class ArenaHandler {
         }
     }
 
+
     @SneakyThrows
     public void saveSchematics() {
         Files.write(
-                plugin.getGson().toJson(schematics.values()),
+                pxSkyWars.getInstance().getGson().toJson(schematics.values()),
                 new File(pxSkyWars.getInstance().getDataFolder(), SCHEMATICS_FILE_NAME),
                 Charsets.UTF_8
         );
     }
 
-    public void saveArenas() throws IOException {
-        List<Arena> allArenas = new ArrayList<>();
-
-        arenaInstances.forEach((schematic, copies) -> allArenas.addAll(copies.values()));
-
-        Files.write(
-                plugin.getGson().toJson(allArenas),
-                new File(pxSkyWars.getInstance().getDataFolder(), ARENA_INSTANCES_FILE_NAME),
-                Charsets.UTF_8
-        );
-    }
-
-    public World getArenaWorld() {
-        World world = Bukkit.getWorld("arenas");
-        if (world != null) return world;
-        return Bukkit.getWorlds().get(0);
-    }
-
     public void registerSchematic(ArenaSchematic schematic) {
-        // assign a grid index upon creation. currently this will not reuse
-        // lower grid indexes from deleted arenas.
-        int lastGridIndex = 0;
-
-        for (ArenaSchematic otherSchematic : schematics.values()) {
-            lastGridIndex = Math.max(lastGridIndex, otherSchematic.getGridIndex());
-        }
-
-        schematic.setGridIndex(lastGridIndex + 1);
         schematics.put(schematic.getName(), schematic);
     }
 
@@ -138,72 +88,8 @@ public final class ArenaHandler {
         schematics.remove(schematic.getName());
     }
 
-    public void registerArena(Arena arena) {
-        Map<Integer, Arena> copies = arenaInstances.get(arena.getSchematic());
-
-        if (copies == null) {
-            copies = new HashMap<>();
-            arenaInstances.put(arena.getSchematic(), copies);
-        }
-
-        copies.put(arena.getCopy(), arena);
-    }
-
-    public void unregisterArena(Arena arena) {
-        Map<Integer, Arena> copies = arenaInstances.get(arena.getSchematic());
-
-        if (copies != null) {
-            copies.remove(arena.getCopy());
-        }
-    }
-
-    /**
-     * Finds an arena by its schematic and copy pair
-     *
-     * @param schematic ArenaSchematic to use when looking up arena
-     * @param copy      copy of arena to look up
-     * @return Arena object existing for specified schematic and copy pair, if one exists
-     */
-    public Arena getArena(ArenaSchematic schematic, int copy) {
-        Map<Integer, Arena> arenaCopies = arenaInstances.get(schematic.getName());
-
-        if (arenaCopies != null) {
-            return arenaCopies.get(copy);
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * Finds all arena instances for the given schematic
-     *
-     * @param schematic schematic to look up arenas for
-     * @return immutable set of all arenas for given schematic
-     */
-    public Set<Arena> getArenas(ArenaSchematic schematic) {
-        Map<Integer, Arena> arenaCopies = arenaInstances.get(schematic.getName());
-
-        if (arenaCopies != null) {
-            return ImmutableSet.copyOf(arenaCopies.values());
-        } else {
-            return ImmutableSet.of();
-        }
-    }
-
-    /**
-     * Counts the number of arena instances present for the given schematic
-     *
-     * @param schematic schematic to count arenas for
-     * @return number of copies present of the given schematic
-     */
-    public int countArenas(ArenaSchematic schematic) {
-        Map<Integer, Arena> arenaCopies = arenaInstances.get(schematic.getName());
-        return arenaCopies != null ? arenaCopies.size() : 0;
-    }
-
     /**
      * Finds all schematic instances registered
-     *
      * @return immutable set of all schematics registered
      */
     public Set<ArenaSchematic> getSchematics() {
@@ -212,68 +98,25 @@ public final class ArenaHandler {
 
     /**
      * Finds an ArenaSchematic by its id
-     *
      * @param schematicName schematic id to search with
      * @return ArenaSchematic present for the given id, if one exists
      */
     public ArenaSchematic getSchematic(String schematicName) {
-        return schematics.values().stream().filter(s -> s.getName().equalsIgnoreCase(schematicName)).findFirst().orElse(null);
+        return schematics.get(schematicName);
     }
 
-    /**
-     * Attempts to allocate an arena for use, using the Predicate provided to determine
-     * which arenas are eligible for use. Handles calling {@link ArenaAllocatedEvent}
-     * automatically.
-     *
-     * @param acceptableSchematicPredicate Predicate to use to determine if an {@link ArenaSchematic}
-     *                                     is eligible for use.
-     * @return The arena which has been allocated for use, or null, if one was not found.
-     */
-    public Optional<Arena> allocateUnusedArena(Predicate<ArenaSchematic> acceptableSchematicPredicate) {
-        List<Arena> acceptableArenas = new ArrayList<>();
+    public ArenaSchematic getRandomArena(long matchSize, boolean ranked) {
+        List<ArenaSchematic> possible = new ArrayList<>();
 
         for (ArenaSchematic schematic : schematics.values()) {
-            if (!acceptableSchematicPredicate.test(schematic)) {
-                continue;
-            }
+            if (!schematic.isEnabled()) continue;
+            if (schematic.getMaxPlayers() < matchSize || schematic.getMinPlayers() > matchSize) continue;
+            if (ranked && !schematic.isSupportsRanked()) continue;
 
-            if (!arenaInstances.containsKey(schematic.getName())) {
-                continue;
-            }
-
-            for (Arena arena : arenaInstances.get(schematic.getName()).values()) {
-                if (!arena.isInUse()) {
-                    acceptableArenas.add(arena);
-                }
-            }
+            possible.add(schematic);
         }
 
-        if (acceptableArenas.isEmpty()) {
-            return Optional.empty();
-        }
-
-        Arena selected = acceptableArenas.get(ThreadLocalRandom.current().nextInt(acceptableArenas.size()));
-
-        selected.setInUse(true);
-        Bukkit.getPluginManager().callEvent(new ArenaAllocatedEvent(selected));
-
-        return Optional.of(selected);
-    }
-
-    /**
-     * Releases (unallocates) an arena so that it may be used again. Handles calling
-     * {@link ArenaReleasedEvent} automatically.
-     *
-     * @param arena the arena to release
-     */
-    public void releaseArena(Arena arena) {
-        if (!arena.isInUse()) {
-            System.out.println("[pxSkyWars] " + arena.getSchematic() + " copy " + arena.getCopy() + " could not be released because it wasn't in use.");
-            return;
-        }
-
-        arena.setInUse(false);
-        Bukkit.getPluginManager().callEvent(new ArenaReleasedEvent(arena));
+        return possible.isEmpty() ? null : possible.get(ThreadLocalRandom.current().nextInt(possible.size()));
     }
 
 }

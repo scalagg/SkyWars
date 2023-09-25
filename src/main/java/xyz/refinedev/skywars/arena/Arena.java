@@ -18,9 +18,7 @@ import xyz.refinedev.skywars.utils.AngleUtils;
 import xyz.refinedev.skywars.utils.Callback;
 import xyz.refinedev.skywars.utils.cuboid.Cuboid;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Predicate;
 
 /**
@@ -49,6 +47,9 @@ public final class Arena {
     @Getter
     private int copy;
 
+    @Getter @Setter
+    private transient World world;
+
     /**
      * Bounding box for this arena
      */
@@ -57,10 +58,10 @@ public final class Arena {
     /**
      * For purposes of arena definition
      */
-    private List<Location> spawns;
+    private List<Location> spawns = new ArrayList<>();
 
 
-    private Map<Location, ChestType> chests;
+    private Map<Location, ChestType> chests = new HashMap<>();
 
     /**
      * Spectator spawn location for this arena
@@ -82,10 +83,10 @@ public final class Arena {
     public Arena() {
     } // for gson
 
-    public Arena(String schematic, int copy, Cuboid bounds) {
-        this.schematic = Preconditions.checkNotNull(schematic);
-        this.copy = copy;
-        this.bounds = Preconditions.checkNotNull(bounds);
+    public Arena(ArenaSchematic schematic, World world, Cuboid bounds) {
+        this.schematic = schematic.getName();
+        this.world = world;
+        this.bounds = bounds;
 
         scanLocations();
     }
