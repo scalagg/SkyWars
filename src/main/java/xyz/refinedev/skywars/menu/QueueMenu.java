@@ -7,6 +7,7 @@ import xyz.refinedev.phoenix.menu.api.Menu;
 import java.util.Map;
 
 public class QueueMenu extends Menu {
+
     @Override
     public String getTitle(Player player) {
         return null;
@@ -16,4 +17,5 @@ public class QueueMenu extends Menu {
     public Map<Integer, Button> getButtons(Player player) {
         return null;
     }
+
 }

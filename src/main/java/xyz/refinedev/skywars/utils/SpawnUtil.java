@@ -3,7 +3,6 @@ package xyz.refinedev.skywars.utils;
 import lombok.experimental.UtilityClass;
 import org.bukkit.entity.Player;
 import xyz.refinedev.basic.config.BasicConfig;
-import xyz.refinedev.phoenix.config.BukkitConfig;
 import xyz.refinedev.phoenix.utils.server.LocationSerilization;
 
 /**
@@ -15,7 +14,8 @@ import xyz.refinedev.phoenix.utils.server.LocationSerilization;
 public class SpawnUtil {
 
     public void teleportToSpawn(Player player) {
-        player.teleport(LocationSerilization.deserializeLocation(BukkitConfig.IMP.ON_JOIN.TELEPORT_LOCATION));
+        //TODO: fix
+//        player.teleport(LocationSerilization.deserializeLocation(BasicConfig.IMP.SETTINGS.TELEPORT_LOCATION));
     }
 
 }

@@ -34,7 +34,7 @@ public class KitSelectorMenu extends PaginatedMenu {
     }
 
     @RequiredArgsConstructor
-    private class KitButton extends Button {
+    private static class KitButton extends Button {
         private final PlayerKit kit;
 
         @Override

@@ -9,6 +9,7 @@ import org.bukkit.util.BlockVector;
 import org.bukkit.util.Vector;
 import xyz.refinedev.phoenix.Phoenix;
 import xyz.refinedev.phoenix.SharedAPI;
+import xyz.refinedev.skywars.arena.ArenaSchematic;
 import xyz.refinedev.skywars.commands.ArenaCommand;
 import xyz.refinedev.skywars.commands.GameCommand;
 import xyz.refinedev.skywars.config.SkyWarsConfig;
@@ -17,12 +18,13 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.refinedev.skywars.handler.*;
-import xyz.refinedev.skywars.listener.HotbarListener;
+import xyz.refinedev.skywars.item.listeners.ItemListener;
 import xyz.refinedev.skywars.listener.ProfileListener;
 import xyz.refinedev.skywars.scoreboard.ScoreboardAdapter;
 import xyz.refinedev.skywars.scoreboard.api.Assemble;
 import xyz.refinedev.skywars.utils.serialization.*;
 
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -37,7 +39,8 @@ import java.util.Random;
 @Getter
 @Setter
 public class pxSkyWars extends JavaPlugin {
-    @Getter public static pxSkyWars instance;
+    @Getter
+    public static pxSkyWars instance;
 
     private Gson gson;
     private PaperCommandManager commandHandler;
@@ -45,7 +48,6 @@ public class pxSkyWars extends JavaPlugin {
     private AchievementHandler achievementHandler;
     private GameHandler gameHandler;
     private ArenaHandler arenaHandler;
-    private HotbarHandler hotbarHandler;
     private Random random;
 
     @Override
@@ -69,14 +71,27 @@ public class pxSkyWars extends JavaPlugin {
         this.achievementHandler = new AchievementHandler();
         this.arenaHandler = new ArenaHandler(this);
         this.gameHandler = new GameHandler(this);
-        this.hotbarHandler = new HotbarHandler();
 
-        getServer().getPluginManager().registerEvents(new ProfileListener(this), this);
-        getServer().getPluginManager().registerEvents(new HotbarListener(this), this);
+        Arrays.asList(
+                new ProfileListener(this),
+                new ItemListener()
+        ).forEach(listener -> this.getServer().getPluginManager().registerEvents(listener, this));
 
-        this.commandHandler = Phoenix.getInstance().getCommandHandler();
-        this.commandHandler.registerCommand(new ArenaCommand());
-        this.commandHandler.registerCommand(new GameCommand(this));
+        commandHandler = Phoenix.getInstance().getCommandHandler();
+        commandHandler.getCommandContexts().registerContext(ArenaSchematic.class, c -> {
+            String name = c.popFirstArg();
+            ArenaSchematic schematic = arenaHandler.getSchematic(name);
+
+            if (schematic == null) {
+                c.getSender().sendMessage("§cSchematic not found.");
+                return null;
+            }
+
+            return schematic;
+        });
+
+        commandHandler.registerCommand(new ArenaCommand());
+        commandHandler.registerCommand(new GameCommand(this));
 
         new Assemble(this, new ScoreboardAdapter(this));
     }

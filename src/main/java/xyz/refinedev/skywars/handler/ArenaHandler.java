@@ -40,6 +40,7 @@ public final class ArenaHandler {
     private final Map<String, Map<Integer, Arena>> arenaInstances = new HashMap<>();
     // schematic name -> ArenaSchematic instance
     private final Map<String, ArenaSchematic> schematics = new TreeMap<>();
+
     @Getter
     private final ArenaGrid grid = new ArenaGrid();
     private final pxSkyWars plugin;
@@ -62,8 +63,7 @@ public final class ArenaHandler {
             // parsed as a List<Arena> and then inserted into Map<String, Map<Integer. Arena>>
             if (arenaInstancesFile.exists()) {
                 try (Reader arenaInstancesReader = Files.newReader(arenaInstancesFile, Charsets.UTF_8)) {
-                    Type arenaListType = new TypeToken<List<Arena>>() {
-                    }.getType();
+                    Type arenaListType = new TypeToken<List<Arena>>() {}.getType();
                     List<Arena> arenaList = plugin.getGson().fromJson(arenaInstancesReader, arenaListType);
 
                     for (Arena arena : arenaList) {

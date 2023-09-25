@@ -61,7 +61,7 @@ public enum PlayerKit {
             new ItemStack(Material.IRON_PICKAXE),
             new ItemStack(Material.IRON_AXE),
             new ItemStack(Material.ANVIL),
-            new ItemBuilder(Material.ENCHANTED_BOOK).addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 1).amount(3).toItemStack()
+            new ItemBuilder(Material.ENCHANTED_BOOK, 3).addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 1).toItemStack()
     ), Arrays.asList(
             new ItemStack(Material.IRON_HELMET),
             new ItemStack(Material.IRON_CHESTPLATE),
