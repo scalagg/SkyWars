@@ -35,7 +35,6 @@ import java.util.*;
 @RequiredArgsConstructor
 public class SkyWarsGame {
     private final pxSkyWars plugin;
-    private final UUID gameId = UUID.randomUUID();
 
     @Getter
     private final GameType gameType;
@@ -46,6 +45,7 @@ public class SkyWarsGame {
     private final List<Player> alivePlayers = new ArrayList<>();
     private final List<Player> spectators = new ArrayList<>();
     private final Random random = new Random();
+
     @Getter
     private int originalPlayers = 0;
     private RefillType refillType = RefillType.FIRST;

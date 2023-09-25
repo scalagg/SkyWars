@@ -21,55 +21,51 @@ class HotbarListener implements Listener {
     @EventHandler
     public void onItems(PlayerInteractEvent event){
         Player player = event.getPlayer();
-
-        if (isBuildMode(player)) return;
+        if (player.hasMetadata("BuildMode"))
+            return;
 
         if (event.getItem() == null ||
                 event.getItem().getType() == Material.AIR ||
                 !event.getItem().hasItemMeta() ||
-                event.getItem().getItemMeta() == null) {
+                event.getItem().getItemMeta() == null)
             return;
-        }
 
-        if (!event.getAction().name().contains("RIGHT")) return;
+        if (!event.getAction().name().contains("RIGHT"))
+            return;
 
         HotbarItem item = plugin.getHotbarHandler().getHotbarItem(event.getItem());
         if (item == null) return;
 
         item.getOnClick().accept(player);
     }
-    private boolean isBuildMode(Player player) {
-        return player.hasMetadata("BuildMode");
-    }
 
     @EventHandler
     public void onPlayerTryRemoveTntHelmet(InventoryInteractEvent event) {
-        if (!(event.getWhoClicked() instanceof Player)) return;
+        if (!(event.getWhoClicked() instanceof Player))
+            return;
 
         Player player = (Player) event.getWhoClicked();
-
-        if (isBuildMode(player)) return;
+        if (player.hasMetadata("BuildMode"))
+            return;
 
         ItemStack item = player.getItemInHand();
-
         HotbarItem hotbarItem = plugin.getHotbarHandler().getHotbarItem(item);
-        if (hotbarItem == null) return;
+        if (hotbarItem == null)
+            return;
 
         event.setCancelled(true);
     }
 
     @EventHandler
-    public void onInvClose(InventoryCloseEvent e) {
-        if (e.getInventory().getType() != InventoryType.CRAFTING)
+    public void onInvClose(InventoryCloseEvent event) {
+        if (event.getInventory().getType() != InventoryType.CRAFTING)
             return;
 
-        Player p = (Player) e.getPlayer();
-
-        e.getInventory().setItem(0, null);
-        e.getInventory().setItem(1, null);
-        e.getInventory().setItem(2, null);
-        e.getInventory().setItem(3, null);
-        e.getInventory().setItem(4, null);
+        event.getInventory().setItem(0, null);
+        event.getInventory().setItem(1, null);
+        event.getInventory().setItem(2, null);
+        event.getInventory().setItem(3, null);
+        event.getInventory().setItem(4, null);
     }
 
 }

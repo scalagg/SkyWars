@@ -22,26 +22,26 @@
     </repositories>
     <dependencies>
         <dependency>
-            <groupId>gg.soup.phoenix</groupId>
+            <groupId>xyz.refinedev.phoenix</groupId>
             <artifactId>bukkit</artifactId>
             <version>1.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>gg.soup</groupId>
-            <artifactId>Cosmetics</artifactId>
+            <groupId>xyz.refinedev</groupId>
+            <artifactId>pxCosmetics</artifactId>
             <version>1.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>gg.soup</groupId>
+            <groupId>xyz.refinedev</groupId>
             <artifactId>Staff</artifactId>
             <version>1.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>gg.soup</groupId>
-            <artifactId>Levels</artifactId>
+            <groupId>xyz.refinedev</groupId>
+            <artifactId>pxLevels</artifactId>
             <version>1.0</version>
             <scope>provided</scope>
         </dependency>

@@ -9,6 +9,8 @@ import org.bukkit.util.BlockVector;
 import org.bukkit.util.Vector;
 import xyz.refinedev.phoenix.Phoenix;
 import xyz.refinedev.phoenix.SharedAPI;
+import xyz.refinedev.skywars.arena.Arena;
+import xyz.refinedev.skywars.arena.ArenaSchematic;
 import xyz.refinedev.skywars.commands.ArenaCommand;
 import xyz.refinedev.skywars.commands.GameCommand;
 import xyz.refinedev.skywars.config.SkyWarsConfig;
@@ -37,7 +39,8 @@ import java.util.Random;
 @Getter
 @Setter
 public class pxSkyWars extends JavaPlugin {
-    @Getter public static pxSkyWars instance;
+    @Getter
+    public static pxSkyWars instance;
 
     private Gson gson;
     private PaperCommandManager commandHandler;
@@ -74,9 +77,21 @@ public class pxSkyWars extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ProfileListener(this), this);
         getServer().getPluginManager().registerEvents(new HotbarListener(this), this);
 
-        this.commandHandler = Phoenix.getInstance().getCommandHandler();
-//        this.commandHandler.registerCommand(new ArenaCommand());
-        this.commandHandler.registerCommand(new GameCommand(this));
+        commandHandler = Phoenix.getInstance().getCommandHandler();
+        commandHandler.getCommandContexts().registerContext(ArenaSchematic.class, c -> {
+            String name = c.popFirstArg();
+            ArenaSchematic schematic = arenaHandler.getSchematic(name);
+
+            if (schematic == null) {
+                c.getSender().sendMessage("§cSchematic not found.");
+                return null;
+            }
+
+            return schematic;
+        });
+
+        commandHandler.registerCommand(new ArenaCommand());
+        commandHandler.registerCommand(new GameCommand(this));
 
         new Assemble(this, new ScoreboardAdapter(this));
     }

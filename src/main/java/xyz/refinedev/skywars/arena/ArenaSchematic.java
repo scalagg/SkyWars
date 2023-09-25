@@ -2,6 +2,7 @@ package xyz.refinedev.skywars.arena;
 
 import com.google.common.base.Preconditions;
 import com.sk89q.worldedit.Vector;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Material;
@@ -13,18 +14,24 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
 public final class ArenaSchematic {
 
-    @Getter private String name;
-    @Getter @Setter private String displayName;
-    @Setter private boolean enabled = false;
-    @Getter @Setter private MaterialData icon = new MaterialData(Material.WOOL);
-    @Getter @Setter private int gridIndex;
-    @Getter @Setter private GameType gameType;
-    @Getter @Setter private int positiveRatings = 0;
-    @Getter @Setter private int negativeRatings = 0;
+    private String name;
+    private String displayName;
 
-    public ArenaSchematic() {} // for gson
+    private MaterialData icon = new MaterialData(Material.WOOL);
+    private GameType gameType;
+
+    private boolean enabled = false;
+
+    private int gridIndex;
+    private int positiveRatings = 0;
+    private int negativeRatings = 0;
+
+    public ArenaSchematic() {
+
+    }
 
     public ArenaSchematic(String name) {
         this.name = Preconditions.checkNotNull(name, "name");
@@ -69,7 +76,4 @@ public final class ArenaSchematic {
         return name.hashCode();
     }
 
-    public boolean isEnabled() {
-        return enabled;
-    }
 }

@@ -19,9 +19,10 @@ public final class ArenaItemResetListener implements Listener {
         // that are at all covered by this map.
         // Only do this if chunk is NOT loaded
         arena.forEachChunk(chunk -> {
-            if (!chunk.isLoaded()) chunk.load();
+            if (!chunk.isLoaded())
+                chunk.load();
 
-            for ( Entity entity : chunk.getEntities()) {
+            for (Entity entity : chunk.getEntities()) {
                 // if we remove all entities we might call .remove()
                 // on a player (breaks a lot of things)
                 if (entity instanceof Item && arena.getBounds().contains(entity)) {

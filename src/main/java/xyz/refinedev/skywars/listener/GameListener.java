@@ -41,29 +41,32 @@ public class GameListener implements Listener {
 
     @EventHandler
     public void onEntityDamageEvent(EntityDamageEvent event) {
-        if (!(event.getEntity() instanceof Player)) return;
+        if (!(event.getEntity() instanceof Player))
+            return;
 
         Player player = (Player) event.getEntity();
-        if (!gameHandler.isInGame(player)) return;
+        if (!gameHandler.isInGame(player))
+            return;
 
         SkyWarsGame game = gameHandler.getGame(player);
-
         event.setCancelled(!game.hasStarted());
     }
 
     @EventHandler
     public void onEntityDamageEvent(EntityDamageByEntityEvent event) {
-        if (!(event.getEntity() instanceof Player)) return;
-        if (!(event.getDamager() instanceof Player)) return;
+        if (!(event.getEntity() instanceof Player))
+            return;
+
+        if (!(event.getDamager() instanceof Player))
+            return;
 
         Player player = (Player) event.getEntity();
-        if (!gameHandler.isInGame(player)) return;
-
         Player damager = (Player) event.getDamager();
-        if (!gameHandler.isInGame(damager)) return;
+        if (!gameHandler.isInGame(player)
+                && !gameHandler.isInGame(damager))
+            return;
 
         SkyWarsGame game = gameHandler.getGame(player);
-
         if (!game.isInGame(damager)) {
             event.setCancelled(true);
             return;

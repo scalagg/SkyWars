@@ -25,7 +25,8 @@ import java.util.Arrays;
 @CommandAlias("arena")
 @CommandPermission("practice.command.arena")
 public class ArenaCommand extends BaseCommand {
-    final ArenaHandler arenaHandler = pxSkyWars.getInstance().getArenaHandler();
+
+    private final ArenaHandler arenaHandler = pxSkyWars.getInstance().getArenaHandler();
 
     @HelpCommand
     @Syntax("[page]")

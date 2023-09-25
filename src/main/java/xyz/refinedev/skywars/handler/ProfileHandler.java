@@ -14,6 +14,7 @@ import java.util.UUID;
 
 @Getter
 public class ProfileHandler extends MongoMapRepository<UUID, SkyWarsProfile> {
+
     private final SharedAPI api;
 
     public ProfileHandler(SharedAPI api) {
