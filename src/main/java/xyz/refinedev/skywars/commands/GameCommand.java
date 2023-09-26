@@ -6,10 +6,7 @@ import org.bukkit.entity.Player;
 import xyz.refinedev.commands.BaseCommand;
 import xyz.refinedev.commands.CommandHelp;
 import xyz.refinedev.commands.ConditionFailedException;
-import xyz.refinedev.commands.annotation.CommandAlias;
-import xyz.refinedev.commands.annotation.Name;
-import xyz.refinedev.commands.annotation.Subcommand;
-import xyz.refinedev.commands.annotation.Syntax;
+import xyz.refinedev.commands.annotation.*;
 import xyz.refinedev.skywars.game.SkyWarsGame;
 import xyz.refinedev.skywars.game.state.GameType;
 import xyz.refinedev.skywars.pxSkyWars;
@@ -28,19 +25,17 @@ public class GameCommand extends BaseCommand {
     @Subcommand("join")
     @Syntax("<type>")
     public void join(Player player, @Name("type") GameType type) {
-        if (plugin.getGameHandler().isInGame(player)) {
+        if (plugin.getGameHandler().isPlayingGame(player)) {
             throw new ConditionFailedException("alr in game");
         }
 
         SkyWarsGame game = plugin.getGameHandler().getAvailableGame(type);
         game.addPlayer(player);
-
-        player.sendMessage(SpigotConstants.GAME + "&eYou have joined &b" + game.getArena().getArenaSchematic().getDisplayName() + "&e.");
     }
 
     @Subcommand("leave")
     public void leave(Player player) {
-        if (!plugin.getGameHandler().isInGame(player)) {
+        if (!plugin.getGameHandler().isPlayingGame(player)) {
             throw new ConditionFailedException("not in game");
         }
 
@@ -49,6 +44,18 @@ public class GameCommand extends BaseCommand {
 
         player.sendMessage(SpigotConstants.GAME + "&eYou have left &b" + game.getArena().getArenaSchematic().getDisplayName() + "&e.");
     }
+
+    @Subcommand("forcestart")
+    @CommandPermission("skywars.forcestart")
+    public void forcestart(Player player) {
+        if (!plugin.getGameHandler().isPlayingGame(player)) {
+            throw new ConditionFailedException("not in game");
+        }
+
+        SkyWarsGame game = plugin.getGameHandler().getGame(player);
+        game.startCountdown();
+    }
+
     @Subcommand("help")
     @Syntax("[page]")
     public void doHelp(CommandSender sender, CommandHelp help) {

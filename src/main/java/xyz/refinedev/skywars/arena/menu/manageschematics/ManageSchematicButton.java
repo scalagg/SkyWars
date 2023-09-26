@@ -11,7 +11,6 @@ import xyz.refinedev.phoenix.menu.api.Button;
 import xyz.refinedev.phoenix.utils.item.ItemBuilder;
 import xyz.refinedev.skywars.arena.ArenaSchematic;
 import xyz.refinedev.skywars.arena.menu.manageschematic.ManageSchematicMenu;
-import xyz.refinedev.skywars.handler.GameHandler;
 
 import java.util.ArrayList;
 import java.util.List;

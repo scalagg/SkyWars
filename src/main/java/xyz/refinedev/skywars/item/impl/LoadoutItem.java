@@ -8,7 +8,7 @@ import xyz.refinedev.phoenix.Phoenix;
 import xyz.refinedev.phoenix.utils.Color;
 import xyz.refinedev.phoenix.utils.item.ItemBuilder;
 import xyz.refinedev.skywars.item.Item;
-import xyz.refinedev.skywars.menu.KitSelectorMenu;
+import xyz.refinedev.skywars.kit.menu.KitSelectorMenu;
 
 /**
  * @author alfie
