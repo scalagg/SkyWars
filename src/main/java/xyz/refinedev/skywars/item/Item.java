@@ -17,12 +17,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class Item {
 
-//        items.add(new HotbarItem(
-//                7,
-//                new ItemBuilder(Material.WATCH).setName("&a&lSkywars Loadout").toItemStack(),
-//                player -> Phoenix.getInstance().getMenuHandler().openMenu(new KitSelectorMenu(), player)
-//        ));
-
     public static final ConcurrentHashMap<UUID, ConcurrentHashMap<String, Item>> HOTBAR_ITEMS = new ConcurrentHashMap<>();
 
     public Item(Player player) {
