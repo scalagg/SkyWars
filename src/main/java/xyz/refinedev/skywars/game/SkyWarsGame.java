@@ -1,8 +1,9 @@
 package xyz.refinedev.skywars.game;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -10,236 +11,151 @@ import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import xyz.refinedev.cosmetics.cosmetics.killmessages.KillMessageType;
-import xyz.refinedev.cosmetics.profile.CosmeticProfile;
-import xyz.refinedev.cosmetics.pxCosmetics;
+import org.bukkit.metadata.FixedMetadataValue;
 import xyz.refinedev.phoenix.utils.Color;
-import xyz.refinedev.phoenix.utils.general.Tasks;
 import xyz.refinedev.skywars.arena.Arena;
-import xyz.refinedev.skywars.game.chest.ChestType;
-import xyz.refinedev.skywars.game.chest.RefillType;
+import xyz.refinedev.skywars.game.event.GameStateChangeEvent;
+import xyz.refinedev.skywars.game.event.PlayerJoinGameEvent;
+import xyz.refinedev.skywars.game.event.PlayerLeaveGameEvent;
+import xyz.refinedev.skywars.game.event.PlayerLeavePreGameEvent;
+import xyz.refinedev.skywars.game.state.ChestType;
 import xyz.refinedev.skywars.game.state.GameState;
 import xyz.refinedev.skywars.game.state.GameType;
+import xyz.refinedev.skywars.game.state.RefillType;
+import xyz.refinedev.skywars.game.task.GameCountdownTask;
 import xyz.refinedev.skywars.kit.Kit;
 import xyz.refinedev.skywars.profile.SkyWarsProfile;
 import xyz.refinedev.skywars.pxSkyWars;
-import xyz.refinedev.skywars.utils.SpigotConstants;
 import xyz.refinedev.skywars.utils.RefillUtil;
 import xyz.refinedev.skywars.utils.SpawnUtil;
 
 import java.util.*;
 
 /**
- * @author Creaxx
- * Created At: 5/8/2023
+ * @author alfie
+ * @project Skywars / xyz.refinedev.skywars.game
+ * @date 26/09/2023 / 20:43
  */
 
-@RequiredArgsConstructor
+@Data
 public class SkyWarsGame {
 
-    private final pxSkyWars plugin;
+    private final UUID id = UUID.randomUUID();
 
-    @Getter
-    private final GameType gameType;
-
-    @Getter @Setter
     private Arena arena;
+    private GameType gameType;
 
-    @Getter
-    private final List<Player> alivePlayers = new ArrayList<>();
-    private final List<Player> spectators = new ArrayList<>();
-    private final Random random = new Random();
+    private Set<UUID> spectators = new HashSet<>();
+    private Set<UUID> players = new HashSet<>();
+    private Set<UUID> alivePlayers = new HashSet<>();
 
-    @Getter
-    private int originalPlayers = 0;
     private RefillType refillType = RefillType.FIRST;
     private GameState state = GameState.WAITING;
 
-    public SkyWarsGame(pxSkyWars plugin, GameType gameType, Arena arena) {
-        this.plugin = plugin;
-        this.gameType = gameType;
+    public SkyWarsGame(Arena arena, GameType gameType) {
         this.arena = arena;
+        this.gameType = gameType;
     }
 
-    public void waiting() {
-        Tasks.runLater(this::start, 15 * 20L);
+    public void startCountdown() {
+        state = GameState.COUNTDOWN;
+
+        for (UUID uuid : players) {
+            Player player = Bukkit.getPlayer(uuid);
+            arena.getSpawns().forEach(player::teleport);
+
+            player.setMetadata("frozen", new FixedMetadataValue(pxSkyWars.getInstance(), this));
+        }
+
+        Bukkit.getScheduler().runTaskTimer(pxSkyWars.getInstance(), new GameCountdownTask(this), 0L, 20L);
     }
 
-    public void start() {
-        this.state = GameState.RUNNING;
+    public void startGame() {
+        state = GameState.LIVE;
+        alivePlayers.addAll(players);
 
-        this.nextRefill();
+        this.fillChests();
 
-        this.originalPlayers = alivePlayers.size();
+        for (UUID uuid : alivePlayers) {
+            Player player = Bukkit.getPlayer(uuid);
 
-        for (int i = 0; i < alivePlayers.size(); i++) {
-            Player player = alivePlayers.get(i);
-            Location spawn = arena.getSpawns().get(i);
+            player.removeMetadata("frozen", pxSkyWars.getInstance());
 
-            player.teleport(spawn);
+            player.getInventory().clear();
+            player.getInventory().setArmorContents(null);
 
-            SkyWarsProfile profile = plugin.getProfileHandler().getProfile(player.getUniqueId());
+            SkyWarsProfile profile = pxSkyWars.getInstance().getProfileHandler().getProfile(player.getUniqueId());
             Kit kit = pxSkyWars.getInstance().getKitHandler().getKitByName(profile.getSelectedKit());
-
-            if (kit == null)
-                kit = pxSkyWars.getInstance().getKitHandler().getDefaultKit();
-
             kit.apply(player);
+
+            player.setHealth(20);
+            player.setFoodLevel(20);
         }
     }
 
-    public void suddenDeath() {
-
-    }
-
-    public void addPlayer(Player player) {
-        if (state != GameState.WAITING) {
-            player.sendMessage(Color.translate(SpigotConstants.QUEUE + "&eThe game has &bstarted&e."));
+    public void onWin(Player winner) {
+        if (winner == null)
             return;
-        }
 
-        if (gameType.getPlayerLimit() >= alivePlayers.size()) {
-            player.sendMessage(Color.translate(SpigotConstants.QUEUE + "&eThe game you are joining is &bfull&e."));
-            return;
-        }
-
-        alivePlayers.add(player);
-
-        broadcast(Color.translate(SpigotConstants.GAME_NAME + "&e" + player.getName() + " &b has joined&e. &7(" + alivePlayers.size() + "/" + gameType.getPlayerLimit() + ")"));
-    }
-
-    public void removePlayer(Player player) {
-        if (!hasStarted()) {
-            alivePlayers.remove(player);
-            player.sendMessage(Color.translate(SpigotConstants.QUEUE + "&eYou have &cleft &ethe &bqueue&e."));
-            broadcast(Color.translate(SpigotConstants.GAME_NAME + "&e" + player.getName() + " &b has left&e. &7(" + alivePlayers.size() + "/" + gameType.getPlayerLimit() + ")"));
-            return;
-        }
-
-        onDeath(player);
-    }
-
-    public void onDeath(Player player) {
-        this.alivePlayers.remove(player);
-
-        this.addSpectator(player);
-
-        SkyWarsProfile profile = plugin.getProfileHandler().getProfile(player.getUniqueId());
-        profile.incrementDeaths();
-        profile.incrementLosses();
-        profile.save();
-
-        player.sendMessage(Color.translate(SpigotConstants.GAME_NAME + "&eYou have &cdied&e."));
-        broadcast(Color.translate(SpigotConstants.GAME_NAME + "&e" + player.getName() + " &b has been eliminated&e. &7(" + alivePlayers.size() + "/" + gameType.getPlayerLimit() + ")"));
-
-        if (canEnd()) onWin(alivePlayers.get(0));
-    }
-
-    public void onDeath(Player player, Player killer) {
-        this.alivePlayers.remove(player);
-
-        this.addSpectator(player);
-
-        SkyWarsProfile profile = plugin.getProfileHandler().getProfile(player.getUniqueId());
-        profile.incrementDeaths();
-        profile.incrementLosses();
-        profile.save();
-
-        SkyWarsProfile killerProfile = plugin.getProfileHandler().getProfile(killer.getUniqueId());
-        killerProfile.incrementKills();
-        killerProfile.save();
-
-        String type = "slain";
-
-        CosmeticProfile cosmeticProfile = pxCosmetics.getInstance().getProfileHandler().getProfile(killer);
-
-        if (!cosmeticProfile.getKillMessageType().equals(KillMessageType.NONE)) {
-            try {
-                type = KillMessageType.drawRandom(cosmeticProfile.getKillMessageType());
-            } catch (Exception ignored) {
-            }
-        }
-
-        player.sendMessage(Color.translate(SpigotConstants.GAME_NAME + "&eYou have &cdied&e to &b" + killer.getName() + "&e."));
-        broadcast(SpigotConstants.GAME_NAME + killerProfile.getNiceName() + "&f has &d" + type + "&f " + profile.getNiceName() + "&f.");
-
-        if (canEnd()) onWin(killer);
-    }
-
-    public void addSpectator(Player player) {
-        this.spectators.add(player);
-
-        for (Player alivePlayer : alivePlayers) {
-            alivePlayer.hidePlayer(player);
-        }
-
-        for (Player spectator : spectators) {
-            spectator.showPlayer(player);
-        }
-
-        player.teleport(arena.getSpectatorSpawn());
-    }
-
-    public void removeSpectator(Player player) {
-        this.spectators.remove(player);
-
-        SpawnUtil.teleportToSpawn(player);
-
-        for (Player alivePlayer : alivePlayers) {
-            alivePlayer.showPlayer(player);
-        }
-    }
-
-    public void onWin(Player player) {
-        this.state = GameState.ENDED;
-
-        SkyWarsProfile profile = plugin.getProfileHandler().getProfile(player.getUniqueId());
-
+        SkyWarsProfile profile = pxSkyWars.getInstance().getProfileHandler().getProfile(winner.getUniqueId());
         profile.incrementWins();
         profile.save();
 
-        broadcast(Color.translate(SpigotConstants.GAME_NAME + "&e" + player.getDisplayName() + " &b has won the game&e."));
+        SpawnUtil.teleportToSpawn(winner);
 
-        SpawnUtil.teleportToSpawn(player);
-
-        for (Player spectator : spectators) {
-            SpawnUtil.teleportToSpawn(spectator);
-        }
-
-        this.spectators.clear();
-        this.alivePlayers.clear();
-
-        plugin.getArenaHandler().getWorldManager().deleteWorld(arena.getWorld());
+        this.endGame();
     }
 
     public void broadcast(String message) {
-        for (Player spectator : spectators) {
-            spectator.sendMessage(Color.translate(message));
-        }
-
-        for (Player alivePlayer : alivePlayers) {
-            alivePlayer.sendMessage(Color.translate(message));
+        for (UUID uuid : players) {
+            Player player = Bukkit.getPlayer(uuid);
+            player.sendMessage(Color.translate(message));
         }
     }
 
-    public void nextRefill() {
-        switch (refillType) {
-            case FIRST: {
-                refillType = RefillType.SECOND;
-                Tasks.runLater(this::nextRefill, 20 * 60 * 5L);
-                break;
-            }
-            case SECOND: {
-                refillType = RefillType.THIRD;
-                Tasks.runLater(this::suddenDeath, 20 * 60 * 5L);
-                break;
-            }
-            default: {
-                return;
-            }
+    public void endGame() {
+        state = GameState.ENDED;
+
+        for (UUID spectator : spectators) {
+            Player player = Bukkit.getPlayer(spectator);
+            if (player == null)
+                continue;
+
+            this.removeSpectator(player);
         }
 
-        fillChests();
+        this.players.clear();
+        this.alivePlayers.clear();
+        this.spectators.clear();
+
+        pxSkyWars.getInstance().getArenaHandler().getWorldManager().deleteWorld(arena.getWorld());
+        pxSkyWars.getInstance().getGameHandler().removeGame(this);
+    }
+
+    public void addPlayer(Player player) {
+        if (state == GameState.LIVE) {
+            player.sendMessage("§cYou cannot join this game as it has already started.");
+            return;
+        }
+
+        PlayerJoinGameEvent event = new PlayerJoinGameEvent(player, this);
+        Bukkit.getPluginManager().callEvent(event);
+
+        players.add(player.getUniqueId());
+    }
+
+    public void removePlayer(Player player) {
+        if (state != GameState.LIVE) {
+            players.remove(player.getUniqueId());
+
+            PlayerLeavePreGameEvent event = new PlayerLeavePreGameEvent(player, this);
+            Bukkit.getPluginManager().callEvent(event);
+            return;
+        }
+
+        PlayerLeaveGameEvent event = new PlayerLeaveGameEvent(player, this);
+        Bukkit.getPluginManager().callEvent(event);
+        onDeath(player, null);
     }
 
     public void fillChests() {
@@ -254,33 +170,95 @@ public class SkyWarsGame {
                 block.setType(Material.CHEST);
             }
 
-            if (!(block instanceof Chest)) continue;
+            if (!(block instanceof Chest))
+                continue;
 
             Chest chest = (Chest) block;
 
-            List<ItemStack> items = entry.getValue() == ChestType.SPAWN ? RefillUtil.getRandomizedSpawnItems(gameType, refillType) : RefillUtil.getRandomizedMiddleItems(gameType, refillType);
+            List<ItemStack> items = entry.getValue() == ChestType.SPAWN
+                    ? RefillUtil.getRandomizedSpawnItems(gameType, refillType) : RefillUtil.getRandomizedMiddleItems(gameType, refillType);
 
-            int itemsToAdd = random.nextInt(1, 6);
+            int itemsToAdd = pxSkyWars.getInstance().getRandom().nextInt(1, 6);
 
             Inventory inventory = chest.getBlockInventory();
 
             for (int i = 0; i < itemsToAdd; i++) {
-                int slot = random.nextInt(27);
+                int slot = pxSkyWars.getInstance().getRandom().nextInt(27);
 
-                inventory.setItem(slot, items.get(random.nextInt(items.size())));
+                inventory.setItem(slot, items.get(pxSkyWars.getInstance().getRandom().nextInt(items.size())));
             }
         }
     }
 
-    public boolean canEnd() {
-        return alivePlayers.size() <= 1;
+    public void setState(GameState state) {
+        GameState oldState = this.state;
+        this.state = state;
+
+        GameStateChangeEvent event = new GameStateChangeEvent(this, oldState, state);
+        Bukkit.getPluginManager().callEvent(event);
+    }
+
+    public void onDeath(Player player, Player killer) {
+        alivePlayers.remove(player.getUniqueId());
+        this.addSpectator(player);
+
+        SkyWarsProfile profile = pxSkyWars.getInstance().getProfileHandler().getProfile(player.getUniqueId());
+        profile.incrementDeaths();
+        profile.incrementLosses();
+        profile.save();
+
+        if (killer == null)
+            return;
+
+        SkyWarsProfile killerProfile = pxSkyWars.getInstance().getProfileHandler().getProfile(killer.getUniqueId());
+        killerProfile.incrementKills();
+        killerProfile.save();
+
+        if (alivePlayers.size() == 1)
+            this.onWin(killer);
+        else if (alivePlayers.isEmpty())
+            this.onWin(null);
+    }
+
+    public void addSpectator(Player player) {
+        spectators.add(player.getUniqueId());
+
+        for (Player alivePlayers : Bukkit.getOnlinePlayers()) {
+            if (spectators.contains(alivePlayers.getUniqueId()))
+                continue;
+
+            player.hidePlayer(alivePlayers);
+        }
+
+        player.teleport(arena.getSpectatorSpawn());
+    }
+
+    public void removeSpectator(Player player) {
+        spectators.remove(player.getUniqueId());
+        SpawnUtil.teleportToSpawn(player);
+
+        for (Player players : Bukkit.getOnlinePlayers())
+            player.showPlayer(players);
     }
 
     public boolean hasStarted() {
-        return state != GameState.WAITING;
+        return state != GameState.LIVE;
     }
 
     public boolean isInGame(Player player) {
-        return alivePlayers.contains(player);
+        return players.contains(player.getUniqueId());
     }
+
+    public boolean isInGame(UUID player) {
+        return players.contains(player);
+    }
+
+    public boolean isSpectating(Player player) {
+        return spectators.contains(player.getUniqueId());
+    }
+
+    public boolean isSpectating(UUID player) {
+        return spectators.contains(player);
+    }
+
 }

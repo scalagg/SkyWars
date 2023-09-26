@@ -7,8 +7,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import xyz.refinedev.phoenix.utils.item.ItemBuilder;
-import xyz.refinedev.skywars.game.chest.RefillType;
 import xyz.refinedev.skywars.game.state.GameType;
+import xyz.refinedev.skywars.game.state.RefillType;
 import xyz.refinedev.skywars.pxSkyWars;
 
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ public class RefillUtil {
                 items.add(new ItemBuilder(Material.DIAMOND_AXE).addUnsafeEnchantment(Enchantment.DIG_SPEED, 2).toItemStack());
                 items.add(new ItemBuilder(Material.DIAMOND_PICKAXE).addUnsafeEnchantment(Enchantment.DIG_SPEED, 2).toItemStack());
 
-                int chests = 6 + 3 * gameType.getPlayerLimit();
+                int chests = 6 + 3 * gameType.getMaxPlayers();
                 double percent = 100D / chests;
 
                 if (random.nextInt(0, 100) <= percent) {
@@ -129,7 +129,7 @@ public class RefillUtil {
                 items.add(new ItemBuilder(Material.ARROW, random.nextInt(16, 32)).toItemStack());
                 items.add(new ItemBuilder(Material.EXP_BOTTLE, random.nextInt(8, 64)).toItemStack());
                 items.add(new ItemBuilder(Material.POTION, 1).addCustomPotionEffect(new PotionEffect(PotionEffectType.HEAL, 0, 1), false).toItemStack());
-                int chests = 6 + 3 * gameType.getPlayerLimit();
+                int chests = 6 + 3 * gameType.getMaxPlayers();
                 double percent = 100D / chests;
                 if (random.nextInt(0, 100) <= percent) {
                     items.add(new ItemBuilder(Material.BOW).addUnsafeEnchantment(Enchantment.ARROW_DAMAGE, 1).toItemStack());
@@ -196,7 +196,7 @@ public class RefillUtil {
                 items.add(new ItemBuilder(Material.ARROW, random.nextInt(16, 32)).toItemStack());
                 items.add(new ItemBuilder(Material.EXP_BOTTLE, random.nextInt(8, 64)).toItemStack());
                 items.add(new ItemBuilder(Material.POTION, 1).addCustomPotionEffect(new PotionEffect(PotionEffectType.HEAL, 0, 1), false).toItemStack());
-                int chests = 6 + 3 * gameType.getPlayerLimit();
+                int chests = 6 + 3 * gameType.getMaxPlayers();
                 double percent = 100D / chests;
                 if (random.nextInt(0, 100) <= percent) {
                     items.add(new ItemBuilder(Material.BOW).addUnsafeEnchantment(Enchantment.ARROW_DAMAGE, 1).toItemStack());
@@ -259,7 +259,7 @@ public class RefillUtil {
                 items.add(new ItemBuilder(Material.POTION, 1).addCustomPotionEffect(new PotionEffect(PotionEffectType.HEAL, 0, 2), false).toItemStack());
                 items.add(new ItemBuilder(Material.GOLDEN_APPLE, 2).toItemStack());
 
-                int chests = 6 + 3 * gameType.getPlayerLimit();
+                int chests = 6 + 3 * gameType.getMaxPlayers();
                 double percent = 100D / chests;
 
                 if (random.nextInt(0, 100) <= percent) {
@@ -273,7 +273,7 @@ public class RefillUtil {
             }
 
             case SECOND: {
-                int chests = 6 + 3 * gameType.getPlayerLimit();
+                int chests = 6 + 3 * gameType.getMaxPlayers();
                 double percent = 100D / chests;
 
                 if (random.nextInt(0, 100) <= percent) {
@@ -287,7 +287,7 @@ public class RefillUtil {
             }
 
             case THIRD: {
-                int chests = 6 + 3 * gameType.getPlayerLimit();
+                int chests = 6 + 3 * gameType.getMaxPlayers();
                 double percent = 100D / chests;
 
                 if (random.nextInt(0, 100) <= percent) {

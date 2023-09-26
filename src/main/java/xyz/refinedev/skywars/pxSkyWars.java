@@ -74,7 +74,7 @@ public class pxSkyWars extends JavaPlugin {
         this.profileHandler = new ProfileHandler(SharedAPI.getInstance());
         this.achievementHandler = new AchievementHandler();
         this.arenaHandler = new ArenaHandler();
-        this.gameHandler = new GameHandler(this);
+        this.gameHandler = new GameHandler();
         this.kitHandler = new KitHandler(this);
 
         Arrays.asList(

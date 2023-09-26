@@ -30,7 +30,7 @@ public class KitHandler {
     }
 
     public void registerKit(Kit kit) {
-        kits.put(kit.getName(), kit);
+        kits.put(kit.getName().toLowerCase(), kit);
     }
 
     public Kit getKitByName(String name) {

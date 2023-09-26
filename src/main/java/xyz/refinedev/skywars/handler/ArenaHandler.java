@@ -38,6 +38,7 @@ public final class ArenaHandler {
 
     @Getter
     private final WorldManager worldManager = new WorldManager((SlimePlugin) Bukkit.getPluginManager().getPlugin("SlimeWorldManager"));
+
     // schematic name -> ArenaSchematic instance
     private final Map<String, ArenaSchematic> schematics = new TreeMap<>();
 

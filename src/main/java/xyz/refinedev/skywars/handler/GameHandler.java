@@ -1,10 +1,10 @@
 package xyz.refinedev.skywars.handler;
 
+import lombok.Data;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import xyz.refinedev.phoenix.utils.general.Tasks;
+import org.bukkit.scheduler.BukkitRunnable;
 import xyz.refinedev.skywars.arena.Arena;
 import xyz.refinedev.skywars.arena.ArenaSchematic;
 import xyz.refinedev.skywars.game.SkyWarsGame;
@@ -14,25 +14,25 @@ import xyz.refinedev.skywars.utils.cuboid.Cuboid;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.logging.Level;
+import java.util.UUID;
 
 /**
- * @author Creaxx
- * Created At: 5/8/2023
+ * @author alfie
+ * @project Skywars / xyz.refinedev.skywars.handler
+ * @date 26/09/2023 / 21:16
  */
 
 @Getter
-@RequiredArgsConstructor
 public class GameHandler {
-    private final pxSkyWars plugin;
+
+    private final pxSkyWars plugin = pxSkyWars.getInstance();
     private final List<SkyWarsGame> games = new ArrayList<>();
 
-    public SkyWarsGame createGame(GameType gameType) {
-        ArenaSchematic schematic = plugin.getArenaHandler().getRandomArena(gameType.getPlayerLimit(), gameType.isRanked());
+    public SkyWarsGame createGame(GameType type) {
+        ArenaSchematic schematic = plugin.getArenaHandler().getRandomArena(type.getMaxPlayers(), type.isRanked());
 
         if (schematic == null) {
-            plugin.getLogger().log(Level.SEVERE, "No arena found for game type " + gameType.name());
+            plugin.getLogger().info("No arena found for game type " + type.name());
             return null;
         }
 
@@ -49,63 +49,108 @@ public class GameHandler {
         }
 
         Arena arena = new Arena(schematic, world, bounds);
-        SkyWarsGame game = new SkyWarsGame(plugin, gameType, null);
+        SkyWarsGame game = new SkyWarsGame(null, type);
+        games.add(game);
 
         int timeout = 10 * 20;
-        AtomicInteger counter = new AtomicInteger();
-        Tasks.runTimer(plugin, () -> {
+        new BukkitRunnable() {
+            private int time = 0;
 
-            if (game.getArena() != null)
-                return;
+            @Override
+            public void run() {
+                if (game.getArena() != null) {
+                    cancel();
+                    return;
+                }
 
-            if (!bounds.isEmpty()) {
-                game.setArena(arena);
-                game.waiting();
-                return;
+                if (!bounds.isEmpty()) {
+                    game.setArena(arena);
+                    cancel();
+                    return;
+                }
+
+                if (++time > timeout) {
+                    game.endGame();
+                    plugin.getArenaHandler().getWorldManager().deleteWorld(world);
+                    plugin.getLogger().info("Failed to start game: Failed to paste schematic " + schematic.getName() + " (TIMEOUT_REACHED)");
+                    cancel();
+                }
             }
+        }.runTaskTimer(plugin, 0L, 2L);
 
-            if (counter.incrementAndGet() > timeout) {
-                plugin.getArenaHandler().getWorldManager().deleteWorld(world);
-                plugin.getLogger().warning("Failed to start game: timed out while waiting for schematic " + schematic.getName());
-            }
-        }, 0L, 2L);
-
-        games.add(game);
         return game;
     }
 
-    public SkyWarsGame getAvailableGame(GameType gameType) {
+    public SkyWarsGame getAvailableGame(GameType type) {
         for (SkyWarsGame game : games) {
-            if (!game.hasStarted() || game.getArena().getArenaSchematic().isEnabled()) {
+            if (!game.hasStarted() || game.getArena().getArenaSchematic().isEnabled())
                 return game;
+        }
+
+        return createGame(type);
+    }
+
+    public void removeGame(SkyWarsGame game) {
+        games.remove(game);
+    }
+
+    public boolean isPlayingGame(UUID id) {
+        for (SkyWarsGame game : games) {
+            if (game.isInGame(id)) {
+                return true;
             }
         }
 
-        return createGame(gameType);
-    }
-
-    public boolean isInGame(Player player) {
-        for (SkyWarsGame game : this.games) {
-            if (game.isInGame(player)) return true;
-        }
         return false;
     }
 
-    public SkyWarsGame getGame(Player player) {
-        for (SkyWarsGame game : this.games) {
-            if (game.isInGame(player)) return game;
+    public boolean isSpectating(UUID uuid) {
+        for (SkyWarsGame game : games) {
+            if (game.isSpectating(uuid)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean isSpectating(Player player) {
+        return isSpectating(player.getUniqueId());
+    }
+
+    public boolean isPlayingGame(Player player) {
+        return isPlayingGame(player.getUniqueId());
+    }
+
+    public SkyWarsGame getGame(UUID id) {
+        for (SkyWarsGame game : games) {
+            if (game.getId().equals(id)) {
+                return game;
+            }
         }
 
         return null;
     }
 
-    public int getPlaying() {
-        int playing = 0;
-
+    public SkyWarsGame getGame(Player player) {
         for (SkyWarsGame game : games) {
-            playing = +game.getAlivePlayers().size();
+            for (UUID uuid : game.getPlayers()) {
+                if (uuid.equals(player.getUniqueId()))
+                    return game;
+            }
         }
 
-        return playing;
+        return null;
     }
+
+    public SkyWarsGame getGame(Arena arena) {
+        for (SkyWarsGame game : games) {
+            if (game.getArena().equals(arena)) {
+                return game;
+            }
+        }
+
+        return null;
+    }
+
 }

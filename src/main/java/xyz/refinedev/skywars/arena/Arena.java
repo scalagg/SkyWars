@@ -11,7 +11,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Skull;
 import org.bukkit.metadata.FixedMetadataValue;
-import xyz.refinedev.skywars.game.chest.ChestType;
+import xyz.refinedev.skywars.game.state.ChestType;
 import xyz.refinedev.skywars.handler.ArenaHandler;
 import xyz.refinedev.skywars.pxSkyWars;
 import xyz.refinedev.skywars.utils.AngleUtils;
@@ -47,7 +47,8 @@ public final class Arena {
     @Getter
     private int copy;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private transient World world;
 
     /**
@@ -58,27 +59,17 @@ public final class Arena {
     /**
      * For purposes of arena definition
      */
-    private List<Location> spawns = new ArrayList<>();
+    private final List<Location> spawns = new ArrayList<>();
 
 
-    private Map<Location, ChestType> chests = new HashMap<>();
+    private final Map<Location, ChestType> chests = new HashMap<>();
 
     /**
      * Spectator spawn location for this arena
      */
     private Location spectatorSpawn;
 
-    /**
-     * If this arena is currently being used
-     *
-     * @see ArenaHandler#allocateUnusedArena(Predicate)
-     * @see ArenaHandler#releaseArena(Arena)
-     */
-    // AccessLevel.NONE so arenas can only mark as in use
-    // or not in use by the appropriate methods in ArenaHandler
-    @Getter
-    @Setter
-    private transient boolean inUse;
+    private Location lobbySpawn;
 
     public Arena() {
     } // for gson
@@ -89,6 +80,15 @@ public final class Arena {
         this.bounds = bounds;
 
         scanLocations();
+    }
+
+    public Location getLobbySpawn() {
+        // if it's been defined in the actual map file or calculated before
+        if (lobbySpawn != null) {
+            return lobbySpawn;
+        }
+
+        return spawns.get(0);
     }
 
     public Location getSpectatorSpawn() {

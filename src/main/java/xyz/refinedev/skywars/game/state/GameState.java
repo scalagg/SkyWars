@@ -1,13 +1,16 @@
 package xyz.refinedev.skywars.game.state;
 
 /**
- * @author Creaxx
- * Created At: 5/8/2023
+ * @author alfie
+ * @project Skywars / xyz.refinedev.skywars.game.state
+ * @date 26/09/2023 / 20:43
  */
+
 public enum GameState {
 
     WAITING,
-    RUNNING,
+    COUNTDOWN,
+    LIVE,
     ENDED
 
 }

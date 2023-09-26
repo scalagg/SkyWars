@@ -77,7 +77,6 @@ public final class ArenaModelEditorListener implements Listener {
     }
 
     private void exit(Player player, World world) {
-
         player.removeMetadata("ModelEditor", pxSkyWars.getInstance());
         player.removeMetadata("Model", pxSkyWars.getInstance());
 

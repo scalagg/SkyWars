@@ -4,20 +4,21 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 /**
- * @author Creaxx
- * Created At: 5/13/2023
+ * @author alfie
+ * @project Skywars / xyz.refinedev.skywars.game.state
+ * @date 26/09/2023 / 20:47
  */
 
-@Getter
 @RequiredArgsConstructor
+@Getter
 public enum GameType {
 
-    RANKED_SOLO("Solo", 4,true),
-    RANKED_DOUBLES("Doubles", 8, true),
-    CASUAL_SOLO("Casual Solo", 16, false),
-    CASUAL_DOUBLES("Casual Doubles", 32, false);
+    CASUAL_SOLO(12, false),
+    CASUAL_DOUBLES(24, false),
+    RANKED_SOLO(12, true),
+    RANKED_DOUBLES(24, true);
 
-    private final String displayName;
-    private final int playerLimit;
+    private final int maxPlayers;
     private final boolean ranked;
+
 }

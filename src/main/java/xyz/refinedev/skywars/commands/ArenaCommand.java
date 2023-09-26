@@ -143,11 +143,6 @@ public class ArenaCommand extends BaseCommand {
         }
     }
 
-    public static String locToStr(Location loc) {
-        return "(" + loc.getBlockX() + ", " + loc.getBlockY() + ", " + loc.getBlockZ() + ")";
-    }
-
-
     public String getProgressBar(int current, int max, int totalBars) {
         float percent = (float) current / max;
         int progressBars = (int) (totalBars * percent);

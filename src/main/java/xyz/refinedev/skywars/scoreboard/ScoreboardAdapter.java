@@ -51,12 +51,12 @@ public class ScoreboardAdapter implements AssembleAdapter {
         SkyWarsProfile profile = plugin.getProfileHandler().getProfile(player.getUniqueId());
         Profile phoenix = SharedAPI.getInstance().getProfileHandler().getProfile(player.getUniqueId());
 
-        if (plugin.getGameHandler().isInGame(player)) {
+        if (plugin.getGameHandler().isPlayingGame(player)) {
             SkyWarsGame game = plugin.getGameHandler().getGame(player);
 
             lines.add("&f");
             lines.add("&7■ &fMap: &6" + game.getArena().getArenaSchematic().getDisplayName());
-            lines.add("&7■ &fAlive: &6" + game.getAlivePlayers().size() + "/" + game.getOriginalPlayers());
+            lines.add("&7■ &fAlive: &6" + game.getAlivePlayers().size() + "/" + game.getPlayers().size());
             lines.add("&7■ &fKit: &6" + StringUtils.convertFirstUpperCase(profile.getSelectedKit()));
             lines.add("");
             lines.add("&7pixelarcade.gg");
@@ -88,7 +88,7 @@ public class ScoreboardAdapter implements AssembleAdapter {
             lines.add("");
             lines.add("&6&lOnline&7:");
             lines.add("&7■ &fAll: &6" + SharedAPI.getInstance().getNetworkHandler().getNonVanishedOnlinePlayers(SharedAPI.getInstance().getNetworkHandler().getServer(player.getUniqueId())).size());
-            lines.add("&7■ &fPlaying: &6" + plugin.getGameHandler().getPlaying());
+            lines.add("&7■ &fPlaying: &60");
             if (Phoenix.getInstance().getRebootHandler().isRebootScheduled()) {
                 lines.add("");
                 lines.add("&7■ &c&lRebooting in&7:");
