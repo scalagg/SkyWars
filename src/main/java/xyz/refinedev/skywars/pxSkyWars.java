@@ -20,6 +20,7 @@ import lombok.Setter;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.refinedev.skywars.handler.*;
 import xyz.refinedev.skywars.item.listeners.ItemListener;
+import xyz.refinedev.skywars.kit.KitHandler;
 import xyz.refinedev.skywars.listener.ArenaItemResetListener;
 import xyz.refinedev.skywars.listener.ProfileListener;
 import xyz.refinedev.skywars.scoreboard.ScoreboardAdapter;
@@ -50,6 +51,7 @@ public class pxSkyWars extends JavaPlugin {
     private AchievementHandler achievementHandler;
     private GameHandler gameHandler;
     private ArenaHandler arenaHandler;
+    private KitHandler kitHandler;
     private Random random;
 
     @Override
@@ -73,6 +75,7 @@ public class pxSkyWars extends JavaPlugin {
         this.achievementHandler = new AchievementHandler();
         this.arenaHandler = new ArenaHandler();
         this.gameHandler = new GameHandler(this);
+        this.kitHandler = new KitHandler(this);
 
         Arrays.asList(
                 new ProfileListener(this),

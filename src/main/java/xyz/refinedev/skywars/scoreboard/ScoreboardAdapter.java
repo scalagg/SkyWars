@@ -16,6 +16,7 @@ import xyz.refinedev.skywars.game.SkyWarsGame;
 import xyz.refinedev.skywars.profile.SkyWarsProfile;
 import xyz.refinedev.skywars.pxSkyWars;
 import xyz.refinedev.skywars.scoreboard.api.AssembleAdapter;
+import xyz.refinedev.skywars.scoreboard.api.animation.impl.TitleAnimation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,11 +28,19 @@ import java.util.List;
 
 @RequiredArgsConstructor
 public class ScoreboardAdapter implements AssembleAdapter {
+
     private final pxSkyWars plugin;
+
+    private final TitleAnimation animation = new TitleAnimation(
+            "SKYWARS",
+            "&6&l",
+            "&e&l",
+            "&f&l"
+    );
 
     @Override
     public String getTitle(Player player) {
-        return "&6&lSKY&e&lWARS";
+        return animation.getCurrentFrame();
     }
 
     @Override
