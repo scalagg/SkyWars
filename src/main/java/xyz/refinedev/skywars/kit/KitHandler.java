@@ -2,9 +2,12 @@ package xyz.refinedev.skywars.kit;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import xyz.refinedev.skywars.kit.impl.ScoutKit;
 import xyz.refinedev.skywars.pxSkyWars;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,6 +26,7 @@ public class KitHandler {
         this.plugin = plugin;
 
         // Register Kits Below
+        registerKit(new ScoutKit());
     }
 
     public void registerKit(Kit kit) {
@@ -31,6 +35,10 @@ public class KitHandler {
 
     public Kit getKitByName(String name) {
         return kits.get(name);
+    }
+
+    public Collection<Kit> getKits() {
+        return kits.values();
     }
 
     public Kit getDefaultKit() {

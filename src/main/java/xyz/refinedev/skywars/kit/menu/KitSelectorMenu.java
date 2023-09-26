@@ -1,4 +1,4 @@
-package xyz.refinedev.skywars.menu;
+package xyz.refinedev.skywars.kit.menu;
 
 import lombok.RequiredArgsConstructor;
 import org.bukkit.enchantments.Enchantment;
@@ -8,7 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import xyz.refinedev.phoenix.menu.api.Button;
 import xyz.refinedev.phoenix.menu.api.pagination.PaginatedMenu;
 import xyz.refinedev.phoenix.utils.item.ItemBuilder;
-import xyz.refinedev.skywars.game.kit.PlayerKit;
+import xyz.refinedev.skywars.kit.Kit;
 import xyz.refinedev.skywars.profile.SkyWarsProfile;
 import xyz.refinedev.skywars.pxSkyWars;
 
@@ -26,7 +26,7 @@ public class KitSelectorMenu extends PaginatedMenu {
     public Map<Integer, Button> getAllPagesButtons(Player player) {
         Map<Integer, Button> buttons = new HashMap<>();
 
-        for (PlayerKit value : PlayerKit.values()) {
+        for (Kit value : pxSkyWars.getInstance().getKitHandler().getKits()) {
             buttons.put(buttons.size(), new KitButton(value));
         }
 
@@ -35,16 +35,16 @@ public class KitSelectorMenu extends PaginatedMenu {
 
     @RequiredArgsConstructor
     private static class KitButton extends Button {
-        private final PlayerKit kit;
+
+        private final Kit kit;
 
         @Override
         public ItemStack getItem(Player player) {
             SkyWarsProfile profile = pxSkyWars.getInstance().getProfileHandler().getProfile(player.getUniqueId());
 
-            ItemBuilder item = new ItemBuilder(kit.getMaterial());
-            item.setName("&c" + kit.getDisplayName());
+            ItemBuilder item = new ItemBuilder(kit.getDisplayItem());
 
-            if (profile.getSelectedKit() == kit) {
+            if (profile.getSelectedKit().equalsIgnoreCase(kit.getName())) {
                 item.addUnsafeEnchantment(Enchantment.DURABILITY, 10);
             }
 
@@ -54,7 +54,7 @@ public class KitSelectorMenu extends PaginatedMenu {
         @Override
         public void clicked(Player player, ClickType clickType) {
             SkyWarsProfile profile = pxSkyWars.getInstance().getProfileHandler().getProfile(player.getUniqueId());
-            profile.setSelectedKit(kit);
+            profile.setSelectedKit(kit.getName().toLowerCase());
         }
 
         @Override

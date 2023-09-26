@@ -6,7 +6,6 @@ import lombok.Setter;
 import xyz.refinedev.phoenix.SharedAPI;
 import xyz.refinedev.phoenix.utils.Exclude;
 import xyz.refinedev.skywars.achievement.Achievement;
-import xyz.refinedev.skywars.game.kit.PlayerKit;
 import xyz.refinedev.skywars.game.state.PlayerState;
 import xyz.refinedev.skywars.pxSkyWars;
 
@@ -32,6 +31,7 @@ public class SkyWarsProfile {
 
     private String name;
     private String lowerCaseName;
+    private String selectedKit = "scout";
 
     private int kills = 0;
     private int deaths = 0;
@@ -45,8 +45,8 @@ public class SkyWarsProfile {
 
     private List<Achievement> ownedAchievements = new ArrayList<>();
 
-    @Exclude private PlayerState state = PlayerState.ALIVE;
-    @Exclude private PlayerKit selectedKit = PlayerKit.SCOUT;
+    @Exclude
+    private PlayerState state = PlayerState.ALIVE;
 
     public void load() {
         CompletableFuture.runAsync(() -> {
@@ -59,6 +59,7 @@ public class SkyWarsProfile {
 
             this.name = profile.getName();
             this.lowerCaseName = profile.getLowerCaseName();
+            this.selectedKit = profile.getSelectedKit();
             this.kills = profile.getKills();
             this.deaths = profile.getDeaths();
             this.killStreak = profile.getKillStreak();

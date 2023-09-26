@@ -12,6 +12,7 @@ import xyz.refinedev.levels.pxLevels;
 import xyz.refinedev.phoenix.Phoenix;
 import xyz.refinedev.phoenix.SharedAPI;
 import xyz.refinedev.phoenix.profile.Profile;
+import xyz.refinedev.phoenix.utils.StringUtils;
 import xyz.refinedev.skywars.game.SkyWarsGame;
 import xyz.refinedev.skywars.profile.SkyWarsProfile;
 import xyz.refinedev.skywars.pxSkyWars;
@@ -56,20 +57,20 @@ public class ScoreboardAdapter implements AssembleAdapter {
             lines.add("&f");
             lines.add("&7■ &fMap: &6" + game.getArena().getArenaSchematic().getDisplayName());
             lines.add("&7■ &fAlive: &6" + game.getAlivePlayers().size() + "/" + game.getOriginalPlayers());
-            lines.add("&7■ &fKit: &6" + profile.getSelectedKit().getDisplayName());
+            lines.add("&7■ &fKit: &6" + StringUtils.convertFirstUpperCase(profile.getSelectedKit()));
             lines.add("");
             lines.add("&7pixelarcade.gg");
         }
-        if(phoenix.hasMetadata("modmode")){
+
+        if (phoenix.hasMetadata("modmode")) {
             lines.add("&f");
             lines.add("&6&lStaff&7:");
             lines.add("&7■ &fVanish: &6" + phoenix.isVanished());
-            if(player.hasPermission("core.dev")){
+            if (player.hasPermission("core.dev")) {
                 lines.add("&7■ &6&lDev&7:");
                 lines.add("&7■ &fTPS: &6" + MinecraftServer.getServer().recentTps[0]);
             }
-        }
-        else {
+        } else {
             lines.add("&f");
             lines.add("&6&lYou&7:");
             lines.add("&7■ &fRank: " + phoenix.getHighestRank().getDisplayName());
@@ -88,7 +89,7 @@ public class ScoreboardAdapter implements AssembleAdapter {
             lines.add("&6&lOnline&7:");
             lines.add("&7■ &fAll: &6" + SharedAPI.getInstance().getNetworkHandler().getNonVanishedOnlinePlayers(SharedAPI.getInstance().getNetworkHandler().getServer(player.getUniqueId())).size());
             lines.add("&7■ &fPlaying: &6" + plugin.getGameHandler().getPlaying());
-            if(Phoenix.getInstance().getRebootHandler().isRebootScheduled()){
+            if (Phoenix.getInstance().getRebootHandler().isRebootScheduled()) {
                 lines.add("");
                 lines.add("&7■ &c&lRebooting in&7:");
                 lines.add("&7 " + Phoenix.getInstance().getRebootHandler().getTimeRemaining());

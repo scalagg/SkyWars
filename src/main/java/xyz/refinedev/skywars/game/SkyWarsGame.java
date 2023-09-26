@@ -20,6 +20,7 @@ import xyz.refinedev.skywars.game.chest.ChestType;
 import xyz.refinedev.skywars.game.chest.RefillType;
 import xyz.refinedev.skywars.game.state.GameState;
 import xyz.refinedev.skywars.game.state.GameType;
+import xyz.refinedev.skywars.kit.Kit;
 import xyz.refinedev.skywars.profile.SkyWarsProfile;
 import xyz.refinedev.skywars.pxSkyWars;
 import xyz.refinedev.skywars.utils.SpigotConstants;
@@ -35,6 +36,7 @@ import java.util.*;
 
 @RequiredArgsConstructor
 public class SkyWarsGame {
+
     private final pxSkyWars plugin;
 
     @Getter
@@ -77,7 +79,12 @@ public class SkyWarsGame {
             player.teleport(spawn);
 
             SkyWarsProfile profile = plugin.getProfileHandler().getProfile(player.getUniqueId());
-            profile.getSelectedKit().giveKit(player);
+            Kit kit = pxSkyWars.getInstance().getKitHandler().getKitByName(profile.getSelectedKit());
+
+            if (kit == null)
+                kit = pxSkyWars.getInstance().getKitHandler().getDefaultKit();
+
+            kit.apply(player);
         }
     }
 
