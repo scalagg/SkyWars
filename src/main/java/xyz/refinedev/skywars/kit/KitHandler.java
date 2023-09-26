@@ -1,0 +1,46 @@
+package xyz.refinedev.skywars.kit;
+
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+import xyz.refinedev.skywars.pxSkyWars;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * @author alfie
+ * @project Skywars / xyz.refinedev.skywars.kit
+ * @date 26/09/2023 / 02:39
+ */
+
+@Data
+public class KitHandler {
+
+    private final pxSkyWars plugin;
+    private final Map<String, Kit> kits = new HashMap<>();
+
+    public KitHandler(pxSkyWars plugin) {
+        this.plugin = plugin;
+
+        // Register Kits Below
+    }
+
+    public void registerKit(Kit kit) {
+        kits.put(kit.getName(), kit);
+    }
+
+    public Kit getKitByName(String name) {
+        return kits.get(name);
+    }
+
+    public Kit getDefaultKit() {
+        for (Kit kit : kits.values()) {
+            if (kit.isDefault()) {
+                return kit;
+            }
+        }
+
+        return null;
+    }
+}
+
