@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -230,6 +231,7 @@ public class SkyWarsGame {
             player.hidePlayer(alivePlayers);
         }
 
+        player.setGameMode(GameMode.SPECTATOR);
         player.teleport(arena.getSpectatorSpawn());
     }
 
