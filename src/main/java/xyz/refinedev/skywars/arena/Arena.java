@@ -165,7 +165,7 @@ public final class Arena {
 
                     break;
                 case CREEPER:
-                    chests.put(skullLocation, ChestType.SPAWN);
+                    chests.put(block.getLocation().clone().add(0.5, -1, 0.5), ChestType.SPAWN);
 
                     block.setType(Material.AIR);
                     block.setMetadata("placedByGame", new FixedMetadataValue(pxSkyWars.getInstance(), true));
@@ -176,7 +176,7 @@ public final class Arena {
 
                     break;
                 case WITHER:
-                    chests.put(skullLocation, ChestType.MIDDLE);
+                    chests.put(block.getLocation().clone().add(0.5, -1, 0.5), ChestType.MIDDLE);
 
                     block.setType(Material.AIR);
                     block.setMetadata("placedByGame", new FixedMetadataValue(pxSkyWars.getInstance(), true));

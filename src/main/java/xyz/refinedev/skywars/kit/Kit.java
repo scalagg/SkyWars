@@ -4,6 +4,7 @@ import lombok.Data;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
+import xyz.refinedev.skywars.game.state.GameType;
 
 import java.util.List;
 
@@ -18,6 +19,8 @@ public abstract class Kit {
 
     public abstract String getName();
     public abstract int getCost();
+
+    public abstract List<GameType> getGameType();
 
     public abstract ItemStack getDisplayItem();
     public abstract ItemStack[] getArmor();

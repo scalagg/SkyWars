@@ -15,6 +15,10 @@ public enum GameType {
 
     CASUAL_SOLO(12, false),
     CASUAL_DOUBLES(24, false),
+
+    INSANE_SOLO(12, false),
+    INSANE_DOUBLES(24, false),
+
     RANKED_SOLO(12, true),
     RANKED_DOUBLES(24, true);
 

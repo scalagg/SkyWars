@@ -14,6 +14,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import xyz.refinedev.phoenix.utils.general.Tasks;
 import xyz.refinedev.skywars.game.SkyWarsGame;
 import xyz.refinedev.skywars.game.event.GameEndEvent;
 import xyz.refinedev.skywars.game.event.GameStateChangeEvent;
@@ -64,10 +65,8 @@ public class GameListener implements Listener {
 
         // Cancel horizontal movement
         if (from.getBlockX() != to.getBlockX()
-                || from.getBlockZ() != to.getBlockZ()) {
+                || from.getBlockZ() != to.getBlockZ())
             event.setCancelled(true);
-        }
-
     }
 
     @EventHandler
@@ -115,12 +114,13 @@ public class GameListener implements Listener {
         if (game == null)
             return;
 
-        if (player.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.VOID) {
+        if (player.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.VOID)
             event.getDrops().clear();
-        }
 
         event.setDeathMessage(null);
-        player.spigot().respawn();
+        Tasks.runLater(() -> player.spigot().respawn(), 10L);
+
+        player.teleport(game.getArena().getSpectatorSpawn());
 
         if (player.getKiller() != null)
             game.onDeath(player, player.getKiller());

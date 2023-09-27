@@ -19,11 +19,9 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.refinedev.skywars.game.listener.GameListener;
-import xyz.refinedev.skywars.game.listener.SpectatorListener;
 import xyz.refinedev.skywars.handler.*;
 import xyz.refinedev.skywars.item.listeners.ItemListener;
 import xyz.refinedev.skywars.kit.KitHandler;
-import xyz.refinedev.skywars.listener.ArenaItemResetListener;
 import xyz.refinedev.skywars.listener.ProfileListener;
 import xyz.refinedev.skywars.scoreboard.ScoreboardAdapter;
 import xyz.refinedev.skywars.scoreboard.api.Assemble;
@@ -54,6 +52,8 @@ public class pxSkyWars extends JavaPlugin {
     private GameHandler gameHandler;
     private ArenaHandler arenaHandler;
     private KitHandler kitHandler;
+    private ChestHandler chestHandler;
+
     private Random random;
 
     @Override
@@ -78,6 +78,7 @@ public class pxSkyWars extends JavaPlugin {
         this.arenaHandler = new ArenaHandler();
         this.gameHandler = new GameHandler();
         this.kitHandler = new KitHandler(this);
+        this.chestHandler = new ChestHandler();
 
         Arrays.asList(
                 new ProfileListener(this),

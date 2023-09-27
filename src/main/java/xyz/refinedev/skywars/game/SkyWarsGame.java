@@ -3,18 +3,13 @@ package xyz.refinedev.skywars.game;
 import lombok.Data;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import xyz.refinedev.phoenix.utils.Color;
+import xyz.refinedev.phoenix.utils.general.Tasks;
 import xyz.refinedev.skywars.arena.Arena;
+import xyz.refinedev.skywars.chests.LootableChest;
 import xyz.refinedev.skywars.game.event.*;
-import xyz.refinedev.skywars.game.state.ChestType;
 import xyz.refinedev.skywars.game.state.GameState;
 import xyz.refinedev.skywars.game.state.GameType;
 import xyz.refinedev.skywars.game.state.RefillType;
@@ -22,7 +17,6 @@ import xyz.refinedev.skywars.game.task.GameCountdownTask;
 import xyz.refinedev.skywars.kit.Kit;
 import xyz.refinedev.skywars.profile.SkyWarsProfile;
 import xyz.refinedev.skywars.pxSkyWars;
-import xyz.refinedev.skywars.utils.RefillUtil;
 import xyz.refinedev.skywars.utils.SpawnUtil;
 
 import java.util.*;
@@ -65,14 +59,18 @@ public class SkyWarsGame {
             player.setMetadata("frozen", new FixedMetadataValue(pxSkyWars.getInstance(), this));
         }
 
-        Bukkit.getScheduler().runTaskTimer(pxSkyWars.getInstance(), new GameCountdownTask(this), 0L, 2L);
+        Bukkit.getScheduler().runTaskTimer(pxSkyWars.getInstance(), new GameCountdownTask(this), 0L, 20L);
     }
 
     public void startGame() {
         state = GameState.LIVE;
         alivePlayers.addAll(players);
 
-        this.fillChests();
+        LootableChest chest = pxSkyWars.getInstance().getChestHandler().getChest(gameType);
+        chest.fillChests(arena, RefillType.FIRST);
+
+        Tasks.runLater(() -> chest.fillChests(arena, RefillType.SECOND), 20 * 60 * 3);
+        Tasks.runLater(() -> chest.fillChests(arena, RefillType.THIRD), 20 * 60 * 6);
 
         for (UUID uuid : alivePlayers) {
             Player player = Bukkit.getPlayer(uuid);
@@ -163,36 +161,8 @@ public class SkyWarsGame {
         Bukkit.getPluginManager().callEvent(event);
     }
 
-    public void fillChests() {
-        for (Map.Entry<Location, ChestType> entry : arena.getChests().entrySet()) {
-            Block block = arena.getBounds().getWorld().getBlockAt(entry.getKey());
+    public void suddenDeath() {
 
-            if (refillType == RefillType.SECOND && entry.getValue() != ChestType.MIDDLE && (!block.hasMetadata("placedByGame"))) {
-                continue;
-            }
-
-            if (refillType == RefillType.THIRD && entry.getValue() == ChestType.MIDDLE && block.getType() == Material.AIR) {
-                block.setType(Material.CHEST);
-            }
-
-            if (!(block instanceof Chest))
-                continue;
-
-            Chest chest = (Chest) block;
-
-            List<ItemStack> items = entry.getValue() == ChestType.SPAWN
-                    ? RefillUtil.getRandomizedSpawnItems(gameType, refillType) : RefillUtil.getRandomizedMiddleItems(gameType, refillType);
-
-            int itemsToAdd = pxSkyWars.getInstance().getRandom().nextInt(1, 6);
-
-            Inventory inventory = chest.getBlockInventory();
-
-            for (int i = 0; i < itemsToAdd; i++) {
-                int slot = pxSkyWars.getInstance().getRandom().nextInt(27);
-
-                inventory.setItem(slot, items.get(pxSkyWars.getInstance().getRandom().nextInt(items.size())));
-            }
-        }
     }
 
     public void setState(GameState state) {
@@ -226,6 +196,10 @@ public class SkyWarsGame {
     public void addSpectator(Player player) {
         spectators.add(player.getUniqueId());
 
+        player.setGameMode(GameMode.SURVIVAL);
+        player.setAllowFlight(true);
+        player.setFlying(true);
+
         for (UUID alive : alivePlayers) {
             Player alivePlayer = Bukkit.getPlayer(alive);
             if (alivePlayer == null)
@@ -241,12 +215,6 @@ public class SkyWarsGame {
 
             spectatorPlayer.showPlayer(player);
         }
-
-        player.setGameMode(GameMode.SURVIVAL);
-        player.setAllowFlight(true);
-        player.setFlying(true);
-
-        player.teleport(arena.getSpectatorSpawn());
     }
 
     public void removeSpectator(Player player) {
