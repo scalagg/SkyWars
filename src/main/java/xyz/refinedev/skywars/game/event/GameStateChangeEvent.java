@@ -23,6 +23,10 @@ public class GameStateChangeEvent extends Event {
     private final GameState oldState;
     private final GameState newState;
 
+    public static HandlerList getHandlerList() {
+        return HANDLER_LIST;
+    }
+
     @Override
     public HandlerList getHandlers() {
         return HANDLER_LIST;

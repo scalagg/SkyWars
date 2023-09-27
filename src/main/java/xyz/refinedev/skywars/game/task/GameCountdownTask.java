@@ -15,7 +15,7 @@ import xyz.refinedev.skywars.game.state.GameState;
 public class GameCountdownTask extends BukkitRunnable {
 
     private final SkyWarsGame game;
-    private int countdown = 31;
+    private int countdown = 6;
 
     private final int[] reminders = new int[]{30, 15, 10, 5, 4, 3, 2, 1};
 

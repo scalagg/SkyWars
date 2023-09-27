@@ -14,11 +14,9 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import xyz.refinedev.phoenix.utils.Color;
+import xyz.refinedev.phoenix.utils.general.Tasks;
 import xyz.refinedev.skywars.arena.Arena;
-import xyz.refinedev.skywars.game.event.GameStateChangeEvent;
-import xyz.refinedev.skywars.game.event.PlayerJoinGameEvent;
-import xyz.refinedev.skywars.game.event.PlayerLeaveGameEvent;
-import xyz.refinedev.skywars.game.event.PlayerLeavePreGameEvent;
+import xyz.refinedev.skywars.game.event.*;
 import xyz.refinedev.skywars.game.state.ChestType;
 import xyz.refinedev.skywars.game.state.GameState;
 import xyz.refinedev.skywars.game.state.GameType;
@@ -70,7 +68,7 @@ public class SkyWarsGame {
             player.setMetadata("frozen", new FixedMetadataValue(pxSkyWars.getInstance(), this));
         }
 
-        Bukkit.getScheduler().runTaskTimer(pxSkyWars.getInstance(), new GameCountdownTask(this), 0L, 20L);
+        Bukkit.getScheduler().runTaskTimer(pxSkyWars.getInstance(), new GameCountdownTask(this), 0L, 2L);
     }
 
     public void startGame() {
@@ -97,8 +95,11 @@ public class SkyWarsGame {
     }
 
     public void onWin(Player winner) {
-        if (winner == null)
+        if (winner == null) {
+            System.out.println("ERROR: Winner is null");
+            this.endGame();
             return;
+        }
 
         SkyWarsProfile profile = pxSkyWars.getInstance().getProfileHandler().getProfile(winner.getUniqueId());
         profile.incrementWins();
@@ -127,6 +128,9 @@ public class SkyWarsGame {
             this.removeSpectator(player);
         }
 
+        GameEndEvent event = new GameEndEvent(this);
+        Bukkit.getPluginManager().callEvent(event);
+
         this.players.clear();
         this.alivePlayers.clear();
         this.spectators.clear();
@@ -145,6 +149,7 @@ public class SkyWarsGame {
         Bukkit.getPluginManager().callEvent(event);
 
         players.add(player.getUniqueId());
+        player.teleport(arena.getLobbySpawn());
     }
 
     public void removePlayer(Player player) {
@@ -156,9 +161,9 @@ public class SkyWarsGame {
             return;
         }
 
+        onDeath(player, null);
         PlayerLeaveGameEvent event = new PlayerLeaveGameEvent(player, this);
         Bukkit.getPluginManager().callEvent(event);
-        onDeath(player, null);
     }
 
     public void fillChests() {
@@ -210,39 +215,46 @@ public class SkyWarsGame {
         profile.incrementLosses();
         profile.save();
 
-        if (killer == null)
-            return;
+        if (killer != null) {
+            SkyWarsProfile killerProfile = pxSkyWars.getInstance().getProfileHandler().getProfile(killer.getUniqueId());
+            killerProfile.incrementKills();
+            killerProfile.save();
+        }
 
-        SkyWarsProfile killerProfile = pxSkyWars.getInstance().getProfileHandler().getProfile(killer.getUniqueId());
-        killerProfile.incrementKills();
-        killerProfile.save();
-
-        if (alivePlayers.size() == 1)
+        if (alivePlayers.size() == 1) {
             this.onWin(killer);
-        else if (alivePlayers.isEmpty())
-            this.onWin(null);
+        }
     }
 
     public void addSpectator(Player player) {
         spectators.add(player.getUniqueId());
 
-        for (Player alivePlayers : Bukkit.getOnlinePlayers()) {
-            if (spectators.contains(alivePlayers.getUniqueId()))
-                continue;
-
-            player.hidePlayer(alivePlayers);
+        for (UUID alive : alivePlayers) {
+            Player alivePlayer = Bukkit.getPlayer(alive);
+            alivePlayer.hidePlayer(player);
         }
 
-        player.setGameMode(GameMode.SPECTATOR);
+        for (UUID spectator : spectators) {
+            Player spectatorPlayer = Bukkit.getPlayer(spectator);
+            spectatorPlayer.showPlayer(player);
+        }
+
+        player.setGameMode(GameMode.SURVIVAL);
+        player.setAllowFlight(true);
+        player.setFlying(true);
+
         player.teleport(arena.getSpectatorSpawn());
     }
 
     public void removeSpectator(Player player) {
-        spectators.remove(player.getUniqueId());
         SpawnUtil.teleportToSpawn(player);
 
-        for (Player players : Bukkit.getOnlinePlayers())
-            player.showPlayer(players);
+        player.setGameMode(GameMode.SURVIVAL);
+
+        for (UUID alive : alivePlayers) {
+            Player alivePlayer = Bukkit.getPlayer(alive);
+            alivePlayer.showPlayer(player);
+        }
     }
 
     public boolean hasStarted() {

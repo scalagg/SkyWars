@@ -134,6 +134,16 @@ public final class Arena {
             skullLocation.setYaw(AngleUtils.faceToYaw(skull.getRotation()) + 90);
 
             switch (skull.getSkullType()) {
+                case ZOMBIE:
+                    lobbySpawn = skullLocation;
+
+                    block.setType(Material.AIR);
+
+                    if (below.getType() == Material.FENCE) {
+                        below.setType(Material.AIR);
+                    }
+
+                    break;
                 case SKELETON:
                     spectatorSpawn = skullLocation;
 

@@ -48,35 +48,8 @@ public class GameHandler {
             return null;
         }
 
-        Arena arena = new Arena(schematic, world, bounds);
-        SkyWarsGame game = new SkyWarsGame(null, type);
+        SkyWarsGame game = new SkyWarsGame(new Arena(schematic, world, bounds), type);
         games.add(game);
-
-        int timeout = 10 * 20;
-        new BukkitRunnable() {
-            private int time = 0;
-
-            @Override
-            public void run() {
-                if (game.getArena() != null) {
-                    cancel();
-                    return;
-                }
-
-                if (!bounds.isEmpty()) {
-                    game.setArena(arena);
-                    cancel();
-                    return;
-                }
-
-                if (++time > timeout) {
-                    game.endGame();
-                    plugin.getArenaHandler().getWorldManager().deleteWorld(world);
-                    plugin.getLogger().info("Failed to start game: Failed to paste schematic " + schematic.getName() + " (TIMEOUT_REACHED)");
-                    cancel();
-                }
-            }
-        }.runTaskTimer(plugin, 0L, 2L);
 
         return game;
     }
@@ -142,15 +115,4 @@ public class GameHandler {
 
         return null;
     }
-
-    public SkyWarsGame getGame(Arena arena) {
-        for (SkyWarsGame game : games) {
-            if (game.getArena().equals(arena)) {
-                return game;
-            }
-        }
-
-        return null;
-    }
-
 }

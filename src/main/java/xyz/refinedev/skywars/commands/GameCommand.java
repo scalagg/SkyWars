@@ -33,6 +33,15 @@ public class GameCommand extends BaseCommand {
         game.addPlayer(player);
     }
 
+    @Subcommand("spectator leave")
+    public void leaveSpec(Player player) {
+        if (!plugin.getGameHandler().isPlayingGame(player))
+            throw new ConditionFailedException("not in game");
+
+        SkyWarsGame game = plugin.getGameHandler().getGame(player);
+        game.removeSpectator(player);
+    }
+
     @Subcommand("leave")
     public void leave(Player player) {
         if (!plugin.getGameHandler().isPlayingGame(player)) {

@@ -1,6 +1,7 @@
 package xyz.refinedev.skywars.game.listener;
 
 import lombok.RequiredArgsConstructor;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -12,11 +13,16 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import xyz.refinedev.skywars.game.SkyWarsGame;
+import xyz.refinedev.skywars.game.event.GameEndEvent;
 import xyz.refinedev.skywars.game.event.GameStateChangeEvent;
 import xyz.refinedev.skywars.game.event.PlayerJoinGameEvent;
 import xyz.refinedev.skywars.game.state.GameState;
 import xyz.refinedev.skywars.pxSkyWars;
+import xyz.refinedev.skywars.utils.SpawnUtil;
+
+import java.util.UUID;
 
 /**
  * @author alfie
@@ -42,16 +48,26 @@ public class GameListener implements Listener {
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();
-        Location from = event.getFrom();
-        Location to = event.getTo();
-
-        if (from.getBlockX() == to.getBlockX() && from.getBlockY() == to.getBlockY() && from.getBlockZ() == to.getBlockZ())
-            return;
 
         if (!player.hasMetadata("frozen"))
             return;
 
-        event.setCancelled(true);
+        Location from = event.getFrom();
+        Location to = event.getTo();
+
+        // Allow y axis movement so players can jump
+        if (from.getBlockX() == to.getBlockX() &&
+                from.getBlockZ() == to.getBlockZ() &&
+                from.getBlockY() != to.getBlockY()) {
+            return;
+        }
+
+        // Cancel horizontal movement
+        if (from.getBlockX() != to.getBlockX()
+                || from.getBlockZ() != to.getBlockZ()) {
+            event.setCancelled(true);
+        }
+
     }
 
     @EventHandler
@@ -82,19 +98,33 @@ public class GameListener implements Listener {
     }
 
     @EventHandler
+    public void onPlayerQuit(PlayerQuitEvent event) {
+        Player player = event.getPlayer();
+
+        if (!plugin.getGameHandler().isPlayingGame(player))
+            return;
+
+        SkyWarsGame game = plugin.getGameHandler().getGame(player);
+        game.removePlayer(player);
+    }
+
+    @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
         Player player = event.getEntity();
-
         SkyWarsGame game = plugin.getGameHandler().getGame(player);
         if (game == null)
             return;
 
-        if (player.getKiller() != null)
-            game.onDeath(player, player.getKiller());
-        else game.onDeath(player, null);
+        if (player.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.VOID) {
+            event.getDrops().clear();
+        }
 
         event.setDeathMessage(null);
         player.spigot().respawn();
+
+        if (player.getKiller() != null)
+            game.onDeath(player, player.getKiller());
+        else game.onDeath(player, null);
     }
 
     @EventHandler
@@ -107,7 +137,8 @@ public class GameListener implements Listener {
         if (game == null)
             return;
 
-        event.setCancelled(game.hasStarted());
+        boolean canHit = game.hasStarted();
+        event.setCancelled(canHit);
     }
 
     @EventHandler
@@ -130,7 +161,28 @@ public class GameListener implements Listener {
             return;
         }
 
-        event.setCancelled(game.hasStarted());
+        boolean canHit = game.hasStarted() && game.isSpectating(player);
+        event.setCancelled(canHit);
+    }
+
+    @EventHandler
+    public void onGameEnd(GameEndEvent event) {
+        SkyWarsGame game = event.getGame();
+
+        for (UUID uuid : game.getPlayers()) {
+            Player player = plugin.getServer().getPlayer(uuid);
+            if (player == null)
+                continue;
+
+            if (!plugin.getGameHandler().isPlayingGame(player))
+                continue;
+
+            player.setGameMode(GameMode.SURVIVAL);
+            player.setAllowFlight(false);
+            player.setFlying(false);
+
+            SpawnUtil.teleportToSpawn(player);
+        }
     }
 
 }
