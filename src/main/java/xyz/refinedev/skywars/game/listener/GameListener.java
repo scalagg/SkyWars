@@ -89,12 +89,12 @@ public class GameListener implements Listener {
         if (game == null)
             return;
 
-        event.setDeathMessage(null);
-        player.spigot().respawn();
-
         if (player.getKiller() != null)
             game.onDeath(player, player.getKiller());
         else game.onDeath(player, null);
+
+        event.setDeathMessage(null);
+        player.spigot().respawn();
     }
 
     @EventHandler

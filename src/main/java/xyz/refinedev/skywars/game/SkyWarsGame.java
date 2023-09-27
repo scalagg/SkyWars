@@ -53,6 +53,8 @@ public class SkyWarsGame {
     private RefillType refillType = RefillType.FIRST;
     private GameState state = GameState.WAITING;
 
+    private boolean forceStarted = false;
+
     public SkyWarsGame(Arena arena, GameType gameType) {
         this.arena = arena;
         this.gameType = gameType;

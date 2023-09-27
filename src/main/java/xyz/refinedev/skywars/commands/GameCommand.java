@@ -49,10 +49,15 @@ public class GameCommand extends BaseCommand {
     @CommandPermission("skywars.forcestart")
     public void forcestart(Player player) {
         if (!plugin.getGameHandler().isPlayingGame(player)) {
-            throw new ConditionFailedException("not in game");
+            throw new ConditionFailedException("Not currently in a game");
         }
 
         SkyWarsGame game = plugin.getGameHandler().getGame(player);
+        if (game.isForceStarted()) {
+            throw new ConditionFailedException("Already force started");
+        }
+
+        game.setForceStarted(true);
         game.startCountdown();
     }
 
