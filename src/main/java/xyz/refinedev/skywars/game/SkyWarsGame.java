@@ -63,7 +63,7 @@ public class SkyWarsGame {
 
         for (UUID uuid : players) {
             Player player = Bukkit.getPlayer(uuid);
-            arena.getSpawns().forEach(player::teleport);
+            player.teleport(arena.getRandomSpawn());
 
             player.setMetadata("frozen", new FixedMetadataValue(pxSkyWars.getInstance(), this));
         }

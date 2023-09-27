@@ -38,7 +38,6 @@ public class GameListener implements Listener {
         }
     }
 
-
     //TODO: 26/09/2023 Move to movement handler from spigot in future, 10x better performance
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {

@@ -100,6 +100,23 @@ public final class Arena {
         return spawns.get(0);
     }
 
+    public Location getRandomSpawn() {
+        List<Location> availableSpawns = new ArrayList<>(spawns);
+        Location spawn = null;
+
+        while (!availableSpawns.isEmpty()) {
+            int index = pxSkyWars.getInstance().getRandom().nextInt(availableSpawns.size());
+            spawn = availableSpawns.remove(index);
+
+            // Check if spawn was already returned
+            if (!spawns.contains(spawn)) {
+                break;
+            }
+        }
+
+        return spawn;
+    }
+
     private void scanLocations() {
         // iterating the cuboid doesn't work because
         // its iterator is broken :(
