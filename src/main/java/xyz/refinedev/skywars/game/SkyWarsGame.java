@@ -1,8 +1,6 @@
 package xyz.refinedev.skywars.game;
 
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -14,7 +12,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import xyz.refinedev.phoenix.utils.Color;
-import xyz.refinedev.phoenix.utils.general.Tasks;
 import xyz.refinedev.skywars.arena.Arena;
 import xyz.refinedev.skywars.game.event.*;
 import xyz.refinedev.skywars.game.state.ChestType;
@@ -231,11 +228,17 @@ public class SkyWarsGame {
 
         for (UUID alive : alivePlayers) {
             Player alivePlayer = Bukkit.getPlayer(alive);
+            if (alivePlayer == null)
+                continue;
+
             alivePlayer.hidePlayer(player);
         }
 
         for (UUID spectator : spectators) {
             Player spectatorPlayer = Bukkit.getPlayer(spectator);
+            if (spectatorPlayer == null)
+                continue;
+
             spectatorPlayer.showPlayer(player);
         }
 
@@ -253,6 +256,9 @@ public class SkyWarsGame {
 
         for (UUID alive : alivePlayers) {
             Player alivePlayer = Bukkit.getPlayer(alive);
+            if (alivePlayer == null)
+                continue;
+
             alivePlayer.showPlayer(player);
         }
     }

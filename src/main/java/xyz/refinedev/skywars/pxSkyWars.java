@@ -83,8 +83,7 @@ public class pxSkyWars extends JavaPlugin {
                 new ProfileListener(this),
                 new ItemListener(),
                 new ArenaModelEditorListener(),
-                new GameListener(this),
-                new SpectatorListener()
+                new GameListener(this)
         ).forEach(listener -> this.getServer().getPluginManager().registerEvents(listener, this));
 
         commandHandler = Phoenix.getInstance().getCommandHandler();
