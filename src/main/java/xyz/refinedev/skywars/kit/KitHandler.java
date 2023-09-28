@@ -1,13 +1,11 @@
 package xyz.refinedev.skywars.kit;
 
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
-import xyz.refinedev.skywars.kit.impl.ScoutKit;
+import xyz.refinedev.skywars.kit.impl.ranked.*;
 import xyz.refinedev.skywars.pxSkyWars;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,7 +24,17 @@ public class KitHandler {
         this.plugin = plugin;
 
         // Register Kits Below
+
+//        Register Ranked Kits
+//        --------------------
         registerKit(new ScoutKit());
+        registerKit(new MagicianKit());
+        registerKit(new ArmorerKit());
+        registerKit(new ChampionKit());
+        registerKit(new BowmanKit());
+        registerKit(new AthleteKit());
+        registerKit(new BlacksmithKit());
+
     }
 
     public void registerKit(Kit kit) {

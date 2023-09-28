@@ -1,4 +1,4 @@
-package xyz.refinedev.skywars.kit.impl;
+package xyz.refinedev.skywars.kit.impl.ranked;
 
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -33,13 +33,20 @@ public class ScoutKit extends Kit {
 
     @Override
     public List<GameType> getGameType() {
-        return Arrays.asList(GameType.CASUAL_SOLO, GameType.CASUAL_DOUBLES);
+        return Arrays.asList(GameType.RANKED_SOLO);
     }
-
     @Override
     public ItemStack getDisplayItem() {
-        return new ItemBuilder(Material.RABBIT_FOOT)
+        return new ItemBuilder(Material.POTION)
                 .setName("&aScout")
+                .setLore(Arrays.asList(
+                        "&6&m---------------------",
+                        "&7■ &fSpeed 2 for 20 seconds",
+                        "&7■ &fIron Armor",
+                        "&7■ &fDiamond Axe",
+                        "&7■ &fDiamond Pickaxe",
+                        "&6&m---------------------"
+                        ))
                 .toItemStack();
     }
 
