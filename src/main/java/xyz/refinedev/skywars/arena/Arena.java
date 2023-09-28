@@ -12,14 +12,12 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.Skull;
 import org.bukkit.metadata.FixedMetadataValue;
 import xyz.refinedev.skywars.game.state.ChestType;
-import xyz.refinedev.skywars.handler.ArenaHandler;
 import xyz.refinedev.skywars.pxSkyWars;
 import xyz.refinedev.skywars.utils.AngleUtils;
 import xyz.refinedev.skywars.utils.Callback;
 import xyz.refinedev.skywars.utils.cuboid.Cuboid;
 
 import java.util.*;
-import java.util.function.Predicate;
 
 /**
  * Represents a pasted instance of an {@link ArenaSchematic}.

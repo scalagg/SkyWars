@@ -1,4 +1,4 @@
-package xyz.refinedev.skywars.handler;
+package xyz.refinedev.skywars.arena;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableSet;
@@ -9,15 +9,8 @@ import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
-import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
-import xyz.refinedev.skywars.arena.WorldManager;
-import xyz.refinedev.skywars.listener.ArenaItemResetListener;
 import xyz.refinedev.skywars.pxSkyWars;
-import xyz.refinedev.skywars.arena.Arena;
-import xyz.refinedev.skywars.arena.ArenaSchematic;
-import xyz.refinedev.skywars.utils.events.arena.ArenaAllocatedEvent;
-import xyz.refinedev.skywars.utils.events.arena.ArenaReleasedEvent;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +18,6 @@ import java.io.Reader;
 import java.lang.reflect.Type;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.function.Predicate;
 
 /**
  * Facilitates easy access to {@link ArenaSchematic}s and to {@link Arena}s
@@ -47,8 +39,6 @@ public final class ArenaHandler {
     }
 
     public ArenaHandler() {
-        Bukkit.getPluginManager().registerEvents(new ArenaItemResetListener(), pxSkyWars.getInstance());
-
         File folder = pxSkyWars.getInstance().getDataFolder();
 
         File schematicsFile = new File(folder, SCHEMATICS_FILE_NAME);

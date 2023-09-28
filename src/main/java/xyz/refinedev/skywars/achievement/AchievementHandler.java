@@ -1,4 +1,4 @@
-package xyz.refinedev.skywars.handler;
+package xyz.refinedev.skywars.achievement;
 
 import org.bukkit.Bukkit;
 import xyz.refinedev.skywars.achievement.Achievement;

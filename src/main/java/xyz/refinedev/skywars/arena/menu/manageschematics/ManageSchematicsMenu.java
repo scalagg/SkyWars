@@ -6,7 +6,7 @@ import xyz.refinedev.phoenix.menu.api.button.BackButton;
 import xyz.refinedev.phoenix.menu.api.pagination.PaginatedMenu;
 import xyz.refinedev.skywars.arena.ArenaSchematic;
 import xyz.refinedev.skywars.arena.menu.manage.ManageMenu;
-import xyz.refinedev.skywars.handler.ArenaHandler;
+import xyz.refinedev.skywars.arena.ArenaHandler;
 import xyz.refinedev.skywars.pxSkyWars;
 
 import java.util.HashMap;

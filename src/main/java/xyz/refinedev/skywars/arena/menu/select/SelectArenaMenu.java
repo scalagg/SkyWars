@@ -8,7 +8,6 @@ import xyz.refinedev.phoenix.menu.api.Button;
 import xyz.refinedev.phoenix.menu.api.Menu;
 import xyz.refinedev.skywars.arena.ArenaSchematic;
 import xyz.refinedev.skywars.arena.menu.ToggleAllButton;
-import xyz.refinedev.skywars.handler.ArenaHandler;
 import xyz.refinedev.skywars.pxSkyWars;
 import xyz.refinedev.skywars.utils.Callback;
 

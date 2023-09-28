@@ -1,4 +1,4 @@
-package xyz.refinedev.skywars.handler;
+package xyz.refinedev.skywars.profile;
 
 import lombok.Getter;
 import xyz.refinedev.phoenix.SharedAPI;

@@ -1,4 +1,4 @@
-package xyz.refinedev.skywars.handler;
+package xyz.refinedev.skywars.game;
 
 import lombok.Data;
 import lombok.Getter;

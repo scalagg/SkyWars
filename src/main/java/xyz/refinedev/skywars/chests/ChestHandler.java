@@ -1,4 +1,4 @@
-package xyz.refinedev.skywars.handler;
+package xyz.refinedev.skywars.chests;
 
 import lombok.Getter;
 import xyz.refinedev.skywars.chests.LootableChest;

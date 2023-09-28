@@ -16,7 +16,6 @@ import org.bukkit.material.MaterialData;
 import org.bukkit.metadata.FixedMetadataValue;
 import xyz.refinedev.skywars.arena.listener.ArenaModelEditorListener;
 import xyz.refinedev.skywars.game.state.GameType;
-import xyz.refinedev.skywars.handler.ArenaHandler;
 import xyz.refinedev.skywars.pxSkyWars;
 import xyz.refinedev.skywars.utils.cuboid.Cuboid;
 
