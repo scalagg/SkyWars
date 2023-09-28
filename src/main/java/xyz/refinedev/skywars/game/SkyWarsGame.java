@@ -101,6 +101,9 @@ public class SkyWarsGame {
         profile.incrementWins();
         profile.save();
 
+        // don't want to save the state
+        profile.setState(ProfileState.LOBBY);
+
         SpawnUtil.teleportToSpawn(winner);
 
         this.endGame();
@@ -194,7 +197,7 @@ public class SkyWarsGame {
             killerProfile.save();
         }
 
-        if (alivePlayers.size() == 1) {
+        if (alivePlayers.size() <= 1) {
             this.onWin(killer);
         }
     }
