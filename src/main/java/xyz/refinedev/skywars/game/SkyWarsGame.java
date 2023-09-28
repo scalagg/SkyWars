@@ -16,6 +16,7 @@ import xyz.refinedev.skywars.game.state.RefillType;
 import xyz.refinedev.skywars.game.task.GameCountdownTask;
 import xyz.refinedev.skywars.kit.Kit;
 import xyz.refinedev.skywars.profile.SkyWarsProfile;
+import xyz.refinedev.skywars.profile.state.ProfileState;
 import xyz.refinedev.skywars.pxSkyWars;
 import xyz.refinedev.skywars.utils.SpawnUtil;
 
@@ -143,6 +144,9 @@ public class SkyWarsGame {
         PlayerJoinGameEvent event = new PlayerJoinGameEvent(player, this);
         Bukkit.getPluginManager().callEvent(event);
 
+        SkyWarsProfile profile = pxSkyWars.getInstance().getProfileHandler().getProfile(player.getUniqueId());
+        profile.setState(ProfileState.GAME);
+
         players.add(player.getUniqueId());
         player.teleport(arena.getLobbySpawn());
     }
@@ -153,6 +157,9 @@ public class SkyWarsGame {
 
             arena.removeUsedSpawn(player.getLocation());
             SpawnUtil.teleportToSpawn(player);
+
+            SkyWarsProfile profile = pxSkyWars.getInstance().getProfileHandler().getProfile(player.getUniqueId());
+            profile.setState(ProfileState.LOBBY);
 
             PlayerLeavePreGameEvent event = new PlayerLeavePreGameEvent(player, this);
             Bukkit.getPluginManager().callEvent(event);
@@ -199,6 +206,9 @@ public class SkyWarsGame {
         player.setAllowFlight(true);
         player.setFlying(true);
 
+        SkyWarsProfile profile = pxSkyWars.getInstance().getProfileHandler().getProfile(player.getUniqueId());
+        profile.setState(ProfileState.SPECTATING);
+
         for (UUID alive : alivePlayers) {
             Player alivePlayer = Bukkit.getPlayer(alive);
             if (alivePlayer == null)
@@ -220,6 +230,9 @@ public class SkyWarsGame {
         SpawnUtil.teleportToSpawn(player);
 
         player.setGameMode(GameMode.SURVIVAL);
+
+        SkyWarsProfile profile = pxSkyWars.getInstance().getProfileHandler().getProfile(player.getUniqueId());
+        profile.setState(ProfileState.LOBBY);
 
         for (UUID alive : alivePlayers) {
             Player alivePlayer = Bukkit.getPlayer(alive);

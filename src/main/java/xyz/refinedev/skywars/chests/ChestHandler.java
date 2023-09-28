@@ -1,8 +1,7 @@
 package xyz.refinedev.skywars.chests;
 
 import lombok.Getter;
-import xyz.refinedev.skywars.chests.LootableChest;
-import xyz.refinedev.skywars.chests.impl.casual.CasualChest;
+import xyz.refinedev.skywars.chests.impl.CasualChest;
 import xyz.refinedev.skywars.game.state.GameType;
 
 import java.util.ArrayList;

@@ -27,7 +27,7 @@ public class PreventionListener implements Listener {
 
     private final pxSkyWars plugin;
 
-    @EventHandler(priority = EventPriority.HIGH)
+    @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
         if (this.canInteract(player) || player.hasMetadata("BuildMode"))
@@ -36,7 +36,7 @@ public class PreventionListener implements Listener {
         event.setCancelled(true);
     }
 
-    @EventHandler(priority = EventPriority.HIGH)
+    @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
         Player player = event.getPlayer();
         if (this.canInteract(player) || player.hasMetadata("BuildMode"))
@@ -45,7 +45,7 @@ public class PreventionListener implements Listener {
         event.setCancelled(true);
     }
 
-    @EventHandler(priority = EventPriority.HIGH)
+    @EventHandler
     public void onEntityDamage(EntityDamageEvent event) {
         if (!(event.getEntity() instanceof Player))
             return;
@@ -57,16 +57,7 @@ public class PreventionListener implements Listener {
         event.setCancelled(true);
     }
 
-    @EventHandler(priority = EventPriority.HIGH)
-    public void onPlayerInteract(PlayerInteractEvent event) {
-        Player player = event.getPlayer();
-        if (this.canInteract(player))
-            return;
-
-        event.setCancelled(true);
-    }
-
-    @EventHandler(priority = EventPriority.HIGH)
+    @EventHandler
     public void onFoodLevelChange(FoodLevelChangeEvent event) {
         if (!(event.getEntity() instanceof Player))
             return;
@@ -78,7 +69,7 @@ public class PreventionListener implements Listener {
         event.setCancelled(true);
     }
 
-    @EventHandler(priority = EventPriority.HIGH)
+    @EventHandler
     public void onWeatherChange(WeatherChangeEvent event) {
         event.setCancelled(true);
     }

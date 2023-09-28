@@ -1,4 +1,4 @@
-package xyz.refinedev.skywars.chests.impl.insane;
+package xyz.refinedev.skywars.chests.impl;
 
 import org.bukkit.inventory.ItemStack;
 import xyz.refinedev.skywars.chests.LootableChest;
@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * @author alfie
- * @project Skywars / xyz.refinedev.skywars.chests.impl.insane
+ * @project Skywars / xyz.refinedev.skywars.chests.impl
  * @date 27/09/2023 / 20:39
  */
 
