@@ -8,12 +8,21 @@ import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import xyz.refinedev.phoenix.utils.item.ItemBuilder;
 import xyz.refinedev.skywars.game.state.GameType;
 import xyz.refinedev.skywars.kit.Kit;
+import xyz.refinedev.skywars.pxSkyWars;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
 public class BlacksmithKit extends Kit {
+
+    private final Material[] armorTypes = {
+            Material.DIAMOND_HELMET,
+            Material.DIAMOND_CHESTPLATE,
+            Material.DIAMOND_LEGGINGS,
+            Material.DIAMOND_BOOTS
+    };
+
     @Override
     public String getName() {
         return "Blacksmith";
@@ -59,23 +68,22 @@ public class BlacksmithKit extends Kit {
 
     @Override
     public void apply(Player player) {
-        Material[] armorTypes = {Material.DIAMOND_HELMET, Material.DIAMOND_CHESTPLATE, Material.DIAMOND_LEGGINGS, Material.DIAMOND_BOOTS};
-        Random random = new Random();
         for (int i = 0; i < 5; i++) {
-            int enchantmentLevel = random.nextInt(3) + 1;
-            Enchantment enchantment = Enchantment.values()[random.nextInt(Enchantment.values().length)];
+            int enchantmentLevel = pxSkyWars.getInstance().getRandom().nextInt(3) + 1;
+            Enchantment enchantment = Enchantment.values()[pxSkyWars.getInstance().getRandom().nextInt(Enchantment.values().length)];
             ItemStack enchantedBook = new ItemStack(Material.ENCHANTED_BOOK);
             EnchantmentStorageMeta meta = (EnchantmentStorageMeta) enchantedBook.getItemMeta();
             meta.addStoredEnchant(enchantment, enchantmentLevel, true);
             enchantedBook.setItemMeta(meta);
             player.getInventory().addItem(enchantedBook);
         }
-        int randomIndex = random.nextInt(armorTypes.length);
+
+        int randomIndex = pxSkyWars.getInstance().getRandom().nextInt(armorTypes.length);
         Material randomArmorType = armorTypes[randomIndex];
-        ItemStack armorPiece = new ItemStack(randomArmorType);
-        player.getInventory().addItem(new ItemBuilder(Material.ANVIL).toItemStack());
+
         player.giveExpLevels(15);
-        player.getInventory().addItem(armorPiece);
+        player.getInventory().addItem(new ItemBuilder(Material.ANVIL).toItemStack());
+        player.getInventory().addItem(new ItemStack(randomArmorType));
         player.getInventory().addItem(new ItemBuilder(Material.IRON_SWORD).toItemStack());
         player.getInventory().addItem(new ItemBuilder(Material.IRON_PICKAXE).toItemStack());
         player.getInventory().addItem(new ItemBuilder(Material.IRON_AXE).toItemStack());

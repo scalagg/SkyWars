@@ -43,7 +43,9 @@ public class SkyWarsProfile {
     private int heads = 0;
     private int souls = 0;
 
+    @Exclude
     private ProfileState state = ProfileState.LOBBY;
+
     private List<Achievement> ownedAchievements = new ArrayList<>();
 
     public void load() {
