@@ -87,7 +87,7 @@ public class ScoreboardAdapter implements AssembleAdapter {
 //            lines.add(getProgressBar(exp, level.getExperienceNeeded(), 10) + " &3" + exp + "/" + level.getExperienceNeeded());
             lines.add("");
             lines.add("&6&lOnline&7:");
-            lines.add("&7■ &fAll: &6" + SharedAPI.getInstance().getNetworkHandler().getNonVanishedOnlinePlayers(SharedAPI.getInstance().getNetworkHandler().getServer(player.getUniqueId())).size());
+            lines.add("&7■ &fAll: &60");
             lines.add("&7■ &fPlaying: &60");
             if (Phoenix.getInstance().getRebootHandler().isRebootScheduled()) {
                 lines.add("");

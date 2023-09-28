@@ -10,10 +10,9 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import xyz.refinedev.phoenix.menu.api.Button;
-import xyz.refinedev.phoenix.menu.api.menus.ConfirmMenu;
 import xyz.refinedev.phoenix.utils.item.ItemBuilder;
 import xyz.refinedev.skywars.arena.ArenaSchematic;
-import xyz.refinedev.skywars.handler.ArenaHandler;
+import xyz.refinedev.skywars.arena.ArenaHandler;
 import xyz.refinedev.skywars.pxSkyWars;
 import xyz.refinedev.skywars.utils.cuboid.Cuboid;
 

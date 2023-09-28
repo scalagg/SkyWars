@@ -12,14 +12,12 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.Skull;
 import org.bukkit.metadata.FixedMetadataValue;
 import xyz.refinedev.skywars.game.state.ChestType;
-import xyz.refinedev.skywars.handler.ArenaHandler;
 import xyz.refinedev.skywars.pxSkyWars;
 import xyz.refinedev.skywars.utils.AngleUtils;
 import xyz.refinedev.skywars.utils.Callback;
 import xyz.refinedev.skywars.utils.cuboid.Cuboid;
 
 import java.util.*;
-import java.util.function.Predicate;
 
 /**
  * Represents a pasted instance of an {@link ArenaSchematic}.
@@ -60,7 +58,7 @@ public final class Arena {
      * For purposes of arena definition
      */
     private final List<Location> spawns = new ArrayList<>();
-
+    private final List<Location> usedSpawns = new ArrayList<>();
 
     private final Map<Location, ChestType> chests = new HashMap<>();
 
@@ -100,6 +98,26 @@ public final class Arena {
         return spawns.get(0);
     }
 
+    public Location getRandomSpawn() {
+        List<Location> availableSpawns = new ArrayList<>(spawns);
+
+        availableSpawns.removeAll(usedSpawns);
+
+        if (!availableSpawns.isEmpty()) {
+            int index = pxSkyWars.getInstance().getRandom().nextInt(availableSpawns.size());
+            Location spawn = availableSpawns.get(index);
+
+            usedSpawns.add(spawn);
+            return spawn;
+        }
+
+        return null;
+    }
+
+    public void removeUsedSpawn(Location location) {
+        usedSpawns.remove(location);
+    }
+
     private void scanLocations() {
         // iterating the cuboid doesn't work because
         // its iterator is broken :(
@@ -117,6 +135,16 @@ public final class Arena {
             skullLocation.setYaw(AngleUtils.faceToYaw(skull.getRotation()) + 90);
 
             switch (skull.getSkullType()) {
+                case ZOMBIE:
+                    lobbySpawn = skullLocation;
+
+                    block.setType(Material.AIR);
+
+                    if (below.getType() == Material.FENCE) {
+                        below.setType(Material.AIR);
+                    }
+
+                    break;
                 case SKELETON:
                     spectatorSpawn = skullLocation;
 
@@ -138,7 +166,7 @@ public final class Arena {
 
                     break;
                 case CREEPER:
-                    chests.put(skullLocation, ChestType.SPAWN);
+                    chests.put(block.getLocation().clone().add(0.5, -1, 0.5), ChestType.SPAWN);
 
                     block.setType(Material.AIR);
                     block.setMetadata("placedByGame", new FixedMetadataValue(pxSkyWars.getInstance(), true));
@@ -149,7 +177,7 @@ public final class Arena {
 
                     break;
                 case WITHER:
-                    chests.put(skullLocation, ChestType.MIDDLE);
+                    chests.put(block.getLocation().clone().add(0.5, -1, 0.5), ChestType.MIDDLE);
 
                     block.setType(Material.AIR);
                     block.setMetadata("placedByGame", new FixedMetadataValue(pxSkyWars.getInstance(), true));

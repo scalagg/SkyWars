@@ -7,9 +7,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import xyz.refinedev.phoenix.utils.item.ItemBuilder;
+import xyz.refinedev.skywars.game.state.GameType;
 import xyz.refinedev.skywars.kit.Kit;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author alfie
@@ -27,6 +29,11 @@ public class ScoutKit extends Kit {
     @Override
     public int getCost() {
         return 0;
+    }
+
+    @Override
+    public List<GameType> getGameType() {
+        return Arrays.asList(GameType.CASUAL_SOLO, GameType.CASUAL_DOUBLES);
     }
 
     @Override

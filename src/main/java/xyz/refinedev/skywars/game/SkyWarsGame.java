@@ -1,24 +1,15 @@
 package xyz.refinedev.skywars.game;
 
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.Chest;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import xyz.refinedev.phoenix.utils.Color;
+import xyz.refinedev.phoenix.utils.general.Tasks;
 import xyz.refinedev.skywars.arena.Arena;
-import xyz.refinedev.skywars.game.event.GameStateChangeEvent;
-import xyz.refinedev.skywars.game.event.PlayerJoinGameEvent;
-import xyz.refinedev.skywars.game.event.PlayerLeaveGameEvent;
-import xyz.refinedev.skywars.game.event.PlayerLeavePreGameEvent;
-import xyz.refinedev.skywars.game.state.ChestType;
+import xyz.refinedev.skywars.chests.LootableChest;
+import xyz.refinedev.skywars.game.event.*;
 import xyz.refinedev.skywars.game.state.GameState;
 import xyz.refinedev.skywars.game.state.GameType;
 import xyz.refinedev.skywars.game.state.RefillType;
@@ -26,7 +17,6 @@ import xyz.refinedev.skywars.game.task.GameCountdownTask;
 import xyz.refinedev.skywars.kit.Kit;
 import xyz.refinedev.skywars.profile.SkyWarsProfile;
 import xyz.refinedev.skywars.pxSkyWars;
-import xyz.refinedev.skywars.utils.RefillUtil;
 import xyz.refinedev.skywars.utils.SpawnUtil;
 
 import java.util.*;
@@ -52,6 +42,8 @@ public class SkyWarsGame {
     private RefillType refillType = RefillType.FIRST;
     private GameState state = GameState.WAITING;
 
+    private boolean forceStarted = false;
+
     public SkyWarsGame(Arena arena, GameType gameType) {
         this.arena = arena;
         this.gameType = gameType;
@@ -62,7 +54,7 @@ public class SkyWarsGame {
 
         for (UUID uuid : players) {
             Player player = Bukkit.getPlayer(uuid);
-            arena.getSpawns().forEach(player::teleport);
+            player.teleport(arena.getRandomSpawn());
 
             player.setMetadata("frozen", new FixedMetadataValue(pxSkyWars.getInstance(), this));
         }
@@ -74,7 +66,11 @@ public class SkyWarsGame {
         state = GameState.LIVE;
         alivePlayers.addAll(players);
 
-        this.fillChests();
+        LootableChest chest = pxSkyWars.getInstance().getChestHandler().getChest(gameType);
+        chest.fillChests(arena, RefillType.FIRST);
+
+        Tasks.runLater(() -> chest.fillChests(arena, RefillType.SECOND), 20 * 60 * 3);
+        Tasks.runLater(() -> chest.fillChests(arena, RefillType.THIRD), 20 * 60 * 6);
 
         for (UUID uuid : alivePlayers) {
             Player player = Bukkit.getPlayer(uuid);
@@ -94,8 +90,11 @@ public class SkyWarsGame {
     }
 
     public void onWin(Player winner) {
-        if (winner == null)
+        if (winner == null) {
+            System.out.println("ERROR: Winner is null");
+            this.endGame();
             return;
+        }
 
         SkyWarsProfile profile = pxSkyWars.getInstance().getProfileHandler().getProfile(winner.getUniqueId());
         profile.incrementWins();
@@ -124,6 +123,9 @@ public class SkyWarsGame {
             this.removeSpectator(player);
         }
 
+        GameEndEvent event = new GameEndEvent(this);
+        Bukkit.getPluginManager().callEvent(event);
+
         this.players.clear();
         this.alivePlayers.clear();
         this.spectators.clear();
@@ -142,52 +144,24 @@ public class SkyWarsGame {
         Bukkit.getPluginManager().callEvent(event);
 
         players.add(player.getUniqueId());
+        player.teleport(arena.getLobbySpawn());
     }
 
     public void removePlayer(Player player) {
         if (state != GameState.LIVE) {
             players.remove(player.getUniqueId());
 
+            arena.removeUsedSpawn(player.getLocation());
+            SpawnUtil.teleportToSpawn(player);
+
             PlayerLeavePreGameEvent event = new PlayerLeavePreGameEvent(player, this);
             Bukkit.getPluginManager().callEvent(event);
             return;
         }
 
+        onDeath(player, null);
         PlayerLeaveGameEvent event = new PlayerLeaveGameEvent(player, this);
         Bukkit.getPluginManager().callEvent(event);
-        onDeath(player, null);
-    }
-
-    public void fillChests() {
-        for (Map.Entry<Location, ChestType> entry : arena.getChests().entrySet()) {
-            Block block = arena.getBounds().getWorld().getBlockAt(entry.getKey());
-
-            if (refillType == RefillType.SECOND && entry.getValue() != ChestType.MIDDLE && (!block.hasMetadata("placedByGame"))) {
-                continue;
-            }
-
-            if (refillType == RefillType.THIRD && entry.getValue() == ChestType.MIDDLE && block.getType() == Material.AIR) {
-                block.setType(Material.CHEST);
-            }
-
-            if (!(block instanceof Chest))
-                continue;
-
-            Chest chest = (Chest) block;
-
-            List<ItemStack> items = entry.getValue() == ChestType.SPAWN
-                    ? RefillUtil.getRandomizedSpawnItems(gameType, refillType) : RefillUtil.getRandomizedMiddleItems(gameType, refillType);
-
-            int itemsToAdd = pxSkyWars.getInstance().getRandom().nextInt(1, 6);
-
-            Inventory inventory = chest.getBlockInventory();
-
-            for (int i = 0; i < itemsToAdd; i++) {
-                int slot = pxSkyWars.getInstance().getRandom().nextInt(27);
-
-                inventory.setItem(slot, items.get(pxSkyWars.getInstance().getRandom().nextInt(items.size())));
-            }
-        }
     }
 
     public void setState(GameState state) {
@@ -207,42 +181,57 @@ public class SkyWarsGame {
         profile.incrementLosses();
         profile.save();
 
-        if (killer == null)
-            return;
+        if (killer != null) {
+            SkyWarsProfile killerProfile = pxSkyWars.getInstance().getProfileHandler().getProfile(killer.getUniqueId());
+            killerProfile.incrementKills();
+            killerProfile.save();
+        }
 
-        SkyWarsProfile killerProfile = pxSkyWars.getInstance().getProfileHandler().getProfile(killer.getUniqueId());
-        killerProfile.incrementKills();
-        killerProfile.save();
-
-        if (alivePlayers.size() == 1)
+        if (alivePlayers.size() == 1) {
             this.onWin(killer);
-        else if (alivePlayers.isEmpty())
-            this.onWin(null);
+        }
     }
 
     public void addSpectator(Player player) {
         spectators.add(player.getUniqueId());
 
-        for (Player alivePlayers : Bukkit.getOnlinePlayers()) {
-            if (spectators.contains(alivePlayers.getUniqueId()))
+        player.setGameMode(GameMode.SURVIVAL);
+        player.setAllowFlight(true);
+        player.setFlying(true);
+
+        for (UUID alive : alivePlayers) {
+            Player alivePlayer = Bukkit.getPlayer(alive);
+            if (alivePlayer == null)
                 continue;
 
-            player.hidePlayer(alivePlayers);
+            alivePlayer.hidePlayer(player);
         }
 
-        player.teleport(arena.getSpectatorSpawn());
+        for (UUID spectator : spectators) {
+            Player spectatorPlayer = Bukkit.getPlayer(spectator);
+            if (spectatorPlayer == null)
+                continue;
+
+            spectatorPlayer.showPlayer(player);
+        }
     }
 
     public void removeSpectator(Player player) {
-        spectators.remove(player.getUniqueId());
         SpawnUtil.teleportToSpawn(player);
 
-        for (Player players : Bukkit.getOnlinePlayers())
-            player.showPlayer(players);
+        player.setGameMode(GameMode.SURVIVAL);
+
+        for (UUID alive : alivePlayers) {
+            Player alivePlayer = Bukkit.getPlayer(alive);
+            if (alivePlayer == null)
+                continue;
+
+            alivePlayer.showPlayer(player);
+        }
     }
 
     public boolean hasStarted() {
-        return state != GameState.LIVE;
+        return state == GameState.LIVE || state == GameState.ENDED;
     }
 
     public boolean isInGame(Player player) {

@@ -2,7 +2,6 @@ package xyz.refinedev.skywars.commands;
 
 import com.google.common.base.Strings;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import xyz.refinedev.commands.BaseCommand;
@@ -11,10 +10,9 @@ import xyz.refinedev.commands.ConditionFailedException;
 import xyz.refinedev.commands.annotation.*;
 import xyz.refinedev.phoenix.Phoenix;
 import xyz.refinedev.phoenix.utils.Color;
-import xyz.refinedev.skywars.arena.Arena;
 import xyz.refinedev.skywars.arena.ArenaSchematic;
 import xyz.refinedev.skywars.arena.menu.manage.ManageMenu;
-import xyz.refinedev.skywars.handler.ArenaHandler;
+import xyz.refinedev.skywars.arena.ArenaHandler;
 import xyz.refinedev.skywars.pxSkyWars;
 import xyz.refinedev.skywars.utils.SpigotConstants;
 

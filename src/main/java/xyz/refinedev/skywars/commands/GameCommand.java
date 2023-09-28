@@ -7,6 +7,7 @@ import xyz.refinedev.commands.BaseCommand;
 import xyz.refinedev.commands.CommandHelp;
 import xyz.refinedev.commands.ConditionFailedException;
 import xyz.refinedev.commands.annotation.*;
+import xyz.refinedev.phoenix.utils.Color;
 import xyz.refinedev.skywars.game.SkyWarsGame;
 import xyz.refinedev.skywars.game.state.GameType;
 import xyz.refinedev.skywars.pxSkyWars;
@@ -36,23 +37,28 @@ public class GameCommand extends BaseCommand {
     @Subcommand("leave")
     public void leave(Player player) {
         if (!plugin.getGameHandler().isPlayingGame(player)) {
-            throw new ConditionFailedException("not in game");
+            throw new ConditionFailedException("Not currently in a game");
         }
 
         SkyWarsGame game = plugin.getGameHandler().getGame(player);
         game.removePlayer(player);
 
-        player.sendMessage(SpigotConstants.GAME + "&eYou have left &b" + game.getArena().getArenaSchematic().getDisplayName() + "&e.");
+        player.sendMessage(Color.translate(SpigotConstants.GAME + "&eYou have left &b" + game.getArena().getArenaSchematic().getDisplayName() + "&e."));
     }
 
     @Subcommand("forcestart")
     @CommandPermission("skywars.forcestart")
     public void forcestart(Player player) {
         if (!plugin.getGameHandler().isPlayingGame(player)) {
-            throw new ConditionFailedException("not in game");
+            throw new ConditionFailedException("Not currently in a game");
         }
 
         SkyWarsGame game = plugin.getGameHandler().getGame(player);
+        if (game.isForceStarted()) {
+            throw new ConditionFailedException("Already force started");
+        }
+
+        game.setForceStarted(true);
         game.startCountdown();
     }
 

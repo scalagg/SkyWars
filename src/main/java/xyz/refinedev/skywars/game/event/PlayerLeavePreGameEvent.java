@@ -22,6 +22,10 @@ public class PlayerLeavePreGameEvent extends Event {
     private final Player player;
     private final SkyWarsGame game;
 
+    public static HandlerList getHandlerList() {
+        return HANDLER_LIST;
+    }
+
     @Override
     public HandlerList getHandlers() {
         return HANDLER_LIST;

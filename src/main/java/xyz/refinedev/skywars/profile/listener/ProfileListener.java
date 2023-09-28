@@ -1,4 +1,4 @@
-package xyz.refinedev.skywars.listener;
+package xyz.refinedev.skywars.profile.listener;
 
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
@@ -7,8 +7,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import xyz.refinedev.phoenix.SharedAPI;
-import xyz.refinedev.phoenix.profile.Profile;
 import xyz.refinedev.phoenix.utils.Color;
 import xyz.refinedev.skywars.item.impl.*;
 import xyz.refinedev.skywars.profile.SkyWarsProfile;
