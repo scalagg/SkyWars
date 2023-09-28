@@ -5,6 +5,7 @@ import org.bukkit.ChatColor;
 
 @UtilityClass
 public class SpigotConstants {
+
     public static final String GAME_NAME = ChatColor.AQUA +ChatColor.BOLD.toString() + "Skywars " + ChatColor.DARK_GRAY + "► " + ChatColor.WHITE;
     public static final String QUEUE = ChatColor.AQUA + ChatColor.BOLD.toString() + "Queue " + ChatColor.DARK_GRAY + "► " + ChatColor.WHITE;
     public static final String GAME = ChatColor.AQUA + ChatColor.BOLD.toString() + "Game " + ChatColor.DARK_GRAY + "► " + ChatColor.WHITE;

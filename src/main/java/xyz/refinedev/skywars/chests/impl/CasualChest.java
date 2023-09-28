@@ -1,4 +1,4 @@
-package xyz.refinedev.skywars.chests.impl.casual;
+package xyz.refinedev.skywars.chests.impl;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

@@ -16,7 +16,6 @@ import xyz.refinedev.skywars.arena.listener.ArenaModelEditorListener;
 import xyz.refinedev.skywars.chests.ChestHandler;
 import xyz.refinedev.skywars.commands.ArenaCommand;
 import xyz.refinedev.skywars.commands.GameCommand;
-import xyz.refinedev.skywars.config.SkyWarsConfig;
 import xyz.refinedev.commands.PaperCommandManager;
 import lombok.Getter;
 import lombok.Setter;
@@ -65,8 +64,6 @@ public class pxSkyWars extends JavaPlugin {
     public void onEnable() {
         instance = this;
 
-        SkyWarsConfig.IMP.reload();
-
         this.gson = new GsonBuilder()
                 .registerTypeHierarchyAdapter(PotionEffect.class, new PotionEffectAdapter())
                 .registerTypeHierarchyAdapter(ItemStack.class, new ItemStackAdapter())
@@ -89,8 +86,7 @@ public class pxSkyWars extends JavaPlugin {
                 new ProfileListener(this),
                 new ItemListener(),
                 new ArenaModelEditorListener(),
-                new GameListener(this),
-                new PreventionListener(this)
+                new GameListener(this)
         ).forEach(listener -> this.getServer().getPluginManager().registerEvents(listener, this));
 
         commandHandler = Phoenix.getInstance().getCommandHandler();

@@ -31,7 +31,6 @@ import java.util.List;
 public class ScoreboardAdapter implements AssembleAdapter {
 
     private final pxSkyWars plugin;
-
     private final TitleAnimation animation = new TitleAnimation(
             "SKYWARS",
             "&6&l",
@@ -48,65 +47,66 @@ public class ScoreboardAdapter implements AssembleAdapter {
     public List<String> getLines(Player player) {
         List<String> lines = new ArrayList<>();
 
-        SkyWarsProfile profile = plugin.getProfileHandler().getProfile(player.getUniqueId());
-        Profile phoenix = SharedAPI.getInstance().getProfileHandler().getProfile(player.getUniqueId());
+        SkyWarsProfile skyProfile = plugin.getProfileHandler().getProfile(player.getUniqueId());
+        Profile profile = SharedAPI.getInstance().getProfileHandler().getProfile(player.getUniqueId());
+        SkyWarsGame game = plugin.getGameHandler().getGame(player);
 
-        if (plugin.getGameHandler().isPlayingGame(player)) {
-            SkyWarsGame game = plugin.getGameHandler().getGame(player);
-
-            lines.add("&f");
-            lines.add("&7■ &fMap: &6" + game.getArena().getArenaSchematic().getDisplayName());
-            lines.add("&7■ &fAlive: &6" + game.getAlivePlayers().size() + "/" + game.getPlayers().size());
-            lines.add("&7■ &fKit: &6" + StringUtils.convertFirstUpperCase(profile.getSelectedKit()));
-            lines.add("");
-            lines.add("&7pixelarcade.gg");
-        }
-
-        if (phoenix.hasMetadata("modmode")) {
-            lines.add("&f");
-            lines.add("&6&lStaff&7:");
-            lines.add("&7■ &fVanish: &6" + phoenix.isVanished());
-            if (player.hasPermission("core.dev")) {
-                lines.add("&7■ &6&lDev&7:");
-                lines.add("&7■ &fTPS: &6" + MinecraftServer.getServer().recentTps[0]);
+        switch (skyProfile.getState()) {
+            case SPECTATING: {
+                lines.add("&f");
+                lines.add("&4&lYou Died!");
+                lines.add("&7■ &fMap: &6" + game.getArena().getArenaSchematic().getDisplayName());
+                lines.add("&7■ &fAlive: &6" + game.getAlivePlayers().size() + "/" + game.getPlayers().size());
+                break;
             }
-        } else {
-            lines.add("&f");
-            lines.add("&6&lYou&7:");
-            lines.add("&7■ &fRank: " + phoenix.getHighestRank().getDisplayName());
-            Profile phoenixprofile = SharedAPI.getInstance().getProfileHandler().getProfile(player.getUniqueId());
-            lines.add("&7■ &fCoins: &6" + pxCosmetics.getInstance().getProfileHandler().getProfile(player.getUniqueId()).getCoins() + "&e⛃");
 
-            if (phoenixprofile.getDisguiseData().isDisguised()) {
-                lines.add("&7■ &c&lDisguised as&7:");
-                lines.add("&7 " + phoenixprofile.getDisguiseData().getDisguiseName());
+            case GAME: {
+                lines.add("&f");
+                lines.add("&7■ &fMap: &6" + game.getArena().getArenaSchematic().getDisplayName());
+                lines.add("&7■ &fAlive: &6" + game.getAlivePlayers().size() + "/" + game.getPlayers().size());
+                lines.add("&7■ &fKit: &6" + StringUtils.convertFirstUpperCase(skyProfile.getSelectedKit()));
+                break;
             }
-            int exp = SharedAPI.getInstance().getLevelHook().getExperience(phoenix);
-            Level level = pxLevels.getInstance().getLevelHandler().getLevelByExp(exp);
-            lines.add("&7■ &fLevel: " + level.getFormattedName());
-//            lines.add(getProgressBar(exp, level.getExperienceNeeded(), 10) + " &3" + exp + "/" + level.getExperienceNeeded());
-            lines.add("");
-            lines.add("&6&lOnline&7:");
-            lines.add("&7■ &fAll: &60");
-            lines.add("&7■ &fPlaying: &60");
-            if (Phoenix.getInstance().getRebootHandler().isRebootScheduled()) {
+
+            case LOBBY: {
+                if (profile.hasMetadata("modmode")) {
+                    lines.add("&f");
+                    lines.add("&6&lStaff&7:");
+                    lines.add("&7■ &fVanish: &6" + profile.isVanished());
+
+                    if (player.hasPermission("core.dev")) {
+                        lines.add("&7■ &6&lDev&7:");
+                        lines.add("&7■ &fTPS: &6" + MinecraftServer.getServer().recentTps[0]);
+                    }
+                }
+
+                lines.add("&f");
+                lines.add("&6&lYou&7:");
+                lines.add("&7■ &fRank: " + profile.getHighestRank().getDisplayName());
+                lines.add("&7■ &fCoins: &e" + pxCosmetics.getInstance().getProfileHandler().getProfile(player.getUniqueId()).getCoins() + "&6⛃");
+
+                int exp = SharedAPI.getInstance().getLevelHook().getExperience(profile);
+                Level level = pxLevels.getInstance().getLevelHandler().getLevelByExp(exp);
+                lines.add("&7■ &fLevel: " + level.getFormattedName());
+
                 lines.add("");
-                lines.add("&7■ &c&lRebooting in&7:");
-                lines.add("&7 " + Phoenix.getInstance().getRebootHandler().getTimeRemaining());
-            }
+                lines.add("&6&lOnline&7:");
+                lines.add("&7■ &fAll: &60");
+                lines.add("&7■ &fPlaying: &60");
 
-            lines.add("");
-            lines.add("&7pixelarcade.gg");
+                break;
+            }
         }
 
+        if (Phoenix.getInstance().getRebootHandler().isRebootScheduled()) {
+            lines.add("");
+            lines.add("&7■ &c&lRebooting in&7:");
+            lines.add("&7 " + Phoenix.getInstance().getRebootHandler().getTimeRemaining());
+        }
+
+        lines.add("");
+        lines.add("&7pixelarcade.gg");
 
         return lines;
     }
-
-//    public String getProgressBar(int current, int max, int totalBars) {
-//        float percent = (float) current / max;
-//        int progressBars = (int) (totalBars * percent);
-//
-//        return Strings.repeat(ChatColor.YELLOW.toString() + '▋', progressBars) + Strings.repeat(ChatColor.GRAY.toString() + '▋', totalBars - progressBars);
-//    }
 }
