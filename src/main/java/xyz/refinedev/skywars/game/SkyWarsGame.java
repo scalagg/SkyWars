@@ -151,6 +151,8 @@ public class SkyWarsGame {
         if (state != GameState.LIVE) {
             players.remove(player.getUniqueId());
 
+            SpawnUtil.teleportToSpawn(player);
+
             PlayerLeavePreGameEvent event = new PlayerLeavePreGameEvent(player, this);
             Bukkit.getPluginManager().callEvent(event);
             return;
@@ -232,7 +234,7 @@ public class SkyWarsGame {
     }
 
     public boolean hasStarted() {
-        return state != GameState.LIVE;
+        return state == GameState.LIVE || state == GameState.ENDED;
     }
 
     public boolean isInGame(Player player) {

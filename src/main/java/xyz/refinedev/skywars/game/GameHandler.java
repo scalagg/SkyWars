@@ -56,6 +56,9 @@ public class GameHandler {
 
     public SkyWarsGame getAvailableGame(GameType type) {
         for (SkyWarsGame game : games) {
+            if (game.getGameType() != type)
+                continue;
+
             if (!game.hasStarted() || game.getArena().getArenaSchematic().isEnabled())
                 return game;
         }
