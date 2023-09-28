@@ -4,8 +4,11 @@ import lombok.Data;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
+import sun.util.calendar.CalendarUtils;
 import xyz.refinedev.skywars.game.state.GameType;
+import xyz.refinedev.skywars.utils.CalenderUtil;
 
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -44,7 +47,8 @@ public abstract class Kit {
     }
 
     public boolean isFree() {
-        return getCost() == 0;
+        return getCost() == 0
+                || CalenderUtil.isWeekend();
     }
 
 }
