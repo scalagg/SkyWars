@@ -151,6 +151,7 @@ public class SkyWarsGame {
         if (state != GameState.LIVE) {
             players.remove(player.getUniqueId());
 
+            arena.removeUsedSpawn(player.getLocation());
             SpawnUtil.teleportToSpawn(player);
 
             PlayerLeavePreGameEvent event = new PlayerLeavePreGameEvent(player, this);
@@ -161,10 +162,6 @@ public class SkyWarsGame {
         onDeath(player, null);
         PlayerLeaveGameEvent event = new PlayerLeaveGameEvent(player, this);
         Bukkit.getPluginManager().callEvent(event);
-    }
-
-    public void suddenDeath() {
-
     }
 
     public void setState(GameState state) {

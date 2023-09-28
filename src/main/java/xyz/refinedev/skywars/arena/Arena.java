@@ -58,7 +58,7 @@ public final class Arena {
      * For purposes of arena definition
      */
     private final List<Location> spawns = new ArrayList<>();
-
+    private final List<Location> usedSpawns = new ArrayList<>();
 
     private final Map<Location, ChestType> chests = new HashMap<>();
 
@@ -100,19 +100,22 @@ public final class Arena {
 
     public Location getRandomSpawn() {
         List<Location> availableSpawns = new ArrayList<>(spawns);
-        Location spawn = null;
 
-        while (!availableSpawns.isEmpty()) {
+        availableSpawns.removeAll(usedSpawns);
+
+        if (!availableSpawns.isEmpty()) {
             int index = pxSkyWars.getInstance().getRandom().nextInt(availableSpawns.size());
-            spawn = availableSpawns.remove(index);
+            Location spawn = availableSpawns.get(index);
 
-            // Check if spawn was already returned
-            if (!spawns.contains(spawn)) {
-                break;
-            }
+            usedSpawns.add(spawn);
+            return spawn;
         }
 
-        return spawn;
+        return null;
+    }
+
+    public void removeUsedSpawn(Location location) {
+        usedSpawns.remove(location);
     }
 
     private void scanLocations() {
