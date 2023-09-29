@@ -8,6 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import xyz.refinedev.phoenix.utils.Color;
+import xyz.refinedev.skywars.game.event.GameEndEvent;
 import xyz.refinedev.skywars.item.impl.*;
 import xyz.refinedev.skywars.profile.SkyWarsProfile;
 import xyz.refinedev.skywars.pxSkyWars;
@@ -45,25 +46,6 @@ public class ProfileListener implements Listener {
     public void onPlayerLogin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
-        if (player.hasPermission("core.staff")) {
-            Bukkit.broadcastMessage(Color.translate(SpigotConstants.LOBBY + " &7>>> &4&k;&c&k;&r &7[&cStaff&7] &a"
-                    + player.getName() + " &7has joined the lobby! &c&k;&4&k;&r &7<<<"));
-        }
-        if (player.hasPermission("skywars.wc") && !player.isOp()) {
-            Bukkit.broadcastMessage(Color.translate(SpigotConstants.LOBBY + " &7>>> &B&K;&3&k;&r &7[&aW&2C&7] &a"
-                    + player.getName() + " &7has joined the lobby! &3&k;&b&k; &7<<<"));
-        }
-
-        if (player.hasPermission("skywars.champion") && !player.isOp()) {
-            Bukkit.broadcastMessage(Color.translate(SpigotConstants.LOBBY + " &7>>> &7[&eC&7] &a"
-                    + player.getName() + " &7has joined the lobby! &7<<<"));
-        }
-
-        player.getInventory().clear();
-        player.getInventory().setItem(0, new QueueItem(player).getItem(player));
-        player.getInventory().setItem(1, new ProfileItem(player).getItem(player));
-        player.getInventory().setItem(4, new CosmeticItem(player).getItem(player));
-        player.getInventory().setItem(7, new LoadoutItem(player).getItem(player));
-        player.getInventory().setItem(8, new SettingsItem(player).getItem(player));
+        pxSkyWars.getInstance().giveItems(player);
     }
 }

@@ -43,9 +43,7 @@ public class SkyWarsProfile {
     private int heads = 0;
     private int souls = 0;
 
-    @Exclude
     private ProfileState state = ProfileState.LOBBY;
-
     private List<Achievement> ownedAchievements = new ArrayList<>();
 
     public void load() {
@@ -69,7 +67,7 @@ public class SkyWarsProfile {
             this.elo = profile.getElo();
             this.heads = profile.getHeads();
             this.souls = profile.getSouls();
-            this.state = profile.getState();
+            this.state = ProfileState.LOBBY;
             this.ownedAchievements = profile.getOwnedAchievements();
         });
     }

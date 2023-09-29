@@ -49,10 +49,10 @@ public class ScoreboardAdapter implements AssembleAdapter {
 
         SkyWarsProfile skyProfile = plugin.getProfileHandler().getProfile(player.getUniqueId());
         Profile profile = SharedAPI.getInstance().getProfileHandler().getProfile(player.getUniqueId());
-        SkyWarsGame game = plugin.getGameHandler().getGame(player);
 
         switch (skyProfile.getState()) {
             case SPECTATING: {
+                SkyWarsGame game = plugin.getGameHandler().getGame(player);
                 lines.add("&f");
                 lines.add("&4&lYou Died!");
                 lines.add("&7■ &fMap: &6" + game.getArena().getArenaSchematic().getDisplayName());
@@ -61,6 +61,7 @@ public class ScoreboardAdapter implements AssembleAdapter {
             }
 
             case GAME: {
+                SkyWarsGame game = plugin.getGameHandler().getGame(player);
                 lines.add("&f");
                 lines.add("&7■ &fMap: &6" + game.getArena().getArenaSchematic().getDisplayName());
                 lines.add("&7■ &fAlive: &6" + game.getAlivePlayers().size() + "/" + game.getPlayers().size());

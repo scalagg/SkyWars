@@ -99,10 +99,9 @@ public class SkyWarsGame {
 
         SkyWarsProfile profile = pxSkyWars.getInstance().getProfileHandler().getProfile(winner.getUniqueId());
         profile.incrementWins();
-        profile.save();
 
-        // don't want to save the state
         profile.setState(ProfileState.LOBBY);
+        profile.save();
 
         SpawnUtil.teleportToSpawn(winner);
 
@@ -236,6 +235,7 @@ public class SkyWarsGame {
 
         SkyWarsProfile profile = pxSkyWars.getInstance().getProfileHandler().getProfile(player.getUniqueId());
         profile.setState(ProfileState.LOBBY);
+        profile.save();
 
         for (UUID alive : alivePlayers) {
             Player alivePlayer = Bukkit.getPlayer(alive);
