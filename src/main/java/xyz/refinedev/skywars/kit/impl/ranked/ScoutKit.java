@@ -33,11 +33,11 @@ public class ScoutKit extends Kit {
 
     @Override
     public List<GameType> getGameType() {
-        return Arrays.asList(GameType.RANKED_SOLO);
+        return Arrays.asList(GameType.RANKED_SOLO, GameType.RANKED_DOUBLES);
     }
     @Override
     public ItemStack getDisplayItem() {
-        return new ItemBuilder(Material.POTION)
+        return new ItemBuilder(Material.POTION).addCustomPotionEffect(new PotionEffect(PotionEffectType.SPEED, 25 * 20, 1), false)
                 .setName("&aScout")
                 .setLore(Arrays.asList(
                         "&6&m---------------------",

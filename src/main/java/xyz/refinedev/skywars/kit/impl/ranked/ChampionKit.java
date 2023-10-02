@@ -25,7 +25,7 @@ public class ChampionKit extends Kit{
 
     @Override
     public List<GameType> getGameType() {
-        return Arrays.asList(GameType.RANKED_SOLO);
+        return Arrays.asList(GameType.RANKED_SOLO, GameType.RANKED_DOUBLES);
     }
 
     @Override

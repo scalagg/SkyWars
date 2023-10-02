@@ -6,6 +6,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import sun.util.calendar.CalendarUtils;
 import xyz.refinedev.skywars.game.state.GameType;
+import xyz.refinedev.skywars.kit.enums.Rarity;
 import xyz.refinedev.skywars.utils.CalenderUtil;
 
 import java.util.Calendar;
@@ -33,6 +34,7 @@ public abstract class Kit {
     public List<PotionEffect> getPotionEffects() {
         return null;
     }
+//    @TODO: Add Raritys from the Enum class
 
     public void equipKit(Kit kit, Player player) {
         player.getInventory().clear();
