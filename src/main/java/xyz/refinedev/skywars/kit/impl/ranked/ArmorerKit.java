@@ -28,10 +28,8 @@ public class ArmorerKit extends Kit{
                 .setName("&aArmorer")
                 .setLore(Arrays.asList(
                         "&6&m---------------------",
-                        "&7■ &fDiamond Helmet with Protection 2",
-                        "&7■ &fIron Armor",
-                        "&7■ &fBow with Power 3",
-                        "&7■ &fIron Sword",
+                        "&7■ &fDiamond Chestplate (Protection I)",
+                        "&7■ &fDiamond Boots (Protection I)",
                         "&7■ &fIron Pickaxe",
                         "&7■ &fIron Axe",
                         "&6&m---------------------"
@@ -41,7 +39,7 @@ public class ArmorerKit extends Kit{
 
     @Override
     public List<GameType> getGameType() {
-        return Arrays.asList(GameType.RANKED_SOLO);
+        return Arrays.asList(GameType.RANKED_SOLO, GameType.RANKED_DOUBLES);
     }
     @Override
     public ItemStack[] getArmor() {
@@ -50,6 +48,7 @@ public class ArmorerKit extends Kit{
                         .addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1)
                         .toItemStack(),
                 new ItemBuilder(Material.DIAMOND_BOOTS).toItemStack()
+
         };
 
     }

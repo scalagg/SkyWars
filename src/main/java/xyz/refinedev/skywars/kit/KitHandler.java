@@ -34,6 +34,10 @@ public class KitHandler {
         registerKit(new BowmanKit());
         registerKit(new AthleteKit());
         registerKit(new BlacksmithKit());
+        registerKit(new MedicKit());
+        registerKit(new PyromancerKit());
+        registerKit(new TamerKit());
+        registerKit(new PaladinKit());
 
     }
 
