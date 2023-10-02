@@ -5,6 +5,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
+import xyz.refinedev.levels.level.Level;
+import xyz.refinedev.levels.pxLevels;
+import xyz.refinedev.phoenix.SharedAPI;
+import xyz.refinedev.phoenix.hook.impl.LevelHook;
+import xyz.refinedev.phoenix.profile.Profile;
 import xyz.refinedev.phoenix.utils.Color;
 import xyz.refinedev.phoenix.utils.general.Tasks;
 import xyz.refinedev.skywars.arena.Arena;
@@ -77,6 +82,9 @@ public class SkyWarsGame {
 
             player.removeMetadata("frozen", pxSkyWars.getInstance());
 
+            Profile levelProfile = SharedAPI.getInstance().getProfileHandler().getProfile(player.getUniqueId());
+            SharedAPI.getInstance().getLevelHook().addExperience(levelProfile, 10, "Started a game of SkyWars");
+
             player.getInventory().clear();
             player.getInventory().setArmorContents(null);
 
@@ -96,14 +104,15 @@ public class SkyWarsGame {
             return;
         }
 
-        SkyWarsProfile profile = pxSkyWars.getInstance().getProfileHandler().getProfile(winner.getUniqueId());
-        profile.incrementWins();
+        SkyWarsProfile skyWarsProfile = pxSkyWars.getInstance().getProfileHandler().getProfile(winner.getUniqueId());
+        skyWarsProfile.incrementWins();
+        skyWarsProfile.setInLobby(true);
+        skyWarsProfile.save();
 
-        profile.setInLobby(true);
-        profile.save();
+        Profile profile = SharedAPI.getInstance().getProfileHandler().getProfile(winner.getUniqueId());
+        SharedAPI.getInstance().getLevelHook().addExperience(profile, 100, "Won a game of SkyWars");
 
         SpawnUtil.teleportToSpawn(winner);
-
         this.endGame();
     }
 
@@ -194,6 +203,9 @@ public class SkyWarsGame {
             SkyWarsProfile killerProfile = pxSkyWars.getInstance().getProfileHandler().getProfile(killer.getUniqueId());
             killerProfile.incrementKills();
             killerProfile.save();
+
+            Profile levelProfile = SharedAPI.getInstance().getProfileHandler().getProfile(player.getUniqueId());
+            SharedAPI.getInstance().getLevelHook().addExperience(levelProfile, 15, "Killed a player in SkyWars");
         }
 
         if (alivePlayers.size() <= 1) {
