@@ -7,6 +7,7 @@ import org.bukkit.block.Chest;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import xyz.refinedev.skywars.arena.Arena;
+import xyz.refinedev.skywars.game.SkyWarsGame;
 import xyz.refinedev.skywars.game.state.ChestType;
 import xyz.refinedev.skywars.game.state.GameType;
 import xyz.refinedev.skywars.game.state.RefillType;
@@ -28,7 +29,10 @@ public abstract class LootableChest {
     public abstract List<ItemStack> getSpawnLoot(RefillType refillType);
     public abstract List<ItemStack> getMiddleLoot(RefillType refillType);
 
-    public void fillChests(Arena arena, RefillType refillType) {
+    public void fillChests(SkyWarsGame game, Arena arena, RefillType refillType) {
+        if (!game.isActive())
+            return;
+
         for (Map.Entry<Location, ChestType> entry : arena.getChests().entrySet()) {
             Block block = arena.getBounds().getWorld().getBlockAt(entry.getKey());
 

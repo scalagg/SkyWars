@@ -1,10 +1,8 @@
 package xyz.refinedev.skywars.kit;
 
 import lombok.Data;
-import xyz.refinedev.skywars.kit.impl.casual.insane.ArmorsmithKit;
 import xyz.refinedev.skywars.kit.impl.casual.normal.*;
 import xyz.refinedev.skywars.kit.impl.casual.normal.ArmorerKit;
-import xyz.refinedev.skywars.kit.impl.casual.normal.ArmorsmithKit;
 import xyz.refinedev.skywars.kit.impl.casual.normal.MagicianKit;
 import xyz.refinedev.skywars.kit.impl.casual.normal.MedicKit;
 import xyz.refinedev.skywars.kit.impl.casual.normal.PyromancerKit;

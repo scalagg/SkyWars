@@ -7,6 +7,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 import xyz.refinedev.levels.level.Level;
 import xyz.refinedev.levels.pxLevels;
+import xyz.refinedev.party.party.Party;
+import xyz.refinedev.party.pxParty;
 import xyz.refinedev.phoenix.SharedAPI;
 import xyz.refinedev.phoenix.hook.impl.LevelHook;
 import xyz.refinedev.phoenix.profile.Profile;
@@ -48,6 +50,7 @@ public class SkyWarsGame {
     private GameState state = GameState.WAITING;
 
     private boolean forceStarted = false;
+    private boolean active = false;
 
     public SkyWarsGame(Arena arena, GameType gameType) {
         this.arena = arena;
@@ -70,12 +73,13 @@ public class SkyWarsGame {
     public void startGame() {
         state = GameState.LIVE;
         alivePlayers.addAll(players);
+        active = true;
 
         LootableChest chest = pxSkyWars.getInstance().getChestHandler().getChest(gameType);
-        chest.fillChests(arena, RefillType.FIRST);
+        chest.fillChests(this, arena, RefillType.FIRST);
 
-        Tasks.runLater(() -> chest.fillChests(arena, RefillType.SECOND), 20 * 60 * 3);
-        Tasks.runLater(() -> chest.fillChests(arena, RefillType.THIRD), 20 * 60 * 6);
+        Tasks.runLater(() -> chest.fillChests(this, arena, RefillType.SECOND), 20 * 60 * 3);
+        Tasks.runLater(() -> chest.fillChests(this, arena, RefillType.THIRD), 20 * 60 * 6);
 
         for (UUID uuid : alivePlayers) {
             Player player = Bukkit.getPlayer(uuid);
@@ -90,7 +94,9 @@ public class SkyWarsGame {
 
             SkyWarsProfile profile = pxSkyWars.getInstance().getProfileHandler().getProfile(player.getUniqueId());
             Kit kit = pxSkyWars.getInstance().getKitHandler().getKitByName(profile.getSelectedKit());
-            kit.apply(player);
+            kit.getGameType().stream()
+                    .filter(type -> type == gameType)
+                    .forEach(type -> kit.apply(player));
 
             player.setHealth(20);
             player.setFoodLevel(20);
@@ -125,6 +131,7 @@ public class SkyWarsGame {
 
     public void endGame() {
         state = GameState.ENDED;
+        active = false;
 
         for (UUID spectator : spectators) {
             Player player = Bukkit.getPlayer(spectator);
@@ -154,11 +161,14 @@ public class SkyWarsGame {
         PlayerJoinGameEvent event = new PlayerJoinGameEvent(player, this);
         Bukkit.getPluginManager().callEvent(event);
 
-        SkyWarsProfile profile = pxSkyWars.getInstance().getProfileHandler().getProfile(player.getUniqueId());
-        profile.setInLobby(false);
-
         players.add(player.getUniqueId());
         player.teleport(arena.getLobbySpawn());
+
+        Profile pxProfile = SharedAPI.getInstance().getProfileHandler().getProfile(player.getUniqueId());
+        pxProfile.updateMetadata("inGame", true, false);
+
+        SkyWarsProfile profile = pxSkyWars.getInstance().getProfileHandler().getProfile(player.getUniqueId());
+        profile.setInLobby(false);
     }
 
     public void removePlayer(Player player) {
@@ -171,6 +181,9 @@ public class SkyWarsGame {
             SkyWarsProfile profile = pxSkyWars.getInstance().getProfileHandler().getProfile(player.getUniqueId());
             profile.setInLobby(true);
             profile.save();
+
+            Profile pxProfile = SharedAPI.getInstance().getProfileHandler().getProfile(player.getUniqueId());
+            pxProfile.updateMetadata("inGame", false, false);
 
             PlayerLeavePreGameEvent event = new PlayerLeavePreGameEvent(player, this);
             Bukkit.getPluginManager().callEvent(event);
@@ -245,6 +258,9 @@ public class SkyWarsGame {
         SkyWarsProfile profile = pxSkyWars.getInstance().getProfileHandler().getProfile(player.getUniqueId());
         profile.setInLobby(true);
         profile.save();
+
+        Profile pxProfile = SharedAPI.getInstance().getProfileHandler().getProfile(player.getUniqueId());
+        pxProfile.updateMetadata("inGame", false, false);
 
         for (UUID alive : alivePlayers) {
             Player alivePlayer = Bukkit.getPlayer(alive);

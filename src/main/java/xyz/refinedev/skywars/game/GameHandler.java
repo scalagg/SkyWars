@@ -5,6 +5,8 @@ import lombok.Getter;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+import xyz.refinedev.party.party.Party;
+import xyz.refinedev.party.pxParty;
 import xyz.refinedev.skywars.arena.Arena;
 import xyz.refinedev.skywars.arena.ArenaSchematic;
 import xyz.refinedev.skywars.game.SkyWarsGame;
@@ -54,16 +56,21 @@ public class GameHandler {
         return game;
     }
 
-    public SkyWarsGame getAvailableGame(GameType type) {
+    public SkyWarsGame getAvailableGame(Player player, GameType gameType) {
+        Party party = pxParty.getInstance().getPartyHandler().getByPlayer(player.getUniqueId());
+
         for (SkyWarsGame game : games) {
-            if (game.getGameType() != type)
+            if (game.getGameType() != gameType)
+                continue;
+
+            if (party != null && party.getMembers().size() >= game.getPlayers().size())
                 continue;
 
             if (!game.hasStarted() || game.getArena().getArenaSchematic().isEnabled())
                 return game;
         }
 
-        return createGame(type);
+        return createGame(gameType);
     }
 
     public void removeGame(SkyWarsGame game) {

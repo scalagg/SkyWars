@@ -1,17 +1,22 @@
 package xyz.refinedev.skywars.commands;
 
 import lombok.RequiredArgsConstructor;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import xyz.refinedev.commands.BaseCommand;
 import xyz.refinedev.commands.CommandHelp;
 import xyz.refinedev.commands.ConditionFailedException;
 import xyz.refinedev.commands.annotation.*;
+import xyz.refinedev.party.party.Party;
+import xyz.refinedev.party.pxParty;
 import xyz.refinedev.phoenix.utils.Color;
 import xyz.refinedev.skywars.game.SkyWarsGame;
 import xyz.refinedev.skywars.game.state.GameType;
 import xyz.refinedev.skywars.pxSkyWars;
 import xyz.refinedev.skywars.utils.SpigotConstants;
+
+import java.util.UUID;
 
 /**
  * @author Creaxx
@@ -30,8 +35,23 @@ public class GameCommand extends BaseCommand {
             throw new ConditionFailedException("alr in game");
         }
 
-        SkyWarsGame game = plugin.getGameHandler().getAvailableGame(type);
-        game.addPlayer(player);
+        SkyWarsGame game = plugin.getGameHandler().getAvailableGame(player, type);
+        Party party = pxParty.getInstance().getPartyHandler().getByPlayer(player.getUniqueId());
+
+        if (party != null) {
+            if (!party.isLeader(player.getUniqueId())) {
+                player.sendMessage(Color.translate("&cYou must be the leader of the party to join a game."));
+                return;
+            }
+
+            for (UUID uuid : party.getMembersWithLeader()) {
+                Player member = Bukkit.getPlayer(uuid);
+                if (member == null)
+                    continue;
+
+                game.addPlayer(member);
+            }
+        } else game.addPlayer(player);
     }
 
     @Subcommand("leave")
