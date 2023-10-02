@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import xyz.refinedev.basic.config.BasicConfig;
 import xyz.refinedev.phoenix.utils.server.LocationSerilization;
+import xyz.refinedev.skywars.pxSkyWars;
 
 /**
  * @author Creaxx
@@ -16,6 +17,8 @@ public class SpawnUtil {
 
     public void teleportToSpawn(Player player) {
         player.teleport(Bukkit.getWorld("world").getSpawnLocation());
+
+        pxSkyWars.getInstance().giveItems(player);
     }
 
 }

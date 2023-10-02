@@ -6,7 +6,6 @@ import lombok.Setter;
 import xyz.refinedev.phoenix.SharedAPI;
 import xyz.refinedev.phoenix.utils.Exclude;
 import xyz.refinedev.skywars.achievement.Achievement;
-import xyz.refinedev.skywars.profile.state.ProfileState;
 import xyz.refinedev.skywars.pxSkyWars;
 
 import java.util.ArrayList;
@@ -43,8 +42,7 @@ public class SkyWarsProfile {
     private int heads = 0;
     private int souls = 0;
 
-    @Exclude
-    private ProfileState state = ProfileState.LOBBY;
+    private boolean inLobby = true;
 
     private List<Achievement> ownedAchievements = new ArrayList<>();
 
@@ -69,7 +67,7 @@ public class SkyWarsProfile {
             this.elo = profile.getElo();
             this.heads = profile.getHeads();
             this.souls = profile.getSouls();
-            this.state = profile.getState();
+            this.inLobby = profile.isInLobby();
             this.ownedAchievements = profile.getOwnedAchievements();
         });
     }

@@ -3,6 +3,7 @@ package xyz.refinedev.skywars;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.util.BlockVector;
@@ -22,6 +23,7 @@ import lombok.Setter;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.refinedev.skywars.game.GameHandler;
 import xyz.refinedev.skywars.game.listener.GameListener;
+import xyz.refinedev.skywars.item.impl.*;
 import xyz.refinedev.skywars.item.listeners.ItemListener;
 import xyz.refinedev.skywars.kit.KitHandler;
 import xyz.refinedev.skywars.listener.PreventionListener;
@@ -112,4 +114,26 @@ public class pxSkyWars extends JavaPlugin {
     public void onDisable() {
         arenaHandler.saveSchematics();
     }
+
+    public void giveItems(Player player) {
+        player.getInventory().clear();
+        player.getActivePotionEffects().clear();
+
+        player.setHealth(20);
+        player.setFoodLevel(20);
+        player.setFireTicks(0);
+        player.setExp(0);
+        player.setLevel(0);
+
+        player.setFlying(false);
+        player.setAllowFlight(false);
+
+        player.getInventory().setItem(0, new QueueItem(player).getItem(player));
+        player.getInventory().setItem(1, new ProfileItem(player).getItem(player));
+        player.getInventory().setItem(4, new CosmeticItem(player).getItem(player));
+        player.getInventory().setItem(7, new LoadoutItem(player).getItem(player));
+        player.getInventory().setItem(8, new SettingsItem(player).getItem(player));
+    }
+
+
 }

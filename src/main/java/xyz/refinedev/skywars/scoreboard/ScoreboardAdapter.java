@@ -49,52 +49,46 @@ public class ScoreboardAdapter implements AssembleAdapter {
 
         SkyWarsProfile skyProfile = plugin.getProfileHandler().getProfile(player.getUniqueId());
         Profile profile = SharedAPI.getInstance().getProfileHandler().getProfile(player.getUniqueId());
-        SkyWarsGame game = plugin.getGameHandler().getGame(player);
 
-        switch (skyProfile.getState()) {
-            case SPECTATING: {
+        if (skyProfile.isInLobby()) {
+            if (profile.hasMetadata("modmode")) {
+                lines.add("&f");
+                lines.add("&6&lStaff&7:");
+                lines.add("&7■ &fVanish: &6" + profile.isVanished());
+
+                if (player.hasPermission("core.dev")) {
+                    lines.add("&7■ &6&lDev&7:");
+                    lines.add("&7■ &fTPS: &6" + MinecraftServer.getServer().recentTps[0]);
+                }
+            }
+
+            lines.add("&f");
+            lines.add("&6&lYou&7:");
+            lines.add("&7■ &fRank: " + profile.getHighestRank().getDisplayName());
+            lines.add("&7■ &fCoins: &e" + pxCosmetics.getInstance().getProfileHandler().getProfile(player.getUniqueId()).getCoins() + "&6⛃");
+
+            int exp = SharedAPI.getInstance().getLevelHook().getExperience(profile);
+            Level level = pxLevels.getInstance().getLevelHandler().getLevelByExp(exp);
+            lines.add("&7■ &fLevel: " + level.getFormattedName());
+
+            lines.add("");
+            lines.add("&6&lOnline&7:");
+            lines.add("&7■ &fAll: &60");
+            lines.add("&7■ &fPlaying: &60");
+        }
+
+        SkyWarsGame game = plugin.getGameHandler().getGame(player);
+        if (game != null) {
+            if (game.isSpectating(player.getUniqueId())) {
                 lines.add("&f");
                 lines.add("&4&lYou Died!");
                 lines.add("&7■ &fMap: &6" + game.getArena().getArenaSchematic().getDisplayName());
                 lines.add("&7■ &fAlive: &6" + game.getAlivePlayers().size() + "/" + game.getPlayers().size());
-                break;
-            }
-
-            case GAME: {
+            } else {
                 lines.add("&f");
                 lines.add("&7■ &fMap: &6" + game.getArena().getArenaSchematic().getDisplayName());
                 lines.add("&7■ &fAlive: &6" + game.getAlivePlayers().size() + "/" + game.getPlayers().size());
                 lines.add("&7■ &fKit: &6" + StringUtils.convertFirstUpperCase(skyProfile.getSelectedKit()));
-                break;
-            }
-
-            case LOBBY: {
-                if (profile.hasMetadata("modmode")) {
-                    lines.add("&f");
-                    lines.add("&6&lStaff&7:");
-                    lines.add("&7■ &fVanish: &6" + profile.isVanished());
-
-                    if (player.hasPermission("core.dev")) {
-                        lines.add("&7■ &6&lDev&7:");
-                        lines.add("&7■ &fTPS: &6" + MinecraftServer.getServer().recentTps[0]);
-                    }
-                }
-
-                lines.add("&f");
-                lines.add("&6&lYou&7:");
-                lines.add("&7■ &fRank: " + profile.getHighestRank().getDisplayName());
-                lines.add("&7■ &fCoins: &e" + pxCosmetics.getInstance().getProfileHandler().getProfile(player.getUniqueId()).getCoins() + "&6⛃");
-
-                int exp = SharedAPI.getInstance().getLevelHook().getExperience(profile);
-                Level level = pxLevels.getInstance().getLevelHandler().getLevelByExp(exp);
-                lines.add("&7■ &fLevel: " + level.getFormattedName());
-
-                lines.add("");
-                lines.add("&6&lOnline&7:");
-                lines.add("&7■ &fAll: &60");
-                lines.add("&7■ &fPlaying: &60");
-
-                break;
             }
         }
 
