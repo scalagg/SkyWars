@@ -58,7 +58,7 @@ public class TamerKit extends Kit implements Listener {
 
     @Override
     public Rarity getRarity() {
-        return Rarity.RARE;
+        return Rarity.COMMON;
     }
 
     @Override

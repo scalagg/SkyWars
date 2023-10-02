@@ -1,6 +1,14 @@
 package xyz.refinedev.skywars.kit;
 
 import lombok.Data;
+import xyz.refinedev.skywars.kit.impl.casual.insane.ArmorsmithKit;
+import xyz.refinedev.skywars.kit.impl.casual.normal.*;
+import xyz.refinedev.skywars.kit.impl.casual.normal.ArmorerKit;
+import xyz.refinedev.skywars.kit.impl.casual.normal.ArmorsmithKit;
+import xyz.refinedev.skywars.kit.impl.casual.normal.MagicianKit;
+import xyz.refinedev.skywars.kit.impl.casual.normal.MedicKit;
+import xyz.refinedev.skywars.kit.impl.casual.normal.PyromancerKit;
+import xyz.refinedev.skywars.kit.impl.casual.normal.ScoutKit;
 import xyz.refinedev.skywars.kit.impl.ranked.*;
 import xyz.refinedev.skywars.pxSkyWars;
 
@@ -27,19 +35,56 @@ public class KitHandler {
 
 //        Register Ranked Kits
 //        --------------------
-        registerKit(new ScoutKit());
-        registerKit(new MagicianKit());
-        registerKit(new ArmorerKit());
+        registerKit(new xyz.refinedev.skywars.kit.impl.ranked.ScoutKit());
+        registerKit(new xyz.refinedev.skywars.kit.impl.ranked.MagicianKit());
+        registerKit(new xyz.refinedev.skywars.kit.impl.ranked.ArmorerKit());
         registerKit(new ChampionKit());
         registerKit(new BowmanKit());
         registerKit(new AthleteKit());
         registerKit(new BlacksmithKit());
-        registerKit(new MedicKit());
-        registerKit(new PyromancerKit());
+        registerKit(new xyz.refinedev.skywars.kit.impl.ranked.MedicKit());
+        registerKit(new xyz.refinedev.skywars.kit.impl.ranked.PyromancerKit());
         registerKit(new TamerKit());
         registerKit(new PaladinKit());
 //        --------------------
 //        Register Normal Kits
+        registerKit(new DefaultKit());
+        registerKit(new ArmorerKit());
+        registerKit(new ArmorSmithKit());
+        registerKit(new CannoneerKit());
+        registerKit(new RusherKit());
+        registerKit(new EnchanterKit());
+        registerKit(new EndermanKit());
+        registerKit(new TrapperKit());
+        registerKit(new MedicKit());
+        registerKit(new SniperKit());
+        registerKit(new KnightKit());
+        registerKit(new PyromancerKit());
+        registerKit(new RookieKit());
+        registerKit(new SalmonKit());
+        registerKit(new ScoutKit());
+        registerKit(new MinerKit());
+        registerKit(new MagicianKit());
+//        --------------------
+//        Register Insane Kits
+        registerKit(new xyz.refinedev.skywars.kit.impl.casual.insane.DefaultKit());
+        registerKit(new xyz.refinedev.skywars.kit.impl.casual.insane.ArmorerKit());
+        registerKit(new xyz.refinedev.skywars.kit.impl.casual.insane.ArmorsmithKit());
+        registerKit(new xyz.refinedev.skywars.kit.impl.casual.insane.CannoneerKit());
+        registerKit(new xyz.refinedev.skywars.kit.impl.casual.insane.RusherKit());
+        registerKit(new xyz.refinedev.skywars.kit.impl.casual.insane.EnchanterKit());
+        registerKit(new xyz.refinedev.skywars.kit.impl.casual.insane.EndermanKit());
+        registerKit(new xyz.refinedev.skywars.kit.impl.casual.insane.TrapperKit());
+        registerKit(new xyz.refinedev.skywars.kit.impl.casual.insane.MedicKit());
+        registerKit(new xyz.refinedev.skywars.kit.impl.casual.insane.SniperKit());
+        registerKit(new xyz.refinedev.skywars.kit.impl.casual.insane.KnightKit());
+        registerKit(new xyz.refinedev.skywars.kit.impl.casual.insane.PyromancerKit());
+        registerKit(new xyz.refinedev.skywars.kit.impl.casual.insane.RookieKit());
+        registerKit(new xyz.refinedev.skywars.kit.impl.casual.insane.SalmonKit());
+        registerKit(new xyz.refinedev.skywars.kit.impl.casual.insane.ScoutKit());
+        registerKit(new xyz.refinedev.skywars.kit.impl.casual.insane.MinerKit());
+        registerKit(new xyz.refinedev.skywars.kit.impl.casual.insane.MagicianKit());
+//        --------------------
 
     }
 

@@ -26,6 +26,7 @@ import xyz.refinedev.skywars.game.listener.GameListener;
 import xyz.refinedev.skywars.item.impl.*;
 import xyz.refinedev.skywars.item.listeners.ItemListener;
 import xyz.refinedev.skywars.kit.KitHandler;
+import xyz.refinedev.skywars.listener.PlayerListener;
 import xyz.refinedev.skywars.profile.listener.ProfileListener;
 import xyz.refinedev.skywars.profile.ProfileHandler;
 import xyz.refinedev.skywars.queue.commands.QueueCommand;
@@ -87,6 +88,7 @@ public class pxSkyWars extends JavaPlugin {
         Arrays.asList(
                 new ProfileListener(this),
                 new ItemListener(),
+                new PlayerListener(),
                 new ArenaModelEditorListener(),
                 new GameListener(this)
         ).forEach(listener -> this.getServer().getPluginManager().registerEvents(listener, this));
