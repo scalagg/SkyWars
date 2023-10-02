@@ -25,6 +25,7 @@ public abstract class Kit {
     public abstract int getCost();
 
     public abstract List<GameType> getGameType();
+    public abstract Rarity getRarity();
 
     public abstract ItemStack getDisplayItem();
     public abstract ItemStack[] getArmor();
@@ -34,7 +35,6 @@ public abstract class Kit {
     public List<PotionEffect> getPotionEffects() {
         return null;
     }
-//    @TODO: Add Raritys from the Enum class
 
     public void equipKit(Kit kit, Player player) {
         player.getInventory().clear();

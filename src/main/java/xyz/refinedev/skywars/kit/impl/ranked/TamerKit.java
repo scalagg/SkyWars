@@ -15,6 +15,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import xyz.refinedev.phoenix.utils.item.ItemBuilder;
 import xyz.refinedev.skywars.game.state.GameType;
 import xyz.refinedev.skywars.kit.Kit;
+import xyz.refinedev.skywars.kit.enums.Rarity;
 import xyz.refinedev.skywars.pxSkyWars;
 
 import java.util.ArrayList;
@@ -53,6 +54,11 @@ public class TamerKit extends Kit implements Listener {
                 "&7■ &f5 Wolf Spawn Eggs",
                 "&6&m---------------------"
         )).toItemStack();
+    }
+
+    @Override
+    public Rarity getRarity() {
+        return Rarity.RARE;
     }
 
     @Override

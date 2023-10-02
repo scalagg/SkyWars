@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import xyz.refinedev.phoenix.utils.item.ItemBuilder;
 import xyz.refinedev.skywars.game.state.GameType;
 import xyz.refinedev.skywars.kit.Kit;
+import xyz.refinedev.skywars.kit.enums.Rarity;
 
 import java.util.Arrays;
 import java.util.List;
@@ -41,6 +42,12 @@ public class ArmorerKit extends Kit{
     public List<GameType> getGameType() {
         return Arrays.asList(GameType.RANKED_SOLO, GameType.RANKED_DOUBLES);
     }
+
+    @Override
+    public Rarity getRarity() {
+        return Rarity.RARE;
+    }
+
     @Override
     public ItemStack[] getArmor() {
         return new ItemStack[]{

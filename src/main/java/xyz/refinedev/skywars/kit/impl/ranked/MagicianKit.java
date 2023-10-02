@@ -9,6 +9,7 @@ import org.bukkit.potion.PotionEffectType;
 import xyz.refinedev.phoenix.utils.item.ItemBuilder;
 import xyz.refinedev.skywars.game.state.GameType;
 import xyz.refinedev.skywars.kit.Kit;
+import xyz.refinedev.skywars.kit.enums.Rarity;
 
 import java.util.Arrays;
 import java.util.List;
@@ -42,6 +43,11 @@ public class MagicianKit extends Kit{
     @Override
     public List<GameType> getGameType() {
         return Arrays.asList(GameType.RANKED_SOLO, GameType.RANKED_DOUBLES);
+    }
+
+    @Override
+    public Rarity getRarity() {
+        return Rarity.RARE;
     }
 
     @Override

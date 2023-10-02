@@ -8,6 +8,7 @@ import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import xyz.refinedev.phoenix.utils.item.ItemBuilder;
 import xyz.refinedev.skywars.game.state.GameType;
 import xyz.refinedev.skywars.kit.Kit;
+import xyz.refinedev.skywars.kit.enums.Rarity;
 import xyz.refinedev.skywars.pxSkyWars;
 
 import java.util.Arrays;
@@ -64,6 +65,11 @@ public class BlacksmithKit extends Kit {
                 new ItemStack(Material.IRON_LEGGINGS),
                 new ItemStack(Material.IRON_BOOTS)
         };
+    }
+
+    @Override
+    public Rarity getRarity() {
+        return Rarity.RARE;
     }
 
     @Override

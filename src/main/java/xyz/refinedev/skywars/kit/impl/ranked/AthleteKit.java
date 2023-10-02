@@ -8,6 +8,7 @@ import org.bukkit.potion.PotionEffectType;
 import xyz.refinedev.phoenix.utils.item.ItemBuilder;
 import xyz.refinedev.skywars.game.state.GameType;
 import xyz.refinedev.skywars.kit.Kit;
+import xyz.refinedev.skywars.kit.enums.Rarity;
 
 import java.util.Arrays;
 import java.util.List;
@@ -56,6 +57,11 @@ public class AthleteKit extends Kit {
                 new ItemStack(Material.IRON_LEGGINGS),
                 new ItemStack(Material.IRON_BOOTS)
         };
+    }
+
+    @Override
+    public Rarity getRarity() {
+        return Rarity.RARE;
     }
 
     @Override

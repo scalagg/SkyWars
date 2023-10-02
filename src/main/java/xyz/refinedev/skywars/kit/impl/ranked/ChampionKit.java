@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import xyz.refinedev.phoenix.utils.item.ItemBuilder;
 import xyz.refinedev.skywars.game.state.GameType;
 import xyz.refinedev.skywars.kit.Kit;
+import xyz.refinedev.skywars.kit.enums.Rarity;
 
 import java.util.Arrays;
 import java.util.List;
@@ -43,6 +44,11 @@ public class ChampionKit extends Kit{
                         "&6&m---------------------"
                 ))
                 .toItemStack();
+    }
+
+    @Override
+    public Rarity getRarity() {
+        return Rarity.RARE;
     }
 
     @Override
