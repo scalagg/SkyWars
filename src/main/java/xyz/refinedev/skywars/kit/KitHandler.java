@@ -38,6 +38,8 @@ public class KitHandler {
         registerKit(new PyromancerKit());
         registerKit(new TamerKit());
         registerKit(new PaladinKit());
+//        --------------------
+//        Register Normal Kits
 
     }
 
