@@ -110,7 +110,7 @@ public class SkyWarsGame {
         skyWarsProfile.save();
 
         Profile profile = SharedAPI.getInstance().getProfileHandler().getProfile(winner.getUniqueId());
-        SharedAPI.getInstance().getLevelHook().addExperience(profile, 100, "Won a game of SkyWars");
+        SharedAPI.getInstance().getLevelHook().addExperience(profile, 50, "Won a game of SkyWars");
 
         SpawnUtil.teleportToSpawn(winner);
         this.endGame();
@@ -205,7 +205,7 @@ public class SkyWarsGame {
             killerProfile.save();
 
             Profile levelProfile = SharedAPI.getInstance().getProfileHandler().getProfile(player.getUniqueId());
-            SharedAPI.getInstance().getLevelHook().addExperience(levelProfile, 15, "Killed a player in SkyWars");
+            SharedAPI.getInstance().getLevelHook().addExperience(levelProfile, 10, "Killed a player in SkyWars");
         }
 
         if (alivePlayers.size() <= 1) {
