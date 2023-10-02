@@ -106,6 +106,10 @@ public class SkyWarsProfile {
         this.souls += amount;
     }
 
+    public void addHeads(int amount) {
+        this.heads += amount;
+    }
+
     public void removeSouls(int amount) {
         this.souls -= amount;
     }

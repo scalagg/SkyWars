@@ -50,7 +50,7 @@ public class MedicKit extends Kit {
 
     @Override
     public Rarity getRarity() {
-        return Rarity.RARE;
+        return Rarity.COMMON;
     }
 
     @Override

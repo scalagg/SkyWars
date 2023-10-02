@@ -45,7 +45,7 @@ public class ArmorerKit extends Kit{
 
     @Override
     public Rarity getRarity() {
-        return Rarity.RARE;
+        return Rarity.COMMON;
     }
 
     @Override
@@ -62,8 +62,7 @@ public class ArmorerKit extends Kit{
 
     @Override
     public void apply(Player player) {
-        player.getInventory().addItem(new ItemBuilder(Material.IRON_PICKAXE)
-                .toItemStack());
+        player.getInventory().addItem(new ItemBuilder(Material.IRON_PICKAXE).toItemStack());
         player.getInventory().addItem(new ItemBuilder(Material.IRON_AXE).toItemStack());
     }
 }
