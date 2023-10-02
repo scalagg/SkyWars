@@ -49,24 +49,15 @@ public class GameListener implements Listener {
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();
-
         if (!player.hasMetadata("frozen"))
             return;
 
-        Location from = event.getFrom();
-        Location to = event.getTo();
-
-        // Allow y axis movement so players can jump
-        if (from.getBlockX() == to.getBlockX() &&
-                from.getBlockZ() == to.getBlockZ() &&
-                from.getBlockY() != to.getBlockY()) {
+        if (event.getFrom().getX() == event.getTo().getX()
+                && event.getFrom().getY() == event.getTo().getY()
+                && event.getFrom().getZ() == event.getTo().getZ())
             return;
-        }
 
-        // Cancel horizontal movement
-        if (from.getBlockX() != to.getBlockX()
-                || from.getBlockZ() != to.getBlockZ())
-            event.setCancelled(true);
+        event.setCancelled(true);
     }
 
     @EventHandler
