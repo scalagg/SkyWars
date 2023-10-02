@@ -39,7 +39,7 @@ public class EndermanKit extends Kit{
                 .setName("&aEnderman")
                 .setLore(Arrays.asList(
                         "&6&m---------------------",
-                        "&7■ &f16 Ender Pearl",
+                        "&7■ &f1 Ender Pearl",
                         "&6&m---------------------"
                 ))
                 .toItemStack();
@@ -51,6 +51,6 @@ public class EndermanKit extends Kit{
 
     @Override
     public void apply(Player player) {
-        player.getInventory().addItem(new ItemStack(Material.ENDER_PEARL, 16));
+        player.getInventory().addItem(new ItemStack(Material.ENDER_PEARL, 1));
     }
 }

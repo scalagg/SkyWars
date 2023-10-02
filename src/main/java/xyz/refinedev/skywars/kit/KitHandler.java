@@ -1,8 +1,10 @@
 package xyz.refinedev.skywars.kit;
 
 import lombok.Data;
+import xyz.refinedev.skywars.kit.impl.casual.insane.ArmorsmithKit;
 import xyz.refinedev.skywars.kit.impl.casual.normal.*;
 import xyz.refinedev.skywars.kit.impl.casual.normal.ArmorerKit;
+import xyz.refinedev.skywars.kit.impl.casual.normal.ArmorsmithKit;
 import xyz.refinedev.skywars.kit.impl.casual.normal.MagicianKit;
 import xyz.refinedev.skywars.kit.impl.casual.normal.MedicKit;
 import xyz.refinedev.skywars.kit.impl.casual.normal.PyromancerKit;
@@ -64,7 +66,25 @@ public class KitHandler {
         registerKit(new MinerKit());
         registerKit(new MagicianKit());
 //        --------------------
-
+//        Register Insane Kits
+        registerKit(new xyz.refinedev.skywars.kit.impl.casual.insane.DefaultKit());
+        registerKit(new xyz.refinedev.skywars.kit.impl.casual.insane.ArmorerKit());
+        registerKit(new xyz.refinedev.skywars.kit.impl.casual.insane.ArmorsmithKit());
+        registerKit(new xyz.refinedev.skywars.kit.impl.casual.insane.CannoneerKit());
+        registerKit(new xyz.refinedev.skywars.kit.impl.casual.insane.RusherKit());
+        registerKit(new xyz.refinedev.skywars.kit.impl.casual.insane.EnchanterKit());
+        registerKit(new xyz.refinedev.skywars.kit.impl.casual.insane.EndermanKit());
+        registerKit(new xyz.refinedev.skywars.kit.impl.casual.insane.TrapperKit());
+        registerKit(new xyz.refinedev.skywars.kit.impl.casual.insane.MedicKit());
+        registerKit(new xyz.refinedev.skywars.kit.impl.casual.insane.SniperKit());
+        registerKit(new xyz.refinedev.skywars.kit.impl.casual.insane.KnightKit());
+        registerKit(new xyz.refinedev.skywars.kit.impl.casual.insane.PyromancerKit());
+        registerKit(new xyz.refinedev.skywars.kit.impl.casual.insane.RookieKit());
+        registerKit(new xyz.refinedev.skywars.kit.impl.casual.insane.SalmonKit());
+        registerKit(new xyz.refinedev.skywars.kit.impl.casual.insane.ScoutKit());
+        registerKit(new xyz.refinedev.skywars.kit.impl.casual.insane.MinerKit());
+        registerKit(new xyz.refinedev.skywars.kit.impl.casual.insane.MagicianKit());
+//        --------------------
 
     }
 
