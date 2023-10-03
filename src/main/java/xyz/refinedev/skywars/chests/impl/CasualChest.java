@@ -35,42 +35,42 @@ public class CasualChest extends LootableChest {
         switch (type) {
             case FIRST: {
                 items.addAll(Arrays.asList(
-                new ItemBuilder(Material.IRON_HELMET).toItemStack(),
-                new ItemBuilder(Material.IRON_CHESTPLATE).toItemStack(),
-                new ItemBuilder(Material.IRON_LEGGINGS).toItemStack(),
-                new ItemBuilder(Material.IRON_BOOTS).toItemStack(),
-                new ItemBuilder(Material.GOLD_CHESTPLATE).toItemStack(),
-                new ItemBuilder(Material.GOLD_LEGGINGS).toItemStack(),
-                new ItemBuilder(Material.CHAINMAIL_LEGGINGS).toItemStack(),
-                new ItemBuilder(Material.STONE_SWORD).toItemStack(),
-                new ItemBuilder(Material.STONE_SWORD).addEnchant(Enchantment.DAMAGE_ALL, 1).toItemStack(),
-                new ItemBuilder(Material.IRON_SWORD).addEnchant(Enchantment.DAMAGE_ALL, 1).toItemStack(),
-                new ItemBuilder(Material.BOW).addEnchant(Enchantment.ARROW_DAMAGE, 1).toItemStack(),  //TODO: RARE
-                new ItemBuilder(Material.ARROW, 10).toItemStack(),
-                new ItemBuilder(Material.WATER_BUCKET).toItemStack(),
-                new ItemBuilder(Material.LAVA_BUCKET).toItemStack(),
-                new ItemBuilder(Material.DIAMOND_AXE).toItemStack(),
-                new ItemBuilder(Material.DIAMOND_PICKAXE).toItemStack(),
-                new ItemBuilder(Material.STONE_PICKAXE).toItemStack(),
-                new ItemBuilder(Material.STONE_AXE).toItemStack(),
-                new ItemBuilder(Material.WOOD_AXE).toItemStack(),
-                new ItemBuilder(Material.WOOD_PICKAXE).toItemStack(),
-                new ItemBuilder(Material.EXP_BOTTLE, 12).toItemStack(),
-                new ItemBuilder(Material.SNOW_BALL, 12).toItemStack(),
-                new ItemBuilder(Material.SNOW_BALL, 16).toItemStack(),
-                new ItemBuilder(Material.EGG, 12).toItemStack(),
-                new ItemBuilder(Material.EGG, 16).toItemStack(),
-                new ItemBuilder(Material.EGG, 8).toItemStack(),
-                new ItemBuilder(Material.COOKED_BEEF, 12).toItemStack(),
-                new ItemBuilder(Material.COOKED_BEEF, 8).toItemStack(),
-                new ItemBuilder(Material.STONE_PICKAXE).toItemStack(),
-                new ItemBuilder(Material.IRON_PICKAXE).toItemStack(),
-                new ItemBuilder(Material.EXP_BOTTLE, 12).toItemStack(),
-                new ItemBuilder(Material.GOLDEN_APPLE, 2).toItemStack(),
-                new ItemBuilder(Material.GOLDEN_APPLE, 1).toItemStack(),
-                new ItemBuilder(Material.WOOD, 64).toItemStack(),
-                new ItemBuilder(Material.STONE, 64).toItemStack()
-                        ));
+                        new ItemBuilder(Material.IRON_HELMET).toItemStack(),
+                        new ItemBuilder(Material.IRON_CHESTPLATE).toItemStack(),
+                        new ItemBuilder(Material.IRON_LEGGINGS).toItemStack(),
+                        new ItemBuilder(Material.IRON_BOOTS).toItemStack(),
+                        new ItemBuilder(Material.GOLD_CHESTPLATE).toItemStack(),
+                        new ItemBuilder(Material.GOLD_LEGGINGS).toItemStack(),
+                        new ItemBuilder(Material.CHAINMAIL_LEGGINGS).toItemStack(),
+                        new ItemBuilder(Material.STONE_SWORD).toItemStack(),
+                        new ItemBuilder(Material.STONE_SWORD).addEnchant(Enchantment.DAMAGE_ALL, 1).toItemStack(),
+                        new ItemBuilder(Material.IRON_SWORD).addEnchant(Enchantment.DAMAGE_ALL, 1).toItemStack(),
+                        new ItemBuilder(Material.BOW).addEnchant(Enchantment.ARROW_DAMAGE, 1).toItemStack(),  //TODO: RARE
+                        new ItemBuilder(Material.ARROW, 10).toItemStack(),
+                        new ItemBuilder(Material.WATER_BUCKET).toItemStack(),
+                        new ItemBuilder(Material.LAVA_BUCKET).toItemStack(),
+                        new ItemBuilder(Material.DIAMOND_AXE).toItemStack(),
+                        new ItemBuilder(Material.DIAMOND_PICKAXE).toItemStack(),
+                        new ItemBuilder(Material.STONE_PICKAXE).toItemStack(),
+                        new ItemBuilder(Material.STONE_AXE).toItemStack(),
+                        new ItemBuilder(Material.WOOD_AXE).toItemStack(),
+                        new ItemBuilder(Material.WOOD_PICKAXE).toItemStack(),
+                        new ItemBuilder(Material.EXP_BOTTLE, 12).toItemStack(),
+                        new ItemBuilder(Material.SNOW_BALL, 12).toItemStack(),
+                        new ItemBuilder(Material.SNOW_BALL, 16).toItemStack(),
+                        new ItemBuilder(Material.EGG, 12).toItemStack(),
+                        new ItemBuilder(Material.EGG, 16).toItemStack(),
+                        new ItemBuilder(Material.EGG, 8).toItemStack(),
+                        new ItemBuilder(Material.COOKED_BEEF, 12).toItemStack(),
+                        new ItemBuilder(Material.COOKED_BEEF, 8).toItemStack(),
+                        new ItemBuilder(Material.STONE_PICKAXE).toItemStack(),
+                        new ItemBuilder(Material.IRON_PICKAXE).toItemStack(),
+                        new ItemBuilder(Material.EXP_BOTTLE, 12).toItemStack(),
+                        new ItemBuilder(Material.GOLDEN_APPLE, 2).toItemStack(),
+                        new ItemBuilder(Material.GOLDEN_APPLE, 1).toItemStack(),
+                        new ItemBuilder(Material.WOOD, 64).toItemStack(),
+                        new ItemBuilder(Material.STONE, 64).toItemStack()
+                ));
 
                 break;
             }
@@ -144,15 +144,15 @@ public class CasualChest extends LootableChest {
                         new ItemBuilder(Material.BOW).addEnchant(Enchantment.ARROW_DAMAGE, 1).toItemStack(),
                         new ItemBuilder(Material.ENDER_PEARL, 1).toItemStack(),
                         new ItemBuilder(Material.TNT, 10).toItemStack(),
-                        new ItemBuilder(Material.DIAMOND_AXE).addEnchant(Enchantment.DIG_SPEED,1).toItemStack(),
-                        new ItemBuilder(Material.DIAMOND_PICKAXE).addEnchant(Enchantment.DIG_SPEED,1).toItemStack(),
+                        new ItemBuilder(Material.DIAMOND_AXE).addEnchant(Enchantment.DIG_SPEED, 1).toItemStack(),
+                        new ItemBuilder(Material.DIAMOND_PICKAXE).addEnchant(Enchantment.DIG_SPEED, 1).toItemStack(),
                         new ItemBuilder(Material.SNOW_BALL, 32).toItemStack(),
                         new ItemBuilder(Material.LAVA_BUCKET, 1).toItemStack(),
                         new ItemBuilder(Material.WATER_BUCKET, 1).toItemStack(),
                         new ItemBuilder(Material.EXP_BOTTLE, 64).toItemStack(),
                         new ItemBuilder(Material.GOLDEN_APPLE, 1).toItemStack(),
                         new ItemBuilder(Material.WOOD, 64).toItemStack()
-                        ));
+                ));
 
                 break;
             }
@@ -160,7 +160,7 @@ public class CasualChest extends LootableChest {
             case SECOND: {
                 items.addAll(Arrays.asList(
                         new ItemBuilder(Material.ENDER_PEARL, 1).toItemStack()
-                        ));
+                ));
             }
             case THIRD: {
                 items.addAll(Arrays.asList(

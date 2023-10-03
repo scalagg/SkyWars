@@ -26,7 +26,9 @@ import java.util.Map;
 public abstract class LootableChest {
 
     public abstract List<GameType> getGameType();
+
     public abstract List<ItemStack> getSpawnLoot(RefillType refillType);
+
     public abstract List<ItemStack> getMiddleLoot(RefillType refillType);
 
     public void fillChests(SkyWarsGame game, Arena arena, RefillType refillType) {

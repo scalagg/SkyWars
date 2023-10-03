@@ -120,7 +120,7 @@ public class InsaneChest extends LootableChest {
                         new ItemBuilder(Material.TNT, 10).toItemStack(),
                         new ItemBuilder(Material.FLINT_AND_STEEL, 1).toItemStack(),
                         new ItemBuilder(Material.WOOD, 1).toItemStack()
-                        ));
+                ));
 
                 break;
             }
@@ -134,7 +134,7 @@ public class InsaneChest extends LootableChest {
                 items.addAll(Arrays.asList(
                         new ItemBuilder(Material.ENDER_PEARL, 1).toItemStack(),
                         new ItemBuilder(Material.DIAMOND_LEGGINGS).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).toItemStack()
-                        ));
+                ));
 
                 break;
             }
