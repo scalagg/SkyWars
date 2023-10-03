@@ -2,6 +2,8 @@ package xyz.refinedev.skywars.chests;
 
 import lombok.Getter;
 import xyz.refinedev.skywars.chests.impl.CasualChest;
+import xyz.refinedev.skywars.chests.impl.InsaneChest;
+import xyz.refinedev.skywars.chests.impl.RankedChest;
 import xyz.refinedev.skywars.game.state.GameType;
 
 import java.util.ArrayList;
@@ -20,6 +22,8 @@ public class ChestHandler {
 
     public ChestHandler() {
         register(new CasualChest());
+        register(new InsaneChest());
+        register(new RankedChest());
     }
 
     public LootableChest getChest(GameType gameType) {
