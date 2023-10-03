@@ -10,6 +10,9 @@ import org.bukkit.util.BlockVector;
 import org.bukkit.util.Vector;
 import xyz.refinedev.phoenix.Phoenix;
 import xyz.refinedev.phoenix.SharedAPI;
+import xyz.refinedev.skywars.ability.AbilityHandler;
+import xyz.refinedev.skywars.ability.command.AbilityCommand;
+import xyz.refinedev.skywars.ability.listener.AbilityInteractListener;
 import xyz.refinedev.skywars.achievement.AchievementHandler;
 import xyz.refinedev.skywars.arena.ArenaHandler;
 import xyz.refinedev.skywars.arena.ArenaSchematic;
@@ -59,6 +62,7 @@ public class pxSkyWars extends JavaPlugin {
     private ArenaHandler arenaHandler;
     private KitHandler kitHandler;
     private ChestHandler chestHandler;
+    private AbilityHandler abilityHandler;
 
     private Random random;
 
@@ -83,11 +87,13 @@ public class pxSkyWars extends JavaPlugin {
         this.gameHandler = new GameHandler();
         this.kitHandler = new KitHandler(this);
         this.chestHandler = new ChestHandler();
+        this.abilityHandler = new AbilityHandler();
 
         Arrays.asList(
                 new ProfileListener(this),
                 new ItemListener(),
                 new ArenaModelEditorListener(),
+                new AbilityInteractListener(this),
                 new GameListener(this)
         ).forEach(listener -> this.getServer().getPluginManager().registerEvents(listener, this));
 
@@ -107,6 +113,7 @@ public class pxSkyWars extends JavaPlugin {
         commandHandler.registerCommand(new ArenaCommand());
         commandHandler.registerCommand(new GameCommand(this));
         commandHandler.registerCommand(new QueueCommand());
+        commandHandler.registerCommand(new AbilityCommand());
 
         new Assemble(this, new ScoreboardAdapter(this));
     }

@@ -50,7 +50,7 @@ public abstract class LootableChest {
                     ? this.getSpawnLoot(refillType) : this.getMiddleLoot(refillType);
             Collections.shuffle(items);
 
-            int itemsToAdd = pxSkyWars.getInstance().getRandom().nextInt(1, 6);
+            int itemsToAdd = pxSkyWars.getInstance().getRandom().nextInt(3, 6);
             Inventory inventory = chest.getBlockInventory();
 
             for (int i = 0; i < itemsToAdd; i++) {

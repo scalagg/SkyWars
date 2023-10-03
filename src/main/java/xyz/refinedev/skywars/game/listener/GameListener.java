@@ -53,7 +53,6 @@ public class GameListener implements Listener {
             return;
 
         if (event.getFrom().getX() == event.getTo().getX()
-                && event.getFrom().getY() == event.getTo().getY()
                 && event.getFrom().getZ() == event.getTo().getZ())
             return;
 
