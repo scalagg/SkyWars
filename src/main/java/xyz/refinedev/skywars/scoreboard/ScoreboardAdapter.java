@@ -12,14 +12,21 @@ import xyz.refinedev.levels.pxLevels;
 import xyz.refinedev.phoenix.Phoenix;
 import xyz.refinedev.phoenix.SharedAPI;
 import xyz.refinedev.phoenix.profile.Profile;
+import xyz.refinedev.phoenix.utils.DateUtils;
 import xyz.refinedev.phoenix.utils.StringUtils;
+import xyz.refinedev.phoenix.utils.Utilities;
 import xyz.refinedev.skywars.game.SkyWarsGame;
 import xyz.refinedev.skywars.profile.SkyWarsProfile;
 import xyz.refinedev.skywars.pxSkyWars;
 import xyz.refinedev.skywars.scoreboard.api.AssembleAdapter;
 import xyz.refinedev.skywars.scoreboard.api.animation.impl.TitleAnimation;
+import xyz.refinedev.skywars.utils.TimeUtils;
 
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -47,7 +54,6 @@ public class ScoreboardAdapter implements AssembleAdapter {
     public List<String> getLines(Player player) {
         List<String> lines = new ArrayList<>();
 
-        SkyWarsProfile skyProfile = plugin.getProfileHandler().getProfile(player.getUniqueId());
         Profile profile = SharedAPI.getInstance().getProfileHandler().getProfile(player.getUniqueId());
 
         SkyWarsGame game = plugin.getGameHandler().getGame(player);
@@ -55,13 +61,14 @@ public class ScoreboardAdapter implements AssembleAdapter {
             if (game.isSpectating(player.getUniqueId())) {
                 lines.add("&f");
                 lines.add("&4&lYou Died!");
+                lines.add("&7■ &fGame Time: &6" + renderTime(game));
                 lines.add("&7■ &fMap: &6" + game.getArena().getArenaSchematic().getDisplayName());
                 lines.add("&7■ &fAlive: &6" + game.getAlivePlayers().size() + "/" + game.getPlayers().size());
             } else {
                 lines.add("&f");
+                lines.add("&7■ &fGame Time: &6" + renderTime(game));
                 lines.add("&7■ &fMap: &6" + game.getArena().getArenaSchematic().getDisplayName());
                 lines.add("&7■ &fAlive: &6" + game.getAlivePlayers().size() + "/" + game.getPlayers().size());
-                lines.add("&7■ &fKit: &6" + StringUtils.convertFirstUpperCase(skyProfile.getSelectedKit()));
             }
         } else {
             if (profile.hasMetadata("modmode")) {
@@ -96,4 +103,19 @@ public class ScoreboardAdapter implements AssembleAdapter {
 
         return lines;
     }
+
+    public String renderTime(SkyWarsGame game) {
+        Date startedAt = game.getStartedAt();
+        Date endedAt = game.getEndedAt();
+
+        if (startedAt == null) {
+            return "00:00";
+        } else {
+            return TimeUtils.formatLongIntoMMSS(ChronoUnit.SECONDS.between(
+                    startedAt.toInstant(),
+                    endedAt == null ? Instant.now() : endedAt.toInstant()
+            ));
+        }
+    }
+
 }

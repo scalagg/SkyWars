@@ -26,6 +26,7 @@ import xyz.refinedev.skywars.profile.SkyWarsProfile;
 import xyz.refinedev.skywars.pxSkyWars;
 import xyz.refinedev.skywars.utils.SpawnUtil;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -48,6 +49,9 @@ public class SkyWarsGame {
 
     private RefillType refillType = RefillType.FIRST;
     private GameState state = GameState.WAITING;
+
+    private Date startedAt;
+    private Date endedAt;
 
     private boolean forceStarted = false;
     private boolean active = false;
@@ -73,7 +77,9 @@ public class SkyWarsGame {
     public void startGame() {
         state = GameState.LIVE;
         alivePlayers.addAll(players);
+
         active = true;
+        startedAt = new Date();
 
         LootableChest chest = pxSkyWars.getInstance().getChestHandler().getChest(gameType);
         chest.fillChests(this, arena, RefillType.FIRST);
@@ -145,6 +151,7 @@ public class SkyWarsGame {
     public void endGame() {
         state = GameState.ENDED;
         active = false;
+        endedAt = new Date();
 
         for (UUID spectator : spectators) {
             Player player = Bukkit.getPlayer(spectator);
