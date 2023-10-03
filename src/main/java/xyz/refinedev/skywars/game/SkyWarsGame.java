@@ -112,7 +112,6 @@ public class SkyWarsGame {
 
         SkyWarsProfile skyWarsProfile = pxSkyWars.getInstance().getProfileHandler().getProfile(winner.getUniqueId());
         skyWarsProfile.incrementWins();
-        skyWarsProfile.setInLobby(true);
         skyWarsProfile.save();
 
         Profile profile = SharedAPI.getInstance().getProfileHandler().getProfile(winner.getUniqueId());
@@ -166,9 +165,6 @@ public class SkyWarsGame {
 
         Profile pxProfile = SharedAPI.getInstance().getProfileHandler().getProfile(player.getUniqueId());
         pxProfile.updateMetadata("inGame", true, false);
-
-        SkyWarsProfile profile = pxSkyWars.getInstance().getProfileHandler().getProfile(player.getUniqueId());
-        profile.setInLobby(false);
     }
 
     public void removePlayer(Player player) {
@@ -177,10 +173,6 @@ public class SkyWarsGame {
 
             arena.removeUsedSpawn(player.getLocation());
             SpawnUtil.teleportToSpawn(player);
-
-            SkyWarsProfile profile = pxSkyWars.getInstance().getProfileHandler().getProfile(player.getUniqueId());
-            profile.setInLobby(true);
-            profile.save();
 
             Profile pxProfile = SharedAPI.getInstance().getProfileHandler().getProfile(player.getUniqueId());
             pxProfile.updateMetadata("inGame", false, false);
@@ -217,12 +209,12 @@ public class SkyWarsGame {
             killerProfile.incrementKills();
             killerProfile.save();
 
-            Profile levelProfile = SharedAPI.getInstance().getProfileHandler().getProfile(player.getUniqueId());
+            Profile levelProfile = SharedAPI.getInstance().getProfileHandler().getProfile(killer.getUniqueId());
             SharedAPI.getInstance().getLevelHook().addExperience(levelProfile, 10, "Killed a player in SkyWars");
         }
 
         if (alivePlayers.size() <= 1) {
-            this.onWin(killer);
+            this.onWin(Bukkit.getPlayer(alivePlayers.iterator().next()));
         }
     }
 
@@ -254,10 +246,6 @@ public class SkyWarsGame {
         SpawnUtil.teleportToSpawn(player);
 
         player.setGameMode(GameMode.SURVIVAL);
-
-        SkyWarsProfile profile = pxSkyWars.getInstance().getProfileHandler().getProfile(player.getUniqueId());
-        profile.setInLobby(true);
-        profile.save();
 
         Profile pxProfile = SharedAPI.getInstance().getProfileHandler().getProfile(player.getUniqueId());
         pxProfile.updateMetadata("inGame", false, false);

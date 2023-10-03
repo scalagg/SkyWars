@@ -42,8 +42,6 @@ public class SkyWarsProfile {
     private int heads = 0;
     private int souls = 0;
 
-    private boolean inLobby = true;
-
     private List<Achievement> ownedAchievements = new ArrayList<>();
 
     public void load() {
@@ -67,7 +65,6 @@ public class SkyWarsProfile {
             this.elo = profile.getElo();
             this.heads = profile.getHeads();
             this.souls = profile.getSouls();
-            this.inLobby = profile.isInLobby();
             this.ownedAchievements = profile.getOwnedAchievements();
         });
     }

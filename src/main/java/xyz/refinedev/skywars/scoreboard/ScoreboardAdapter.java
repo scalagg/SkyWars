@@ -50,16 +50,24 @@ public class ScoreboardAdapter implements AssembleAdapter {
         SkyWarsProfile skyProfile = plugin.getProfileHandler().getProfile(player.getUniqueId());
         Profile profile = SharedAPI.getInstance().getProfileHandler().getProfile(player.getUniqueId());
 
-        if (skyProfile.isInLobby()) {
+        SkyWarsGame game = plugin.getGameHandler().getGame(player);
+        if (game != null && profile.hasMetadata("inGame")) {
+            if (game.isSpectating(player.getUniqueId())) {
+                lines.add("&f");
+                lines.add("&4&lYou Died!");
+                lines.add("&7■ &fMap: &6" + game.getArena().getArenaSchematic().getDisplayName());
+                lines.add("&7■ &fAlive: &6" + game.getAlivePlayers().size() + "/" + game.getPlayers().size());
+            } else {
+                lines.add("&f");
+                lines.add("&7■ &fMap: &6" + game.getArena().getArenaSchematic().getDisplayName());
+                lines.add("&7■ &fAlive: &6" + game.getAlivePlayers().size() + "/" + game.getPlayers().size());
+                lines.add("&7■ &fKit: &6" + StringUtils.convertFirstUpperCase(skyProfile.getSelectedKit()));
+            }
+        } else {
             if (profile.hasMetadata("modmode")) {
                 lines.add("&f");
                 lines.add("&6&lStaff&7:");
                 lines.add("&7■ &fVanish: &6" + profile.isVanished());
-
-                if (player.hasPermission("core.dev")) {
-                    lines.add("&7■ &6&lDev&7:");
-                    lines.add("&7■ &fTPS: &6" + MinecraftServer.getServer().recentTps[0]);
-                }
             }
 
             lines.add("&f");
@@ -75,21 +83,6 @@ public class ScoreboardAdapter implements AssembleAdapter {
             lines.add("&6&lOnline&7:");
             lines.add("&7■ &fAll: &60");
             lines.add("&7■ &fPlaying: &60");
-        }
-
-        SkyWarsGame game = plugin.getGameHandler().getGame(player);
-        if (game != null) {
-            if (game.isSpectating(player.getUniqueId())) {
-                lines.add("&f");
-                lines.add("&4&lYou Died!");
-                lines.add("&7■ &fMap: &6" + game.getArena().getArenaSchematic().getDisplayName());
-                lines.add("&7■ &fAlive: &6" + game.getAlivePlayers().size() + "/" + game.getPlayers().size());
-            } else {
-                lines.add("&f");
-                lines.add("&7■ &fMap: &6" + game.getArena().getArenaSchematic().getDisplayName());
-                lines.add("&7■ &fAlive: &6" + game.getAlivePlayers().size() + "/" + game.getPlayers().size());
-                lines.add("&7■ &fKit: &6" + StringUtils.convertFirstUpperCase(skyProfile.getSelectedKit()));
-            }
         }
 
         if (Phoenix.getInstance().getRebootHandler().isRebootScheduled()) {
