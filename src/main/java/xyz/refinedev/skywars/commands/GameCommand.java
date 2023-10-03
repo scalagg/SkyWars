@@ -8,9 +8,13 @@ import xyz.refinedev.commands.BaseCommand;
 import xyz.refinedev.commands.CommandHelp;
 import xyz.refinedev.commands.ConditionFailedException;
 import xyz.refinedev.commands.annotation.*;
+import xyz.refinedev.party.packet.PartyWarpPacket;
 import xyz.refinedev.party.party.Party;
 import xyz.refinedev.party.pxParty;
+import xyz.refinedev.phoenix.SharedAPI;
+import xyz.refinedev.phoenix.packet.api.PacketHandler;
 import xyz.refinedev.phoenix.utils.Color;
+import xyz.refinedev.phoenix.utils.general.Tasks;
 import xyz.refinedev.skywars.game.SkyWarsGame;
 import xyz.refinedev.skywars.game.state.GameType;
 import xyz.refinedev.skywars.pxSkyWars;
@@ -44,13 +48,18 @@ public class GameCommand extends BaseCommand {
                 return;
             }
 
-            for (UUID uuid : party.getMembersWithLeader()) {
-                Player member = Bukkit.getPlayer(uuid);
-                if (member == null)
-                    continue;
+            PacketHandler.send(new PartyWarpPacket(SharedAPI.getInstance().getNetworkHandler().getServerName(), party.getMembers()));
 
-                game.addPlayer(member);
-            }
+            Tasks.runLater(() -> {
+                for (UUID uuid : party.getMembersWithLeader()) {
+                    Player member = Bukkit.getPlayer(uuid);
+                    if (member == null)
+                        continue;
+
+                    game.addPlayer(member);
+                }
+            }, 20L);
+
         } else game.addPlayer(player);
     }
 

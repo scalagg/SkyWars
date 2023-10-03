@@ -1,6 +1,7 @@
 package xyz.refinedev.skywars.queue.menu.buttons;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;

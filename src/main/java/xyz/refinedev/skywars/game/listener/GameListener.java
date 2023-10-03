@@ -128,7 +128,7 @@ public class GameListener implements Listener {
         if (game == null)
             return;
 
-        boolean canHit = game.hasStarted();
+        boolean canHit = game.hasStarted() && game.isSpectating(player);
         event.setCancelled(canHit);
     }
 
