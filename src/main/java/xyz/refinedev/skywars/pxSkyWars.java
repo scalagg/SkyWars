@@ -25,6 +25,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.refinedev.skywars.game.GameHandler;
+import xyz.refinedev.skywars.game.listener.BuildModeListener;
 import xyz.refinedev.skywars.game.listener.GameListener;
 import xyz.refinedev.skywars.item.impl.*;
 import xyz.refinedev.skywars.item.listeners.ItemListener;
@@ -94,7 +95,8 @@ public class pxSkyWars extends JavaPlugin {
                 new ItemListener(),
                 new ArenaModelEditorListener(),
                 new AbilityInteractListener(this),
-                new GameListener(this)
+                new GameListener(this),
+                new BuildModeListener(this)
         ).forEach(listener -> this.getServer().getPluginManager().registerEvents(listener, this));
 
         commandHandler = Phoenix.getInstance().getCommandHandler();
