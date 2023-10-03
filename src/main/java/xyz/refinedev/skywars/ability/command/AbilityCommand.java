@@ -23,6 +23,13 @@ public class AbilityCommand extends BaseCommand {
         player.sendMessage("§aYou have been given the ability: §e" + abilityName);
     }
 
+    @Subcommand("list")
+    @CommandPermission("skywars.ability.list")
+    public void list(CommandSender sender) {
+        sender.sendMessage("§aAbility List:");
+        pxSkyWars.getInstance().getAbilityHandler().getAbilityByName().forEach((string, ability) -> sender.sendMessage("§e" + string));
+    }
+
     @HelpCommand
     @Syntax("[page]")
     public void doHelp(CommandSender sender, CommandHelp help) {

@@ -2,7 +2,9 @@ package xyz.refinedev.skywars.ability.listener;
 
 import lombok.RequiredArgsConstructor;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -21,36 +23,43 @@ import xyz.refinedev.skywars.pxSkyWars;
 @RequiredArgsConstructor
 public class AbilityInteractListener implements Listener {
 
+    //TODO: 03/10/2023 fix not being able to have a stack of abilities
+
     private final pxSkyWars plugin;
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOW)
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         ItemStack item = event.getItem();
-        Action action = event.getAction();
 
-        if (item == null || action == Action.PHYSICAL || action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK)
+        if (item == null)
             return;
+
+        if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK)
+            return;
+
+        Ability ability = plugin.getAbilityHandler().getAbility(item);
+        if (!(ability instanceof Interact)) {
+            System.out.println("not interact");
+            return;
+        }
+
+        if (!ability.isSimilar(item)) {
+            player.sendMessage("similar");
+            return;
+        }
 
         if (!plugin.getGameHandler().isPlayingGame(player)) {
             player.sendMessage(Color.translate("&cYou must be in a game to use this item."));
             return;
         }
 
-        Ability ability = plugin.getAbilityHandler().getAbility(item);
-        if (!(ability instanceof Interact))
-            return;
-
         Interact interact = (Interact) ability;
         if (!interact.onPlayerInteract(event))
             return;
 
-        if (player.getItemInHand().getAmount() == 1)
-            player.setItemInHand(null);
-        else player.getItemInHand().setAmount(player.getItemInHand().getAmount() - 1);
-
-        player.updateInventory();
-        interact.onPlayerInteract(event);
+        ability.consume(player);
+        event.setCancelled(true);
     }
 
 }

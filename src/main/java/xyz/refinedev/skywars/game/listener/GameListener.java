@@ -56,7 +56,7 @@ public class GameListener implements Listener {
                 && event.getFrom().getZ() == event.getTo().getZ())
             return;
 
-        event.setCancelled(true);
+        player.teleport(event.getFrom());
     }
 
     @EventHandler
