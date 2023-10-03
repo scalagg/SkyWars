@@ -76,6 +76,7 @@ public class SkyWarsProfile {
     public void incrementKills() {
         this.kills++;
         this.killStreak++;
+
         if (this.killStreak > this.highestKillStreak) {
             this.highestKillStreak = this.killStreak;
         }
