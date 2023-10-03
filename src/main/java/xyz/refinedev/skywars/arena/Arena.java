@@ -7,6 +7,7 @@ import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Beacon;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Skull;
@@ -66,8 +67,8 @@ public final class Arena {
      * Spectator spawn location for this arena
      */
     private Location spectatorSpawn;
-
     private Location lobbySpawn;
+    private Location suddenDeathSpawn;
 
     public Arena() {
     } // for gson
@@ -123,6 +124,10 @@ public final class Arena {
         // its iterator is broken :(
         forEachBlock(block -> {
             Material type = block.getType();
+
+            if (type == Material.BEACON) {
+                suddenDeathSpawn = block.getLocation().clone().add(0.5, 0, 0.5);
+            }
 
             if (type != Material.SKULL) {
                 return;

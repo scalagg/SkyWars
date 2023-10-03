@@ -78,8 +78,9 @@ public class SkyWarsGame {
         LootableChest chest = pxSkyWars.getInstance().getChestHandler().getChest(gameType);
         chest.fillChests(this, arena, RefillType.FIRST);
 
-        Tasks.runLater(() -> chest.fillChests(this, arena, RefillType.SECOND), 20 * 60 * 3);
-        Tasks.runLater(() -> chest.fillChests(this, arena, RefillType.THIRD), 20 * 60 * 6);
+        Tasks.runLater(() -> chest.fillChests(this, arena, RefillType.SECOND), 20 * 60 * 2);
+        Tasks.runLater(() -> chest.fillChests(this, arena, RefillType.THIRD), 20 * 60 * 5);
+        Tasks.runLater(this::suddenDeath, 20 * 60 * 10);
 
         for (UUID uuid : alivePlayers) {
             Player player = Bukkit.getPlayer(uuid);
@@ -103,9 +104,22 @@ public class SkyWarsGame {
         }
     }
 
+    public void suddenDeath() {
+        if (!active && state != GameState.LIVE)
+            return;
+
+        for (UUID uuid : alivePlayers) {
+            Player player = Bukkit.getPlayer(uuid);
+            if (player == null)
+                continue;
+
+            player.teleport(arena.getSuddenDeathSpawn());
+            player.sendMessage(Color.translate("&c&lSudden Death has started!"));
+        }
+    }
+
     public void onWin(Player winner) {
         if (winner == null) {
-            System.out.println("ERROR: Winner is null");
             this.endGame();
             return;
         }
