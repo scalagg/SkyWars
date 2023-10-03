@@ -75,9 +75,14 @@ public class CasualChest extends LootableChest {
                 break;
             }
 
-            case SECOND:
+            case SECOND: {
+                items.addAll(Arrays.asList(
+                        new ItemBuilder(Material.ENDER_PEARL, 1).toItemStack()
+                ));
+            }
             case THIRD: {
                 items.addAll(Arrays.asList(
+                        new ItemBuilder(Material.ENDER_PEARL, 1).toItemStack()
                 ));
 
                 break;
