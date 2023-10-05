@@ -25,14 +25,14 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.refinedev.skywars.game.GameHandler;
-import xyz.refinedev.skywars.game.listener.BuildModeListener;
+import xyz.refinedev.skywars.game.listener.PreventionListener;
 import xyz.refinedev.skywars.game.listener.GameListener;
+import xyz.refinedev.skywars.game.listener.SpectatorListener;
 import xyz.refinedev.skywars.item.impl.*;
 import xyz.refinedev.skywars.item.listeners.ItemListener;
 import xyz.refinedev.skywars.kit.KitHandler;
 import xyz.refinedev.skywars.profile.listener.ProfileListener;
 import xyz.refinedev.skywars.profile.ProfileHandler;
-import xyz.refinedev.skywars.queue.commands.QueueCommand;
 import xyz.refinedev.skywars.scoreboard.ScoreboardAdapter;
 import xyz.refinedev.skywars.scoreboard.api.Assemble;
 import xyz.refinedev.skywars.utils.serialization.*;
@@ -78,6 +78,7 @@ public class pxSkyWars extends JavaPlugin {
                 .registerTypeHierarchyAdapter(Vector.class, new VectorAdapter())
                 .registerTypeAdapter(BlockVector.class, new BlockVectorAdapter())
                 .serializeNulls()
+                .setPrettyPrinting()
                 .create();
 
         this.random = new Random();
@@ -96,7 +97,8 @@ public class pxSkyWars extends JavaPlugin {
                 new ArenaModelEditorListener(),
                 new AbilityInteractListener(this),
                 new GameListener(this),
-                new BuildModeListener(this)
+                new PreventionListener(this),
+                new SpectatorListener(this)
         ).forEach(listener -> this.getServer().getPluginManager().registerEvents(listener, this));
 
         commandHandler = Phoenix.getInstance().getCommandHandler();
@@ -114,7 +116,6 @@ public class pxSkyWars extends JavaPlugin {
 
         commandHandler.registerCommand(new ArenaCommand());
         commandHandler.registerCommand(new GameCommand(this));
-        commandHandler.registerCommand(new QueueCommand());
         commandHandler.registerCommand(new AbilityCommand());
 
         new Assemble(this, new ScoreboardAdapter(this));

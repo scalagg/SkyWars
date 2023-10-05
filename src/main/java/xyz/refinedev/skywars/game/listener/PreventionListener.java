@@ -11,11 +11,11 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import xyz.refinedev.skywars.pxSkyWars;
 
-public class BuildModeListener implements Listener {
+public class PreventionListener implements Listener {
 
     private final pxSkyWars instance;
 
-    public BuildModeListener(pxSkyWars instance) {
+    public PreventionListener(pxSkyWars instance) {
         this.instance = instance;
     }
 

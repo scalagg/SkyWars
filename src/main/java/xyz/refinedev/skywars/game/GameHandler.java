@@ -63,10 +63,11 @@ public class GameHandler {
             if (game.getGameType() != gameType)
                 continue;
 
-            if (party != null && party.getMembers().size() >= game.getPlayers().size())
-                continue;
+            if (party != null)
+                if (party.getMembers().size() >= game.getPlayers().size())
+                    continue;
 
-            if (!game.hasStarted() || game.getArena().getArenaSchematic().isEnabled())
+            if (!game.hasStarted() && game.getArena().getArenaSchematic().isEnabled())
                 return game;
         }
 

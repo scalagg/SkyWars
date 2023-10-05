@@ -267,6 +267,7 @@ public class SkyWarsGame {
         SpawnUtil.teleportToSpawn(player);
 
         player.setGameMode(GameMode.SURVIVAL);
+        player.setFlying(false);
 
         Profile pxProfile = SharedAPI.getInstance().getProfileHandler().getProfile(player.getUniqueId());
         pxProfile.updateMetadata("inGame", false, false);

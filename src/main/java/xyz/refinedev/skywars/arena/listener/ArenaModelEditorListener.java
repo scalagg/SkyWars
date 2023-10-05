@@ -17,6 +17,7 @@ import xyz.refinedev.phoenix.utils.item.ItemBuilder;
 import xyz.refinedev.skywars.arena.ArenaSchematic;
 import xyz.refinedev.skywars.arena.WorldManager;
 import xyz.refinedev.skywars.pxSkyWars;
+import xyz.refinedev.skywars.utils.SpawnUtil;
 
 public final class ArenaModelEditorListener implements Listener {
 
@@ -40,10 +41,9 @@ public final class ArenaModelEditorListener implements Listener {
         player.sendMessage("§aYou have exited the model editor.");
         player.removeMetadata("Build", pxSkyWars.getInstance());
 
-        //TODO: tp to spawn
+        SpawnUtil.teleportToSpawn(player);
     }
 
-    // listen for right click on exit item
     @EventHandler
     public void onRightClick(PlayerInteractEvent event) {
         Player player = event.getPlayer();
@@ -52,10 +52,9 @@ public final class ArenaModelEditorListener implements Listener {
         if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 
         if (player.getItemInHand().isSimilar(exitItem)) {
-            ArenaSchematic schematic = (ArenaSchematic) player.getMetadata("Model").get(0).value();
             try {
-                // TODO: save after editing
-                // if (schematic.save(player.getWorld(), player)) {
+                // saves all schematics for now, will make it so it only saves the one you edit
+                pxSkyWars.getInstance().getArenaHandler().saveSchematics();
                 command(player);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -71,7 +70,7 @@ public final class ArenaModelEditorListener implements Listener {
         if (!player.hasMetadata("ModelEditor")) return;
         if (event.getTo().getWorld() != player.getWorld()) {
             exit(player, event.getFrom().getWorld());
-//            pxSkyWars.getInstance().getLobbyHandler().returnToLobby(player);
+            SpawnUtil.teleportToSpawn(player);
             player.sendMessage("§cYou were teleported outside of the model world, exiting.");
         }
     }

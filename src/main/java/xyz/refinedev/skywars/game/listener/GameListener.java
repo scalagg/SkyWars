@@ -108,9 +108,10 @@ public class GameListener implements Listener {
             event.getDrops().clear();
 
         event.setDeathMessage(null);
-        Tasks.runLater(() -> player.spigot().respawn(), 10L);
-
+        Tasks.runLater(() -> player.spigot().respawn(), 4L);
         player.teleport(game.getArena().getSpectatorSpawn());
+
+        //TODO: death messages
 
         if (player.getKiller() != null)
             game.onDeath(player, player.getKiller());

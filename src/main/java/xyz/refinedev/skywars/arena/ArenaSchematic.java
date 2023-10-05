@@ -36,7 +36,6 @@ public final class ArenaSchematic {
     private int minPlayers = 12;
     private int maxPlayers = 24;
 
-    private int gridIndex;
     private int positiveRatings = 0;
     private int negativeRatings = 0;
 
@@ -134,7 +133,6 @@ public final class ArenaSchematic {
         SchematicFormat.MCEDIT.save(newSchematic, getSchematicFile());
 
         return true;
-
     }
 
     @Override
