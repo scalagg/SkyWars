@@ -1,6 +1,7 @@
 package xyz.refinedev.skywars.ability.listener;
 
 import lombok.RequiredArgsConstructor;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
@@ -38,21 +39,15 @@ public class AbilityInteractListener implements Listener {
         if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK)
             return;
 
-        Ability ability = plugin.getAbilityHandler().getAbility(item);
-        if (!(ability instanceof Interact)) {
-            System.out.println("not interact");
+        Ability ability = plugin.getAbilityHandler().getAbilityByName(ChatColor.stripColor(item.getItemMeta().getDisplayName()));
+        if (!(ability instanceof Interact))
             return;
-        }
 
-        if (!ability.isSimilar(item)) {
-            player.sendMessage("similar");
+        if (!ability.isSimilar(item))
             return;
-        }
 
-        if (!plugin.getGameHandler().isPlayingGame(player)) {
-            player.sendMessage(Color.translate("&cYou must be in a game to use this item."));
+        if (!plugin.getGameHandler().isPlayingGame(player))
             return;
-        }
 
         Interact interact = (Interact) ability;
         if (!interact.onPlayerInteract(event))

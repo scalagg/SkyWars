@@ -1,7 +1,6 @@
 package xyz.refinedev.skywars.ability.impl;
 
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -10,7 +9,6 @@ import xyz.refinedev.phoenix.utils.Color;
 import xyz.refinedev.phoenix.utils.item.ItemBuilder;
 import xyz.refinedev.skywars.ability.Ability;
 import xyz.refinedev.skywars.ability.type.Interact;
-import xyz.refinedev.skywars.pxSkyWars;
 
 /**
  * @author alfie

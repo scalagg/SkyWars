@@ -19,7 +19,7 @@ public class AbilityCommand extends BaseCommand {
     @Subcommand("give")
     @CommandPermission("skywars.ability.give")
     public void give(Player player, @Name("abilityName") String abilityName) {
-        player.getInventory().addItem(pxSkyWars.getInstance().getAbilityHandler().getAbility(abilityName).getItem());
+        player.getInventory().addItem(pxSkyWars.getInstance().getAbilityHandler().getAbilityById(abilityName).getItem());
         player.sendMessage("§aYou have been given the ability: §e" + abilityName);
     }
 

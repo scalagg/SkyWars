@@ -1,7 +1,6 @@
 package xyz.refinedev.skywars.ability;
 
 import lombok.Getter;
-import org.bukkit.inventory.ItemStack;
 import xyz.refinedev.skywars.ability.impl.PumpkinPie;
 
 import java.util.HashMap;
@@ -17,20 +16,20 @@ import java.util.Map;
 public class AbilityHandler {
 
     private final Map<String, Ability> abilityByName = new HashMap<>();
-    private final Map<ItemStack, Ability> abilityByItem = new HashMap<>();
+    private final Map<String, Ability> abilityByDisplayName = new HashMap<>();
 
     public AbilityHandler() {
         // todo: very aids way but i'm lazy
         abilityByName.put("pumpkinpie", new PumpkinPie());
-        abilityByItem.put(abilityByName.get("pumpkinpie").getItem(), abilityByName.get("pumpkinpie"));
+        abilityByDisplayName.put("Pumpkin Pie", new PumpkinPie());
     }
 
-    public Ability getAbility(String name) {
-        return abilityByName.get(name.toLowerCase());
+    public Ability getAbilityById(String id) {
+        return abilityByName.get(id.toLowerCase());
     }
 
-    public Ability getAbility(ItemStack itemStack) {
-        return abilityByItem.get(itemStack);
+    public Ability getAbilityByName(String displayName) {
+        return abilityByDisplayName.get(displayName);
     }
 
 }

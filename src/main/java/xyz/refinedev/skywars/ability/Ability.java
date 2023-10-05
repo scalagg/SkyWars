@@ -13,37 +13,19 @@ import org.bukkit.inventory.ItemStack;
 public abstract class Ability implements Listener {
 
     public abstract String getName();
-
     public abstract ItemStack getItem();
 
     public boolean isSimilar(ItemStack item) {
-        if (item == null) {
-            System.out.println("null");
+        if (item == null)
             return false;
-        }
 
-        if (item.getItemMeta() == null) {
-            System.out.println("null 2");
+        if (!item.getItemMeta().getDisplayName().equals(this.getItem().getItemMeta().getDisplayName()))
             return false;
-        }
 
-        if (item.getItemMeta().getDisplayName() == null) {
-            System.out.println("null 3");
+        if (!item.getItemMeta().getLore().equals(this.getItem().getItemMeta().getLore()))
             return false;
-        }
 
-        if (!item.getItemMeta().getDisplayName().equals(getItem().getItemMeta().getDisplayName())) {
-            System.out.println("display name");
-            return false;
-        }
-
-        if (!item.getItemMeta().getLore().equals(getItem().getItemMeta().getLore())) {
-            System.out.println("lore");
-            return false;
-        }
-
-        System.out.println(item.getType() == getItem().getType() ? "true" : "false");
-        return item.getType() == getItem().getType();
+        return item.getType() == this.getItem().getType();
     }
 
     public void consume(Player player) {
