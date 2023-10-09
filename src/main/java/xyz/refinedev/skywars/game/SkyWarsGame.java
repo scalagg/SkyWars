@@ -4,14 +4,11 @@ import lombok.Data;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
-import xyz.refinedev.levels.level.Level;
-import xyz.refinedev.levels.pxLevels;
-import xyz.refinedev.party.party.Party;
-import xyz.refinedev.party.pxParty;
 import xyz.refinedev.phoenix.SharedAPI;
-import xyz.refinedev.phoenix.hook.impl.LevelHook;
 import xyz.refinedev.phoenix.profile.Profile;
+import xyz.refinedev.phoenix.utils.CenterUtil;
 import xyz.refinedev.phoenix.utils.Color;
 import xyz.refinedev.phoenix.utils.general.Tasks;
 import xyz.refinedev.skywars.arena.Arena;
@@ -26,7 +23,6 @@ import xyz.refinedev.skywars.profile.SkyWarsProfile;
 import xyz.refinedev.skywars.pxSkyWars;
 import xyz.refinedev.skywars.utils.SpawnUtil;
 
-import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -46,6 +42,8 @@ public class SkyWarsGame {
     private Set<UUID> spectators = new HashSet<>();
     private Set<UUID> players = new HashSet<>();
     private Set<UUID> alivePlayers = new HashSet<>();
+
+    private Map<UUID, Integer> kills = new HashMap<>();
 
     private RefillType refillType = RefillType.FIRST;
     private GameState state = GameState.WAITING;
@@ -68,6 +66,10 @@ public class SkyWarsGame {
             Player player = Bukkit.getPlayer(uuid);
             player.teleport(arena.getRandomSpawn());
 
+            player.getInventory().clear();
+            player.getInventory().setArmorContents(null);
+            player.setGameMode(GameMode.SURVIVAL);
+
             player.setMetadata("frozen", new FixedMetadataValue(pxSkyWars.getInstance(), this));
         }
 
@@ -82,10 +84,10 @@ public class SkyWarsGame {
         startedAt = new Date();
 
         LootableChest chest = pxSkyWars.getInstance().getChestHandler().getChest(gameType);
-        chest.fillChests(this, arena, RefillType.FIRST);
+        chest.fillChests(this, RefillType.FIRST);
 
-        Tasks.runLater(() -> chest.fillChests(this, arena, RefillType.SECOND), 20 * 60 * 2);
-        Tasks.runLater(() -> chest.fillChests(this, arena, RefillType.THIRD), 20 * 60 * 5);
+        Tasks.runLater(() -> chest.fillChests(this, RefillType.SECOND), 20 * 60 * 2);
+        Tasks.runLater(() -> chest.fillChests(this, RefillType.THIRD), 20 * 60 * 5);
         Tasks.runLater(this::suddenDeath, 20 * 60 * 10);
 
         for (UUID uuid : alivePlayers) {
@@ -93,21 +95,34 @@ public class SkyWarsGame {
 
             player.removeMetadata("frozen", pxSkyWars.getInstance());
 
+            this.kills.put(uuid, 0);
+
             Profile levelProfile = SharedAPI.getInstance().getProfileHandler().getProfile(player.getUniqueId());
             SharedAPI.getInstance().getLevelHook().addExperience(levelProfile, 10, "Started a game of SkyWars");
 
             player.getInventory().clear();
             player.getInventory().setArmorContents(null);
 
-            SkyWarsProfile profile = pxSkyWars.getInstance().getProfileHandler().getProfile(player.getUniqueId());
-            Kit kit = pxSkyWars.getInstance().getKitHandler().getKitByName(profile.getSelectedKit());
-            kit.getGameType().stream()
-                    .filter(type -> type == gameType)
-                    .forEach(type -> kit.apply(player));
+            System.out.println(player.getInventory().firstEmpty() == 0);
+
+            if (player.getInventory().firstEmpty() == 0) {
+                SkyWarsProfile profile = pxSkyWars.getInstance().getProfileHandler().getProfile(player.getUniqueId());
+                Kit kit = pxSkyWars.getInstance().getKitHandler().getKitByName(profile.getSelectedKit());
+
+                for (GameType type : kit.getGameType()) {
+                    if (type == gameType) {
+                        kit.apply(player);
+                        break;
+                    }
+                }
+            }
 
             player.setHealth(20);
             player.setFoodLevel(20);
         }
+
+        GameStartEvent event = new GameStartEvent(this);
+        Bukkit.getPluginManager().callEvent(event);
     }
 
     public void suddenDeath() {
@@ -126,6 +141,7 @@ public class SkyWarsGame {
 
     public void onWin(Player winner) {
         if (winner == null) {
+            System.out.println("No winner found");
             this.endGame();
             return;
         }
@@ -137,14 +153,17 @@ public class SkyWarsGame {
         Profile profile = SharedAPI.getInstance().getProfileHandler().getProfile(winner.getUniqueId());
         SharedAPI.getInstance().getLevelHook().addExperience(profile, 50, "Won a game of SkyWars");
 
+        for (String message : this.sendWinningMessage(profile)) {
+            broadcast(message);
+        }
+
         SpawnUtil.teleportToSpawn(winner);
         this.endGame();
     }
 
     public void broadcast(String message) {
         for (UUID uuid : players) {
-            Player player = Bukkit.getPlayer(uuid);
-            player.sendMessage(Color.translate(message));
+            Bukkit.getPlayer(uuid).sendMessage(Color.translate(message));
         }
     }
 
@@ -230,13 +249,14 @@ public class SkyWarsGame {
             killerProfile.incrementKills();
             killerProfile.save();
 
+            kills.put(killer.getUniqueId(), kills.getOrDefault(killer.getUniqueId(), 0) + 1);
+
             Profile levelProfile = SharedAPI.getInstance().getProfileHandler().getProfile(killer.getUniqueId());
             SharedAPI.getInstance().getLevelHook().addExperience(levelProfile, 10, "Killed a player in SkyWars");
         }
 
-        if (alivePlayers.size() <= 1) {
-            this.onWin(Bukkit.getPlayer(alivePlayers.iterator().next()));
-        }
+        if (alivePlayers.size() <= 1)
+            alivePlayers.stream().findFirst().ifPresentOrElse(winner -> this.onWin(Bukkit.getPlayer(winner)), () -> this.onWin(null));
     }
 
     public void addSpectator(Player player) {
@@ -299,6 +319,31 @@ public class SkyWarsGame {
 
     public boolean isSpectating(UUID player) {
         return spectators.contains(player);
+    }
+
+    public List<String> sendWinningMessage(Profile winner) {
+        List<Profile> topKillers = kills.entrySet().stream()
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .limit((Math.min(kills.size(), 3)))
+                .map(entry -> SharedAPI.getInstance().getProfileHandler().getProfile(entry.getKey()))
+                .toList();
+
+        Profile firstKiller = topKillers.get(0);
+        Profile secondKiller = topKillers.get(1);
+//        Profile thirdKiller = topKillers.get(2);
+
+        return Color.translate(List.of(
+                "&7&m----------------------------------------",
+                CenterUtil.getCentered("&6&lSkyWars"),
+                "",
+                CenterUtil.getCentered("&eWinner &7- " + winner.getNameWithColor()),
+                "",
+                CenterUtil.getCentered("&e&l1st Killer &7- " + firstKiller.getNameWithColor() + " &7(&e" + kills.get(firstKiller.getUniqueId()) + "&7)"),
+                CenterUtil.getCentered("&6&l2nd Killer &7- " + secondKiller.getNameWithColor() + " &7(&e" + kills.get(secondKiller.getUniqueId()) + "&7)"),
+//                CenterUtil.getCentered("&c&l3rd Killer &7- " + thirdKiller.getNameWithColor() + " &7(&e" + kills.get(thirdKiller.getUniqueId()) + "&7)"),
+                "",
+                "&7&m----------------------------------------"
+        ));
     }
 
 }

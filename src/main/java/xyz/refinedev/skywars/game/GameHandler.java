@@ -126,4 +126,14 @@ public class GameHandler {
 
         return null;
     }
+
+    public int getPlayerCount() {
+        int count = 0;
+
+        for (SkyWarsGame game : games) {
+            count += game.getPlayers().size();
+        }
+
+        return count;
+    }
 }

@@ -14,6 +14,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
 import xyz.refinedev.phoenix.utils.item.ItemBuilder;
+import xyz.refinedev.skywars.arena.ArenaHandler;
 import xyz.refinedev.skywars.arena.ArenaSchematic;
 import xyz.refinedev.skywars.arena.WorldManager;
 import xyz.refinedev.skywars.pxSkyWars;
@@ -52,9 +53,14 @@ public final class ArenaModelEditorListener implements Listener {
         if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 
         if (player.getItemInHand().isSimilar(exitItem)) {
+            ArenaSchematic schematic = (ArenaSchematic) player.getMetadata("Model").get(0).value();
             try {
                 // saves all schematics for now, will make it so it only saves the one you edit
-                pxSkyWars.getInstance().getArenaHandler().saveSchematics();
+                if (!schematic.save(player.getWorld(), player)) {
+                    player.sendMessage("§cThere was an error saving the model.");
+                    return;
+                }
+
                 command(player);
             } catch (Exception e) {
                 e.printStackTrace();

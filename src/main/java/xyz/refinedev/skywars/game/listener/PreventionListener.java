@@ -1,35 +1,51 @@
 package xyz.refinedev.skywars.game.listener;
 
+import lombok.RequiredArgsConstructor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.PlayerInventory;
+import xyz.refinedev.skywars.game.SkyWarsGame;
 import xyz.refinedev.skywars.pxSkyWars;
 
+import java.util.List;
+
+/**
+ * @author alfie
+ * @project Skywars / xyz.refinedev.skywars.game.listener
+ * @date 08/10/2023 / 06:15
+ */
+
+@RequiredArgsConstructor
 public class PreventionListener implements Listener {
 
-    private final pxSkyWars instance;
+    private final pxSkyWars plugin;
 
-    public PreventionListener(pxSkyWars instance) {
-        this.instance = instance;
-    }
+    private final static List<Material> ALLOWED_INTERACTION = List.of(
+            Material.PAPER,
+            Material.EMERALD,
+            Material.BED
+    );
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
-
-        if (event.isCancelled()) {
+        SkyWarsGame game = plugin.getGameHandler().getGame(player);
+        if (game == null || game.hasStarted())
             return;
-        }
-
-        if (player.hasMetadata("BuildMode")) {
-            return;
-        }
 
         event.setCancelled(true);
     }
@@ -37,59 +53,83 @@ public class PreventionListener implements Listener {
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
         Player player = event.getPlayer();
-
-        if (event.isCancelled()) {
+        SkyWarsGame game = plugin.getGameHandler().getGame(player);
+        if (game == null || game.hasStarted())
             return;
-        }
-
-        if (player.hasMetadata("BuildMode")) {
-            return;
-        }
 
         event.setCancelled(true);
     }
 
     @EventHandler
-    public void onPhysicalInteract(PlayerInteractEvent event) {
-        Player player = event.getPlayer();
-
-        if (player.hasMetadata("BuildMode")) {
-            event.setCancelled(false);
+    public void onFoodLevelChange(FoodLevelChangeEvent event) {
+        if (!(event.getEntity() instanceof Player player))
             return;
-        }
 
-        if (!event.getAction().equals(Action.PHYSICAL)) {
+        SkyWarsGame game = plugin.getGameHandler().getGame(player);
+        if (game == null || game.hasStarted())
             return;
-        }
 
         event.setCancelled(true);
     }
 
     @EventHandler
-    public void onItemDrop(PlayerDropItemEvent event) {
+    public void onPlayerDropItem(PlayerDropItemEvent event) {
         Player player = event.getPlayer();
-
-        if (event.isCancelled()) {
+        SkyWarsGame game = plugin.getGameHandler().getGame(player);
+        if (game == null || game.hasStarted())
             return;
-        }
 
-        if (player.hasMetadata("BuildMode")) {
-            event.setCancelled(true);
-        }
+        event.setCancelled(true);
     }
 
     @EventHandler
-    public void onItemPickup(PlayerPickupItemEvent event) {
-        Player player = event.getPlayer();
-
-        if (event.isCancelled()) {
+    public void onEntityDamage(EntityDamageEvent event) {
+        if (!(event.getEntity() instanceof Player player))
             return;
-        }
 
-        if (player.hasMetadata("BuildMode")) {
-            event.setCancelled(true);
-        }
+        SkyWarsGame game = plugin.getGameHandler().getGame(player);
+        if (game == null || game.hasStarted())
+            return;
+
+        event.setCancelled(true);
     }
-//TODO: add more stuff and finish it for it doesnt happen in arenas probs
+
+    @EventHandler
+    public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
+        if (!(event.getEntity() instanceof Player player))
+            return;
+
+        SkyWarsGame game = plugin.getGameHandler().getGame(player);
+        if (game == null || game.hasStarted())
+            return;
+
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onPlayerPickupItem(PlayerPickupItemEvent event) {
+        Player player = event.getPlayer();
+        SkyWarsGame game = plugin.getGameHandler().getGame(player);
+        if (game == null || game.hasStarted())
+            return;
+
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onPlayerInteract(PlayerInteractEvent event) {
+        Player player = event.getPlayer();
+        SkyWarsGame game = plugin.getGameHandler().getGame(player);
+        if (game == null || game.hasStarted())
+            return;
+
+        if (event.getAction() != Action.RIGHT_CLICK_AIR || event.getAction() != Action.RIGHT_CLICK_BLOCK)
+            return;
+
+        if (ALLOWED_INTERACTION.contains(event.getMaterial()))
+            return;
+
+        event.setCancelled(true);
+    }
 
 }

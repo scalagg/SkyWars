@@ -30,8 +30,7 @@ public class ItemListener implements Listener {
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
-        Map<String, Item> items = Item.HOTBAR_ITEMS.getOrDefault(player.getUniqueId(),
-                new ConcurrentHashMap<>());
+        Map<String, Item> items = Item.HOTBAR_ITEMS.getOrDefault(player.getUniqueId(), new ConcurrentHashMap<>());
 
         if (player.getItemInHand() == null || player.getItemInHand().getType() == Material.AIR)
             return;

@@ -2,6 +2,7 @@ package xyz.refinedev.skywars.ability.command;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import xyz.refinedev.commands.BaseCommand;
 import xyz.refinedev.commands.CommandHelp;
 import xyz.refinedev.commands.annotation.*;
@@ -18,9 +19,12 @@ public class AbilityCommand extends BaseCommand {
 
     @Subcommand("give")
     @CommandPermission("skywars.ability.give")
-    public void give(Player player, @Name("abilityName") String abilityName) {
-        player.getInventory().addItem(pxSkyWars.getInstance().getAbilityHandler().getAbilityById(abilityName).getItem());
-        player.sendMessage("§aYou have been given the ability: §e" + abilityName);
+    public void give(Player player, @Name("abilityName") String abilityName, @Optional @Name("amount") int amount) {
+        ItemStack item = pxSkyWars.getInstance().getAbilityHandler().getAbilityById(abilityName).getItem();
+        item.setAmount(amount);
+
+        player.getInventory().addItem(item);
+        player.sendMessage("§eYou have been given the ability: §6" + abilityName);
     }
 
     @Subcommand("list")

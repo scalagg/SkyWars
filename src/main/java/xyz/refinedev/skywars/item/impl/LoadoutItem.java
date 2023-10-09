@@ -28,7 +28,7 @@ public class LoadoutItem extends Item {
     @Override
     public ItemStack getItem(Player player) {
         return new ItemBuilder(Material.EMERALD)
-                .setName(Color.translate("&aSkywars Loadout &7(Right Click)"))
+                .setName(Color.translate("&aKit Selector &7(Right Click)"))
                 .toItemStack();
     }
 

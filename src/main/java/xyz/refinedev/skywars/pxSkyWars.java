@@ -25,12 +25,13 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.refinedev.skywars.game.GameHandler;
-import xyz.refinedev.skywars.game.listener.PreventionListener;
 import xyz.refinedev.skywars.game.listener.GameListener;
+import xyz.refinedev.skywars.game.listener.PreventionListener;
 import xyz.refinedev.skywars.game.listener.SpectatorListener;
 import xyz.refinedev.skywars.item.impl.*;
 import xyz.refinedev.skywars.item.listeners.ItemListener;
 import xyz.refinedev.skywars.kit.KitHandler;
+import xyz.refinedev.skywars.listeners.ChatListener;
 import xyz.refinedev.skywars.profile.listener.ProfileListener;
 import xyz.refinedev.skywars.profile.ProfileHandler;
 import xyz.refinedev.skywars.scoreboard.ScoreboardAdapter;
@@ -97,8 +98,9 @@ public class pxSkyWars extends JavaPlugin {
                 new ArenaModelEditorListener(),
                 new AbilityInteractListener(this),
                 new GameListener(this),
-                new PreventionListener(this),
-                new SpectatorListener(this)
+                new SpectatorListener(this),
+                new PreventionListener(this)
+//                new ChatListener(this)
         ).forEach(listener -> this.getServer().getPluginManager().registerEvents(listener, this));
 
         commandHandler = Phoenix.getInstance().getCommandHandler();

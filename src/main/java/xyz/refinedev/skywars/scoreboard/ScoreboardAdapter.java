@@ -88,8 +88,8 @@ public class ScoreboardAdapter implements AssembleAdapter {
 
             lines.add("");
             lines.add("&6&lOnline&7:");
-            lines.add("&7■ &fAll: &60");
-            lines.add("&7■ &fPlaying: &60");
+            lines.add("&7■ &fAll: &6" + Bukkit.getOnlinePlayers().stream().filter(p -> !SharedAPI.getInstance().getModUtilsHook().isVanished(p.getUniqueId())).count());
+            lines.add("&7■ &fPlaying: &6" + plugin.getGameHandler().getPlayerCount());
         }
 
         if (Phoenix.getInstance().getRebootHandler().isRebootScheduled()) {
@@ -108,14 +108,12 @@ public class ScoreboardAdapter implements AssembleAdapter {
         Date startedAt = game.getStartedAt();
         Date endedAt = game.getEndedAt();
 
-        if (startedAt == null) {
+        if (startedAt == null)
             return "00:00";
-        } else {
-            return TimeUtils.formatLongIntoMMSS(ChronoUnit.SECONDS.between(
-                    startedAt.toInstant(),
-                    endedAt == null ? Instant.now() : endedAt.toInstant()
-            ));
-        }
+        else return TimeUtils.formatLongIntoMMSS(ChronoUnit.SECONDS.between(
+                startedAt.toInstant(),
+                endedAt == null ? Instant.now() : endedAt.toInstant()
+        ));
     }
 
 }

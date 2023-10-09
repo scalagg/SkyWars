@@ -1,5 +1,5 @@
 name: 'pxSkyWars'
 version: ${git.commit.id.abbrev}
-author: "[Refine Development Team]"
+author: "[PixelArcade Development Team]"
 main: 'xyz.refinedev.skywars.pxSkyWars'
 api-version: "1.8"

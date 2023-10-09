@@ -1,8 +1,10 @@
 package xyz.refinedev.skywars.ability;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
+import xyz.refinedev.skywars.pxSkyWars;
 
 /**
  * @author alfie
@@ -11,6 +13,10 @@ import org.bukkit.inventory.ItemStack;
  */
 
 public abstract class Ability implements Listener {
+
+    public Ability() {
+        Bukkit.getServer().getPluginManager().registerEvents(this, pxSkyWars.getInstance());
+    }
 
     public abstract String getName();
     public abstract ItemStack getItem();

@@ -55,6 +55,7 @@ public class KitSelectorMenu extends PaginatedMenu {
         public void clicked(Player player, ClickType clickType) {
             SkyWarsProfile profile = pxSkyWars.getInstance().getProfileHandler().getProfile(player.getUniqueId());
             profile.setSelectedKit(kit.getName().toLowerCase());
+            profile.save();
         }
 
         @Override

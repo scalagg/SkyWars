@@ -60,6 +60,7 @@ public final class Arena {
      */
     private final List<Location> spawns = new ArrayList<>();
     private final List<Location> usedSpawns = new ArrayList<>();
+    private final List<Location> zombieSpawns = new ArrayList<>();
 
     private final Map<Location, ChestType> chests = new HashMap<>();
 
@@ -127,6 +128,16 @@ public final class Arena {
 
             if (type == Material.BEACON) {
                 suddenDeathSpawn = block.getLocation().clone().add(0.5, 0, 0.5);
+
+                // remove the block after
+                block.setType(Material.AIR);
+            }
+
+            if (type == Material.BEDROCK) {
+                zombieSpawns.add(block.getLocation().clone().add(0.5, 1, 0.5));
+
+                // remove the block after
+                block.setType(Material.AIR);
             }
 
             if (type != Material.SKULL) {
