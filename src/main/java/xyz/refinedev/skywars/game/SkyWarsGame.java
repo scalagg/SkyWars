@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import xyz.refinedev.phoenix.SharedAPI;
+import xyz.refinedev.phoenix.handler.ProfileHandler;
 import xyz.refinedev.phoenix.profile.Profile;
 import xyz.refinedev.phoenix.utils.CenterUtil;
 import xyz.refinedev.phoenix.utils.Color;
@@ -22,8 +23,10 @@ import xyz.refinedev.skywars.kit.Kit;
 import xyz.refinedev.skywars.profile.SkyWarsProfile;
 import xyz.refinedev.skywars.pxSkyWars;
 import xyz.refinedev.skywars.utils.SpawnUtil;
+import xyz.refinedev.skywars.utils.Tuple;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author alfie
@@ -322,15 +325,17 @@ public class SkyWarsGame {
     }
 
     public List<String> sendWinningMessage(Profile winner) {
-        List<Profile> topKillers = kills.entrySet().stream()
+        ProfileHandler handler = SharedAPI.getInstance().getProfileHandler();
+
+        List<Tuple<UUID, String>> topKillers = kills.entrySet().stream()
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                 .limit((Math.min(kills.size(), 3)))
-                .map(entry -> SharedAPI.getInstance().getProfileHandler().getProfile(entry.getKey()))
+                .map(entry -> new Tuple<>(entry.getKey(), handler.getProfile(entry.getKey()).getNameWithColor()))
                 .toList();
 
-        Profile firstKiller = topKillers.get(0);
-        Profile secondKiller = topKillers.get(1);
-//        Profile thirdKiller = topKillers.get(2);
+        Tuple<UUID, String> firstKiller = topKillers.get(0);
+        Tuple<UUID, String> secondKiller = topKillers.get(1);
+        Tuple<UUID, String> thirdKiller = topKillers.get(2);
 
         return Color.translate(List.of(
                 "&7&m----------------------------------------",
@@ -338,9 +343,9 @@ public class SkyWarsGame {
                 "",
                 CenterUtil.getCentered("&eWinner &7- " + winner.getNameWithColor()),
                 "",
-                CenterUtil.getCentered("&e&l1st Killer &7- " + firstKiller.getNameWithColor() + " &7(&e" + kills.get(firstKiller.getUniqueId()) + "&7)"),
-                CenterUtil.getCentered("&6&l2nd Killer &7- " + secondKiller.getNameWithColor() + " &7(&e" + kills.get(secondKiller.getUniqueId()) + "&7)"),
-//                CenterUtil.getCentered("&c&l3rd Killer &7- " + thirdKiller.getNameWithColor() + " &7(&e" + kills.get(thirdKiller.getUniqueId()) + "&7)"),
+                CenterUtil.getCentered("&e&l1st Killer &7- " + firstKiller.value() + " &7(&e" + kills.get(firstKiller.key()) + "&7)"),
+                CenterUtil.getCentered("&6&l2nd Killer &7- " + secondKiller.value() + " &7(&e" + kills.get(secondKiller.key()) + "&7)"),
+                CenterUtil.getCentered("&c&l3rd Killer &7- " + thirdKiller.value() + " &7(&e" + kills.get(thirdKiller.key()) + "&7)"),
                 "",
                 "&7&m----------------------------------------"
         ));

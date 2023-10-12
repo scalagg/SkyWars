@@ -39,7 +39,8 @@ public class AbilityInteractListener implements Listener {
         if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK)
             return;
 
-        Ability ability = plugin.getAbilityHandler().getAbilityByName(ChatColor.stripColor(item.getItemMeta().getDisplayName()));
+        String displayName = ChatColor.stripColor(item.getItemMeta().getDisplayName().replaceAll(" ", "").toLowerCase());
+        Ability ability = plugin.getAbilityHandler().getAbilityById(displayName);
         if (!(ability instanceof Interact))
             return;
 

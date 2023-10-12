@@ -1,9 +1,11 @@
 package xyz.refinedev.skywars.kit.enums;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.ChatColor;
 
 @Getter
+@RequiredArgsConstructor
 public enum Rarity {
 
     COMMON("Common", ChatColor.DARK_GREEN),
@@ -13,9 +15,4 @@ public enum Rarity {
 
     private final String name;
     private final ChatColor color;
-
-    Rarity(String name, ChatColor color) {
-        this.name = name;
-        this.color = color;
-    }
 }

@@ -18,26 +18,16 @@ import java.util.Map;
 public class AbilityHandler {
 
     private final Map<String, Ability> abilityByName = new HashMap<>();
-    private final Map<String, Ability> abilityByDisplayName = new HashMap<>();
 
     public AbilityHandler() {
         // todo: very aids way but i'm lazy
         abilityByName.put("pumpkinpie", new PumpkinPie());
-        abilityByDisplayName.put("Pumpkin Pie", new PumpkinPie());
-
         abilityByName.put("throwabletnt", new ThrowableTNT());
-        abilityByDisplayName.put("Throwable TNT", new ThrowableTNT());
-
         abilityByName.put("throwabledirt", new ThrowableDirt());
-        abilityByDisplayName.put("Throwable Dirt", new ThrowableDirt());
     }
 
     public Ability getAbilityById(String id) {
         return abilityByName.get(id.toLowerCase());
-    }
-
-    public Ability getAbilityByName(String displayName) {
-        return abilityByDisplayName.get(displayName);
     }
 
 }
