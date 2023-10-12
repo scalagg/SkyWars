@@ -1,5 +1,5 @@
-name: 'pxSkyWars'
+name: 'SkyWars'
 version: ${git.commit.id.abbrev}
 author: "[PixelArcade Development Team]"
-main: 'xyz.refinedev.skywars.pxSkyWars'
+main: 'gg.pixelarcade.skywars.SkyWarsPlugin'
 api-version: "1.8"
