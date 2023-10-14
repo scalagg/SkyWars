@@ -10,7 +10,7 @@ import java.util.Map;
 
 /**
  * @author alfie
- * @project Skywars / xyz.refinedev.skywars.ability
+ * @project Skywars / gg.pixelarcade.skywars.ability
  * @date 03/10/2023 / 06:09
  */
 

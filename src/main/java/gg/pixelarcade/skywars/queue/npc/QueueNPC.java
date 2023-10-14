@@ -2,7 +2,7 @@ package gg.pixelarcade.skywars.queue.npc;
 
 /**
  * @author alfie
- * @project Skywars / xyz.refinedev.skywars.queue.npc
+ * @project Skywars / gg.pixelarcade.skywars.queue.npc
  * @date 01/10/2023 / 21:50
  */
 

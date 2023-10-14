@@ -18,7 +18,7 @@ import java.util.UUID;
 
 /**
  * @author alfie
- * @project Skywars / xyz.refinedev.skywars.arena
+ * @project Skywars / gg.pixelarcade.skywars.arena
  * @date 25/09/2023 / 23:26
  */
 

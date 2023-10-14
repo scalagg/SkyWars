@@ -4,7 +4,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * @author alfie
- * @project Skywars / xyz.refinedev.skywars.utils
+ * @project Skywars / gg.pixelarcade.skywars.utils
  * @date 06/10/2023 / 02:46
  */
 

@@ -20,8 +20,8 @@ import gg.pixelarcade.skywars.kit.impl.casual.normal.PyromancerKit;
 import gg.pixelarcade.skywars.kit.impl.casual.normal.ScoutKit;
 import gg.pixelarcade.skywars.kit.impl.ranked.*;
 import lombok.Data;
-import xyz.refinedev.skywars.kit.impl.casual.normal.*;
-import xyz.refinedev.skywars.kit.impl.ranked.*;
+import gg.pixelarcade.skywars.kit.impl.casual.normal.*;
+import gg.pixelarcade.skywars.kit.impl.ranked.*;
 import gg.pixelarcade.skywars.SkyWarsPlugin;
 
 import java.util.Collection;
@@ -30,7 +30,7 @@ import java.util.Map;
 
 /**
  * @author alfie
- * @project Skywars / xyz.refinedev.skywars.kit
+ * @project Skywars / gg.pixelarcade.skywars.kit
  * @date 26/09/2023 / 02:39
  */
 

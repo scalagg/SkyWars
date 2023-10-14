@@ -10,7 +10,7 @@ import xyz.refinedev.commands.annotation.*;
 
 /**
  * @author alfie
- * @project Skywars / xyz.refinedev.skywars.ability.command
+ * @project Skywars / gg.pixelarcade.skywars.ability.command
  * @date 03/10/2023 / 06:32
  */
 

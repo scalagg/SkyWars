@@ -11,7 +11,7 @@ import java.util.Map;
 
 /**
  * @author alfie
- * @project Skywars / xyz.refinedev.skywars.queue.menu
+ * @project Skywars / gg.pixelarcade.skywars.queue.menu
  * @date 01/10/2023 / 21:50
  */
 

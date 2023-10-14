@@ -17,7 +17,7 @@ import xyz.refinedev.phoenix.utils.Color;
 import xyz.refinedev.phoenix.utils.general.Tasks;
 import gg.pixelarcade.skywars.arena.Arena;
 import gg.pixelarcade.skywars.chests.LootableChest;
-import xyz.refinedev.skywars.game.event.*;
+import gg.pixelarcade.skywars.game.event.*;
 import gg.pixelarcade.skywars.game.state.GameState;
 import gg.pixelarcade.skywars.game.state.GameType;
 import gg.pixelarcade.skywars.game.state.RefillType;
@@ -28,7 +28,7 @@ import java.util.*;
 
 /**
  * @author alfie
- * @project Skywars / xyz.refinedev.skywars.game
+ * @project Skywars / gg.pixelarcade.skywars.game
  * @date 26/09/2023 / 20:43
  */
 

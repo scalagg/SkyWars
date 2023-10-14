@@ -21,7 +21,7 @@ import java.util.List;
 
 /**
  * @author alfie
- * @project Skywars / xyz.refinedev.skywars.game.listener
+ * @project Skywars / gg.pixelarcade.skywars.game.listener
  * @date 08/10/2023 / 06:15
  */
 

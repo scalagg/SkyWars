@@ -2,7 +2,7 @@ package gg.pixelarcade.skywars.utils;
 
 /**
  * @author alfie
- * @project Skywars / xyz.refinedev.skywars.utils
+ * @project Skywars / gg.pixelarcade.skywars.utils
  * @date 03/10/2023 / 05:45
  */
 

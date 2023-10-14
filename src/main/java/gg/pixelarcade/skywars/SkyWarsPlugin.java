@@ -31,13 +31,13 @@ import gg.pixelarcade.skywars.game.GameHandler;
 import gg.pixelarcade.skywars.game.listener.GameListener;
 import gg.pixelarcade.skywars.game.listener.PreventionListener;
 import gg.pixelarcade.skywars.game.listener.SpectatorListener;
-import xyz.refinedev.skywars.item.impl.*;
+import gg.pixelarcade.skywars.item.impl.*;
 import gg.pixelarcade.skywars.item.listeners.ItemListener;
 import gg.pixelarcade.skywars.profile.listener.ProfileListener;
 import gg.pixelarcade.skywars.profile.ProfileHandler;
 import gg.pixelarcade.skywars.scoreboard.ScoreboardAdapter;
 import gg.pixelarcade.skywars.scoreboard.api.Assemble;
-import xyz.refinedev.skywars.utils.serialization.*;
+import gg.pixelarcade.skywars.utils.serialization.*;
 
 import java.util.Arrays;
 
@@ -126,7 +126,7 @@ public class SkyWarsPlugin extends JavaPlugin {
         resetPlayer(player);
 
         player.getInventory().setItem(0, new QueueItem(player).getItem(player));
-        player.getInventory().setItem(1, new ProfileItem(player).getItem(player));
+//        player.getInventory().setItem(1, new ProfileItem(player).getItem(player));
         player.getInventory().setItem(4, new CosmeticItem(player).getItem(player));
         player.getInventory().setItem(7, new LoadoutItem(player).getItem(player));
         player.getInventory().setItem(8, new SettingsItem(player).getItem(player));

@@ -4,7 +4,7 @@ import java.util.Calendar;
 
 /**
  * @author alfie
- * @project Skywars / xyz.refinedev.skywars.utils
+ * @project Skywars / gg.pixelarcade.skywars.utils
  * @date 28/09/2023 / 18:26
  */
 

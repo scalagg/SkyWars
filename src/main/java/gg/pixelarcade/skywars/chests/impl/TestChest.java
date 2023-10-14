@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * @author alfie
- * @project Skywars / xyz.refinedev.skywars.chests.impl
+ * @project Skywars / gg.pixelarcade.skywars.chests.impl
  * @date 06/10/2023 / 02:22
  */
 

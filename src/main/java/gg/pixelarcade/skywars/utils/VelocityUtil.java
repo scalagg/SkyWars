@@ -7,7 +7,7 @@ import org.bukkit.util.Vector;
 
 /**
  * @author alfie
- * @project Skywars / xyz.refinedev.skywars.utils
+ * @project Skywars / gg.pixelarcade.skywars.utils
  * @date 06/10/2023 / 15:29
  */
 

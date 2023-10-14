@@ -8,7 +8,7 @@ import gg.pixelarcade.skywars.game.SkyWarsGame;
 
 /**
  * @author alfie
- * @project Skywars / xyz.refinedev.skywars.game.event
+ * @project Skywars / gg.pixelarcade.skywars.game.event
  * @date 27/09/2023 / 03:50
  */
 

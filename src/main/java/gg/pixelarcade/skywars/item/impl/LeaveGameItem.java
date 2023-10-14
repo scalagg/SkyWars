@@ -12,7 +12,7 @@ import gg.pixelarcade.skywars.item.Item;
 
 /**
  * @author alfie
- * @project Skywars / xyz.refinedev.skywars.item.impl
+ * @project Skywars / gg.pixelarcade.skywars.item.impl
  * @date 08/10/2023 / 14:09
  */
 

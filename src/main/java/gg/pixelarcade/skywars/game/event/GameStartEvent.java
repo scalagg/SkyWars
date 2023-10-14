@@ -8,7 +8,7 @@ import org.bukkit.event.HandlerList;
 
 /**
  * @author alfie
- * @project Skywars / xyz.refinedev.skywars.game.event
+ * @project Skywars / gg.pixelarcade.skywars.game.event
  * @date 07/10/2023 / 09:11
  */
 

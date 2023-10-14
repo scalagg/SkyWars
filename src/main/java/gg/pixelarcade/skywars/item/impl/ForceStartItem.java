@@ -11,7 +11,7 @@ import xyz.refinedev.phoenix.utils.item.ItemBuilder;
 
 /**
  * @author alfie
- * @project Skywars / xyz.refinedev.skywars.item.impl
+ * @project Skywars / gg.pixelarcade.skywars.item.impl
  * @date 08/10/2023 / 15:21
  */
 

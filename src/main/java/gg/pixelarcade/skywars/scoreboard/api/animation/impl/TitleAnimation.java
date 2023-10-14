@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * @author alfie
- * @project Skywars / xyz.refinedev.skywars.scoreboard.api.animation.impl
+ * @project Skywars / gg.pixelarcade.skywars.scoreboard.api.animation.impl
  * @date 26/09/2023 / 18:21
  */
 

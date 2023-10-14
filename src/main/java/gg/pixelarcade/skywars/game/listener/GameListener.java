@@ -28,14 +28,14 @@ import xyz.refinedev.cosmetics.cosmetics.killmessages.KillMessageType;
 import xyz.refinedev.cosmetics.pxCosmetics;
 import xyz.refinedev.phoenix.SharedAPI;
 import xyz.refinedev.phoenix.utils.general.Tasks;
-import xyz.refinedev.skywars.item.impl.*;
+import gg.pixelarcade.skywars.item.impl.*;
 
 import java.util.List;
 import java.util.UUID;
 
 /**
  * @author alfie
- * @project Skywars / xyz.refinedev.skywars.game.listener
+ * @project Skywars / gg.pixelarcade.skywars.game.listener
  * @date 26/09/2023 / 22:12
  */
 

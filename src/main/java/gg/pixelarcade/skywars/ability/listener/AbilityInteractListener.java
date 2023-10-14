@@ -15,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 
 /**
  * @author alfie
- * @project Skywars / xyz.refinedev.skywars.ability.listener
+ * @project Skywars / gg.pixelarcade.skywars.ability.listener
  * @date 03/10/2023 / 06:08
  */
 

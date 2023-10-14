@@ -16,7 +16,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * @author alfie
- * @project Skywars / xyz.refinedev.skywars.chests
+ * @project Skywars / gg.pixelarcade.skywars.chests
  * @date 27/09/2023 / 20:18
  */
 

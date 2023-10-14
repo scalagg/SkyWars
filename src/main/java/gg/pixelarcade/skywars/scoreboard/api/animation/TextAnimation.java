@@ -2,7 +2,7 @@ package gg.pixelarcade.skywars.scoreboard.api.animation;
 
 /**
  * @author alfie
- * @project Skywars / xyz.refinedev.skywars.scoreboard.api.animation
+ * @project Skywars / gg.pixelarcade.skywars.scoreboard.api.animation
  * @date 26/09/2023 / 18:20
  */
 

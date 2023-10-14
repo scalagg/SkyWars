@@ -9,7 +9,7 @@ import gg.pixelarcade.skywars.game.state.GameState;
 
 /**
  * @author alfie
- * @project Skywars / xyz.refinedev.skywars.game.event
+ * @project Skywars / gg.pixelarcade.skywars.game.event
  * @date 26/09/2023 / 23:02
  */
 

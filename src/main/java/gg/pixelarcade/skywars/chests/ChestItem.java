@@ -6,7 +6,7 @@ import org.bukkit.inventory.ItemStack;
 
 /**
  * @author alfie
- * @project Skywars / xyz.refinedev.skywars.chests
+ * @project Skywars / gg.pixelarcade.skywars.chests
  * @date 06/10/2023 / 02:21
  */
 

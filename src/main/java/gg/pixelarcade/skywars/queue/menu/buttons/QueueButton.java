@@ -11,7 +11,7 @@ import gg.pixelarcade.skywars.game.state.GameType;
 
 /**
  * @author alfie
- * @project Skywars / xyz.refinedev.skywars.queue.menu.buttons
+ * @project Skywars / gg.pixelarcade.skywars.queue.menu.buttons
  * @date 02/10/2023 / 01:18
  */
 

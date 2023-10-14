@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  * @author alfie
- * @project Skywars / xyz.refinedev.skywars.kit.impl
+ * @project Skywars / gg.pixelarcade.skywars.kit.impl
  * @date 26/09/2023 / 18:32
  */
 

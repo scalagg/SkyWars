@@ -1,4 +1,4 @@
-//package xyz.refinedev.skywars.chests.impl;
+//package gg.pixelarcade.skywars.chests.impl;
 //
 //import org.bukkit.Material;
 //import org.bukkit.enchantments.Enchantment;
@@ -6,10 +6,10 @@
 //import org.bukkit.potion.PotionEffect;
 //import org.bukkit.potion.PotionEffectType;
 //import xyz.refinedev.phoenix.utils.item.ItemBuilder;
-//import xyz.refinedev.skywars.chests.LootableChest;
-//import xyz.refinedev.skywars.game.SkyWarsGame;
-//import xyz.refinedev.skywars.game.state.GameType;
-//import xyz.refinedev.skywars.game.state.RefillType;
+//import gg.pixelarcade.skywars.chests.LootableChest;
+//import gg.pixelarcade.skywars.game.SkyWarsGame;
+//import gg.pixelarcade.skywars.game.state.GameType;
+//import gg.pixelarcade.skywars.game.state.RefillType;
 //
 //import java.util.ArrayList;
 //import java.util.Arrays;
@@ -17,7 +17,7 @@
 //
 ///**
 // * @author alfie
-// * @project Skywars / xyz.refinedev.skywars.chests.impl
+// * @project Skywars / gg.pixelarcade.skywars.chests.impl
 // * @date 27/09/2023 / 20:22
 // */
 //

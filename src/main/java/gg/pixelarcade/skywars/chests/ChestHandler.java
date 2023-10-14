@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * @author alfie
- * @project Skywars / xyz.refinedev.skywars.handler
+ * @project Skywars / gg.pixelarcade.skywars.handler
  * @date 27/09/2023 / 20:36
  */
 

@@ -20,7 +20,7 @@ import java.util.List;
 
 /**
  * @author alfie
- * @project Skywars / xyz.refinedev.skywars.game.listener
+ * @project Skywars / gg.pixelarcade.skywars.game.listener
  * @date 05/10/2023 / 03:30
  */
 

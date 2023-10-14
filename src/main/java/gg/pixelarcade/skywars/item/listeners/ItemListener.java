@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author alfie
- * @project Skywars / xyz.refinedev.skywars.item.listeners
+ * @project Skywars / gg.pixelarcade.skywars.item.listeners
  * @date 25/09/2023 / 22:30
  */
 

@@ -12,7 +12,7 @@ import gg.pixelarcade.skywars.kit.menu.KitSelectorMenu;
 
 /**
  * @author alfie
- * @project Skywars / xyz.refinedev.skywars.item.impl
+ * @project Skywars / gg.pixelarcade.skywars.item.impl
  * @date 25/09/2023 / 22:49
  */
 

@@ -6,7 +6,7 @@ import gg.pixelarcade.skywars.game.SkyWarsGame;
 
 /**
  * @author alfie
- * @project Skywars / xyz.refinedev.skywars.game.task
+ * @project Skywars / gg.pixelarcade.skywars.game.task
  * @date 26/09/2023 / 21:36
  */
 
