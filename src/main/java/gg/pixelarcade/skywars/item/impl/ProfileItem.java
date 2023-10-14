@@ -12,33 +12,38 @@ import xyz.refinedev.phoenix.profile.Profile;
 import xyz.refinedev.phoenix.utils.Color;
 import xyz.refinedev.phoenix.utils.item.ItemBuilder;
 
+import java.util.UUID;
+
 /**
  * @author alfie
- * @project Skywars / xyz.refinedev.skywars.item.impl
+ * @project Skywars / gg.pixelarcade.skywars.item.impl
  * @date 25/09/2023 / 22:24
  */
 
-public class ProfileItem extends Item {
+//TODO: @Alfie if you wanna redo this or fix it  phoenix has changes and wat not
 
-    private final Player player;
+//public class ProfileItem extends Item {
 
-    public ProfileItem(Player player) {
-        super(player);
-        this.player = player;
-    }
-
-    @Override
-    public ItemStack getItem(Player player) {
-        return new ItemBuilder(Material.SKULL_ITEM, 1, (byte) 3)
-                .setName(Color.translate("&aProfile &7(Right Click)"))
-                .setLore(Color.translate("&7Click to view your profile."))
-                .setSkullOwner(player.getName())
-                .toItemStack();
-    }
-
-    @Override
-    public void click(Action action) {
-        Profile profile = SharedAPI.getInstance().getProfileHandler().getProfile(player.getUniqueId());
-        Phoenix.getInstance().getMenuHandler().openMenu(new ProfileMenu(profile, true, SharedAPI.getInstance()), player);
-    }
-}
+//    private final Player player;
+//
+//    public ProfileItem(Player player) {
+//        super(player);
+//        this.player = player;
+//    }
+//
+//    @Override
+//    public ItemStack getItem(Player player) {
+//        return new ItemBuilder(Material.SKULL_ITEM, 1, (byte) 3)
+//                .setName(Color.translate("&aProfile &7(Right Click)"))
+//                .setLore(Color.translate("&7Click to view your profile."))
+//                .setSkullOwner(player.getName())
+//                .toItemStack();
+//    }
+//
+//
+//    @Override
+//    public void click(Action action, UUID uuid) {
+//        Profile profile = SharedAPI.getInstance().getProfileHandler().getProfile(player.getUniqueId());
+////        Phoenix.getInstance().getMenuHandler().openMenu(new ProfileMenu(profile.getName(), true));
+//    }
+//}
