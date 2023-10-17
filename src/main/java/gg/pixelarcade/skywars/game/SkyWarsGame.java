@@ -17,10 +17,9 @@ import xyz.refinedev.phoenix.utils.Color;
 import xyz.refinedev.phoenix.utils.general.Tasks;
 import gg.pixelarcade.skywars.arena.Arena;
 import gg.pixelarcade.skywars.chests.LootableChest;
-import gg.pixelarcade.skywars.game.event.*;
 import gg.pixelarcade.skywars.game.state.GameState;
 import gg.pixelarcade.skywars.game.state.GameType;
-import gg.pixelarcade.skywars.game.state.RefillType;
+import gg.pixelarcade.skywars.chests.type.RefillType;
 import gg.pixelarcade.skywars.profile.SkyWarsProfile;
 import gg.pixelarcade.skywars.utils.SpawnUtil;
 

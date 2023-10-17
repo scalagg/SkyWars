@@ -10,11 +10,4 @@ import org.bukkit.inventory.ItemStack;
  * @date 06/10/2023 / 02:21
  */
 
-@AllArgsConstructor
-@Data
-public class ChestItem {
-
-    private ItemStack item;
-    private double chance;
-
-}
+public record ChestItem(ItemStack item, double chance) {}

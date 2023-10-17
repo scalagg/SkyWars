@@ -48,14 +48,16 @@ public final class ArenaHandler {
         }
     }
 
-
-    @SneakyThrows
     public void saveSchematics() {
-        Files.write(
-                SkyWarsPlugin.GSON.toJson(schematics.values()),
-                new File(SkyWarsPlugin.getInstance().getDataFolder(), SCHEMATICS_FILE_NAME),
-                Charsets.UTF_8
-        );
+        try {
+            Files.write(
+                    SkyWarsPlugin.GSON.toJson(schematics.values()),
+                    new File(SkyWarsPlugin.getInstance().getDataFolder(), SCHEMATICS_FILE_NAME),
+                    Charsets.UTF_8
+            );
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void registerSchematic(ArenaSchematic schematic) {
