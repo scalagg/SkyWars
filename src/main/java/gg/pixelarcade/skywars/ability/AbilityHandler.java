@@ -1,9 +1,7 @@
 package gg.pixelarcade.skywars.ability;
 
-import gg.pixelarcade.skywars.ability.impl.ThrowableDirt;
-import gg.pixelarcade.skywars.ability.impl.ThrowableTNT;
+import gg.pixelarcade.skywars.ability.impl.*;
 import lombok.Getter;
-import gg.pixelarcade.skywars.ability.impl.PumpkinPie;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,6 +21,9 @@ public class AbilityHandler {
         abilityByName.put("pumpkinpie", new PumpkinPie());
         abilityByName.put("throwabletnt", new ThrowableTNT());
         abilityByName.put("throwabledirt", new ThrowableDirt());
+        abilityByName.put("safeteleport", new SafeTeleport());
+        abilityByName.put("magnet", new Magnet());
+        abilityByName.put("zombieguardian", new ZombieGuardian());
     }
 
     public Ability getAbilityById(String id) {

@@ -1,9 +1,12 @@
 package gg.pixelarcade.skywars;
 
+import ac.sparky.api.SparkyAPI;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import gg.pixelarcade.skywars.item.impl.*;
 import gg.pixelarcade.skywars.kit.KitHandler;
+import gg.pixelarcade.skywars.music.MusicHandler;
+import gg.pixelarcade.skywars.music.commands.MusicCommand;
 import gg.pixelarcade.skywars.utils.serialization.*;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -39,6 +42,7 @@ import gg.pixelarcade.skywars.scoreboard.ScoreboardAdapter;
 import gg.pixelarcade.skywars.scoreboard.api.Assemble;
 import gg.pixelarcade.skywars.utils.serialization.*;
 
+import java.io.File;
 import java.util.Arrays;
 
 /**
@@ -74,6 +78,7 @@ public class SkyWarsPlugin extends JavaPlugin {
     private KitHandler kitHandler;
     private ChestHandler chestHandler;
     private AbilityHandler abilityHandler;
+    private MusicHandler musicHandler;
 
     @Override
     public void onEnable() {
@@ -86,6 +91,7 @@ public class SkyWarsPlugin extends JavaPlugin {
         this.kitHandler = new KitHandler(this);
         this.chestHandler = new ChestHandler();
         this.abilityHandler = new AbilityHandler();
+        this.musicHandler = new MusicHandler(new File(getDataFolder(), "music"));
 
         Arrays.asList(
                 new ProfileListener(this),
@@ -113,6 +119,7 @@ public class SkyWarsPlugin extends JavaPlugin {
         commandHandler.registerCommand(new ArenaCommand());
         commandHandler.registerCommand(new GameCommand(this));
         commandHandler.registerCommand(new AbilityCommand());
+        commandHandler.registerCommand(new MusicCommand());
 
         new Assemble(this, new ScoreboardAdapter(this));
     }

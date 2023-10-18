@@ -18,7 +18,6 @@ import xyz.refinedev.phoenix.utils.item.ItemBuilder;
 
 public class PumpkinPie extends Ability implements Interact {
 
-    // speed 1 = 0, speed 2 = 1 etc
     private final static int SPEED_LEVEL = 0;
     private final static int SPEED_DISPLAY_LEVEL = 1;
     private final static int SPEED_DURATION = 4;

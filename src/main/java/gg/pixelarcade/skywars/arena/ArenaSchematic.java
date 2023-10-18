@@ -25,7 +25,7 @@ import java.io.File;
 public final class ArenaSchematic {
 
     private String name;
-    private String displayName;
+    private String displayName = name;
 
     private MaterialData icon = new MaterialData(Material.WOOL);
     private GameType gameType;

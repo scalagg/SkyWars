@@ -6,6 +6,7 @@ import gg.pixelarcade.skywars.game.task.GameCountdownTask;
 import gg.pixelarcade.skywars.kit.Kit;
 import gg.pixelarcade.skywars.utils.Tuple;
 import lombok.Data;
+import me.jumba.sparky.SparkyAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -33,6 +34,10 @@ import java.util.*;
 
 @Data
 public class SkyWarsGame {
+
+    private final static int SECOND_REFILL_DELAY = 20 * 60 * 3;
+    private final static int THIRD_REFILL_DELAY = 20 * 60 * 5;
+    private final static int SUDDEN_DEATH_COMMENCES = 20 * 60 * 10;
 
     private final UUID id = UUID.randomUUID();
 
@@ -71,6 +76,7 @@ public class SkyWarsGame {
             player.setGameMode(GameMode.SURVIVAL);
 
             player.setMetadata("frozen", new FixedMetadataValue(SkyWarsPlugin.getInstance(), this));
+            SparkyAPI.exemptPlayer(player, 20 * 5);
         }
 
         Bukkit.getScheduler().runTaskTimer(SkyWarsPlugin.getInstance(), new GameCountdownTask(this), 0L, 20L);
@@ -86,13 +92,15 @@ public class SkyWarsGame {
         LootableChest chest = SkyWarsPlugin.getInstance().getChestHandler().getChest(gameType);
         chest.fillChests(this, RefillType.FIRST);
 
-        Tasks.runLater(() -> chest.fillChests(this, RefillType.SECOND), 20 * 60 * 2);
-        Tasks.runLater(() -> chest.fillChests(this, RefillType.THIRD), 20 * 60 * 5);
-        Tasks.runLater(this::suddenDeath, 20 * 60 * 10);
+        Tasks.runLater(() -> chest.fillChests(this, RefillType.SECOND), SECOND_REFILL_DELAY);
+        Tasks.runLater(() -> chest.fillChests(this, RefillType.THIRD), THIRD_REFILL_DELAY);
+        Tasks.runLater(this::suddenDeath, SUDDEN_DEATH_COMMENCES);
 
-        for (UUID uuid : alivePlayers) {
+        for (UUID uuid : players) {
             Player player = Bukkit.getPlayer(uuid);
             player.removeMetadata("frozen", SkyWarsPlugin.getInstance());
+            SparkyAPI.resetExempt(player);
+
             SkyWarsPlugin.getInstance().resetPlayer(player);
 
             kills.put(uuid, 0);
@@ -105,8 +113,9 @@ public class SkyWarsGame {
                 Kit kit = SkyWarsPlugin.getInstance().getKitHandler().getKitByName(profile.getSelectedKit());
 
                 for (GameType type : kit.getGameType()) {
+                    System.out.println(type);
                     if (type == gameType) {
-                        kit.apply(player);
+                        kit.equipKit(kit, player);
                         break;
                     }
                 }
@@ -248,7 +257,10 @@ public class SkyWarsGame {
         }
 
         if (alivePlayers.size() <= 1)
-            alivePlayers.stream().findFirst().ifPresentOrElse(winner -> this.onWin(Bukkit.getPlayer(winner)), () -> this.onWin(null));
+            alivePlayers.stream()
+                    .findFirst()
+                    .ifPresentOrElse(winner -> this.onWin(Bukkit.getPlayer(winner)),
+                            () -> this.onWin(null));
     }
 
     public void addSpectator(Player player) {
@@ -294,7 +306,7 @@ public class SkyWarsGame {
     }
 
     public boolean hasStarted() {
-        return state == GameState.LIVE || state == GameState.ENDED;
+        return state == GameState.LIVE;
     }
 
     public boolean isInGame(Player player) {
@@ -322,7 +334,7 @@ public class SkyWarsGame {
 
         Tuple<UUID, String> firstKiller = topKillers.get(0);
         Tuple<UUID, String> secondKiller = topKillers.get(1);
-        Tuple<UUID, String> thirdKiller = topKillers.get(2);
+//        Tuple<UUID, String> thirdKiller = topKillers.get(2);
 
         return Color.translate(List.of(
                 "&7&m----------------------------------------",
@@ -332,7 +344,7 @@ public class SkyWarsGame {
                 "",
                 CenterUtil.getCentered("&e&l1st Killer &7- " + firstKiller.value() + " &7(&e" + kills.get(firstKiller.key()) + "&7)"),
                 CenterUtil.getCentered("&6&l2nd Killer &7- " + secondKiller.value() + " &7(&e" + kills.get(secondKiller.key()) + "&7)"),
-                CenterUtil.getCentered("&c&l3rd Killer &7- " + thirdKiller.value() + " &7(&e" + kills.get(thirdKiller.key()) + "&7)"),
+//                CenterUtil.getCentered("&c&l3rd Killer &7- " + thirdKiller.value() + " &7(&e" + kills.get(thirdKiller.key()) + "&7)"),
                 "",
                 "&7&m----------------------------------------"
         ));

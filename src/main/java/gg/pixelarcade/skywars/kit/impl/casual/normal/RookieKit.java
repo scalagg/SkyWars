@@ -38,23 +38,23 @@ public class RookieKit extends Kit {
         return new ItemBuilder(Material.LEATHER_CHESTPLATE)
                 .setName("&aRookie")
                 .setLore(Arrays.asList(
-                        "&6&m---------------------",
-                        "&7■ &fFull Leather Armor",
-                        "&7■ &fStone Sword",
-                        "&7■ &f16 Glass",
-                        "&7■ &f16 Steak",
-                        "&6&m---------------------"
-                ))
+                                "&6&m---------------------",
+                                "&7■ &fFull Leather Armor",
+                                "&7■ &fStone Sword",
+                                "&7■ &f16 Glass",
+                                "&7■ &f16 Steak",
+                                "&6&m---------------------"
+                        ))
                 .toItemStack();
     }
 
     @Override
     public ItemStack[] getArmor() {
         return new ItemStack[]{
-                new ItemBuilder(Material.LEATHER_HELMET).setLeatherArmorColor(Color.GRAY).toItemStack(),
-                new ItemBuilder(Material.LEATHER_CHESTPLATE).setLeatherArmorColor(Color.GRAY).toItemStack(),
+                new ItemBuilder(Material.LEATHER_BOOTS).setLeatherArmorColor(Color.GRAY).toItemStack(),
                 new ItemBuilder(Material.LEATHER_LEGGINGS).setLeatherArmorColor(Color.GRAY).toItemStack(),
-                new ItemBuilder(Material.LEATHER_BOOTS).setLeatherArmorColor(Color.GRAY).toItemStack()
+                new ItemBuilder(Material.LEATHER_CHESTPLATE).setLeatherArmorColor(Color.GRAY).toItemStack(),
+                new ItemBuilder(Material.LEATHER_HELMET).setLeatherArmorColor(Color.GRAY).toItemStack()
         };
     }
 

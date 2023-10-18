@@ -22,11 +22,9 @@ import org.bukkit.inventory.ItemStack;
 @RequiredArgsConstructor
 public class AbilityInteractListener implements Listener {
 
-    //TODO: 03/10/2023 fix not being able to have a stack of abilities
-
     private final SkyWarsPlugin plugin;
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         ItemStack item = event.getItem();
@@ -37,9 +35,12 @@ public class AbilityInteractListener implements Listener {
         if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK)
             return;
 
+        if (item.getItemMeta().getDisplayName() == null)
+            return;
+
         String displayName = ChatColor.stripColor(item.getItemMeta().getDisplayName().replaceAll(" ", "").toLowerCase());
         Ability ability = plugin.getAbilityHandler().getAbilityById(displayName);
-        if (!(ability instanceof Interact))
+        if (!(ability instanceof Interact interact))
             return;
 
         if (!ability.isSimilar(item))
@@ -48,7 +49,6 @@ public class AbilityInteractListener implements Listener {
         if (!plugin.getGameHandler().isPlayingGame(player))
             return;
 
-        Interact interact = (Interact) ability;
         if (!interact.onPlayerInteract(event))
             return;
 

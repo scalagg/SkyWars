@@ -68,7 +68,5 @@ public abstract class LootableChest {
                 }
             }
         }
-
-        System.out.println("Filled chests for " + game.getArena().getArenaSchematic().getName() + " with refill type " + refillType);
     }
 }

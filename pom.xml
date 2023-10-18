@@ -16,6 +16,10 @@
 
     <repositories>
         <repository>
+            <id>jitpack</id>
+            <url>https://jitpack.io</url>
+        </repository>
+        <repository>
             <id>sonatype-snapshots</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
         </repository>
@@ -32,6 +36,12 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>me.jumba</groupId>
+            <artifactId>sparky</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>xyz.refinedev</groupId>
             <artifactId>pxCosmetics</artifactId>
             <version>1.0</version>
@@ -41,6 +51,12 @@
             <groupId>xyz.refinedev</groupId>
             <artifactId>pxParty</artifactId>
             <version>1.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.koca2000</groupId>
+            <artifactId>NoteBlockAPI</artifactId>
+            <version>1.6.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
