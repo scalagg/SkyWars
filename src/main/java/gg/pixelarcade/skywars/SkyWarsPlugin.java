@@ -7,6 +7,7 @@ import gg.pixelarcade.skywars.item.impl.*;
 import gg.pixelarcade.skywars.kit.KitHandler;
 import gg.pixelarcade.skywars.music.MusicHandler;
 import gg.pixelarcade.skywars.music.commands.MusicCommand;
+import gg.pixelarcade.skywars.region.RegionHandler;
 import gg.pixelarcade.skywars.utils.serialization.*;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -72,6 +73,7 @@ public class SkyWarsPlugin extends JavaPlugin {
 
     private PaperCommandManager commandHandler;
     private ProfileHandler profileHandler;
+    private RegionHandler regionHandler;
     private AchievementHandler achievementHandler;
     private GameHandler gameHandler;
     private ArenaHandler arenaHandler;
@@ -87,6 +89,7 @@ public class SkyWarsPlugin extends JavaPlugin {
         this.profileHandler = new ProfileHandler(SharedAPI.getInstance());
         this.achievementHandler = new AchievementHandler();
         this.arenaHandler = new ArenaHandler();
+        this.regionHandler = new RegionHandler();
         this.gameHandler = new GameHandler();
         this.kitHandler = new KitHandler(this);
         this.chestHandler = new ChestHandler();
@@ -126,6 +129,7 @@ public class SkyWarsPlugin extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        regionHandler.saveRegions();
         arenaHandler.saveSchematics();
     }
 

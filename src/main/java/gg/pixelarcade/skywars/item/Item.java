@@ -34,7 +34,6 @@ public abstract class Item {
     }
 
     public abstract ItemStack getItem(Player player);
-
     public abstract void click(Action action);
 
     public static void unregisterItem(Player player, String id) {
