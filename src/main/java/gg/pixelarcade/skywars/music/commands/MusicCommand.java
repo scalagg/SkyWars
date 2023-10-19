@@ -2,10 +2,16 @@ package gg.pixelarcade.skywars.music.commands;
 
 import gg.pixelarcade.skywars.SkyWarsPlugin;
 import gg.pixelarcade.skywars.music.MusicHandler;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import xyz.refinedev.commands.BaseCommand;
 import xyz.refinedev.commands.CommandHelp;
 import xyz.refinedev.commands.annotation.*;
+import xyz.refinedev.phoenix.SharedAPI;
+
+import java.awt.*;
+import java.util.UUID;
 
 /**
  * @author alfie
@@ -30,6 +36,30 @@ public class MusicCommand extends BaseCommand {
     public void skip(CommandSender sender) {
         handler.getRadioSongPlayer().playNextSong();
         sender.sendMessage("§aYou have skipped the current song.");
+    }
+
+    @Subcommand("stopall")
+    @Description("Stop all music for all players")
+    @CommandPermission("skywars.music.stopall")
+    public void stopAll(CommandSender sender) {
+        for (UUID uuid : handler.getRadioSongPlayer().getPlayerUUIDs())
+            handler.getRadioSongPlayer().removePlayer(uuid);
+
+        sender.sendMessage("§aYou have stopped all music for all players.");
+    }
+
+    @Subcommand("playall")
+    @Description("Play all music for all players")
+    @CommandPermission("skywars.music.playall")
+    public void playAll(CommandSender sender) {
+        for (UUID uuid : handler.getRadioSongPlayer().getPlayerUUIDs()) {
+            if (SharedAPI.getInstance().getProfileHandler().getProfile(uuid).isSetting("music"))
+                continue;
+
+            handler.getRadioSongPlayer().addPlayer(uuid);
+        }
+
+        sender.sendMessage("§aYou have played all music for all players.");
     }
 
     @Subcommand("information")
