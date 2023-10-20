@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import gg.pixelarcade.skywars.arena.commands.ArenaCommand;
 import gg.pixelarcade.skywars.game.commands.GameCommand;
+import gg.pixelarcade.skywars.hologram.handler.HologramHandler;
 import gg.pixelarcade.skywars.item.impl.*;
 import gg.pixelarcade.skywars.kit.KitHandler;
 import gg.pixelarcade.skywars.music.MusicHandler;
@@ -80,11 +81,13 @@ public class SkyWarsPlugin extends JavaPlugin {
     private ChestHandler chestHandler;
     private AbilityHandler abilityHandler;
     private MusicHandler musicHandler;
+    private HologramHandler hologramHandler;
 
     @Override
     public void onEnable() {
         instance = this;
 
+        this.hologramHandler = new HologramHandler(this);
         this.profileHandler = new ProfileHandler(SharedAPI.getInstance());
         this.achievementHandler = new AchievementHandler();
         this.arenaHandler = new ArenaHandler();
