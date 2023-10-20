@@ -50,7 +50,7 @@ public abstract class LootableChest {
             Inventory inventory = chest.getBlockInventory();
 
             for (ChestStage stage : this.getStages()) {
-                if (stage.getRefillType() != refillType)
+                if (stage.getRefillType().isHigherThan(refillType))
                     continue;
 
                 List<ChestItem> items = entry.getValue().equalsIgnoreCase("SPAWN")
