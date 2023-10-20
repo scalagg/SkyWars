@@ -35,97 +35,98 @@ public class HologramCommands extends BaseCommand {
     public void doHelp(CommandSender sender, CommandHelp help) {
         help.showHelp();
     }
-    @Subcommand("list")
-    @Description("List all holograms")
-    @CommandPermission("practice.manager")
-    public void list(CommandSender sender) {
-        HologramHandler hologramHandler = SkyWarsPlugin.getInstance().getHologramHandler();
 
-        sender.sendMessage(Color.CHAT_BAR);
-        sender.sendMessage(Color.translate("&c&lHolo List"));
-        sender.sendMessage("");
-
-        if (hologramHandler.getHolograms().isEmpty()) {
-            sender.sendMessage("");
-            sender.sendMessage(Color.translate("&7&oThere are no holograms created."));
-            sender.sendMessage("");
-            sender.sendMessage(Color.CHAT_BAR);
-            return;
-        }
-
-        for ( TickableHologram hologram : hologramHandler.getHolograms() ) {
-            HologramData data = hologram.getData();
-            String type;
-//            switch (hologram.getType()) {
-//                case GLOBAL: {
-//                    type = " &8[&7Global&8]";
-//                    break;
-//                }
-//                case KIT: {
-//                    KitHologram kitHologram = (KitHologram) hologram;
-//                    type = " &8[&7Kit&8] &7(" + kitHologram.getKit().getDisplayName() + ")";
-//                    break;
-//                }
-//                default: {
-//                    type = " &8[&7Switch&8]";
-//                    break;
-//                }
-//            }
-
-            String text = Color.translate(" &7* &c" + data.getName() + type);
-
-            // Cool click thingy lel
-            if (sender instanceof Player) {
-                Player player = (Player) sender;
-                Clickable clickable = new Clickable(text, "&7Click to teleport to this hologram", "/boltholo teleport " + data.getName());
-                clickable.sendToPlayer(player);
-            } else {
-                sender.sendMessage(text);
-            }
-        }
-        sender.sendMessage(Color.CHAT_BAR);
-    }
-
-    @Subcommand("create")
-    @Description("Create a hologram")
-    @CommandPermission("practice.manager")
-    public void create(CommandSender sender, Player player,String name, HologramType type, LeaderboardType leaderboardType, @OptArg Kit kitType) {
-        TickableHologram skywarsHologram;
-
-//        switch (type) {
-//            case GLOBAL: {
-//                skywarsHologram = new GlobalHologram(leaderboardType);
-//                break;
-//            }
-//            case SWITCH: {
-//                skywarsHologram = new SwitchHologram(leaderboardType);
-//                break;
-//            }
-//            case KIT: {
-//                if (kitType == null) {
-//                    sender.sendMessage(Color.translate("&cPlease provide a valid kit!"));
-//                    return;
-//                }
-//                skywarsHologram = new KitHologram(kitType, leaderboardType);
-//                break;
-//            }
-//            default: {
-//                return;
+//    @Subcommand("list")
+//    @Description("List all holograms")
+//    @CommandPermission("practice.manager")
+//    public void list(CommandSender sender) {
+//        HologramHandler hologramHandler = SkyWarsPlugin.getInstance().getHologramHandler();
+//
+//        sender.sendMessage(Color.CHAT_BAR);
+//        sender.sendMessage(Color.translate("&c&lHolo List"));
+//        sender.sendMessage("");
+//
+//        if (hologramHandler.getHolograms().isEmpty()) {
+//            sender.sendMessage("");
+//            sender.sendMessage(Color.translate("&7&oThere are no holograms created."));
+//            sender.sendMessage("");
+//            sender.sendMessage(Color.CHAT_BAR);
+//            return;
+//        }
+//
+//        for ( TickableHologram hologram : hologramHandler.getHolograms() ) {
+//            HologramData data = hologram.getData();
+//            String type;
+////            switch (hologram.getType()) {
+////                case GLOBAL: {
+////                    type = " &8[&7Global&8]";
+////                    break;
+////                }
+////                case KIT: {
+////                    KitHologram kitHologram = (KitHologram) hologram;
+////                    type = " &8[&7Kit&8] &7(" + kitHologram.getKit().getDisplayName() + ")";
+////                    break;
+////                }
+////                default: {
+////                    type = " &8[&7Switch&8]";
+////                    break;
+////                }
+////            }
+//
+////            String text = Color.translate(" &7* &c" + data.getName() + type);
+//
+//            // Cool click thingy lel
+//            if (sender instanceof Player) {
+//                Player player = (Player) sender;
+//                Clickable clickable = new Clickable(text, "&7Click to teleport to this hologram", "/boltholo teleport " + data.getName());
+//                clickable.sendToPlayer(player);
+//            } else {
+//                sender.sendMessage(text);
 //            }
 //        }
+//        sender.sendMessage(Color.CHAT_BAR);
+//    }
 
-        HologramData data = new HologramData(UUID.randomUUID());
-        data.setLocation(player.getLocation());
-        data.setName(name);
-
-        skywarsHologram.setData(data);
-        skywarsHologram.tick();
-
-        HologramHandler hologramHandler = SkyWarsPlugin.getInstance().getHologramHandler();
-        hologramHandler.getHolograms().add(skywarsHologram);
-
-        sender.sendMessage(Color.translate("&8[&c&lBolt&8] &fSuccessfully created a &chologram&7."));
-    }
+//    @Subcommand("create")
+//    @Description("Create a hologram")
+//    @CommandPermission("practice.manager")
+//    public void create(CommandSender sender, Player player,String name, HologramType type, LeaderboardType leaderboardType, @OptArg Kit kitType) {
+//        TickableHologram skywarsHologram;
+//
+////        switch (type) {
+////            case GLOBAL: {
+////                skywarsHologram = new GlobalHologram(leaderboardType);
+////                break;
+////            }
+////            case SWITCH: {
+////                skywarsHologram = new SwitchHologram(leaderboardType);
+////                break;
+////            }
+////            case KIT: {
+////                if (kitType == null) {
+////                    sender.sendMessage(Color.translate("&cPlease provide a valid kit!"));
+////                    return;
+////                }
+////                skywarsHologram = new KitHologram(kitType, leaderboardType);
+////                break;
+////            }
+////            default: {
+////                return;
+////            }
+////        }
+//
+//        HologramData data = new HologramData(UUID.randomUUID());
+//        data.setLocation(player.getLocation());
+//        data.setName(name);
+//
+//        skywarsHologram.setData(data);
+//        skywarsHologram.tick();
+//
+//        HologramHandler hologramHandler = SkyWarsPlugin.getInstance().getHologramHandler();
+//        hologramHandler.getHolograms().add(skywarsHologram);
+//
+//        sender.sendMessage(Color.translate("&8[&c&lBolt&8] &fSuccessfully created a &chologram&7."));
+//    }
 
     @Subcommand("delete")
     @Description("Delete a hologram")

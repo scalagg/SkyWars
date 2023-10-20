@@ -21,7 +21,7 @@ import xyz.refinedev.phoenix.utils.Color;
  * @date 19/10/2023 / 16:12
  */
 
-@CommandAlias("region")
+@CommandAlias("region||regions")
 @CommandPermission("skywars.region")
 public class RegionCommands extends BaseCommand {
 

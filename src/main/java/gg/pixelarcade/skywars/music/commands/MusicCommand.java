@@ -9,8 +9,10 @@ import xyz.refinedev.commands.BaseCommand;
 import xyz.refinedev.commands.CommandHelp;
 import xyz.refinedev.commands.annotation.*;
 import xyz.refinedev.phoenix.SharedAPI;
+import xyz.refinedev.phoenix.profile.Profile;
 
 import java.awt.*;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -62,6 +64,21 @@ public class MusicCommand extends BaseCommand {
         sender.sendMessage("§aYou have played all music for all players.");
     }
 
+    @Subcommand("toggle")
+    @Description("Toggle hearing music")
+    public void toggle(Player player) {
+        Profile profile = SharedAPI.getInstance().getProfileHandler().getProfile(player.getUniqueId());
+
+        if (profile.hasMetadata("MusicToggle")) {
+            handler.getRadioSongPlayer().removePlayer(player.getUniqueId());
+            profile.updateMetadata("MusicToggle", false, true);
+            player.sendMessage("§cYou have disabled music.");
+        } else {
+            handler.getRadioSongPlayer().addPlayer(player.getUniqueId());
+            profile.updateMetadata("MusicToggle", true, true);
+            player.sendMessage("§aYou have enabled music.");
+        }
+    }
 
     @Subcommand("information")
     @Description("View information about the current song")
