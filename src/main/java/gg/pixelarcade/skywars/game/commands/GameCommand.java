@@ -1,4 +1,4 @@
-package gg.pixelarcade.skywars.commands;
+package gg.pixelarcade.skywars.game.commands;
 
 import gg.pixelarcade.skywars.SkyWarsPlugin;
 import gg.pixelarcade.skywars.game.SkyWarsGame;
@@ -22,14 +22,10 @@ import gg.pixelarcade.skywars.game.state.GameType;
 
 import java.util.UUID;
 
-/**
- * @author Creaxx
- * Created At: 5/21/2023
- */
-
 @RequiredArgsConstructor
 @CommandAlias("game")
 public class GameCommand extends BaseCommand {
+
     private final SkyWarsPlugin plugin;
 
     @Subcommand("join")

@@ -1,8 +1,9 @@
 package gg.pixelarcade.skywars;
 
-import ac.sparky.api.SparkyAPI;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import gg.pixelarcade.skywars.arena.commands.ArenaCommand;
+import gg.pixelarcade.skywars.game.commands.GameCommand;
 import gg.pixelarcade.skywars.item.impl.*;
 import gg.pixelarcade.skywars.kit.KitHandler;
 import gg.pixelarcade.skywars.music.MusicHandler;
@@ -26,8 +27,6 @@ import gg.pixelarcade.skywars.arena.ArenaHandler;
 import gg.pixelarcade.skywars.arena.ArenaSchematic;
 import gg.pixelarcade.skywars.arena.listener.ArenaModelEditorListener;
 import gg.pixelarcade.skywars.chests.ChestHandler;
-import gg.pixelarcade.skywars.commands.ArenaCommand;
-import gg.pixelarcade.skywars.commands.GameCommand;
 import xyz.refinedev.commands.PaperCommandManager;
 import lombok.Getter;
 import lombok.Setter;
@@ -36,13 +35,11 @@ import gg.pixelarcade.skywars.game.GameHandler;
 import gg.pixelarcade.skywars.game.listener.GameListener;
 import gg.pixelarcade.skywars.game.listener.PreventionListener;
 import gg.pixelarcade.skywars.game.listener.SpectatorListener;
-import gg.pixelarcade.skywars.item.impl.*;
 import gg.pixelarcade.skywars.item.listeners.ItemListener;
 import gg.pixelarcade.skywars.profile.listener.ProfileListener;
 import gg.pixelarcade.skywars.profile.ProfileHandler;
 import gg.pixelarcade.skywars.scoreboard.ScoreboardAdapter;
 import gg.pixelarcade.skywars.scoreboard.api.Assemble;
-import gg.pixelarcade.skywars.utils.serialization.*;
 
 import java.io.File;
 import java.util.Arrays;

@@ -1,4 +1,4 @@
-package gg.pixelarcade.skywars.commands;
+package gg.pixelarcade.skywars.arena.commands;
 
 import com.google.common.base.Strings;
 import gg.pixelarcade.skywars.SkyWarsPlugin;
