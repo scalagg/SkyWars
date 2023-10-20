@@ -3,6 +3,7 @@ package gg.pixelarcade.skywars.region.selection.listeners;
 import gg.pixelarcade.skywars.SkyWarsPlugin;
 import gg.pixelarcade.skywars.region.RegionHandler;
 import gg.pixelarcade.skywars.region.selection.RegionSelection;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -18,9 +19,10 @@ import xyz.refinedev.phoenix.utils.Color;
  * @date 19/10/2023 / 16:22
  */
 
+@RequiredArgsConstructor
 public class RegionSelectionListener implements Listener {
 
-    private final RegionHandler handler = SkyWarsPlugin.getInstance().getRegionHandler();
+    private final RegionHandler handler;
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
@@ -46,19 +48,19 @@ public class RegionSelectionListener implements Listener {
                     selection.setPosition1(clickedBlock.getLocation());
                 }
             }
+
+            event.setCancelled(true);
+            event.setUseItemInHand(Event.Result.DENY);
+            event.setUseInteractedBlock(Event.Result.DENY);
+
+            String message = "&e" + (position == 1 ? "First" : "Second") + " position set to " +
+                    "&6(" + clickedBlock.getX() + ", " + clickedBlock.getY() + ", " + clickedBlock.getZ() + ")&e.";
+
+            if (selection.isValidSelection())
+                message += " &7(&e" + selection.getRegion().getBounds().volume() + "&7 blocks)";
+
+            player.sendMessage(Color.translate(message));
         }
-
-        event.setCancelled(true);
-        event.setUseItemInHand(Event.Result.DENY);
-        event.setUseInteractedBlock(Event.Result.DENY);
-
-        String message = "&e" + (position == 1 ? "First" : "Second") + " position set to " +
-                "&6(" + clickedBlock.getX() + ", " + clickedBlock.getY() + ", " + clickedBlock.getZ() + ") &e.";
-
-        if (selection.isValidSelection())
-            message += "&7(&e" + selection.getRegion().getBounds().volume() + "&7 blocks)";
-
-        player.sendMessage(Color.translate(message));
     }
 
 }

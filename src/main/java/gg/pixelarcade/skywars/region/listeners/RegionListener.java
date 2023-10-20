@@ -3,11 +3,14 @@ package gg.pixelarcade.skywars.region.listeners;
 import gg.pixelarcade.skywars.SkyWarsPlugin;
 import gg.pixelarcade.skywars.item.Item;
 import gg.pixelarcade.skywars.region.Region;
+import gg.pixelarcade.skywars.region.RegionHandler;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
@@ -21,14 +24,15 @@ import org.bukkit.event.player.PlayerPickupItemEvent;
  * @date 19/10/2023 / 16:00
  */
 
+@RequiredArgsConstructor
 public class RegionListener implements Listener {
 
-    private final SkyWarsPlugin plugin = SkyWarsPlugin.getInstance();
+    private final RegionHandler handler;
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
-        Region region = plugin.getRegionHandler().getRegion(player.getLocation());
+        Region region = handler.getRegion(player.getLocation());
         if (region == null)
             return;
 
@@ -41,7 +45,7 @@ public class RegionListener implements Listener {
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
         Player player = event.getPlayer();
-        Region region = plugin.getRegionHandler().getRegion(player.getLocation());
+        Region region = handler.getRegion(player.getLocation());
         if (region == null)
             return;
 
@@ -52,11 +56,23 @@ public class RegionListener implements Listener {
     }
 
     @EventHandler
+    public void onLeavesDecay(LeavesDecayEvent event) {
+        Region region = handler.getRegion(event.getBlock().getLocation());
+        if (region == null)
+            return;
+
+        if (!region.isEnabled() || !region.isLeavesDecay())
+            return;
+
+        event.setCancelled(true);
+    }
+
+    @EventHandler
     public void onPlayerDamage(EntityDamageEvent event) {
         if (!(event.getEntity() instanceof Player player))
             return;
 
-        Region region = plugin.getRegionHandler().getRegion(player.getLocation());
+        Region region = handler.getRegion(player.getLocation());
         if (region == null)
             return;
 
@@ -71,7 +87,7 @@ public class RegionListener implements Listener {
         if (!(event.getEntity() instanceof Player player))
             return;
 
-        Region region = plugin.getRegionHandler().getRegion(player.getLocation());
+        Region region = handler.getRegion(player.getLocation());
         if (region == null)
             return;
 
@@ -84,7 +100,7 @@ public class RegionListener implements Listener {
     @EventHandler
     public void onPlayerDropItem(PlayerDropItemEvent event) {
         Player player = event.getPlayer();
-        Region region = plugin.getRegionHandler().getRegion(player.getLocation());
+        Region region = handler.getRegion(player.getLocation());
         if (region == null)
             return;
 
@@ -97,7 +113,7 @@ public class RegionListener implements Listener {
     @EventHandler
     public void onPlayerPickupItem(PlayerPickupItemEvent event) {
         Player player = event.getPlayer();
-        Region region = plugin.getRegionHandler().getRegion(player.getLocation());
+        Region region = handler.getRegion(player.getLocation());
         if (region == null)
             return;
 
@@ -110,7 +126,7 @@ public class RegionListener implements Listener {
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
-        Region region = plugin.getRegionHandler().getRegion(player.getLocation());
+        Region region = handler.getRegion(player.getLocation());
         if (region == null)
             return;
 

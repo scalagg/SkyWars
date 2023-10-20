@@ -26,6 +26,11 @@ public class Region {
     private boolean dropItems = true;
     private boolean pickupItems = true;
     private boolean interact = true;
+    private boolean leavesDecay = true;
+
+    public Region(Cuboid bounds) {
+        this.bounds = bounds;
+    }
 
     public Region(Cuboid bounds, String name) {
         this.bounds = bounds;

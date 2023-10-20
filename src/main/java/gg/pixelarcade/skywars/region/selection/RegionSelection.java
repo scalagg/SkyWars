@@ -30,11 +30,6 @@ public class RegionSelection {
     private Location position1;
     private Location position2;
 
-    public void clearSelection() {
-        position1 = null;
-        position2 = null;
-    }
-
     public boolean isValidSelection() {
         return position1 != null && position2 != null;
     }

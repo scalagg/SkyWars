@@ -8,6 +8,7 @@ import gg.pixelarcade.skywars.SkyWarsPlugin;
 import gg.pixelarcade.skywars.arena.ArenaSchematic;
 import gg.pixelarcade.skywars.region.listeners.RegionListener;
 import gg.pixelarcade.skywars.region.selection.RegionSelection;
+import gg.pixelarcade.skywars.region.selection.listeners.RegionSelectionListener;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -43,12 +44,11 @@ public class RegionHandler {
         try {
             if (regionFile.exists()) {
                 try (Reader regionFileReader = Files.newReader(regionFile, Charsets.UTF_8)) {
-                    Type regionListType = new TypeToken<List<Region>>() {
-                    }.getType();
+                    Type regionListType = new TypeToken<List<Region>>(){}.getType();
                     List<Region> regionList = SkyWarsPlugin.GSON.fromJson(regionFileReader, regionListType);
 
                     for (Region region : regionList) {
-                        this.regions.put(region.getName(), region);
+                        regions.put(region.getName(), region);
                     }
                 }
             }
@@ -56,7 +56,8 @@ public class RegionHandler {
             throw new RuntimeException(ex);
         }
 
-        Bukkit.getPluginManager().registerEvents(new RegionListener(), SkyWarsPlugin.getInstance());
+        Bukkit.getPluginManager().registerEvents(new RegionListener(this), SkyWarsPlugin.getInstance());
+        Bukkit.getPluginManager().registerEvents(new RegionSelectionListener(this), SkyWarsPlugin.getInstance());
     }
 
     public void saveRegions() {
@@ -86,15 +87,15 @@ public class RegionHandler {
     }
 
     public void addRegion(Region region) {
-        regions.put(region.getName().toLowerCase(), region);
+        regions.put(region.getName(), region);
     }
 
-    public void removeRegion(String name) {
-        regions.remove(name.toLowerCase());
+    public void removeRegion(Region region) {
+        regions.remove(region.getName());
     }
 
     public Region getRegion(String regionName) {
-        return regions.get(regionName.toLowerCase());
+        return regions.get(regionName);
     }
 
     public RegionSelection getSelection(Player player) {

@@ -8,6 +8,7 @@ import gg.pixelarcade.skywars.kit.KitHandler;
 import gg.pixelarcade.skywars.music.MusicHandler;
 import gg.pixelarcade.skywars.music.commands.MusicCommand;
 import gg.pixelarcade.skywars.region.RegionHandler;
+import gg.pixelarcade.skywars.region.commands.RegionCommands;
 import gg.pixelarcade.skywars.utils.serialization.*;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -58,8 +59,9 @@ import java.util.Arrays;
 @Getter
 @Setter
 public class SkyWarsPlugin extends JavaPlugin {
+
     @Getter
-    public static SkyWarsPlugin instance;
+    private static SkyWarsPlugin instance;
 
     public static Gson GSON = new GsonBuilder()
             .registerTypeHierarchyAdapter(PotionEffect.class, new PotionEffectAdapter())
@@ -123,6 +125,7 @@ public class SkyWarsPlugin extends JavaPlugin {
         commandHandler.registerCommand(new GameCommand(this));
         commandHandler.registerCommand(new AbilityCommand());
         commandHandler.registerCommand(new MusicCommand());
+        commandHandler.registerCommand(new RegionCommands());
 
         new Assemble(this, new ScoreboardAdapter(this));
     }
