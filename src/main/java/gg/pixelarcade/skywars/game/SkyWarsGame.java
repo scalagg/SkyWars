@@ -1,12 +1,12 @@
 package gg.pixelarcade.skywars.game;
 
+import ac.sparky.api.SparkyAPI;
 import gg.pixelarcade.skywars.SkyWarsPlugin;
 import gg.pixelarcade.skywars.game.event.*;
 import gg.pixelarcade.skywars.game.task.GameCountdownTask;
 import gg.pixelarcade.skywars.kit.Kit;
 import gg.pixelarcade.skywars.utils.Tuple;
 import lombok.Data;
-import me.jumba.sparky.SparkyAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -15,6 +15,7 @@ import xyz.refinedev.phoenix.SharedAPI;
 import xyz.refinedev.phoenix.profile.Profile;
 import xyz.refinedev.phoenix.utils.CenterUtil;
 import xyz.refinedev.phoenix.utils.Color;
+import xyz.refinedev.phoenix.utils.chat.Clickable;
 import xyz.refinedev.phoenix.utils.general.Tasks;
 import gg.pixelarcade.skywars.arena.Arena;
 import gg.pixelarcade.skywars.chests.LootableChest;
@@ -160,6 +161,7 @@ public class SkyWarsGame {
 
         SpawnUtil.teleportToSpawn(winner);
         this.endGame();
+        this.handleRate();
     }
 
     public void broadcast(String message) {
@@ -285,6 +287,24 @@ public class SkyWarsGame {
 
             spectatorPlayer.showPlayer(player);
         }
+    }
+
+    public void handleRate() {
+        Clickable clickable = new Clickable("&a&lClick to rate the arena&7: " + getArena().getSchematic());
+        Clickable clickable1 = new Clickable("&c[1\u2b50]", "&eClick to rate &d<arena> &eas <rate>&e.".replace("<arena>", getArena().getSchematic()).replace("<rate>", "&cTerrible"), "/ratemeplzkthanksbye " + getArena().getSchematic() + " Terrible");
+            clickable.add("&c[1\u2b50]", "&eClick to rate &d<arena> &eas <rate>&e.".replace("<arena>", getArena().getSchematic()).replace("<rate>", "&cTerrible"), "/ratemeplzkthanksbye " + getArena().getSchematic() + " Terrible");
+            clickable.add(" &6[2\u2b50]", "&eClick to rate &d<arena> &eas <rate>&e.".replace("<arena>", getArena().getSchematic()).replace("<rate>", "&6Not Good"), "/ratemeplzkthanksbye " + getArena().getSchematic() + " NotGood");
+            clickable.add(" &e[3\u2b50]", "&eClick to rate &d<arena> &eas <rate>&e.".replace("<arena>", getArena().getSchematic()).replace("<rate>", "&eOkay"), "/ratemeplzkthanksbye " + getArena().getSchematic() + " Okay");
+            clickable.add(" &a[4\u2b50]", "&eClick to rate &d<arena> &eas <rate>&e.".replace("<arena>", getArena().getSchematic()).replace("<rate>", "&aGood"), "/ratemeplzkthanksbye " + getArena().getSchematic() + " Good");
+            clickable.add(" &2[5\u2b50]", "&eClick to rate &d<arena> &eas <rate>&e.".replace("<arena>", getArena().getSchematic()).replace("<rate>", "&2Amazing"), "/ratemeplzkthanksbye " + getArena().getSchematic() + " Amazing");
+
+        clickable.sendToPlayer(Bukkit.getPlayer(players.stream().findFirst().orElse(null)));
+
+
+        Tasks.runAsyncLater(SkyWarsPlugin.getInstance(), () -> this.getPlayers().forEach(player -> {
+            SkyWarsProfile profile = SkyWarsPlugin.getInstance().getProfileHandler().getProfile(player);
+            profile.setCanRate(false);
+        }), 500L);
     }
 
     public void removeSpectator(Player player) {

@@ -62,6 +62,7 @@ public class MusicCommand extends BaseCommand {
         sender.sendMessage("§aYou have played all music for all players.");
     }
 
+
     @Subcommand("information")
     @Description("View information about the current song")
     public void information(CommandSender sender) {

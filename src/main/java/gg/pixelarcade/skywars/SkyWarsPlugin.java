@@ -3,6 +3,7 @@ package gg.pixelarcade.skywars;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import gg.pixelarcade.skywars.arena.commands.ArenaCommand;
+import gg.pixelarcade.skywars.arena.commands.RateTheMap;
 import gg.pixelarcade.skywars.game.commands.GameCommand;
 import gg.pixelarcade.skywars.hologram.handler.HologramHandler;
 import gg.pixelarcade.skywars.item.impl.*;
@@ -126,6 +127,7 @@ public class SkyWarsPlugin extends JavaPlugin {
         commandHandler.registerCommand(new AbilityCommand());
         commandHandler.registerCommand(new MusicCommand());
         commandHandler.registerCommand(new RegionCommands());
+        commandHandler.registerCommand(new RateTheMap());
 
         new Assemble(this, new ScoreboardAdapter(this));
     }
