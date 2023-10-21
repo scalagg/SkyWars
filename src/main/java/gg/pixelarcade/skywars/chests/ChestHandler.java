@@ -1,6 +1,8 @@
 package gg.pixelarcade.skywars.chests;
 
 import gg.pixelarcade.skywars.chests.impl.casual.CasualChest;
+import gg.pixelarcade.skywars.chests.impl.insane.InsaneChest;
+import gg.pixelarcade.skywars.chests.impl.ranked.RankedChest;
 import lombok.Getter;
 import gg.pixelarcade.skywars.game.state.GameType;
 
@@ -20,6 +22,8 @@ public class ChestHandler {
 
     public ChestHandler() {
         register(new CasualChest());
+        register(new RankedChest());
+        register(new InsaneChest());
     }
 
     public LootableChest getChest(GameType gameType) {

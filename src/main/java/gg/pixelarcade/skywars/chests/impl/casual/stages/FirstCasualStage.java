@@ -62,7 +62,13 @@ public class FirstCasualStage extends ChestStage {
                 new ChestItem(new ItemBuilder(Material.STONE_SWORD).addEnchantment(Enchantment.DAMAGE_ALL, 6).toItemStack(), 100),
                 new ChestItem(new ItemBuilder(Material.IRON_SWORD).addEnchantment(Enchantment.DAMAGE_ALL, 6).toItemStack(), 100),
                 new ChestItem(new ItemBuilder(Material.BOW).addEnchantment(Enchantment.ARROW_DAMAGE, 1).toItemStack(), 25),
-                new ChestItem(SkyWarsPlugin.getInstance().getAbilityHandler().getAbilityById("magnet").getItem(), 100)
+                new ChestItem(SkyWarsPlugin.getInstance().getAbilityHandler().getAbilityById("pumpkinpie").getItem(), 65),
+                new ChestItem(SkyWarsPlugin.getInstance().getAbilityHandler().getAbilityById("throwabletnt").getItem(), 10),
+                new ChestItem(SkyWarsPlugin.getInstance().getAbilityHandler().getAbilityById("throwabledirt").getItem(), 45),
+                new ChestItem(SkyWarsPlugin.getInstance().getAbilityHandler().getAbilityById("safeteleport").getItem(), 5),
+                new ChestItem(SkyWarsPlugin.getInstance().getAbilityHandler().getAbilityById("zombieguardian").getItem(), 5),
+                new ChestItem(SkyWarsPlugin.getInstance().getAbilityHandler().getAbilityById("magnet").getItem(), 10)
+
         );
     }
 
