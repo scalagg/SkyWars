@@ -142,7 +142,6 @@ public class SkyWarsPlugin extends JavaPlugin {
         resetPlayer(player);
 
         player.getInventory().setItem(0, new QueueItem(player).getItem(player));
-//        player.getInventory().setItem(1, new ProfileItem(player).getItem(player));
         player.getInventory().setItem(4, new CosmeticItem(player).getItem(player));
         player.getInventory().setItem(7, new LoadoutItem(player).getItem(player));
         player.getInventory().setItem(8, new SettingsItem(player).getItem(player));

@@ -1,8 +1,13 @@
 package gg.pixelarcade.skywars.game.task;
 
+import gg.pixelarcade.skywars.SkyWarsPlugin;
 import lombok.RequiredArgsConstructor;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import gg.pixelarcade.skywars.game.SkyWarsGame;
+
+import java.util.UUID;
 
 /**
  * @author alfie
@@ -27,9 +32,17 @@ public class GameCountdownTask extends BukkitRunnable {
             return;
         }
 
-        for (int reminder : reminders) {
-            if (countdown == reminder)
-                game.broadcast("&eGame starting in &c" + reminder + " &eseconds.");
+        for (UUID players : game.getPlayers()) {
+            Player player = SkyWarsPlugin.getInstance().getServer().getPlayer(players);
+            if (player == null)
+                continue;
+
+            for (int reminder : reminders) {
+                if (countdown == reminder) {
+                    game.broadcast("&eGame starting in &c" + reminder + " &eseconds.");
+                    player.playSound(player.getLocation(), Sound.NOTE_PLING, 1.0F, 1.0F);
+                }
+            }
         }
     }
 }

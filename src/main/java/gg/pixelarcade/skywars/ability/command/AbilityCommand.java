@@ -31,7 +31,7 @@ public class AbilityCommand extends BaseCommand {
     @CommandPermission("skywars.ability.list")
     public void list(CommandSender sender) {
         sender.sendMessage("§aAbility List:");
-        SkyWarsPlugin.getInstance().getAbilityHandler().getAbilityByName().forEach((string, ability) -> sender.sendMessage("§e" + string));
+        SkyWarsPlugin.getInstance().getAbilityHandler().getCache().forEach((string, ability) -> sender.sendMessage("§e" + string));
     }
 
     @HelpCommand

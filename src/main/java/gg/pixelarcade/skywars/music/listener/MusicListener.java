@@ -3,6 +3,8 @@ package gg.pixelarcade.skywars.music.listener;
 import com.xxmicloxx.NoteBlockAPI.event.SongNextEvent;
 import com.xxmicloxx.NoteBlockAPI.songplayer.SongPlayer;
 import gg.pixelarcade.skywars.SkyWarsPlugin;
+import gg.pixelarcade.skywars.music.MusicHandler;
+import lombok.RequiredArgsConstructor;
 import net.minecraft.server.v1_8_R3.ChatComponentText;
 import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 import org.bukkit.Bukkit;
@@ -25,16 +27,21 @@ import java.util.UUID;
  * @date 18/10/2023 / 17:55
  */
 
+@RequiredArgsConstructor
 public class MusicListener implements Listener {
+
+    private final MusicHandler handler;
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerJoin(PlayerJoinEvent event) {
-        SkyWarsPlugin.getInstance().getMusicHandler().getRadioSongPlayer().addPlayer(event.getPlayer().getUniqueId());
+        handler.getRadioSongPlayer().addPlayer(event.getPlayer().getUniqueId());
+
+        sendActionBar(event.getPlayer(), Color.translate("&6&lPixel Radio &7- &fCurrent Song: &e" + handler.getRadioSongPlayer().getSong().getTitle()));
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerQuit(PlayerQuitEvent event) {
-        SkyWarsPlugin.getInstance().getMusicHandler().getRadioSongPlayer().removePlayer(event.getPlayer().getUniqueId());
+        handler.getRadioSongPlayer().removePlayer(event.getPlayer().getUniqueId());
     }
 
     @EventHandler

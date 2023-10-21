@@ -2,6 +2,7 @@ package gg.pixelarcade.skywars.game;
 
 import ac.sparky.api.SparkyAPI;
 import gg.pixelarcade.skywars.SkyWarsPlugin;
+import gg.pixelarcade.skywars.arena.rating.RatingType;
 import gg.pixelarcade.skywars.game.event.*;
 import gg.pixelarcade.skywars.game.task.GameCountdownTask;
 import gg.pixelarcade.skywars.kit.Kit;
@@ -11,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
+import xyz.refinedev.lib.net.kyori.adventure.text.TextComponent;
 import xyz.refinedev.phoenix.SharedAPI;
 import xyz.refinedev.phoenix.profile.Profile;
 import xyz.refinedev.phoenix.utils.CenterUtil;
@@ -25,6 +27,7 @@ import gg.pixelarcade.skywars.chests.type.RefillType;
 import gg.pixelarcade.skywars.profile.SkyWarsProfile;
 import gg.pixelarcade.skywars.utils.SpawnUtil;
 
+import java.sql.Ref;
 import java.util.*;
 
 /**
@@ -114,7 +117,6 @@ public class SkyWarsGame {
                 Kit kit = SkyWarsPlugin.getInstance().getKitHandler().getKitByName(profile.getSelectedKit());
 
                 for (GameType type : kit.getGameType()) {
-                    System.out.println(type);
                     if (type == gameType) {
                         kit.equipKit(kit, player);
                         break;
@@ -143,7 +145,7 @@ public class SkyWarsGame {
 
     public void onWin(Player winner) {
         if (winner == null) {
-            System.out.println("No winner found");
+            System.out.println("No winner found for Game " + id + "!");
             this.endGame();
             return;
         }
@@ -155,13 +157,12 @@ public class SkyWarsGame {
         Profile profile = SharedAPI.getInstance().getProfileHandler().getProfile(winner.getUniqueId());
         SharedAPI.getInstance().getLevelHook().addExperience(profile, 50, "Won a game of SkyWars");
 
-        for (String message : this.sendWinningMessage(profile)) {
+        for (String message : this.sendWinningMessage(profile))
             broadcast(message);
-        }
 
         SpawnUtil.teleportToSpawn(winner);
-        this.endGame();
-        this.handleRate();
+        endGame();
+        handleRate();
     }
 
     public void broadcast(String message) {
@@ -290,16 +291,24 @@ public class SkyWarsGame {
     }
 
     public void handleRate() {
-        Clickable clickable = new Clickable("&a&lClick to rate the arena&7: " + getArena().getSchematic());
-        Clickable clickable1 = new Clickable("&c[1\u2b50]", "&eClick to rate &d<arena> &eas <rate>&e.".replace("<arena>", getArena().getSchematic()).replace("<rate>", "&cTerrible"), "/ratemeplzkthanksbye " + getArena().getSchematic() + " Terrible");
-            clickable.add("&c[1\u2b50]", "&eClick to rate &d<arena> &eas <rate>&e.".replace("<arena>", getArena().getSchematic()).replace("<rate>", "&cTerrible"), "/ratemeplzkthanksbye " + getArena().getSchematic() + " Terrible");
-            clickable.add(" &6[2\u2b50]", "&eClick to rate &d<arena> &eas <rate>&e.".replace("<arena>", getArena().getSchematic()).replace("<rate>", "&6Not Good"), "/ratemeplzkthanksbye " + getArena().getSchematic() + " NotGood");
-            clickable.add(" &e[3\u2b50]", "&eClick to rate &d<arena> &eas <rate>&e.".replace("<arena>", getArena().getSchematic()).replace("<rate>", "&eOkay"), "/ratemeplzkthanksbye " + getArena().getSchematic() + " Okay");
-            clickable.add(" &a[4\u2b50]", "&eClick to rate &d<arena> &eas <rate>&e.".replace("<arena>", getArena().getSchematic()).replace("<rate>", "&aGood"), "/ratemeplzkthanksbye " + getArena().getSchematic() + " Good");
-            clickable.add(" &2[5\u2b50]", "&eClick to rate &d<arena> &eas <rate>&e.".replace("<arena>", getArena().getSchematic()).replace("<rate>", "&2Amazing"), "/ratemeplzkthanksbye " + getArena().getSchematic() + " Amazing");
+        Clickable clickable = new Clickable("&a&lClick to rate the arena&7: " + arena.getSchematic());
+
+        for (RatingType type : RatingType.values())
+            switch (type) {
+                case TERRIBLE ->
+                        clickable.add("&c[1⭐]", String.format("&eClick to rate &d%s &eas%s &e.", arena.getSchematic(), type.getDisplayName()), "/ratemeplzkthanksbye " + arena.getSchematic() + " Terrible");
+                case NOT_GOOD ->
+                        clickable.add(" &6[2⭐]", String.format("&eClick to rate &d%s &eas%s &e.", arena.getSchematic(), type.getDisplayName()), "/ratemeplzkthanksbye " + arena.getSchematic() + " NotGood");
+                case OKAY ->
+                        clickable.add(" &e[3⭐]", String.format("&eClick to rate &d%s &eas%s &e.", arena.getSchematic(), type.getDisplayName()), "/ratemeplzkthanksbye " + arena.getSchematic() + " Okay");
+                case GOOD ->
+                        clickable.add(" &a[4⭐]", String.format("&eClick to rate &d%s &eas%s &e.", arena.getSchematic(), type.getDisplayName()), "/ratemeplzkthanksbye " + arena.getSchematic() + " Good");
+                case AMAZING ->
+                        clickable.add(" &2[5⭐]", String.format("&eClick to rate &d%s &eas%s &e.", arena.getSchematic(), type.getDisplayName()), "/ratemeplzkthanksbye " + arena.getSchematic() + " Amazing");
+                default -> throw new IllegalStateException("Unexpected value: " + type);
+            }
 
         clickable.sendToPlayer(Bukkit.getPlayer(players.stream().findFirst().orElse(null)));
-
 
         Tasks.runAsyncLater(SkyWarsPlugin.getInstance(), () -> this.getPlayers().forEach(player -> {
             SkyWarsProfile profile = SkyWarsPlugin.getInstance().getProfileHandler().getProfile(player);

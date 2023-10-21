@@ -10,6 +10,7 @@ import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldedit.bukkit.selections.Selection;
 import com.sk89q.worldedit.schematic.SchematicFormat;
 import gg.pixelarcade.skywars.SkyWarsPlugin;
+import gg.pixelarcade.skywars.arena.rating.RatingType;
 import lombok.Data;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -20,6 +21,8 @@ import gg.pixelarcade.skywars.game.state.GameType;
 import gg.pixelarcade.skywars.utils.cuboid.Cuboid;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 @Data
 public final class ArenaSchematic {
@@ -36,8 +39,7 @@ public final class ArenaSchematic {
     private int minPlayers = 12;
     private int maxPlayers = 24;
 
-    private int positiveRatings = 0;
-    private int negativeRatings = 0;
+    private Map<RatingType, Integer> ratings = new HashMap<>();
 
     public ArenaSchematic(String name) {
         this.name = Preconditions.checkNotNull(name, "name");
@@ -82,6 +84,10 @@ public final class ArenaSchematic {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public void addRating(RatingType type) {
+        ratings.put(type, ratings.getOrDefault(type, 0) + 1);
     }
 
     public void launchEditor(Player player, Cuboid bounds) {

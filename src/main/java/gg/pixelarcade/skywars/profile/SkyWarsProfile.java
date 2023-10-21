@@ -45,6 +45,7 @@ public class SkyWarsProfile {
     private int elo = 0;
     private int heads = 0;
     private int souls = 0;
+
     private boolean canRate = false;
     private List<String> arenasRated = new ArrayList<>();
 
@@ -71,7 +72,7 @@ public class SkyWarsProfile {
             this.heads = profile.getHeads();
             this.souls = profile.getSouls();
             this.ownedAchievements = profile.getOwnedAchievements();
-            arenasRated = SharedAPI.getInstance().getGson().fromJson(document.getString("arenasRated"), STRING_LIST);
+            this.arenasRated = SharedAPI.getInstance().getGson().fromJson(document.getString("arenasRated"), STRING_LIST);
         });
     }
 

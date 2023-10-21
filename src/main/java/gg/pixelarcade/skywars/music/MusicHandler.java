@@ -26,7 +26,7 @@ public class MusicHandler {
 
     public MusicHandler(File musicFolder) {
         setupMusic(musicFolder);
-        Phoenix.getInstance().getServer().getPluginManager().registerEvents(new MusicListener(), Phoenix.getInstance());
+        Phoenix.getInstance().getServer().getPluginManager().registerEvents(new MusicListener(this), Phoenix.getInstance());
     }
 
     public void setupMusic(File musicFolder) {
@@ -54,7 +54,7 @@ public class MusicHandler {
                             song.getSongHeight(),
                             song.getLength(),
                             file.getName().replace(".nbs", ""),
-                            song.getAuthor(),
+                            (song.getAuthor().isEmpty() || song.getAuthor() == null ? "Aplosh" : song.getAuthor()),
                             song.getOriginalAuthor(),
                             song.getDescription(),
                             song.getPath(),

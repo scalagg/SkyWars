@@ -70,9 +70,10 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>ac.sparky</groupId>
-            <artifactId>SparkyAPIV2</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>me.jumba</groupId>
+            <artifactId>sparky</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>xyz.refinedev</groupId>

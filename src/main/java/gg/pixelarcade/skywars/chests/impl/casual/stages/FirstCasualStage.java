@@ -32,40 +32,51 @@ public class FirstCasualStage extends ChestStage {
     @Override
     public List<ChestItem> getSpawnLoot() {
         return Arrays.asList(
-                new ChestItem(new ItemBuilder(Material.IRON_CHESTPLATE, 1).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.GOLD_CHESTPLATE, 1).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.LEATHER_CHESTPLATE, 1).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.CHAINMAIL_LEGGINGS, 1).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.STONE_SWORD, 1).addEnchantment(Enchantment.DAMAGE_ALL, 5).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.STONE_SWORD, 1).addEnchantment(Enchantment.DAMAGE_ALL, 6).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.IRON_SWORD, 1).addEnchantment(Enchantment.DAMAGE_ALL, 6).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.BOW, 1).addLoreLine("&5&lRare").addEnchantment(Enchantment.ARROW_DAMAGE, 1).toItemStack(), 25),
-                new ChestItem(new ItemBuilder(Material.WATER_BUCKET, 1).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.LAVA_BUCKET, 1).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.DIAMOND_AXE, 1).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.DIAMOND_PICKAXE, 1).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.STONE_PICKAXE, 1).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.STONE_AXE, 1).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.WOOD_PICKAXE, 1).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.WOOD_AXE, 1).toItemStack(), 100),
-                new ChestItem(SkyWarsPlugin.getInstance().getAbilityHandler().getAbilityById("magnet").getItem(), 100),
-                new ChestItem(new ItemBuilder(Material.EXP_BOTTLE, ThreadLocalRandom.current().nextInt(8, 12)).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.SNOW_BALL, ThreadLocalRandom.current().nextInt(12, 16)).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.EGG, ThreadLocalRandom.current().nextInt(8, 16)).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.COOKED_BEEF, ThreadLocalRandom.current().nextInt(8, 12)).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.COOKED_BEEF, ThreadLocalRandom.current().nextInt(8, 12)).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.STONE_PICKAXE, 1).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.IRON_PICKAXE, 1).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.GOLDEN_APPLE, 1).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.GOLDEN_APPLE, 2).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.WOOD, ThreadLocalRandom.current().nextInt(8, 64)).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.STONE, ThreadLocalRandom.current().nextInt(8, 64)).toItemStack(), 100)
+                createChestItem(Material.IRON_HELMET, 1, 100),
+                createChestItem(Material.GOLD_CHESTPLATE, 1, 100),
+                createChestItem(Material.LEATHER_LEGGINGS, 1, 100),
+                createChestItem(Material.CHAINMAIL_BOOTS, 1, 100),
+                createChestItem(Material.WATER_BUCKET, 1, 100),
+                createChestItem(Material.LAVA_BUCKET, 1, 100),
+
+                createChestItem(Material.DIAMOND_AXE, 1, 100),
+                createChestItem(Material.DIAMOND_PICKAXE, 1, 100),
+                createChestItem(Material.STONE_PICKAXE, 1, 100),
+                createChestItem(Material.STONE_AXE, 1, 100),
+                createChestItem(Material.WOOD_PICKAXE, 1, 100),
+                createChestItem(Material.WOOD_AXE, 1, 100),
+                createChestItem(Material.STONE_PICKAXE, 1, 100),
+                createChestItem(Material.IRON_PICKAXE, 1, 100),
+                createChestItem(Material.GOLDEN_APPLE, 1, 100),
+                createChestItem(Material.GOLDEN_APPLE, 2, 100),
+
+                createChestItem(Material.EXP_BOTTLE, ThreadLocalRandom.current().nextInt(8, 12), 100),
+                createChestItem(Material.SNOW_BALL, ThreadLocalRandom.current().nextInt(12, 16), 100),
+                createChestItem(Material.EGG, ThreadLocalRandom.current().nextInt(8, 16), 100),
+                createChestItem(Material.COOKED_BEEF, ThreadLocalRandom.current().nextInt(8, 12), 100),
+                createChestItem(Material.COOKED_BEEF, ThreadLocalRandom.current().nextInt(8, 12), 100),
+                createChestItem(Material.WOOD, ThreadLocalRandom.current().nextInt(8, 64), 100),
+                createChestItem(Material.STONE, ThreadLocalRandom.current().nextInt(8, 64), 100),
+
+                new ChestItem(new ItemBuilder(Material.STONE_SWORD).addEnchantment(Enchantment.DAMAGE_ALL, 5).toItemStack(), 100),
+                new ChestItem(new ItemBuilder(Material.STONE_SWORD).addEnchantment(Enchantment.DAMAGE_ALL, 6).toItemStack(), 100),
+                new ChestItem(new ItemBuilder(Material.IRON_SWORD).addEnchantment(Enchantment.DAMAGE_ALL, 6).toItemStack(), 100),
+                new ChestItem(new ItemBuilder(Material.BOW).addEnchantment(Enchantment.ARROW_DAMAGE, 1).toItemStack(), 25),
+                new ChestItem(SkyWarsPlugin.getInstance().getAbilityHandler().getAbilityById("magnet").getItem(), 100)
         );
     }
 
     @Override
     public List<ChestItem> getMiddleLoot() {
         return Arrays.asList(
+                createChestItem(Material.SNOW_BALL, ThreadLocalRandom.current().nextInt(6, 32), 100),
+                createChestItem(Material.LAVA_BUCKET, 1, 100),
+                createChestItem(Material.EXP_BOTTLE, ThreadLocalRandom.current().nextInt(8, 64), 100),
+                createChestItem(Material.GOLDEN_APPLE, ThreadLocalRandom.current().nextInt(1, 2), 100),
+                createChestItem(Material.LOG, ThreadLocalRandom.current().nextInt(8, 64), 100),
+                createChestItem(Material.TNT, ThreadLocalRandom.current().nextInt(8, 10), 100),
+                createChestItem(Material.ENDER_PEARL, 1, 100),
+
                 new ChestItem(new ItemBuilder(Material.DIAMOND_HELMET, 1).addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 2).toItemStack(), 100),
                 new ChestItem(new ItemBuilder(Material.IRON_CHESTPLATE, 1).addEnchantment(Enchantment.PROTECTION_PROJECTILE, 3).toItemStack(), 100),
                 new ChestItem(new ItemBuilder(Material.IRON_LEGGINGS, 1).addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4).toItemStack(), 100),
@@ -74,14 +85,13 @@ public class FirstCasualStage extends ChestStage {
                 new ChestItem(new ItemBuilder(Material.POTION, 1).addCustomPotionEffect(new PotionEffect(PotionEffectType.SPEED, 600, 0), true).toItemStack(), 100),
                 new ChestItem(new ItemBuilder(Material.BOW, 1).addEnchantment(Enchantment.ARROW_DAMAGE, 1).toItemStack(), 100),
                 new ChestItem(new ItemBuilder(Material.ENDER_PEARL, 1).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.TNT, ThreadLocalRandom.current().nextInt(8, 10)).toItemStack(), 100),
                 new ChestItem(new ItemBuilder(Material.DIAMOND_AXE, 1).addEnchantment(Enchantment.DIG_SPEED, 1).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.DIAMOND_PICKAXE, 1).addEnchantment(Enchantment.DIG_SPEED, 1).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.SNOW_BALL, ThreadLocalRandom.current().nextInt(6, 32)).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.LAVA_BUCKET, 1).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.EXP_BOTTLE, ThreadLocalRandom.current().nextInt(8, 64)).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.GOLDEN_APPLE, ThreadLocalRandom.current().nextInt(1, 2)).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.LOG, ThreadLocalRandom.current().nextInt(8, 64)).toItemStack(), 100)
+                new ChestItem(new ItemBuilder(Material.DIAMOND_PICKAXE, 1).addEnchantment(Enchantment.DIG_SPEED, 1).toItemStack(), 100)
         );
     }
+
+    private static ChestItem createChestItem(Material material, int amount, int chance) {
+        return new ChestItem(new ItemBuilder(material, amount).toItemStack(), chance);
+    }
+
 }
