@@ -32,6 +32,9 @@ public class RegionListener implements Listener {
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
+        if (player.hasMetadata("BuildMode"))
+            return;
+
         Region region = handler.getRegion(player.getLocation());
         if (region == null)
             return;
@@ -45,6 +48,9 @@ public class RegionListener implements Listener {
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
         Player player = event.getPlayer();
+        if (player.hasMetadata("BuildMode"))
+            return;
+
         Region region = handler.getRegion(player.getLocation());
         if (region == null)
             return;
@@ -101,6 +107,9 @@ public class RegionListener implements Listener {
     public void onPlayerDropItem(PlayerDropItemEvent event) {
         Player player = event.getPlayer();
         Region region = handler.getRegion(player.getLocation());
+        if (player.hasMetadata("BuildMode"))
+            return;
+
         if (region == null)
             return;
 
@@ -114,6 +123,9 @@ public class RegionListener implements Listener {
     public void onPlayerPickupItem(PlayerPickupItemEvent event) {
         Player player = event.getPlayer();
         Region region = handler.getRegion(player.getLocation());
+        if (player.hasMetadata("BuildMode"))
+            return;
+
         if (region == null)
             return;
 
@@ -126,6 +138,9 @@ public class RegionListener implements Listener {
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
+        if (player.hasMetadata("BuildMode"))
+            return;
+
         Region region = handler.getRegion(player.getLocation());
         if (region == null)
             return;

@@ -69,7 +69,7 @@ public class MusicCommand extends BaseCommand {
     public void toggle(Player player) {
         Profile profile = SharedAPI.getInstance().getProfileHandler().getProfile(player.getUniqueId());
 
-        if (profile.hasMetadata("MusicToggle")) {
+        if (!profile.hasMetadata("MusicToggle")) {
             handler.getRadioSongPlayer().removePlayer(player.getUniqueId());
             profile.updateMetadata("MusicToggle", false, true);
             player.sendMessage("§cYou have disabled music.");

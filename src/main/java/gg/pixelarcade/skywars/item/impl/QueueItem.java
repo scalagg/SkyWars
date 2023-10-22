@@ -28,7 +28,7 @@ public class QueueItem extends Item {
     @Override
     public ItemStack getItem(Player player) {
         return new ItemBuilder(Material.BOOK, 1)
-                .setName(Color.translate("&aQueue Skywars &7(Right Click)"))
+                .setName(Color.translate("&aQueue SkyWars &7(Right Click)"))
                 .toItemStack();
     }
 

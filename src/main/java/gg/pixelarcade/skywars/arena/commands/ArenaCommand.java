@@ -38,27 +38,24 @@ public class ArenaCommand extends BaseCommand {
         Phoenix.getInstance().getMenuHandler().openMenu(new ManageMenu(), player);
     }
 
-    @Subcommand("ratings")
-    @CommandCompletion("@arenas")
-    @Description("View the ratings of an arena")
-    @CommandPermission("practice.command.arena.ratings")
-    public void ratings(CommandSender sender, @Name("schematic") ArenaSchematic schematic) {
-        for (String s : Arrays.asList(
-                "&7&m------------------------------",
-                "&b&l<arena> Ratings",
-                "&7&m------------------------------",
-                " &e● &fPositive: &a<positive>",
-                " &e● &fNegative: &c<negative>",
-                " &e● &fRating Bar: <ratingBar>",
-                "&7&m------------------------------"
-        )) {
-            sender.sendMessage(Color.translate(s
-                    .replace("<arena>", schematic.getName())
-                    .replace("<positive>", String.valueOf(schematic.getPositiveRatings()))
-                    .replace("<negative>", String.valueOf(schematic.getNegativeRatings()))
-                    .replace("<ratingBar>", getProgressBar(schematic.getPositiveRatings(), schematic.getNegativeRatings() + schematic.getPositiveRatings(), 20))));
-        }
-    }
+//    @Subcommand("ratings")
+//    @CommandCompletion("@arenas")
+//    @Description("View the ratings of an arena")
+//    @CommandPermission("practice.command.arena.ratings")
+//    public void ratings(CommandSender sender, @Name("schematic") ArenaSchematic schematic) {
+//        for (String s : Arrays.asList(
+//                "&7&m------------------------------",
+//                "&b&l<arena> Ratings",
+//                "&7&m------------------------------",
+//                " &e● &fPositive: &a<positive>",
+//                " &e● &fNegative: &c<negative>",
+//                " &e● &fRating Bar: <ratingBar>",
+//                "&7&m------------------------------"
+//        )) {
+//            sender.sendMessage(Color.translate(s
+//                    .replace("<arena>", schematic.getName())
+//        }
+//    }
 
     @Subcommand("create")
     @CommandPermission("practice.command.arena.create")

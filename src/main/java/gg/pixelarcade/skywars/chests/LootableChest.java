@@ -28,6 +28,7 @@ public abstract class LootableChest {
     public static final int MAXIMUM_ITEMS = 6;
 
     public abstract List<GameType> getGameType();
+
     public abstract List<ChestStage> getStages();
 
     public void fillChests(SkyWarsGame game, RefillType refillType) {

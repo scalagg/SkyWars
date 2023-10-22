@@ -18,14 +18,14 @@ public class SecondCasualStage extends ChestStage {
 
     @Override
     public List<ChestItem> getSpawnLoot() {
-        return Arrays.asList(
+        return List.of(
                 new ChestItem(new ItemBuilder(Material.ENDER_PEARL, ThreadLocalRandom.current().nextInt(1, 6)).toItemStack(), 100)
         );
     }
 
     @Override
     public List<ChestItem> getMiddleLoot() {
-        return Arrays.asList(
+        return List.of(
                 new ChestItem(new ItemBuilder(Material.ENDER_PEARL, ThreadLocalRandom.current().nextInt(1, 6)).toItemStack(), 100)
         );
     }

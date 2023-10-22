@@ -51,7 +51,7 @@ public class SkyWarsProfile {
 
     private List<Achievement> ownedAchievements = new ArrayList<>();
 
-    public void load(Document document) {
+    public void load() {
         CompletableFuture.runAsync(() -> {
             SkyWarsProfile profile = plugin.getProfileHandler().getFromDatabaseSync(uniqueId);
 
@@ -72,7 +72,7 @@ public class SkyWarsProfile {
             this.heads = profile.getHeads();
             this.souls = profile.getSouls();
             this.ownedAchievements = profile.getOwnedAchievements();
-            this.arenasRated = SharedAPI.getInstance().getGson().fromJson(document.getString("arenasRated"), STRING_LIST);
+            this.arenasRated = profile.getArenasRated();
         });
     }
 
