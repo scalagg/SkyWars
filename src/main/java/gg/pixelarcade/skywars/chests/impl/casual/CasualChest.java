@@ -3,6 +3,8 @@ package gg.pixelarcade.skywars.chests.impl.casual;
 import gg.pixelarcade.skywars.chests.ChestStage;
 import gg.pixelarcade.skywars.chests.LootableChest;
 import gg.pixelarcade.skywars.chests.impl.casual.stages.FirstCasualStage;
+import gg.pixelarcade.skywars.chests.impl.casual.stages.SecondCasualStage;
+import gg.pixelarcade.skywars.chests.impl.casual.stages.ThirdCasualStage;
 import gg.pixelarcade.skywars.game.state.GameType;
 
 import java.util.Arrays;
@@ -27,7 +29,9 @@ public class CasualChest extends LootableChest {
     @Override
     public List<ChestStage> getStages() {
         return Arrays.asList(
-                new FirstCasualStage()
+                new FirstCasualStage(),
+                new SecondCasualStage(),
+                new ThirdCasualStage()
         );
     }
 }
