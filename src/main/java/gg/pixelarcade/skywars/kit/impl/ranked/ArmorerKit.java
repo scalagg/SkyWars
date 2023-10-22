@@ -52,7 +52,7 @@ public class ArmorerKit extends Kit {
     public ItemStack[] getArmor() {
         return new ItemStack[]{
                 new ItemBuilder(Material.DIAMOND_CHESTPLATE)
-                        .addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1)
+                        .addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1)
                         .toItemStack(),
                 new ItemBuilder(Material.DIAMOND_BOOTS).toItemStack()
 

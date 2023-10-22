@@ -53,10 +53,10 @@ public class SalmonKit extends Kit {
     @Override
     public ItemStack[] getArmor() {
         return new ItemStack[]{
-                new ItemBuilder(Material.LEATHER_HELMET).setLeatherArmorColor(Color.RED).addEnchantment(Enchantment.WATER_WORKER, 1).addEnchantment(Enchantment.OXYGEN, 3).toItemStack(),
+                new ItemBuilder(Material.LEATHER_HELMET).setLeatherArmorColor(Color.RED).addEnchant(Enchantment.WATER_WORKER, 1).addEnchant(Enchantment.OXYGEN, 3).toItemStack(),
                 new ItemBuilder(Material.LEATHER_CHESTPLATE).setLeatherArmorColor(Color.RED).toItemStack(),
                 new ItemBuilder(Material.LEATHER_LEGGINGS).setLeatherArmorColor(Color.RED).toItemStack(),
-                new ItemBuilder(Material.LEATHER_BOOTS).setLeatherArmorColor(Color.RED).addEnchantment(Enchantment.DEPTH_STRIDER, 3).toItemStack()
+                new ItemBuilder(Material.LEATHER_BOOTS).setLeatherArmorColor(Color.RED).addEnchant(Enchantment.DEPTH_STRIDER, 3).toItemStack()
         };
     }
 

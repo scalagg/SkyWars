@@ -56,7 +56,7 @@ public class PyromancerKit extends Kit {
     @Override
     public ItemStack[] getArmor() {
         return new ItemStack[]{
-                new ItemStack(new ItemBuilder(Material.DIAMOND_BOOTS).addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 3).addEnchantment(Enchantment.PROTECTION_FIRE, 4).toItemStack()),
+                new ItemStack(new ItemBuilder(Material.DIAMOND_BOOTS).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).addEnchant(Enchantment.PROTECTION_FIRE, 4).toItemStack()),
                 new ItemStack(Material.IRON_CHESTPLATE),
                 new ItemStack(Material.IRON_LEGGINGS),
                 new ItemStack(Material.IRON_BOOTS)
@@ -66,7 +66,7 @@ public class PyromancerKit extends Kit {
     @Override
     public void apply(Player player) {
         player.getInventory().addItem(new ItemBuilder(Material.POTION, 2).addCustomPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 25 * 90, 1), true).toItemStack());
-        player.getInventory().addItem(new ItemBuilder(Material.DIAMOND_SWORD).addEnchantment(Enchantment.FIRE_ASPECT, 2).toItemStack());
+        player.getInventory().addItem(new ItemBuilder(Material.DIAMOND_SWORD).addEnchant(Enchantment.FIRE_ASPECT, 2).toItemStack());
         player.getInventory().addItem(new ItemBuilder(Material.LAVA_BUCKET, 2).toItemStack());
         player.getInventory().addItem(new ItemBuilder(Material.IRON_AXE).toItemStack());
         player.getInventory().addItem(new ItemBuilder(Material.IRON_PICKAXE).toItemStack());

@@ -55,14 +55,14 @@ public class RusherKit extends Kit {
     @Override
     public ItemStack[] getArmor() {
         return new ItemStack[]{
-                new ItemBuilder(Material.IRON_BOOTS).addEnchantment(Enchantment.PROTECTION_FALL, 2).toItemStack(),
+                new ItemBuilder(Material.IRON_BOOTS).addEnchant(Enchantment.PROTECTION_FALL, 2).toItemStack(),
                 new ItemBuilder(Material.IRON_CHESTPLATE).toItemStack()
         };
     }
 
     @Override
     public void apply(Player player) {
-        player.getInventory().addItem(new ItemBuilder(Material.DIAMOND_AXE).addEnchantment(Enchantment.DAMAGE_ALL, 1).addEnchantment(Enchantment.DIG_SPEED, 1).toItemStack());
+        player.getInventory().addItem(new ItemBuilder(Material.DIAMOND_AXE).addEnchant(Enchantment.DAMAGE_ALL, 1).addEnchant(Enchantment.DIG_SPEED, 1).toItemStack());
         player.getInventory().addItem(new ItemStack(Material.WOOD, 16));
         player.getInventory().addItem(new ItemBuilder(Material.POTION, 2).addCustomPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20, 2), true).toItemStack());
         player.getInventory().addItem(new ItemBuilder(Material.POTION, 2).addCustomPotionEffect(new PotionEffect(PotionEffectType.JUMP, 20, 2), true).toItemStack());

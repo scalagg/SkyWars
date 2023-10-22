@@ -56,7 +56,7 @@ public class TamerKit extends Kit implements Listener {
                 new ItemStack(Material.IRON_HELMET),
                 new ItemStack(Material.IRON_CHESTPLATE),
                 new ItemStack(Material.IRON_LEGGINGS),
-                new ItemStack(new ItemBuilder(Material.DIAMOND_BOOTS).addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1).toItemStack())
+                new ItemStack(new ItemBuilder(Material.DIAMOND_BOOTS).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1).toItemStack())
         };
     }
 

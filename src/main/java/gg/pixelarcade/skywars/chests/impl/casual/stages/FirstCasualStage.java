@@ -54,13 +54,13 @@ public class FirstCasualStage extends ChestStage {
                 createChestItem(Material.EGG, ThreadLocalRandom.current().nextInt(8, 16)),
                 createChestItem(Material.COOKED_BEEF, ThreadLocalRandom.current().nextInt(8, 12)),
                 createChestItem(Material.COOKED_BEEF, ThreadLocalRandom.current().nextInt(8, 12)),
-                createChestItem(Material.WOOD, ThreadLocalRandom.current().nextInt(16, 64)),
-                createChestItem(Material.STONE, ThreadLocalRandom.current().nextInt(8, 64)),
+                new ChestItem(new ItemBuilder(Material.WOOD, ThreadLocalRandom.current().nextInt(16, 64)).toItemStack(), 100),
+                new ChestItem(new ItemBuilder(Material.STONE, ThreadLocalRandom.current().nextInt(8, 64)).toItemStack(), 100),
 
-                new ChestItem(new ItemBuilder(Material.STONE_SWORD).addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 2).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.IRON_SWORD).addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 2).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.BOW).addUnsafeEnchantment(Enchantment.ARROW_DAMAGE, 1).toItemStack(), 25),
-                new ChestItem(SkyWarsPlugin.getInstance().getAbilityHandler().getAbilityById("magnet").getItem(), 100)
+                new ChestItem(new ItemBuilder(Material.STONE_SWORD).addEnchant(Enchantment.DAMAGE_ALL, 2).toItemStack(), 75),
+                new ChestItem(new ItemBuilder(Material.IRON_SWORD).addEnchant(Enchantment.DAMAGE_ALL, 2).toItemStack(), 75),
+                new ChestItem(new ItemBuilder(Material.BOW).addEnchant(Enchantment.ARROW_DAMAGE, 1).toItemStack(), 25),
+                new ChestItem(SkyWarsPlugin.getInstance().getAbilityHandler().getAbilityById("magnet").getItem(), 25)
         );
     }
 
@@ -75,20 +75,20 @@ public class FirstCasualStage extends ChestStage {
                 createChestItem(Material.TNT, ThreadLocalRandom.current().nextInt(8, 10)),
                 createChestItem(Material.ENDER_PEARL, 1),
 
-                new ChestItem(new ItemBuilder(Material.DIAMOND_HELMET, 1).addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.IRON_CHESTPLATE, 1).addUnsafeEnchantment(Enchantment.PROTECTION_PROJECTILE, 1).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.IRON_LEGGINGS, 1).addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.DIAMOND_BOOTS, 1).addUnsafeEnchantment(Enchantment.PROTECTION_FIRE, 1).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.IRON_SWORD, 1).addUnsafeEnchantment(Enchantment.FIRE_ASPECT, 1).toItemStack(), 100),
+                new ChestItem(new ItemBuilder(Material.DIAMOND_HELMET, 1).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1).toItemStack(), 95),
+                new ChestItem(new ItemBuilder(Material.IRON_CHESTPLATE, 1).addEnchant(Enchantment.PROTECTION_PROJECTILE, 1).toItemStack(), 96),
+                new ChestItem(new ItemBuilder(Material.IRON_LEGGINGS, 1).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1).toItemStack(), +7),
+                new ChestItem(new ItemBuilder(Material.DIAMOND_BOOTS, 1).addEnchant(Enchantment.PROTECTION_FIRE, 1).toItemStack(), 90),
+                new ChestItem(new ItemBuilder(Material.IRON_SWORD, 1).addEnchant(Enchantment.FIRE_ASPECT, 1).toItemStack(), 90),
                 new ChestItem(new ItemBuilder(Material.POTION, 1).addCustomPotionEffect(new PotionEffect(PotionEffectType.SPEED, 600, 0), true).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.BOW, 1).addUnsafeEnchantment(Enchantment.ARROW_DAMAGE, 1).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.DIAMOND_AXE, 1).addUnsafeEnchantment(Enchantment.DIG_SPEED, 1).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.DIAMOND_PICKAXE, 1).addUnsafeEnchantment(Enchantment.DIG_SPEED, 1).toItemStack(), 100)
+                new ChestItem(new ItemBuilder(Material.BOW, 1).addEnchant(Enchantment.ARROW_DAMAGE, 1).toItemStack(), 90),
+                new ChestItem(new ItemBuilder(Material.DIAMOND_AXE, 1).addEnchant(Enchantment.DIG_SPEED, 1).toItemStack(), 90),
+                new ChestItem(new ItemBuilder(Material.DIAMOND_PICKAXE, 1).addEnchant(Enchantment.DIG_SPEED, 1).toItemStack(), 90)
         );
     }
 
     private static ChestItem createChestItem(Material material, int amount) {
-        return new ChestItem(new ItemBuilder(material, amount).toItemStack(), 100);
+        return new ChestItem(new ItemBuilder(material, amount).toItemStack(), 70);
     }
 
 }

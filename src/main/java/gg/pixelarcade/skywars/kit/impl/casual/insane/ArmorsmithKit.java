@@ -56,9 +56,9 @@ public class ArmorsmithKit extends Kit {
     @Override
     public void apply(Player player) {
         player.getInventory().addItem(new ItemStack(Material.ANVIL));
-        player.getInventory().addItem(new ItemBuilder(Material.ENCHANTED_BOOK).addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 3).toItemStack());
-        player.getInventory().addItem(new ItemBuilder(Material.ENCHANTED_BOOK).addEnchantment(Enchantment.DAMAGE_ALL, 2).toItemStack());
-        player.getInventory().addItem(new ItemBuilder(Material.ENCHANTED_BOOK).addEnchantment(Enchantment.ARROW_DAMAGE, 2).toItemStack());
+        player.getInventory().addItem(new ItemBuilder(Material.ENCHANTED_BOOK).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).toItemStack());
+        player.getInventory().addItem(new ItemBuilder(Material.ENCHANTED_BOOK).addEnchant(Enchantment.DAMAGE_ALL, 2).toItemStack());
+        player.getInventory().addItem(new ItemBuilder(Material.ENCHANTED_BOOK).addEnchant(Enchantment.ARROW_DAMAGE, 2).toItemStack());
         player.getInventory().addItem(new ItemStack(Material.EXP_BOTTLE, 64));
     }
 }

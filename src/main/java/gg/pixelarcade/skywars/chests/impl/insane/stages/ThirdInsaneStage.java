@@ -28,7 +28,7 @@ public class ThirdInsaneStage extends ChestStage {
     public List<ChestItem> getMiddleLoot() {
         return Arrays.asList(
                 new ChestItem(new ItemBuilder(Material.ENDER_PEARL, ThreadLocalRandom.current().nextInt(1, 6)).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.DIAMOND_LEGGINGS, 1).addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 3).toItemStack(), 100)
+                new ChestItem(new ItemBuilder(Material.DIAMOND_LEGGINGS, 1).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).toItemStack(), 100)
 
                 );
     }

@@ -52,7 +52,7 @@ public class CannoneerKit extends Kit {
     @Override
     public ItemStack[] getArmor() {
         return new ItemStack[]{
-                new ItemBuilder(Material.DIAMOND_BOOTS).addEnchantment(Enchantment.PROTECTION_EXPLOSIONS, 3).addEnchantment(Enchantment.PROTECTION_FALL, 4).toItemStack()
+                new ItemBuilder(Material.DIAMOND_BOOTS).addEnchant(Enchantment.PROTECTION_EXPLOSIONS, 3).addEnchant(Enchantment.PROTECTION_FALL, 4).toItemStack()
         };
     }
 

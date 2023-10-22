@@ -55,7 +55,7 @@ public class MagicianKit extends Kit {
         return new ItemStack[]{
                 new ItemStack(Material.IRON_HELMET),
                 new ItemBuilder(Material.DIAMOND_CHESTPLATE)
-                        .addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1)
+                        .addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1)
                         .toItemStack(),
                 new ItemStack(Material.IRON_LEGGINGS),
                 new ItemStack(Material.IRON_BOOTS)

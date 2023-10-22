@@ -63,10 +63,10 @@ public class ChampionKit extends Kit {
 
     @Override
     public void apply(Player player) {
-        player.getInventory().addItem(new ItemBuilder(Material.DIAMOND_SWORD).addEnchantment(Enchantment.DAMAGE_ALL, 2).toItemStack());
+        player.getInventory().addItem(new ItemBuilder(Material.DIAMOND_SWORD).addEnchant(Enchantment.DAMAGE_ALL, 2).toItemStack());
         player.getInventory().addItem(new ItemBuilder(Material.IRON_AXE).toItemStack());
         player.getInventory().addItem(new ItemBuilder(Material.IRON_PICKAXE).toItemStack());
         player.getInventory().addItem(new ItemBuilder(Material.ANVIL).toItemStack());
-        player.getInventory().addItem(new ItemBuilder(Material.ENCHANTED_BOOK, 3).addEnchantment(Enchantment.DAMAGE_ALL, 1).toItemStack());
+        player.getInventory().addItem(new ItemBuilder(Material.ENCHANTED_BOOK, 3).addEnchant(Enchantment.DAMAGE_ALL, 1).toItemStack());
     }
 }

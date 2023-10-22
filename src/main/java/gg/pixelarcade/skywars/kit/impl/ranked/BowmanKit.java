@@ -61,7 +61,7 @@ public class BowmanKit extends Kit {
 
     @Override
     public void apply(Player player) {
-        player.getInventory().addItem(new ItemBuilder(Material.BOW).addEnchantment(Enchantment.ARROW_DAMAGE, 3).toItemStack());
+        player.getInventory().addItem(new ItemBuilder(Material.BOW).addEnchant(Enchantment.ARROW_DAMAGE, 3).toItemStack());
         player.getInventory().addItem(new ItemBuilder(Material.ARROW, 64).toItemStack());
         player.getInventory().addItem(new ItemBuilder(Material.IRON_SWORD).toItemStack());
         player.getInventory().addItem(new ItemBuilder(Material.IRON_PICKAXE).toItemStack());
