@@ -28,7 +28,6 @@ public class AbilityInteractListener implements Listener {
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         ItemStack item = event.getItem();
-
         if (item == null)
             return;
 
@@ -46,7 +45,7 @@ public class AbilityInteractListener implements Listener {
         if (!ability.isSimilar(item))
             return;
 
-        if (!plugin.getGameHandler().isPlayingGame(player))
+        if (!plugin.getGameHandler().isPlayingGame(player.getUniqueId()))
             return;
 
         if (!interact.onPlayerInteract(event))

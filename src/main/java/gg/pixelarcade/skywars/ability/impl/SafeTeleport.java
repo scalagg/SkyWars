@@ -76,9 +76,9 @@ public class SafeTeleport extends Ability implements Interact {
                 && from.getBlockZ() == to.getBlockZ())
             return;
 
-        if (!SkyWarsPlugin.getInstance().getGameHandler().isPlayingGame(player)
+        if (!SkyWarsPlugin.getInstance().getGameHandler().isPlayingGame(player.getUniqueId())
                 || SkyWarsPlugin.getInstance().getGameHandler().isSpectating(player.getUniqueId())
-                || !SkyWarsPlugin.getInstance().getGameHandler().getGame(player).hasStarted())
+                || !SkyWarsPlugin.getInstance().getGameHandler().getGame(player.getUniqueId()).hasStarted())
             return;
 
         if (!player.isOnGround())

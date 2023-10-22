@@ -45,31 +45,22 @@ public class ScoreboardAdapter implements AssembleAdapter {
     @Override
     public List<String> getLines(Player player) {
         List<String> lines = new ArrayList<>();
+        lines.add("&f");
 
         Profile profile = SharedAPI.getInstance().getProfileHandler().getProfile(player.getUniqueId());
-
-        SkyWarsGame game = plugin.getGameHandler().getGame(player);
+        SkyWarsGame game = plugin.getGameHandler().getGame(player.getUniqueId());
         if (game != null && profile.hasMetadata("inGame")) {
             if (game.isSpectating(player.getUniqueId())) {
-                lines.add("&f");
-                lines.add("&4&lYou Died!");
+                lines.add("&4&l✖ DEAD! ✖");
                 lines.add("&7■ &fGame Time: &6" + renderTime(game));
                 lines.add("&7■ &fMap: &6" + game.getArena().getArenaSchematic().getDisplayName());
                 lines.add("&7■ &fAlive: &6" + game.getAlivePlayers().size() + "/" + game.getPlayers().size());
             } else {
-                lines.add("&f");
                 lines.add("&7■ &fGame Time: &6" + renderTime(game));
                 lines.add("&7■ &fMap: &6" + game.getArena().getArenaSchematic().getDisplayName());
                 lines.add("&7■ &fAlive: &6" + game.getAlivePlayers().size() + "/" + game.getPlayers().size());
             }
         } else {
-            if (profile.hasMetadata("modmode")) {
-                lines.add("&f");
-                lines.add("&6&lStaff&7:");
-                lines.add("&7■ &fVanish: &6" + profile.isVanished());
-            }
-
-            lines.add("&f");
             lines.add("&6&lYou&7:");
             lines.add("&7■ &fRank: " + profile.getHighestRank().getDisplayName());
             lines.add("&7■ &fCoins: &e" + pxCosmetics.getInstance().getProfileHandler().getProfile(player.getUniqueId()).getCoins() + "&6⛃");
@@ -104,8 +95,8 @@ public class ScoreboardAdapter implements AssembleAdapter {
             return "00:00";
         else return TimeUtils.formatLongIntoMMSS(ChronoUnit.SECONDS.between(
                 startedAt.toInstant(),
-                endedAt == null ? Instant.now() : endedAt.toInstant()
-        ));
+                endedAt == null ? Instant.now() : endedAt.toInstant())
+        );
     }
 
 }

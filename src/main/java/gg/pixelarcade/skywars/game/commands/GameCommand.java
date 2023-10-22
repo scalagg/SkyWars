@@ -31,7 +31,7 @@ public class GameCommand extends BaseCommand {
     @Subcommand("join")
     @Syntax("<type>")
     public void join(Player player, @Name("type") GameType type) {
-        if (plugin.getGameHandler().isPlayingGame(player)) {
+        if (plugin.getGameHandler().isPlayingGame(player.getUniqueId())) {
             throw new ConditionFailedException("alr in game");
         }
 
@@ -61,11 +61,11 @@ public class GameCommand extends BaseCommand {
 
     @Subcommand("leave")
     public void leave(Player player) {
-        if (!plugin.getGameHandler().isPlayingGame(player)) {
+        if (!plugin.getGameHandler().isPlayingGame(player.getUniqueId())) {
             throw new ConditionFailedException("Not currently in a game");
         }
 
-        SkyWarsGame game = plugin.getGameHandler().getGame(player);
+        SkyWarsGame game = plugin.getGameHandler().getGame(player.getUniqueId());
         game.removePlayer(player);
 
         player.sendMessage(Color.translate(SpigotConstants.GAME + "&eYou have left &b" + game.getArena().getArenaSchematic().getDisplayName() + "&e."));
@@ -74,11 +74,11 @@ public class GameCommand extends BaseCommand {
     @Subcommand("forcestart")
     @CommandPermission("skywars.forcestart")
     public void forcestart(Player player) {
-        if (!plugin.getGameHandler().isPlayingGame(player)) {
+        if (!plugin.getGameHandler().isPlayingGame(player.getUniqueId())) {
             throw new ConditionFailedException("Not currently in a game");
         }
 
-        SkyWarsGame game = plugin.getGameHandler().getGame(player);
+        SkyWarsGame game = plugin.getGameHandler().getGame(player.getUniqueId());
         if (game.isForceStarted())
             throw new ConditionFailedException("Already force started");
 

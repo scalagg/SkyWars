@@ -51,7 +51,16 @@ public class ThrowableTNT extends Ability implements Interact {
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
-        if (this.getItem().isSimilar(event.getItemInHand()))
-            event.setCancelled(true);
+        ItemStack item = event.getItemInHand();
+        if (item == null || item.getType() != Material.TNT)
+            return;
+
+        if (!item.hasItemMeta() && !item.getItemMeta().hasDisplayName())
+            return;
+
+        if (!item.getItemMeta().getDisplayName().contains("Throwable"))
+            return;
+
+        event.setCancelled(true);
     }
 }

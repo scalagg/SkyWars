@@ -84,6 +84,8 @@ public class SkyWarsPlugin extends JavaPlugin {
     private MusicHandler musicHandler;
     private HologramHandler hologramHandler;
 
+    private boolean debug = true;
+
     @Override
     public void onEnable() {
         instance = this;

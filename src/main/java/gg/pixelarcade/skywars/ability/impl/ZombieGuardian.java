@@ -45,10 +45,11 @@ public class ZombieGuardian extends Ability implements Interact {
         return new ItemBuilder(Material.MONSTER_EGG)
                 .setDurability(54)
                 .setName(getName())
-                .addLoreLine(Color.translate("&7Click to spawn a Zombie Guardian which will fight for you."))
-                .addLoreLine(" ")
-                .addLoreLine(Color.translate("&e&lNOTE: &fZombie Guardian will only last for " + ZOMBIE_DURATION + " seconds."))
-                .toItemStack();
+                .setLore(Color.translate(List.of(
+                        "&7Click to spawn a Zombie Guardian which will fight for you.",
+                        " ",
+                        "&e&lNOTE: &fZombie Guardian will only last for " + ZOMBIE_DURATION + " seconds."
+                ))).toItemStack();
     }
 
     @Override
@@ -69,7 +70,6 @@ public class ZombieGuardian extends Ability implements Interact {
                     continue;
 
                 players.sendMessage(Color.translate("&b&lZombie Guardian &7has been spawned by &b" + player.getName() + "&7."));
-
                 players.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20 * 3, 0, false, false));
                 players.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20 * 3, 0, false, false));
             }

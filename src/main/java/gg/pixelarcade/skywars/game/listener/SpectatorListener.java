@@ -38,7 +38,7 @@ public class SpectatorListener implements Listener {
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
-        SkyWarsGame game = plugin.getGameHandler().getGame(event.getPlayer());
+        SkyWarsGame game = plugin.getGameHandler().getGame(player.getUniqueId());
         if (game == null)
             return;
 
@@ -48,7 +48,7 @@ public class SpectatorListener implements Listener {
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
         Player player = event.getPlayer();
-        SkyWarsGame game = plugin.getGameHandler().getGame(event.getPlayer());
+        SkyWarsGame game = plugin.getGameHandler().getGame(player.getUniqueId());
 
         if (game == null)
             return;
@@ -59,7 +59,7 @@ public class SpectatorListener implements Listener {
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
-        SkyWarsGame game = plugin.getGameHandler().getGame(event.getPlayer());
+        SkyWarsGame game = plugin.getGameHandler().getGame(player.getUniqueId());
         if (game == null)
             return;
 
@@ -76,7 +76,7 @@ public class SpectatorListener implements Listener {
             return;
 
         Player player = (Player) event.getEntity();
-        SkyWarsGame game = plugin.getGameHandler().getGame(player);
+        SkyWarsGame game = plugin.getGameHandler().getGame(player.getUniqueId());
 
         if (game == null)
             return;
@@ -90,7 +90,7 @@ public class SpectatorListener implements Listener {
             return;
 
         Player player = (Player) event.getEntity();
-        SkyWarsGame game = plugin.getGameHandler().getGame(player);
+        SkyWarsGame game = plugin.getGameHandler().getGame(player.getUniqueId());
 
         if (game == null)
             return;
@@ -102,7 +102,7 @@ public class SpectatorListener implements Listener {
     @EventHandler
     public void onPlayerDrop(PlayerDropItemEvent event) {
         Player player = event.getPlayer();
-        SkyWarsGame game = plugin.getGameHandler().getGame(event.getPlayer());
+        SkyWarsGame game = plugin.getGameHandler().getGame(player.getUniqueId());
 
         if (game == null)
             return;
@@ -113,7 +113,7 @@ public class SpectatorListener implements Listener {
     @EventHandler
     public void onPlayerPickup(PlayerPickupItemEvent event) {
         Player player = event.getPlayer();
-        SkyWarsGame game = plugin.getGameHandler().getGame(event.getPlayer());
+        SkyWarsGame game = plugin.getGameHandler().getGame(player.getUniqueId());
 
         if (game == null)
             return;

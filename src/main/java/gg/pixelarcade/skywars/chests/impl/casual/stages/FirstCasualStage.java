@@ -30,7 +30,7 @@ public class FirstCasualStage extends ChestStage {
 
     @Override
     public List<ChestItem> getSpawnLoot() {
-        List<ChestItem> items = List.of(
+        return List.of(
                 createChestItem(Material.IRON_HELMET, 1),
                 createChestItem(Material.GOLD_CHESTPLATE, 1),
                 createChestItem(Material.LEATHER_LEGGINGS, 1),
@@ -54,40 +54,36 @@ public class FirstCasualStage extends ChestStage {
                 createChestItem(Material.EGG, ThreadLocalRandom.current().nextInt(8, 16)),
                 createChestItem(Material.COOKED_BEEF, ThreadLocalRandom.current().nextInt(8, 12)),
                 createChestItem(Material.COOKED_BEEF, ThreadLocalRandom.current().nextInt(8, 12)),
-                createChestItem(Material.WOOD, ThreadLocalRandom.current().nextInt(8, 64)),
+                createChestItem(Material.WOOD, ThreadLocalRandom.current().nextInt(16, 64)),
                 createChestItem(Material.STONE, ThreadLocalRandom.current().nextInt(8, 64)),
 
-                new ChestItem(new ItemBuilder(Material.STONE_SWORD).addEnchantment(Enchantment.DAMAGE_ALL, 2).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.IRON_SWORD).addEnchantment(Enchantment.DAMAGE_ALL, 2).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.BOW).addEnchantment(Enchantment.ARROW_DAMAGE, 1).toItemStack(), 25),
+                new ChestItem(new ItemBuilder(Material.STONE_SWORD).addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 2).toItemStack(), 100),
+                new ChestItem(new ItemBuilder(Material.IRON_SWORD).addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 2).toItemStack(), 100),
+                new ChestItem(new ItemBuilder(Material.BOW).addUnsafeEnchantment(Enchantment.ARROW_DAMAGE, 1).toItemStack(), 25),
                 new ChestItem(SkyWarsPlugin.getInstance().getAbilityHandler().getAbilityById("magnet").getItem(), 100)
         );
-
-        return items;
     }
 
     @Override
     public List<ChestItem> getMiddleLoot() {
-
         return List.of(
                 createChestItem(Material.SNOW_BALL, ThreadLocalRandom.current().nextInt(6, 32)),
                 createChestItem(Material.LAVA_BUCKET, 1),
                 createChestItem(Material.EXP_BOTTLE, ThreadLocalRandom.current().nextInt(8, 64)),
                 createChestItem(Material.GOLDEN_APPLE, ThreadLocalRandom.current().nextInt(1, 2)),
-                createChestItem(Material.LOG, ThreadLocalRandom.current().nextInt(8, 64)),
+                createChestItem(Material.WOOD, ThreadLocalRandom.current().nextInt(8, 64)),
                 createChestItem(Material.TNT, ThreadLocalRandom.current().nextInt(8, 10)),
                 createChestItem(Material.ENDER_PEARL, 1),
 
-                new ChestItem(new ItemBuilder(Material.DIAMOND_HELMET, 1).addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.IRON_CHESTPLATE, 1).addEnchantment(Enchantment.PROTECTION_PROJECTILE, 1).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.IRON_LEGGINGS, 1).addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.DIAMOND_BOOTS, 1).addEnchantment(Enchantment.PROTECTION_FIRE, 1).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.IRON_SWORD, 1).addEnchantment(Enchantment.FIRE_ASPECT, 1).toItemStack(), 100),
+                new ChestItem(new ItemBuilder(Material.DIAMOND_HELMET, 1).addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1).toItemStack(), 100),
+                new ChestItem(new ItemBuilder(Material.IRON_CHESTPLATE, 1).addUnsafeEnchantment(Enchantment.PROTECTION_PROJECTILE, 1).toItemStack(), 100),
+                new ChestItem(new ItemBuilder(Material.IRON_LEGGINGS, 1).addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1).toItemStack(), 100),
+                new ChestItem(new ItemBuilder(Material.DIAMOND_BOOTS, 1).addUnsafeEnchantment(Enchantment.PROTECTION_FIRE, 1).toItemStack(), 100),
+                new ChestItem(new ItemBuilder(Material.IRON_SWORD, 1).addUnsafeEnchantment(Enchantment.FIRE_ASPECT, 1).toItemStack(), 100),
                 new ChestItem(new ItemBuilder(Material.POTION, 1).addCustomPotionEffect(new PotionEffect(PotionEffectType.SPEED, 600, 0), true).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.BOW, 1).addEnchantment(Enchantment.ARROW_DAMAGE, 1).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.ENDER_PEARL, 1).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.DIAMOND_AXE, 1).addEnchantment(Enchantment.DIG_SPEED, 1).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.DIAMOND_PICKAXE, 1).addEnchantment(Enchantment.DIG_SPEED, 1).toItemStack(), 100)
+                new ChestItem(new ItemBuilder(Material.BOW, 1).addUnsafeEnchantment(Enchantment.ARROW_DAMAGE, 1).toItemStack(), 100),
+                new ChestItem(new ItemBuilder(Material.DIAMOND_AXE, 1).addUnsafeEnchantment(Enchantment.DIG_SPEED, 1).toItemStack(), 100),
+                new ChestItem(new ItemBuilder(Material.DIAMOND_PICKAXE, 1).addUnsafeEnchantment(Enchantment.DIG_SPEED, 1).toItemStack(), 100)
         );
     }
 

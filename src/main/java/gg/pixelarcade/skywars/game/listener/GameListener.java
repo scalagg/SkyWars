@@ -74,8 +74,8 @@ public class GameListener implements Listener {
             return;
         }
 
-        for (int i = 0; i < 5; i++) {
-            Zombie zombie = game.getArena().getWorld().spawn(zombieSpawns.get(i), Zombie.class);
+        for (Location zombieSpawn : zombieSpawns) {
+            Zombie zombie = game.getArena().getWorld().spawn(zombieSpawn, Zombie.class);
             zombie.setRemoveWhenFarAway(false);
             zombie.setBaby(false);
             zombie.setVillager(false);
@@ -128,10 +128,10 @@ public class GameListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        if (!plugin.getGameHandler().isPlayingGame(player))
+        if (!plugin.getGameHandler().isPlayingGame(player.getUniqueId()))
             return;
 
-        SkyWarsGame game = plugin.getGameHandler().getGame(player);
+        SkyWarsGame game = plugin.getGameHandler().getGame(player.getUniqueId());
         game.removePlayer(player);
     }
 
@@ -140,7 +140,7 @@ public class GameListener implements Listener {
         event.setDeathMessage(null);
 
         Player player = event.getEntity();
-        SkyWarsGame game = plugin.getGameHandler().getGame(player);
+        SkyWarsGame game = plugin.getGameHandler().getGame(player.getUniqueId());
         if (game == null)
             return;
 
@@ -176,7 +176,7 @@ public class GameListener implements Listener {
         if (!(event.getEntity() instanceof Player player))
             return;
 
-        SkyWarsGame game = plugin.getGameHandler().getGame(player);
+        SkyWarsGame game = plugin.getGameHandler().getGame(player.getUniqueId());
         if (game == null)
             return;
 
@@ -191,11 +191,11 @@ public class GameListener implements Listener {
         if (!(event.getDamager() instanceof Player damager))
             return;
 
-        if (!plugin.getGameHandler().isPlayingGame(player)
-                && !plugin.getGameHandler().isPlayingGame(damager))
+        if (!plugin.getGameHandler().isPlayingGame(player.getUniqueId())
+                && !plugin.getGameHandler().isPlayingGame(damager.getUniqueId()))
             return;
 
-        SkyWarsGame game = plugin.getGameHandler().getGame(player);
+        SkyWarsGame game = plugin.getGameHandler().getGame(player.getUniqueId());
         if (!game.isInGame(damager)) {
             event.setCancelled(true);
             return;
@@ -213,7 +213,7 @@ public class GameListener implements Listener {
             if (player == null)
                 continue;
 
-            if (!plugin.getGameHandler().isPlayingGame(player))
+            if (!plugin.getGameHandler().isPlayingGame(player.getUniqueId()))
                 continue;
 
             plugin.resetPlayer(player);

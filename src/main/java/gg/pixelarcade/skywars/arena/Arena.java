@@ -25,15 +25,12 @@ import java.util.concurrent.ThreadLocalRandom;
 public final class Arena {
 
     private final String schematic;
-
-    @Setter
-    private transient World world;
-
+    private final World world;
     private final Cuboid bounds;
 
-    private final List<Location> spawns = new ArrayList<>();
-    private final List<Location> usedSpawns = new ArrayList<>();
-    private final List<Location> zombieSpawns = new ArrayList<>();
+    private List<Location> spawns = new ArrayList<>();
+    private List<Location> usedSpawns = new ArrayList<>();
+    private List<Location> zombieSpawns = new ArrayList<>();
 
     private final Map<Location, String> chests = new HashMap<>();
 
@@ -185,21 +182,6 @@ public final class Arena {
                 for (int z = start.getBlockZ(); z < end.getBlockZ(); z++) {
                     callback.callback(world.getBlockAt(x, y, z));
                 }
-            }
-        }
-    }
-
-    public void forEachChunk(Callback<Chunk> callback) {
-        int lowerX = bounds.getLowerX() >> 4;
-        int lowerZ = bounds.getLowerZ() >> 4;
-        int upperX = bounds.getUpperX() >> 4;
-        int upperZ = bounds.getUpperZ() >> 4;
-
-        World world = bounds.getWorld();
-
-        for (int x = lowerX; x <= upperX; x++) {
-            for (int z = lowerZ; z <= upperZ; z++) {
-                callback.callback(world.getChunkAt(x, z));
             }
         }
     }

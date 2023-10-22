@@ -25,12 +25,9 @@ import java.util.concurrent.CompletableFuture;
 @Setter
 @RequiredArgsConstructor
 public class SkyWarsProfile {
-    public static final Type STRING_LIST = new TypeToken<List<String>>() {
-    }.getType();
 
     @Exclude
     private final SkyWarsPlugin plugin = SkyWarsPlugin.getInstance();
-
     private final UUID uniqueId;
 
     private String name;
@@ -60,19 +57,19 @@ public class SkyWarsProfile {
                 return;
             }
 
-            this.name = profile.getName();
-            this.selectedKit = profile.getSelectedKit();
-            this.kills = profile.getKills();
-            this.deaths = profile.getDeaths();
-            this.killStreak = profile.getKillStreak();
-            this.highestKillStreak = profile.getHighestKillStreak();
-            this.wins = profile.getWins();
-            this.losses = profile.getLosses();
-            this.elo = profile.getElo();
-            this.heads = profile.getHeads();
-            this.souls = profile.getSouls();
-            this.ownedAchievements = profile.getOwnedAchievements();
-            this.arenasRated = profile.getArenasRated();
+            name = profile.getName();
+            selectedKit = profile.getSelectedKit();
+            kills = profile.getKills();
+            deaths = profile.getDeaths();
+            killStreak = profile.getKillStreak();
+            highestKillStreak = profile.getHighestKillStreak();
+            wins = profile.getWins();
+            losses = profile.getLosses();
+            elo = profile.getElo();
+            heads = profile.getHeads();
+            souls = profile.getSouls();
+            ownedAchievements = profile.getOwnedAchievements();
+            arenasRated = profile.getArenasRated();
         });
     }
 
@@ -81,17 +78,16 @@ public class SkyWarsProfile {
     }
 
     public void incrementKills() {
-        this.kills++;
-        this.killStreak++;
+        kills++;
+        killStreak++;
 
-        if (this.killStreak > this.highestKillStreak) {
-            this.highestKillStreak = this.killStreak;
-        }
+        if (killStreak > highestKillStreak)
+            highestKillStreak = killStreak;
     }
 
     public void incrementDeaths() {
-        this.killStreak = 0;
-        this.deaths++;
+        killStreak = 0;
+        deaths++;
     }
 
     public void incrementWins() {

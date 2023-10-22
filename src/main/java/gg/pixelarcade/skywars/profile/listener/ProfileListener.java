@@ -26,21 +26,19 @@ public class ProfileListener implements Listener {
         UUID uuid = event.getUniqueId();
         SkyWarsProfile profile = plugin.getProfileHandler().getProfile(uuid);
 
-        if (profile == null) {
-            profile = plugin.getProfileHandler().addProfile(uuid);
-            profile.setName(event.getName());
-            profile.save();
-        } else {
+        if (profile != null) {
             profile.load();
+            profile.setName(event.getName());
+            return;
         }
 
+        profile = plugin.getProfileHandler().addProfile(uuid);
         profile.setName(event.getName());
+        profile.save();
     }
 
     @EventHandler
     public void onPlayerLogin(PlayerJoinEvent event) {
-        Player player = event.getPlayer();
-
-        SkyWarsPlugin.getInstance().giveItems(player);
+        SkyWarsPlugin.getInstance().giveItems(event.getPlayer());
     }
 }

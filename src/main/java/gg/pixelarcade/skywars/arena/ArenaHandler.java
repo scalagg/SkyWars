@@ -48,6 +48,7 @@ public final class ArenaHandler {
         }
     }
 
+    // havent yet tested if this method works
     public void saveSchematic(ArenaSchematic schematic) {
         schematics.put(schematic.getName(), schematic);
 

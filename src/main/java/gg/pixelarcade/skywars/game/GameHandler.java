@@ -49,7 +49,6 @@ public class GameHandler {
 
         SkyWarsGame game = new SkyWarsGame(new Arena(schematic, world, bounds), type);
         games.add(game);
-
         return game;
     }
 
@@ -96,14 +95,10 @@ public class GameHandler {
         return false;
     }
 
-    public boolean isPlayingGame(Player player) {
-        return isPlayingGame(player.getUniqueId());
-    }
-
-    public SkyWarsGame getGame(Player player) {
+    public SkyWarsGame getGame(UUID player) {
         for (SkyWarsGame game : games) {
             for (UUID uuid : game.getPlayers()) {
-                if (uuid.equals(player.getUniqueId()))
+                if (uuid.equals(player))
                     return game;
             }
         }
@@ -114,8 +109,10 @@ public class GameHandler {
     public int getPlayerCount() {
         int count = 0;
 
-        for (SkyWarsGame game : games)
-            count += game.getPlayers().size();
+        for (SkyWarsGame game : games) {
+            count += game.getAlivePlayers().size();
+            count += game.getSpectators().size();
+        }
 
         return count;
     }

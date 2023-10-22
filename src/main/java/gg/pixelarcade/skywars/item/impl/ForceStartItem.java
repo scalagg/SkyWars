@@ -33,7 +33,7 @@ public class ForceStartItem extends Item {
 
     @Override
     public void click(Action action) {
-        SkyWarsGame game = SkyWarsPlugin.getInstance().getGameHandler().getGame(player);
+        SkyWarsGame game = SkyWarsPlugin.getInstance().getGameHandler().getGame(player.getUniqueId());
         game.setForceStarted(true);
         game.startCountdown();
     }

@@ -39,7 +39,7 @@ public class PreventionListener implements Listener {
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
-        SkyWarsGame game = plugin.getGameHandler().getGame(player);
+        SkyWarsGame game = plugin.getGameHandler().getGame(player.getUniqueId());
         if (game == null || game.hasStarted())
             return;
 
@@ -49,7 +49,7 @@ public class PreventionListener implements Listener {
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
         Player player = event.getPlayer();
-        SkyWarsGame game = plugin.getGameHandler().getGame(player);
+        SkyWarsGame game = plugin.getGameHandler().getGame(player.getUniqueId());
         if (game == null || game.hasStarted())
             return;
 
@@ -61,7 +61,7 @@ public class PreventionListener implements Listener {
         if (!(event.getEntity() instanceof Player player))
             return;
 
-        SkyWarsGame game = plugin.getGameHandler().getGame(player);
+        SkyWarsGame game = plugin.getGameHandler().getGame(player.getUniqueId());
         if (game == null || game.hasStarted())
             return;
 
@@ -71,7 +71,7 @@ public class PreventionListener implements Listener {
     @EventHandler
     public void onPlayerDropItem(PlayerDropItemEvent event) {
         Player player = event.getPlayer();
-        SkyWarsGame game = plugin.getGameHandler().getGame(player);
+        SkyWarsGame game = plugin.getGameHandler().getGame(player.getUniqueId());
         if (game == null || game.hasStarted())
             return;
 
@@ -83,7 +83,7 @@ public class PreventionListener implements Listener {
         if (!(event.getEntity() instanceof Player player))
             return;
 
-        SkyWarsGame game = plugin.getGameHandler().getGame(player);
+        SkyWarsGame game = plugin.getGameHandler().getGame(player.getUniqueId());
         if (game == null || game.hasStarted())
             return;
 
@@ -95,7 +95,7 @@ public class PreventionListener implements Listener {
         if (!(event.getEntity() instanceof Player player))
             return;
 
-        SkyWarsGame game = plugin.getGameHandler().getGame(player);
+        SkyWarsGame game = plugin.getGameHandler().getGame(player.getUniqueId());
         if (game == null || game.hasStarted())
             return;
 
@@ -105,7 +105,7 @@ public class PreventionListener implements Listener {
     @EventHandler
     public void onPlayerPickupItem(PlayerPickupItemEvent event) {
         Player player = event.getPlayer();
-        SkyWarsGame game = plugin.getGameHandler().getGame(player);
+        SkyWarsGame game = plugin.getGameHandler().getGame(player.getUniqueId());
         if (game == null || game.hasStarted())
             return;
 
@@ -115,7 +115,7 @@ public class PreventionListener implements Listener {
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
-        SkyWarsGame game = plugin.getGameHandler().getGame(player);
+        SkyWarsGame game = plugin.getGameHandler().getGame(player.getUniqueId());
         if (game == null || game.hasStarted())
             return;
 

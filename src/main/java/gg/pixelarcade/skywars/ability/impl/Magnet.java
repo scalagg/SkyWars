@@ -99,6 +99,7 @@ public class Magnet extends Ability implements Interact {
         return !(Math.abs(d.x * c.y - d.y * c.x) > e.x * ad.y + e.y * ad.x + epsilon);
     }
 
+    // might need to change values, would be good to test on closed beta while playing
     private double getArmorForce(ItemStack[] contents) {
         double armorWeight = 0;
         for (ItemStack armor : contents) {

@@ -6,8 +6,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.Inventory;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -25,12 +28,10 @@ public class ItemListener implements Listener {
         Item.HOTBAR_ITEMS.remove(event.getPlayer().getUniqueId());
     }
 
-
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         Map<String, Item> items = Item.HOTBAR_ITEMS.getOrDefault(player.getUniqueId(), new ConcurrentHashMap<>());
-
         if (player.getItemInHand() == null || player.getItemInHand().getType() == Material.AIR)
             return;
 
@@ -45,4 +46,26 @@ public class ItemListener implements Listener {
             item.click(event.getAction());
         }
     }
+
+    @EventHandler
+    public void onInventoryClick(InventoryClickEvent event) {
+        Inventory inventory = event.getClickedInventory();
+        if (inventory == null || inventory.getType() != InventoryType.PLAYER)
+            return;
+
+        if (event.getCurrentItem() == null || event.getCurrentItem().getType() == Material.AIR)
+            return;
+
+        if (event.getWhoClicked() instanceof Player player) {
+            Map<String, Item> items = Item.HOTBAR_ITEMS.getOrDefault(player.getUniqueId(), new ConcurrentHashMap<>());
+
+            for (Item item : items.values()) {
+                if (!item.getItem(player).isSimilar(event.getCurrentItem()))
+                    continue;
+
+                event.setCancelled(true);
+            }
+        }
+    }
+
 }

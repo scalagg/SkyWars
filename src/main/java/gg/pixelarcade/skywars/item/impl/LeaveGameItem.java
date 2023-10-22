@@ -34,7 +34,7 @@ public class LeaveGameItem extends Item {
 
     @Override
     public void click(Action action) {
-        SkyWarsGame game = SkyWarsPlugin.getInstance().getGameHandler().getGame(player);
+        SkyWarsGame game = SkyWarsPlugin.getInstance().getGameHandler().getGame(player.getUniqueId());
         if (game == null) {
             player.sendMessage(Color.translate("&4&lERROR: &cYou are not in a game."));
             return;
