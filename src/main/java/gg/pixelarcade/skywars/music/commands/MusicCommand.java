@@ -5,6 +5,7 @@ import gg.pixelarcade.skywars.music.MusicHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.metadata.FixedMetadataValue;
 import xyz.refinedev.commands.BaseCommand;
 import xyz.refinedev.commands.CommandHelp;
 import xyz.refinedev.commands.annotation.*;
@@ -67,16 +68,14 @@ public class MusicCommand extends BaseCommand {
     @Subcommand("toggle")
     @Description("Toggle hearing music")
     public void toggle(Player player) {
-        Profile profile = SharedAPI.getInstance().getProfileHandler().getProfile(player.getUniqueId());
-
-        if (!profile.hasMetadata("MusicToggle")) {
-            handler.getRadioSongPlayer().removePlayer(player.getUniqueId());
-            profile.updateMetadata("MusicToggle", false, true);
-            player.sendMessage("§cYou have disabled music.");
+        if (player.hasMetadata("music")) {
+            player.removeMetadata("music", SkyWarsPlugin.getInstance());
+            player.sendMessage("§aYou have toggled music off.");
+            return;
         } else {
-            handler.getRadioSongPlayer().addPlayer(player.getUniqueId());
-            profile.updateMetadata("MusicToggle", true, true);
-            player.sendMessage("§aYou have enabled music.");
+            player.setMetadata("music", new FixedMetadataValue(SkyWarsPlugin.getInstance(), true));
+            player.sendMessage("§aYou have toggled music on.");
+            return;
         }
     }
 

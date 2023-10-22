@@ -31,7 +31,7 @@ public class SkyWarsProfile {
     private final UUID uniqueId;
 
     private String name;
-    private String selectedKit = "scout";
+    private String selectedKit = "default";
 
     private int kills = 0;
     private int deaths = 0;

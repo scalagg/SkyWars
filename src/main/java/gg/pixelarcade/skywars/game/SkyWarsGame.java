@@ -260,8 +260,7 @@ public class SkyWarsGame {
         }
 
         if (alivePlayers.size() <= 1)
-            alivePlayers.stream()
-                    .findFirst()
+            alivePlayers.stream().findFirst()
                     .ifPresentOrElse(winner -> this.onWin(Bukkit.getPlayer(winner)),
                             () -> this.onWin(null));
     }
@@ -269,6 +268,7 @@ public class SkyWarsGame {
     public void addSpectator(Player player) {
         spectators.add(player.getUniqueId());
 
+        player.teleport(arena.getSpectatorSpawn());
         player.setGameMode(GameMode.SURVIVAL);
         player.setAllowFlight(true);
         player.setFlying(true);
@@ -354,6 +354,7 @@ public class SkyWarsGame {
         return spectators.contains(player);
     }
 
+    //TODO: uncomment the third killer
     public List<String> sendWinningMessage(Profile winner) {
         List<Tuple<UUID, String>> topKillers = kills.entrySet().stream()
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))

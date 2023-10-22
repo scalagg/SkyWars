@@ -150,6 +150,7 @@ public class SkyWarsPlugin extends JavaPlugin {
     }
 
     public void resetPlayer(Player player) {
+        player.getInventory().setArmorContents(null);
         player.getInventory().clear();
         player.getActivePotionEffects().clear();
 

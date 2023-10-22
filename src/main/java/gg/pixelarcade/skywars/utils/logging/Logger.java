@@ -7,7 +7,8 @@ import org.bukkit.command.*;
 import xyz.refinedev.phoenix.utils.Color;
 
 public final class Logger {
-    private static String customName;
+
+    private static String CUSTOM_NAME;
     private static boolean logInConsole = true;
 
     public static void toggleConsoleLog() {
@@ -20,11 +21,12 @@ public final class Logger {
     public static void info(String message) {
         info(message, LoggerType.BLUE);
     }
+
     public static void info(String message, LoggerType type) {
-        if (customName == null || customName.isEmpty()) {
+        if (CUSTOM_NAME == null || CUSTOM_NAME.isEmpty()) {
             log(type.getColor() + "&l(!)&r " + type.getColor() + message, true);
         } else {
-            log(type.getColor() + "&l(!)&r " + type.getColor() + "[" + customName + "] " + message, true);
+            log(type.getColor() + "&l(!)&r " + type.getColor() + "[" + CUSTOM_NAME + "] " + message, true);
         }
     }
 
@@ -57,6 +59,7 @@ public final class Logger {
             log((arrowPrefix ? (type.getColor() + "&l(!)&r ") : "") + type.getColor() + message, true);
         }
     }
+
     public static void log(String message, boolean inGameLog) {
         String formattedMessage = Color.translate(message);
         if (logInConsole) {
@@ -78,12 +81,9 @@ public final class Logger {
         sender.sendMessage(Color.translate(message));
     }
     public static void setName(String name) {
-        customName = name;
+        CUSTOM_NAME = name;
     }
 
-    static {
-        Logger.logInConsole = true;
-    }
     private static void sendToOnlineOps(String message) {
         Bukkit.getOnlinePlayers().stream()
                 .filter(ServerOperator::isOp)

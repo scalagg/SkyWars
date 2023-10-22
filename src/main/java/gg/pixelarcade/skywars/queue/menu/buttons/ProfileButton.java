@@ -34,6 +34,7 @@ public class ProfileButton extends Button {
 
         return new ItemBuilder(Material.SKULL_ITEM, 1, (byte) 3)
                 .setName("&6&lMy Profile")
+                .setSkullOwner(player.getName())
                 .setLore(lore)
                 .toItemStack();
     }
