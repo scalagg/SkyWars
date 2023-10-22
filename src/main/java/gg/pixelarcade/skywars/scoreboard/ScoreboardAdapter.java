@@ -73,13 +73,14 @@ public class ScoreboardAdapter implements AssembleAdapter {
             lines.add("&6&lOnline&7:");
             lines.add("&7■ &fAll: &6" + Bukkit.getOnlinePlayers().stream().filter(p -> !SharedAPI.getInstance().getModUtilsHook().isVanished(p.getUniqueId())).count());
             lines.add("&7■ &fPlaying: &6" + plugin.getGameHandler().getPlayerCount());
+            if (Phoenix.getInstance().getRebootHandler().isRebootScheduled()) {
+                lines.add("");
+                lines.add("&7■ &c&lRebooting in&7:");
+                lines.add("&7 " + Phoenix.getInstance().getRebootHandler().getTimeRemaining());
+            }
         }
 
-        if (Phoenix.getInstance().getRebootHandler().isRebootScheduled()) {
-            lines.add("");
-            lines.add("&7■ &c&lRebooting in&7:");
-            lines.add("&7 " + Phoenix.getInstance().getRebootHandler().getTimeRemaining());
-        }
+
 
         lines.add("");
         lines.add("&7pixelarcade.gg");
