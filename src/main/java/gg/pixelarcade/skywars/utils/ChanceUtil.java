@@ -15,7 +15,7 @@ public class ChanceUtil {
     }
 
     public static boolean percent(double chance) {
-        return ThreadLocalRandom.current().nextDouble(100.0) < chance;
+        return ThreadLocalRandom.current().nextDouble(100) < chance;
     }
 
 }

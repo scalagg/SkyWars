@@ -10,6 +10,7 @@ import gg.pixelarcade.skywars.utils.Tuple;
 import lombok.Data;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 import xyz.refinedev.lib.net.kyori.adventure.text.TextComponent;
@@ -130,7 +131,7 @@ public class SkyWarsGame {
     }
 
     public void suddenDeath() {
-        if (!active && state != GameState.LIVE)
+        if (!isActive())
             return;
 
         for (UUID uuid : alivePlayers) {
@@ -146,13 +147,15 @@ public class SkyWarsGame {
     public void onWin(Player winner) {
         if (winner == null) {
             System.out.println("No winner found for Game " + id + "!");
-            this.endGame();
+            endGame();
             return;
         }
 
         SkyWarsProfile skyWarsProfile = SkyWarsPlugin.getInstance().getProfileHandler().getProfile(winner.getUniqueId());
         skyWarsProfile.incrementWins();
         skyWarsProfile.save();
+
+        SkyWarsPlugin.getInstance().getMusicHandler().getRadioSongPlayer().addPlayer(winner.getUniqueId());
 
         Profile profile = SharedAPI.getInstance().getProfileHandler().getProfile(winner.getUniqueId());
         SharedAPI.getInstance().getLevelHook().addExperience(profile, 50, "Won a game of SkyWars");
@@ -162,12 +165,19 @@ public class SkyWarsGame {
 
         SpawnUtil.teleportToSpawn(winner);
         endGame();
-        handleRate();
     }
 
     public void broadcast(String message) {
         for (UUID uuid : players) {
-            Bukkit.getPlayer(uuid).sendMessage(Color.translate(message));
+            Player player = Bukkit.getPlayer(uuid);
+            player.sendMessage(Color.translate(message));
+        }
+    }
+
+    public void playSound(Sound sound) {
+        for (UUID uuid : players) {
+            Player player = Bukkit.getPlayer(uuid);
+            player.playSound(player.getLocation(), sound, 1.0F, 1.0F);
         }
     }
 
@@ -207,6 +217,8 @@ public class SkyWarsGame {
         players.add(player.getUniqueId());
         player.teleport(arena.getLobbySpawn());
 
+        SkyWarsPlugin.getInstance().getMusicHandler().getRadioSongPlayer().removePlayer(player.getUniqueId());
+
         Profile pxProfile = SharedAPI.getInstance().getProfileHandler().getProfile(player.getUniqueId());
         pxProfile.updateMetadata("inGame", true, false);
     }
@@ -217,6 +229,8 @@ public class SkyWarsGame {
 
             arena.removeUsedSpawn(player.getLocation());
             SpawnUtil.teleportToSpawn(player);
+
+            SkyWarsPlugin.getInstance().getMusicHandler().getRadioSongPlayer().addPlayer(player.getUniqueId());
 
             Profile pxProfile = SharedAPI.getInstance().getProfileHandler().getProfile(player.getUniqueId());
             pxProfile.updateMetadata("inGame", false, false);
@@ -260,9 +274,7 @@ public class SkyWarsGame {
         }
 
         if (alivePlayers.size() <= 1)
-            alivePlayers.stream().findFirst()
-                    .ifPresentOrElse(winner -> this.onWin(Bukkit.getPlayer(winner)),
-                            () -> this.onWin(null));
+            alivePlayers.stream().findFirst().ifPresentOrElse(winner -> this.onWin(Bukkit.getPlayer(winner)), () -> this.onWin(null));
     }
 
     public void addSpectator(Player player) {
@@ -290,40 +302,13 @@ public class SkyWarsGame {
         }
     }
 
-    public void handleRate() {
-        Clickable clickable = new Clickable("&a&lClick to rate the arena&7: " + arena.getSchematic());
-
-        for (RatingType type : RatingType.values())
-            switch (type) {
-                case TERRIBLE ->
-                        clickable.add("&c[1⭐]", String.format("&eClick to rate &d%s &eas%s &e.", arena.getSchematic(), type.getDisplayName()), "/ratemeplzkthanksbye " + arena.getSchematic() + " Terrible");
-                case NOT_GOOD ->
-                        clickable.add(" &6[2⭐]", String.format("&eClick to rate &d%s &eas%s &e.", arena.getSchematic(), type.getDisplayName()), "/ratemeplzkthanksbye " + arena.getSchematic() + " NotGood");
-                case OKAY ->
-                        clickable.add(" &e[3⭐]", String.format("&eClick to rate &d%s &eas%s &e.", arena.getSchematic(), type.getDisplayName()), "/ratemeplzkthanksbye " + arena.getSchematic() + " Okay");
-                case GOOD ->
-                        clickable.add(" &a[4⭐]", String.format("&eClick to rate &d%s &eas%s &e.", arena.getSchematic(), type.getDisplayName()), "/ratemeplzkthanksbye " + arena.getSchematic() + " Good");
-                case AMAZING ->
-                        clickable.add(" &2[5⭐]", String.format("&eClick to rate &d%s &eas%s &e.", arena.getSchematic(), type.getDisplayName()), "/ratemeplzkthanksbye " + arena.getSchematic() + " Amazing");
-                default -> throw new IllegalStateException("Unexpected value: " + type);
-            }
-
-        clickable.sendToPlayer(Bukkit.getPlayer(players.stream().findFirst().orElse(null)));
-
-        Tasks.runAsyncLater(SkyWarsPlugin.getInstance(), () -> this.getPlayers().forEach(player -> {
-            SkyWarsProfile profile = SkyWarsPlugin.getInstance().getProfileHandler().getProfile(player);
-            profile.setCanRate(false);
-        }), 500L);
-    }
-
     public void removeSpectator(Player player) {
         SpawnUtil.teleportToSpawn(player);
 
-        player.setGameMode(GameMode.SURVIVAL);
-        player.setFlying(false);
-
         Profile pxProfile = SharedAPI.getInstance().getProfileHandler().getProfile(player.getUniqueId());
         pxProfile.updateMetadata("inGame", false, false);
+
+        SkyWarsPlugin.getInstance().getMusicHandler().getRadioSongPlayer().addPlayer(player.getUniqueId());
 
         for (UUID alive : alivePlayers) {
             Player alivePlayer = Bukkit.getPlayer(alive);

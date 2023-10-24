@@ -4,9 +4,12 @@ import gg.pixelarcade.skywars.item.Item;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -49,22 +52,17 @@ public class ItemListener implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        Inventory inventory = event.getClickedInventory();
-        if (inventory == null || inventory.getType() != InventoryType.PLAYER)
+        Player player = (Player) event.getWhoClicked();
+        Map<String, Item> items = Item.HOTBAR_ITEMS.getOrDefault(player.getUniqueId(), new ConcurrentHashMap<>());
+
+        if (player.hasMetadata("BuildMode"))
             return;
 
-        if (event.getCurrentItem() == null || event.getCurrentItem().getType() == Material.AIR)
-            return;
+        for (Item item : items.values()) {
+            if (!item.getItem(player).isSimilar(player.getItemInHand()))
+                continue;
 
-        if (event.getWhoClicked() instanceof Player player) {
-            Map<String, Item> items = Item.HOTBAR_ITEMS.getOrDefault(player.getUniqueId(), new ConcurrentHashMap<>());
-
-            for (Item item : items.values()) {
-                if (!item.getItem(player).isSimilar(event.getCurrentItem()))
-                    continue;
-
-                event.setCancelled(true);
-            }
+            event.setCancelled(true);
         }
     }
 

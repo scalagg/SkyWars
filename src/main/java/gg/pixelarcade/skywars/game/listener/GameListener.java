@@ -147,7 +147,7 @@ public class GameListener implements Listener {
         if (player.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.VOID)
             event.getDrops().clear();
 
-        Tasks.runLater(() -> player.spigot().respawn(), 4L);
+        player.spigot().respawn();
         player.teleport(game.getArena().getSpectatorSpawn());
 
         String displayName = SharedAPI.getInstance().getProfileHandler().getProfile(player.getUniqueId()).getNameWithColor();
@@ -216,7 +216,6 @@ public class GameListener implements Listener {
             if (!plugin.getGameHandler().isPlayingGame(player.getUniqueId()))
                 continue;
 
-            plugin.resetPlayer(player);
             SpawnUtil.teleportToSpawn(player);
         }
     }

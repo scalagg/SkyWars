@@ -31,16 +31,10 @@ public class GameCountdownTask extends BukkitRunnable {
             return;
         }
 
-        for (UUID players : game.getPlayers()) {
-            Player player = SkyWarsPlugin.getInstance().getServer().getPlayer(players);
-            if (player == null)
-                continue;
-
-            for (int reminder : reminders) {
-                if (countdown == reminder) {
-                    game.broadcast("&eGame starting in &c" + reminder + " &eseconds.");
-                    player.playSound(player.getLocation(), Sound.NOTE_PLING, 1.0F, 1.0F);
-                }
+        for (int reminder : reminders) {
+            if (countdown == reminder) {
+                game.broadcast("&eGame starting in &c" + reminder + " &eseconds.");
+                game.playSound(Sound.NOTE_PLING);
             }
         }
     }
