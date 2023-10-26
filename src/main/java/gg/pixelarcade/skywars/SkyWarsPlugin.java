@@ -144,24 +144,14 @@ public class SkyWarsPlugin extends JavaPlugin {
     public void giveItems(Player player) {
         resetPlayer(player);
 
-        System.out.println("Before Give Items " + player.getName());
-        System.out.println(Arrays.toString(player.getInventory().getContents()));
-
-        player.updateInventory();
-        player.getInventory().setItem(0, new QueueItem(player).getItem(player));
-        player.getInventory().setItem(4, new CosmeticItem(player).getItem(player));
-        player.getInventory().setItem(7, new LoadoutItem(player).getItem(player));
-        player.getInventory().setItem(8, new SettingsItem(player).getItem(player));
-
-        System.out.println("Gave items to " + player.getName());
-        System.out.println(Arrays.toString(player.getInventory().getContents()));
-        System.out.println("After Give Items " + player.getName());
-
+        // this is so weird but otherwise last player to die doesnt get items for some reason :/
         Tasks.runLater(() -> {
-            System.out.println("Before Give Items (3 seconds) " + player.getName() + "\n");
-            System.out.println(Arrays.toString(player.getInventory().getContents()));
-            System.out.println("\nAfter Give Items (3 seconds) " + player.getName());
-        }, 20 * 3);
+            player.getInventory().setItem(0, new QueueItem(player).getItem(player));
+            player.getInventory().setItem(4, new CosmeticItem(player).getItem(player));
+            player.getInventory().setItem(7, new LoadoutItem(player).getItem(player));
+            player.getInventory().setItem(8, new SettingsItem(player).getItem(player));
+            player.updateInventory();
+        }, 2L);
     }
 
     public void resetPlayer(Player player) {

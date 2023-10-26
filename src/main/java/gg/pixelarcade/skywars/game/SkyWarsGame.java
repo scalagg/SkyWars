@@ -277,7 +277,7 @@ public class SkyWarsGame {
     public void addSpectator(Player player) {
         spectators.add(player.getUniqueId());
 
-//        SkyWarsPlugin.getInstance().resetPlayer(player);
+        SkyWarsPlugin.getInstance().resetPlayer(player);
 
         player.teleport(arena.getSpectatorSpawn());
         player.setAllowFlight(true);

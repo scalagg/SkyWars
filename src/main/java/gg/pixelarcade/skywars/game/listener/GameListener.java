@@ -150,7 +150,7 @@ public class GameListener implements Listener {
         Tasks.runLater(() -> {
             player.spigot().respawn();
             plugin.resetPlayer(player);
-        }, 2L);
+        }, 4L);
 
         String displayName = SharedAPI.getInstance().getProfileHandler().getProfile(player.getUniqueId()).getNameWithColor();
         String deathMessage = SpigotConstants.GAME + displayName + "&f has died a horrible death.";
