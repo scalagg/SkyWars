@@ -1,5 +1,6 @@
 package gg.pixelarcade.skywars.kit;
 
+import gg.pixelarcade.skywars.SkyWarsPlugin;
 import lombok.Data;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -35,8 +36,7 @@ public abstract class Kit {
     }
 
     public void equipKit(Kit kit, Player player) {
-        player.getInventory().clear();
-        player.getInventory().setArmorContents(null);
+        SkyWarsPlugin.getInstance().resetPlayer(player);
 
         apply(player);
         player.getInventory().setArmorContents(kit.getArmor());

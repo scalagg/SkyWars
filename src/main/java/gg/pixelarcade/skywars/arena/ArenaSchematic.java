@@ -94,7 +94,7 @@ public final class ArenaSchematic {
         player.teleport(bounds.getCenter());
 
         player.setGameMode(GameMode.CREATIVE);
-        player.getInventory().clear();
+//        player.getInventory().clear();
         player.getInventory().setArmorContents(null);
         player.setAllowFlight(true);
         player.setFlying(true);

@@ -2,23 +2,19 @@ package gg.pixelarcade.skywars.game;
 
 import ac.sparky.api.SparkyAPI;
 import gg.pixelarcade.skywars.SkyWarsPlugin;
-import gg.pixelarcade.skywars.arena.rating.RatingType;
 import gg.pixelarcade.skywars.game.event.*;
 import gg.pixelarcade.skywars.game.task.GameCountdownTask;
 import gg.pixelarcade.skywars.kit.Kit;
 import gg.pixelarcade.skywars.utils.Tuple;
 import lombok.Data;
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
-import xyz.refinedev.lib.net.kyori.adventure.text.TextComponent;
 import xyz.refinedev.phoenix.SharedAPI;
 import xyz.refinedev.phoenix.profile.Profile;
 import xyz.refinedev.phoenix.utils.CenterUtil;
 import xyz.refinedev.phoenix.utils.Color;
-import xyz.refinedev.phoenix.utils.chat.Clickable;
 import xyz.refinedev.phoenix.utils.general.Tasks;
 import gg.pixelarcade.skywars.arena.Arena;
 import gg.pixelarcade.skywars.chests.LootableChest;
@@ -28,7 +24,6 @@ import gg.pixelarcade.skywars.chests.type.RefillType;
 import gg.pixelarcade.skywars.profile.SkyWarsProfile;
 import gg.pixelarcade.skywars.utils.SpawnUtil;
 
-import java.sql.Ref;
 import java.util.*;
 
 /**
@@ -76,9 +71,7 @@ public class SkyWarsGame {
             Player player = Bukkit.getPlayer(uuid);
             player.teleport(arena.getRandomSpawn());
 
-            player.getInventory().clear();
-            player.getInventory().setArmorContents(null);
-            player.setGameMode(GameMode.SURVIVAL);
+            SkyWarsPlugin.getInstance().resetPlayer(player);
 
             player.setMetadata("frozen", new FixedMetadataValue(SkyWarsPlugin.getInstance(), this));
             SparkyAPI.exemptPlayer(player, 20 * 5);
@@ -151,6 +144,8 @@ public class SkyWarsGame {
             return;
         }
 
+        SpawnUtil.teleportToSpawn(winner);
+
         SkyWarsProfile skyWarsProfile = SkyWarsPlugin.getInstance().getProfileHandler().getProfile(winner.getUniqueId());
         skyWarsProfile.incrementWins();
         skyWarsProfile.save();
@@ -158,12 +153,21 @@ public class SkyWarsGame {
         SkyWarsPlugin.getInstance().getMusicHandler().getRadioSongPlayer().addPlayer(winner.getUniqueId());
 
         Profile profile = SharedAPI.getInstance().getProfileHandler().getProfile(winner.getUniqueId());
-        SharedAPI.getInstance().getLevelHook().addExperience(profile, 50, "Won a game of SkyWars");
-
         for (String message : this.sendWinningMessage(profile))
             broadcast(message);
 
-        SpawnUtil.teleportToSpawn(winner);
+        SharedAPI.getInstance().getLevelHook().addExperience(profile, 50, "Won a game of SkyWars");
+
+        for (UUID uuid : spectators) {
+            Player spectator = Bukkit.getPlayer(uuid);
+            if (spectator == null)
+                continue;
+
+            System.out.println("Removing spectator " + spectator.getName() + " from Game " + id + "!");
+
+            removeSpectator(spectator);
+        }
+
         endGame();
     }
 
@@ -186,20 +190,12 @@ public class SkyWarsGame {
         active = false;
         endedAt = new Date();
 
-        for (UUID spectator : spectators) {
-            Player player = Bukkit.getPlayer(spectator);
-            if (player == null)
-                continue;
-
-            this.removeSpectator(player);
-        }
-
         GameEndEvent event = new GameEndEvent(this);
         Bukkit.getPluginManager().callEvent(event);
 
-        this.players.clear();
-        this.alivePlayers.clear();
-        this.spectators.clear();
+        players.clear();
+        alivePlayers.clear();
+        spectators.clear();
 
         SkyWarsPlugin.getInstance().getArenaHandler().getWorldManager().deleteWorld(arena.getWorld());
         SkyWarsPlugin.getInstance().getGameHandler().removeGame(this);
@@ -247,15 +243,16 @@ public class SkyWarsGame {
 
     public void setState(GameState state) {
         GameState oldState = this.state;
-        this.state = state;
 
         GameStateChangeEvent event = new GameStateChangeEvent(this, oldState, state);
         Bukkit.getPluginManager().callEvent(event);
+
+        this.state = state;
     }
 
     public void onDeath(Player player, Player killer) {
         alivePlayers.remove(player.getUniqueId());
-        this.addSpectator(player);
+        addSpectator(player);
 
         SkyWarsProfile profile = SkyWarsPlugin.getInstance().getProfileHandler().getProfile(player.getUniqueId());
         profile.incrementDeaths();
@@ -280,8 +277,9 @@ public class SkyWarsGame {
     public void addSpectator(Player player) {
         spectators.add(player.getUniqueId());
 
+//        SkyWarsPlugin.getInstance().resetPlayer(player);
+
         player.teleport(arena.getSpectatorSpawn());
-        player.setGameMode(GameMode.SURVIVAL);
         player.setAllowFlight(true);
         player.setFlying(true);
 
@@ -324,15 +322,11 @@ public class SkyWarsGame {
     }
 
     public boolean isInGame(Player player) {
-        return players.contains(player.getUniqueId());
+        return alivePlayers.contains(player.getUniqueId()) || spectators.contains(player.getUniqueId());
     }
 
     public boolean isInGame(UUID player) {
-        return players.contains(player);
-    }
-
-    public boolean isSpectating(Player player) {
-        return spectators.contains(player.getUniqueId());
+        return alivePlayers.contains(player) || spectators.contains(player);
     }
 
     public boolean isSpectating(UUID player) {

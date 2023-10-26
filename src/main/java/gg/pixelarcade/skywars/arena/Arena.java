@@ -59,6 +59,7 @@ public final class Arena {
             return spectatorSpawn;
         }
 
+        System.out.println("Spectator spawn is null");
         return spawns.get(0);
     }
 
@@ -122,6 +123,7 @@ public final class Arena {
 
                     break;
                 case SKELETON:
+                    System.out.println("Found spectator spawn");
                     spectatorSpawn = skullLocation;
 
                     block.setType(Material.AIR);

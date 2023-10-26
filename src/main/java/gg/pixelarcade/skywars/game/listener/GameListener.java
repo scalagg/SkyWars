@@ -6,7 +6,6 @@ import gg.pixelarcade.skywars.game.event.GameEndEvent;
 import gg.pixelarcade.skywars.game.event.GameStartEvent;
 import gg.pixelarcade.skywars.game.event.PlayerJoinGameEvent;
 import gg.pixelarcade.skywars.item.impl.*;
-import gg.pixelarcade.skywars.utils.SpawnUtil;
 import gg.pixelarcade.skywars.utils.SpigotConstants;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Location;
@@ -28,8 +27,9 @@ import xyz.refinedev.cosmetics.cosmetics.killmessages.KillMessageType;
 import xyz.refinedev.cosmetics.pxCosmetics;
 import xyz.refinedev.phoenix.SharedAPI;
 import xyz.refinedev.phoenix.utils.general.Tasks;
-import gg.pixelarcade.skywars.item.impl.*;
 
+import javax.swing.*;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -147,8 +147,10 @@ public class GameListener implements Listener {
         if (player.getLastDamageCause().getCause() == EntityDamageEvent.DamageCause.VOID)
             event.getDrops().clear();
 
-        player.spigot().respawn();
-        player.teleport(game.getArena().getSpectatorSpawn());
+        Tasks.runLater(() -> {
+            player.spigot().respawn();
+            plugin.resetPlayer(player);
+        }, 2L);
 
         String displayName = SharedAPI.getInstance().getProfileHandler().getProfile(player.getUniqueId()).getNameWithColor();
         String deathMessage = SpigotConstants.GAME + displayName + "&f has died a horrible death.";
@@ -202,22 +204,6 @@ public class GameListener implements Listener {
         }
 
         event.setCancelled(!game.hasStarted());
-    }
-
-    @EventHandler
-    public void onGameEnd(GameEndEvent event) {
-        SkyWarsGame game = event.getGame();
-
-        for (UUID uuid : game.getPlayers()) {
-            Player player = plugin.getServer().getPlayer(uuid);
-            if (player == null)
-                continue;
-
-            if (!plugin.getGameHandler().isPlayingGame(player.getUniqueId()))
-                continue;
-
-            SpawnUtil.teleportToSpawn(player);
-        }
     }
 
 }

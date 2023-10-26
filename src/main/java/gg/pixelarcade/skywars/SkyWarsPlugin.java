@@ -12,7 +12,9 @@ import gg.pixelarcade.skywars.music.commands.MusicCommand;
 import gg.pixelarcade.skywars.region.RegionHandler;
 import gg.pixelarcade.skywars.region.commands.RegionCommands;
 import gg.pixelarcade.skywars.utils.serialization.*;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -41,6 +43,7 @@ import gg.pixelarcade.skywars.profile.listener.ProfileListener;
 import gg.pixelarcade.skywars.profile.ProfileHandler;
 import gg.pixelarcade.skywars.scoreboard.ScoreboardAdapter;
 import gg.pixelarcade.skywars.scoreboard.api.Assemble;
+import xyz.refinedev.phoenix.utils.general.Tasks;
 
 import java.io.File;
 import java.util.Arrays;
@@ -141,17 +144,33 @@ public class SkyWarsPlugin extends JavaPlugin {
     public void giveItems(Player player) {
         resetPlayer(player);
 
+        System.out.println("Before Give Items " + player.getName());
+        System.out.println(Arrays.toString(player.getInventory().getContents()));
+
+        player.updateInventory();
         player.getInventory().setItem(0, new QueueItem(player).getItem(player));
         player.getInventory().setItem(4, new CosmeticItem(player).getItem(player));
         player.getInventory().setItem(7, new LoadoutItem(player).getItem(player));
         player.getInventory().setItem(8, new SettingsItem(player).getItem(player));
+
+        System.out.println("Gave items to " + player.getName());
+        System.out.println(Arrays.toString(player.getInventory().getContents()));
+        System.out.println("After Give Items " + player.getName());
+
+        Tasks.runLater(() -> {
+            System.out.println("Before Give Items (3 seconds) " + player.getName() + "\n");
+            System.out.println(Arrays.toString(player.getInventory().getContents()));
+            System.out.println("\nAfter Give Items (3 seconds) " + player.getName());
+        }, 20 * 3);
     }
 
     public void resetPlayer(Player player) {
-        player.getInventory().setArmorContents(null);
         player.getInventory().clear();
         player.getActivePotionEffects().clear();
+        player.getInventory().setArmorContents(new ItemStack[4]);
+        player.updateInventory();
 
+        player.setGameMode(GameMode.SURVIVAL);
         player.setHealth(20);
         player.setFoodLevel(20);
         player.setFireTicks(0);
