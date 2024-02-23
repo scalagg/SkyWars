@@ -1,5 +1,0 @@
-name: 'SkyWars'
-version: ${git.commit.id.abbrev}
-author: "[PixelArcade Development Team]"
-main: 'gg.pixelarcade.skywars.SkyWarsPlugin'
-api-version: "1.8"

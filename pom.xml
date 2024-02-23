@@ -4,9 +4,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>gg.pixalarcade</groupId>
+    <groupId>gg.pixelarcade</groupId>
     <artifactId>skywars</artifactId>
     <version>1.0</version>
+    <packaging>pom</packaging>
+    <modules>
+        <module>shared</module>
+        <module>lobby</module>
+        <module>game</module>
+    </modules>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -16,32 +22,60 @@
 
     <repositories>
         <repository>
-            <id>codemc-repo</id>
-            <url>https://repo.codemc.io/repository/maven-public/</url>
+            <id>refine-releases</id>
+            <url>https://maven.refinedev.xyz/repository/maven-releases/</url>
+        </repository>
+        <repository>
+            <id>refine-public</id>
+            <url>https://maven.refinedev.xyz/repository/public-repo/</url>
+        </repository>
+        <repository>
+            <id>mincats-mirrors</id>
+            <url>https://repo.mincats.eu/mirrors</url>
+        </repository>
+        <repository>
+            <id>purpur</id>
+            <name>Purpur Maven Repo</name>
+            <url>https://repo.purpurmc.org/snapshots</url>
         </repository>
         <repository>
             <id>jitpack</id>
             <url>https://jitpack.io</url>
         </repository>
         <repository>
-            <id>sonatype-snapshots</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-        </repository>
-        <repository>
-            <id>glaremasters</id>
-            <url>https://repo.glaremasters.me/repository/concuncan/</url>
+            <id>codemc-repo</id>
+            <url>https://repo.codemc.io/repository/maven-public/</url>
         </repository>
     </repositories>
+
     <dependencies>
         <dependency>
-            <groupId>me.filoghost.holographicdisplays</groupId>
-            <artifactId>holographicdisplays-api</artifactId>
-            <version>3.0.0</version>
+            <groupId>net.kyori</groupId>
+            <artifactId>adventure-api</artifactId>
+            <version>4.14.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.24</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>xyz.refinedev.phoenix</groupId>
             <artifactId>bukkit</artifactId>
+            <version>1.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.imanity.imanityspigot</groupId>
+            <artifactId>server</artifactId>
+            <version>2023.10.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>xyz.refinedev.retention</groupId>
+            <artifactId>loader-api</artifactId>
             <version>1.0</version>
             <scope>provided</scope>
         </dependency>
@@ -53,83 +87,13 @@
         </dependency>
         <dependency>
             <groupId>xyz.refinedev</groupId>
-            <artifactId>pxParty</artifactId>
-            <version>1.0</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.github.koca2000</groupId>
-            <artifactId>NoteBlockAPI</artifactId>
-            <version>1.6.1</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>xyz.refinedev.api</groupId>
-            <artifactId>StorageAPI</artifactId>
-            <version>1.7</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>me.jumba</groupId>
-            <artifactId>sparky</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>xyz.refinedev</groupId>
-            <artifactId>Staff</artifactId>
-            <version>1.0</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>xyz.refinedev</groupId>
             <artifactId>pxLevels</artifactId>
             <version>1.0</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>xyz.refinedev</groupId>
-            <artifactId>pxBasic</artifactId>
-            <version>1.0</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.24</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.grinderwolf</groupId>
-            <artifactId>slimeworldmanager-api</artifactId>
-            <version>2.2.1</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-1.8</artifactId>
-            <version>1.8.8-R3-SNAPSHOT</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/libs/spigot-1.8.8-R0.1-SNAPSHOT-latest (4).jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>com.sk89q</groupId>
-            <artifactId>worldedit</artifactId>
-            <version>6.1.9-SNAPSHOT</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/libs/worldedit-1.8.8.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>com.boydti</groupId>
-            <artifactId>fawe-api</artifactId>
-            <version>latest</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/libs/FastAsyncWorldEdit.jar</systemPath>
-        </dependency>
     </dependencies>
 
     <build>
-        <finalName>skywars</finalName>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -138,30 +102,9 @@
         </resources>
         <plugins>
             <plugin>
-                <groupId>io.github.git-commit-id</groupId>
-                <artifactId>git-commit-id-maven-plugin</artifactId>
-                <version>4.9.9</version>
-                <executions>
-                    <execution>
-                        <id>get-the-git-infos</id>
-                        <goals>
-                            <goal>revision</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <generateGitPropertiesFile>true</generateGitPropertiesFile>
-                    <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties
-                    </generateGitPropertiesFilename>
-                    <includeOnlyProperties>
-                        <includeOnlyProperty>^git.commit.id.(abbrev|full)$</includeOnlyProperty>
-                    </includeOnlyProperties>
-                    <commitIdGenerationMode>full</commitIdGenerationMode>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
                 <configuration>
                     <source>17</source>
                     <target>17</target>
