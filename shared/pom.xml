@@ -20,9 +20,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>eu.cloudnetservice.cloudnet</groupId>
-            <artifactId>smart</artifactId>
-            <version>4.0.0-RC9</version>
+            <groupId>studio.pinkcloud.deploy</groupId>
+            <artifactId>spigot</artifactId>
+            <version>1.0-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
