@@ -4,7 +4,10 @@ import com.xxmicloxx.NoteBlockAPI.event.SongNextEvent;
 import com.xxmicloxx.NoteBlockAPI.songplayer.SongPlayer;
 import gg.pixelarcade.skywars.music.MusicHandler;
 import lombok.RequiredArgsConstructor;
+import net.minecraft.server.v1_8_R3.ChatComponentText;
+import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 import org.bukkit.Bukkit;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -31,7 +34,7 @@ public class MusicListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         handler.getRadioSongPlayer().addPlayer(event.getPlayer().getUniqueId());
 
-        event.getPlayer().sendActionBar(Color.translate("&6&lPixel Radio &7- &fCurrent Song: &e" + handler.getRadioSongPlayer().getSong().getTitle()));
+        sendActionBar(event.getPlayer(), Color.translate("&6&lPixel Radio &7- &fCurrent Song: &e" + handler.getRadioSongPlayer().getSong().getTitle()));
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -45,14 +48,12 @@ public class MusicListener implements Listener {
         if (songPlayer == null)
             return;
 
-        for (UUID uuid : songPlayer.getPlayerUUIDs()) {
-            Player player = Bukkit.getPlayer(uuid);
-            if (player == null)
-                continue;
-
-            player.sendActionBar(Color.translate("&6&lPixel Radio &7- &fNext Song: &e" + event.getSongPlayer().getSong().getTitle()));
-        }
+        for (UUID uuid : songPlayer.getPlayerUUIDs())
+            sendActionBar(Bukkit.getPlayer(uuid), Color.translate("&6&lPixel Radio &7- &fNext Song: &e" + event.getSongPlayer().getSong().getTitle()));
     }
 
+    public void sendActionBar(Player player, String string) {
+        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutChat(new ChatComponentText(string), (byte) 2));
+    }
 
 }

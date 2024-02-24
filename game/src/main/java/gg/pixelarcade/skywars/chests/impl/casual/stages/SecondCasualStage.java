@@ -4,10 +4,10 @@ import gg.pixelarcade.skywars.chests.ChestItem;
 import gg.pixelarcade.skywars.chests.ChestStage;
 import gg.pixelarcade.skywars.chests.type.RefillType;
 import org.bukkit.Material;
-import xyz.refinedev.lib.netty.util.internal.ThreadLocalRandom;
 import xyz.refinedev.phoenix.utils.item.ItemBuilder;
 
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class SecondCasualStage extends ChestStage {
 

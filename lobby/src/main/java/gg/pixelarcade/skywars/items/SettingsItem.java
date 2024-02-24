@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import xyz.refinedev.phoenix.Phoenix;
 import xyz.refinedev.phoenix.menu.impl.settings.SettingsMenu;
 import xyz.refinedev.phoenix.utils.Color;
+import xyz.refinedev.phoenix.utils.XMaterial;
 import xyz.refinedev.phoenix.utils.item.ItemBuilder;
 import gg.pixelarcade.skywars.item.Item;
 
@@ -27,7 +28,7 @@ public class SettingsItem extends Item {
 
     @Override
     public ItemStack getItem(Player player) {
-        return new ItemBuilder(Material.CLOCK)
+        return new ItemBuilder(XMaterial.CLOCK)
                 .setName(Color.translate("&aSettings &7(Right Click)"))
                 .toItemStack();
     }

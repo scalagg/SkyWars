@@ -3,8 +3,8 @@ package gg.pixelarcade.skywars.chests.impl.casual.stages;
 import gg.pixelarcade.skywars.chests.ChestItem;
 import gg.pixelarcade.skywars.chests.ChestStage;
 import gg.pixelarcade.skywars.chests.type.RefillType;
+import io.netty.util.internal.ThreadLocalRandom;
 import org.bukkit.Material;
-import xyz.refinedev.lib.netty.util.internal.ThreadLocalRandom;
 import xyz.refinedev.phoenix.utils.item.ItemBuilder;
 
 import java.util.List;

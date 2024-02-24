@@ -9,6 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import xyz.refinedev.phoenix.menu.api.Button;
 import xyz.refinedev.phoenix.menu.api.Menu;
 import xyz.refinedev.phoenix.menu.api.button.BackButton;
+import xyz.refinedev.phoenix.utils.XMaterial;
 import xyz.refinedev.phoenix.utils.item.ItemBuilder;
 
 import java.util.HashMap;
@@ -70,7 +71,7 @@ public class RegionEditMenu extends Menu {
 
         @Override
         public ItemStack getItem(Player player) {
-            return new ItemBuilder(Material.REDSTONE_TORCH)
+            return new ItemBuilder(XMaterial.REDSTONE_TORCH)
                     .setName("&6&lToggle Region")
                     .addLoreLine("&6■ &fStatus&7: &e" + colorBoolean(region.isEnabled()))
                     .toItemStack();
@@ -108,7 +109,7 @@ public class RegionEditMenu extends Menu {
 
         @Override
         public ItemStack getItem(Player player) {
-            return new ItemBuilder(Material.GOLDEN_PICKAXE)
+            return new ItemBuilder(XMaterial.GOLDEN_PICKAXE)
                     .setName("&6&lPrevent Break Blocks")
                     .addLoreLine("&6■ &fStatus&7: &e" + colorBoolean(region.isBreakBlocks()))
                     .toItemStack();
@@ -184,7 +185,7 @@ public class RegionEditMenu extends Menu {
 
         @Override
         public ItemStack getItem(Player player) {
-            return new ItemBuilder(Material.OAK_LEAVES)
+            return new ItemBuilder(XMaterial.OAK_LEAVES)
                     .setName("&6&lPrevent Leaves Decay")
                     .addLoreLine("&6■ &fStatus&7: &e" + colorBoolean(region.isLeavesDecay()))
                     .toItemStack();

@@ -7,7 +7,8 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import xyz.refinedev.lib.netty.util.internal.ThreadLocalRandom;
+import io.netty.util.internal.ThreadLocalRandom;
+
 import xyz.refinedev.phoenix.utils.item.ItemBuilder;
 
 import java.util.Arrays;

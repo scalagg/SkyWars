@@ -5,11 +5,11 @@ import gg.pixelarcade.skywars.SkyWarsPlugin;
 import gg.pixelarcade.skywars.chests.ChestItem;
 import gg.pixelarcade.skywars.chests.ChestStage;
 import gg.pixelarcade.skywars.chests.type.RefillType;
+import io.netty.util.internal.ThreadLocalRandom;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import xyz.refinedev.lib.netty.util.internal.ThreadLocalRandom;
 import xyz.refinedev.phoenix.utils.item.ItemBuilder;
 
 import java.util.Arrays;
