@@ -5,6 +5,9 @@ import gg.pixelarcade.skywars.SkyWarsShared;
 import gg.pixelarcade.skywars.server.thread.ServerCheckerThread;
 import lombok.Getter;
 import org.bukkit.entity.Player;
+import studio.pinkcloud.deploy.spigot.api.Deployer;
+import xyz.refinedev.phoenix.SharedAPI;
+import xyz.refinedev.phoenix.server.ServerData;
 import xyz.refinedev.phoenix.utils.Utilities;
 
 import java.util.HashMap;
@@ -24,61 +27,36 @@ public class ServerHandler {
 
     private final ServerCheckerThread checkerThread;
 
-    private boolean cloudNet;
+    private boolean deployerSupported;
 
     public ServerHandler() {
         try {
-            Class.forName("eu.cloudnetservice.driver.CloudNetVersion");
+            Class.forName("studio.pinkcloud.deploy.spigot.api.Deployer");
 
-            cloudNet = true;
+            deployerSupported = true;
         } catch (ClassNotFoundException e) {
-            System.out.println("CloudNet not found, disabling server handler");
+            System.out.println("DeployerSpigot not found, disabling server handler");
 
-            cloudNet = false;
+            deployerSupported = false;
         }
 
         checkerThread = new ServerCheckerThread(this);
     }
 
     public void createServer(String templateName, BiConsumer<Integer, String> consumer) {
-        if (!cloudNet)
+        if (!deployerSupported)
             return;
-
-        ServiceTaskProvider serviceTaskProvider = InjectionLayer.ext().instance(ServiceTaskProvider.class);
-        ServiceTask serviceTask = serviceTaskProvider.serviceTask(templateName);
-        if (serviceTask == null)
-            throw new IllegalArgumentException("ServiceTask with name '" + templateName + "' not found");
-
-        ServiceConfiguration.builder(serviceTask)
-                .autoDeleteOnStop(true)
-                .build()
-                .createNewServiceAsync()
-                .whenComplete(((serviceCreateResult, throwable) -> {
-                            serviceCreateResult.serviceInfo().provider().startAsync();
-
-                            ServiceInfoSnapshot serviceInfo = serviceCreateResult.serviceInfo();
-                            String host = serviceInfo.address().host();
-                            int port = serviceInfo.address().port();
-
-                            consumer.accept(port, host);
-                        })
-                );
+        Deployer.deploy(templateName, SharedAPI.getInstance().getNetworkHandler().getRegion(), (address, port) -> consumer.accept(port, address));
     }
 
-    public ServiceInfoSnapshot getBestLobby() {
-        if (!cloudNet)
+    public ServerData getBestLobby() {
+        if (!deployerSupported)
             return null;
-
-        CloudServiceProvider cloudServiceProvider = InjectionLayer.ext().instance(CloudServiceProvider.class);
-
-        ServiceInfoSnapshot bestLobby = null;
         double x = 0;
 
-        for (ServiceInfoSnapshot runningService : cloudServiceProvider.runningServices()) {
-            if (!runningService.name().startsWith("skywars-lobby"))
-                continue;
-
-            double percentage = SmartUtil.playerPercentage(runningService);
+        ServerData bestLobby = null;
+        for (ServerData runningService : SharedAPI.getInstance().getNetworkHandler().getServersInGroup("skywars-lobby")) {
+            double percentage = (runningService.getOnlinePlayers().size() * 100.0 / runningService.getMaxPlayers());
 
             if (percentage < x) {
                 bestLobby = runningService;
@@ -86,37 +64,32 @@ public class ServerHandler {
             }
         }
 
+
         return bestLobby;
     }
 
-    public ServiceInfoSnapshot getService(int port) {
-        if (!cloudNet)
+    public ServerData getService(int port) {
+        if (!deployerSupported)
             return null;
 
-        for (ServiceInfoSnapshot runningService : InjectionLayer.ext().instance(CloudServiceProvider.class).runningServices()) {
-            if (runningService.address().port() == port) {
-                return runningService;
+        for (ServerData server : SharedAPI.getInstance().getNetworkHandler().getServers()) {
+            if(server.getPort() == port) {
+                return server;
             }
         }
 
         return null;
     }
 
-    public ServiceInfoSnapshot getService(String name) {
-        if (!cloudNet)
-            return null;
-
-        return InjectionLayer.ext().instance(CloudServiceProvider.class).serviceByName(name);
-    }
 
     public void sendToLobby(Player player) {
-        ServiceInfoSnapshot server = this.getBestLobby();
+        ServerData server = this.getBestLobby();
         if (server == null) {
             player.kickPlayer("§cThere are no available servers, please try again later.");
             return;
         }
 
-        Utilities.sendPlayer(player, server.name(), SkyWarsShared.getInstance().getPlugin());
+        Utilities.sendPlayer(player, server.getServerName(), SkyWarsShared.getInstance().getPlugin());
     }
 
     public void stopThreads() {
