@@ -24,7 +24,7 @@ import xyz.refinedev.phoenix.utils.item.ItemBuilder;
 public class RegionSelection {
 
     public final static String SELECTION_WAND_KEY = "SelectionWand";
-    public final static ItemStack SELECTION_WAND = new ItemBuilder(XMaterial.GOLDEN_AXE)
+    public final static ItemStack SELECTION_WAND = new ItemBuilder(Material.GOLD_AXE)
             .setNameWithArrows(Color.translate("&e&lSelection Wand"))
             .toItemStack();
 

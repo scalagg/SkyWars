@@ -22,7 +22,6 @@ import org.bukkit.plugin.java.JavaPluginLoader;
 import xyz.refinedev.commands.PaperCommandManager;
 import xyz.refinedev.phoenix.Phoenix;
 import xyz.refinedev.phoenix.utils.general.Tasks;
-import xyz.refinedev.retention.api.Bootstrap;
 
 import java.io.File;
 import java.util.Arrays;
@@ -38,8 +37,6 @@ public class SkyWarsLobbyPlugin extends JavaPlugin {
 
     @Getter
     private static SkyWarsLobbyPlugin instance;
-
-
 
 
     @Override

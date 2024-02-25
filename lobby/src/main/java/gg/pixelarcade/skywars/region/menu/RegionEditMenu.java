@@ -71,7 +71,7 @@ public class RegionEditMenu extends Menu {
 
         @Override
         public ItemStack getItem(Player player) {
-            return new ItemBuilder(XMaterial.REDSTONE_TORCH)
+            return new ItemBuilder(Material.REDSTONE_TORCH_ON)
                     .setName("&6&lToggle Region")
                     .addLoreLine("&6■ &fStatus&7: &e" + colorBoolean(region.isEnabled()))
                     .toItemStack();
@@ -109,7 +109,7 @@ public class RegionEditMenu extends Menu {
 
         @Override
         public ItemStack getItem(Player player) {
-            return new ItemBuilder(XMaterial.GOLDEN_PICKAXE)
+            return new ItemBuilder(Material.GOLD_PICKAXE)
                     .setName("&6&lPrevent Break Blocks")
                     .addLoreLine("&6■ &fStatus&7: &e" + colorBoolean(region.isBreakBlocks()))
                     .toItemStack();
@@ -185,7 +185,7 @@ public class RegionEditMenu extends Menu {
 
         @Override
         public ItemStack getItem(Player player) {
-            return new ItemBuilder(XMaterial.OAK_LEAVES)
+            return new ItemBuilder(Material.LEAVES)
                     .setName("&6&lPrevent Leaves Decay")
                     .addLoreLine("&6■ &fStatus&7: &e" + colorBoolean(region.isLeavesDecay()))
                     .toItemStack();

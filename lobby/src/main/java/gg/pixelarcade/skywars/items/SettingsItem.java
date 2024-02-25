@@ -28,7 +28,7 @@ public class SettingsItem extends Item {
 
     @Override
     public ItemStack getItem(Player player) {
-        return new ItemBuilder(XMaterial.CLOCK)
+        return new ItemBuilder(Material.REDSTONE_COMPARATOR)
                 .setName(Color.translate("&aSettings &7(Right Click)"))
                 .toItemStack();
     }

@@ -20,11 +20,12 @@ import org.bukkit.metadata.FixedMetadataValue;
 import gg.pixelarcade.skywars.game.state.GameType;
 import xyz.refinedev.phoenix.SharedAPI;
 import xyz.refinedev.phoenix.profile.Profile;
-import xyz.refinedev.phoenix.utils.CenterUtil;
 import xyz.refinedev.phoenix.utils.Color;
 import xyz.refinedev.phoenix.utils.general.Tasks;
 
 import java.util.*;
+
+import static xyz.refinedev.phoenix.utils.Utilities.getCentered;
 
 /**
  * @author alfie
@@ -279,13 +280,13 @@ public class GameHandler {
 
         return Color.translate(List.of(
                 "&7&m----------------------------------------",
-                CenterUtil.getCentered("&6&lSkyWars"),
+                getCentered("&6&lSkyWars"),
                 "",
-                CenterUtil.getCentered("&eWinner &7- " + winner.getNameWithColor()),
+                getCentered("&eWinner &7- " + winner.getNameWithColor()),
                 "",
-                CenterUtil.getCentered("&e&l1st Killer &7- " + firstKiller.value() + " &7(&e" + game.getKills().get(firstKiller.key()) + "&7)"),
-                CenterUtil.getCentered("&6&l2nd Killer &7- " + secondKiller.value() + " &7(&e" + game.getKills().get(secondKiller.key()) + "&7)"),
-                CenterUtil.getCentered("&c&l3rd Killer &7- " + thirdKiller.value() + " &7(&e" + game.getKills().get(thirdKiller.key()) + "&7)"),
+                getCentered("&e&l1st Killer &7- " + firstKiller.value() + " &7(&e" + game.getKills().get(firstKiller.key()) + "&7)"),
+                getCentered("&6&l2nd Killer &7- " + secondKiller.value() + " &7(&e" + game.getKills().get(secondKiller.key()) + "&7)"),
+                getCentered("&c&l3rd Killer &7- " + thirdKiller.value() + " &7(&e" + game.getKills().get(thirdKiller.key()) + "&7)"),
                 "",
                 "&7&m----------------------------------------"
         ));
