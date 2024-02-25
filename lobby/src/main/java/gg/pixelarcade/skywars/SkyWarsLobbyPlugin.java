@@ -1,31 +1,13 @@
 package gg.pixelarcade.skywars;
 
-import gg.pixelarcade.skywars.adapter.LobbyScoreboardAdapter;
-import gg.pixelarcade.skywars.items.CosmeticItem;
-import gg.pixelarcade.skywars.items.QueueItem;
-import gg.pixelarcade.skywars.items.SettingsItem;
-import gg.pixelarcade.skywars.listeners.LobbyListener;
-import gg.pixelarcade.skywars.music.MusicHandler;
-import gg.pixelarcade.skywars.music.commands.MusicCommand;
-import gg.pixelarcade.skywars.region.RegionHandler;
-import gg.pixelarcade.skywars.region.commands.RegionCommands;
-import gg.pixelarcade.skywars.region.listeners.RegionListener;
-import gg.pixelarcade.skywars.region.selection.listeners.RegionSelectionListener;
-import gg.pixelarcade.skywars.scoreboard.api.Assemble;
-import gg.pixelarcade.skywars.util.PlayerUtil;
-import lombok.Getter;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.PluginDescriptionFile;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.plugin.java.JavaPluginLoader;
-import xyz.refinedev.commands.PaperCommandManager;
-import xyz.refinedev.phoenix.Phoenix;
-import xyz.refinedev.phoenix.utils.general.Tasks;
-import xyz.refinedev.retention.api.Bootstrap;
 
-import java.io.File;
-import java.util.Arrays;
+import gg.pixelarcade.skywars.util.registry.ServiceRegistry;
+import gg.pixelarcade.skywars.util.registry.ServiceRegistryImpl;
+
+import lombok.Getter;
+
+import org.bukkit.plugin.java.JavaPlugin;
+
 
 /**
  * @author alfie
@@ -39,7 +21,7 @@ public class SkyWarsLobbyPlugin extends JavaPlugin {
     @Getter
     private static SkyWarsLobbyPlugin instance;
 
-
+    private final ServiceRegistry serviceRegistry = new ServiceRegistryImpl();
 
 
     @Override
@@ -54,5 +36,16 @@ public class SkyWarsLobbyPlugin extends JavaPlugin {
         SkyWarsLobby.getInstance().stop();
     }
 
+    public static SkyWarsLobbyPlugin get() {
+        return instance;
+    }
+
+    public static <T> T install(Class<T> key, T service) {
+        return instance.serviceRegistry.put(key, service);
+    }
+
+    public static <T> T get(Class<T> tClass) {
+        return instance.serviceRegistry.get(tClass);
+    }
 
 }
