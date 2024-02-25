@@ -11,7 +11,7 @@ import java.io.File;
 
 @Getter
 @Setter
-public class SkyWarsPlugin extends Bootstrap {
+public class SkyWarsPlugin extends JavaPlugin {
 
     @Getter
     private static SkyWarsPlugin instance;
@@ -22,20 +22,16 @@ public class SkyWarsPlugin extends Bootstrap {
         super(loader, description, dataFolder, file);
     }
 
-    @Override
-    public void load() {
-
-    }
 
     @Override
-    public void enable() {
+    public void onEnable() {
         instance = this;
 
         new SkyWarsGame(this);
     }
 
     @Override
-    public void disable() {
+    public void onDisable() {
         SkyWarsGame.getGameInstance().getUpdaterThread().interrupt();
         SkyWarsGame.getInstance().stop();
     }

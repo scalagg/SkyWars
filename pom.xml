@@ -73,12 +73,6 @@
             <version>1.8.8</version>
         </dependency>
         <dependency>
-            <groupId>xyz.refinedev.retention</groupId>
-            <artifactId>loader-api</artifactId>
-            <version>1.0</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>xyz.refinedev</groupId>
             <artifactId>pxCosmetics</artifactId>
             <version>1.0</version>

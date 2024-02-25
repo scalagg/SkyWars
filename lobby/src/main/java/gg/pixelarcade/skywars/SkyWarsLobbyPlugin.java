@@ -34,29 +34,23 @@ import java.util.Arrays;
  */
 
 @Getter
-public class SkyWarsLobbyPlugin extends Bootstrap {
+public class SkyWarsLobbyPlugin extends JavaPlugin {
 
     @Getter
     private static SkyWarsLobbyPlugin instance;
 
-    public SkyWarsLobbyPlugin(JavaPluginLoader loader, PluginDescriptionFile description, File dataFolder, File file) {
-        super(loader, description, dataFolder, file);
-    }
+
+
 
     @Override
-    public void load() {
-
-    }
-
-    @Override
-    public void enable() {
+    public void onEnable() {
         instance = this;
 
         new SkyWarsLobby(this);
     }
 
     @Override
-    public void disable() {
+    public void onDisable() {
         SkyWarsLobby.getInstance().stop();
     }
 
