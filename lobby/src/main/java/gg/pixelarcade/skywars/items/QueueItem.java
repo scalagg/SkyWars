@@ -7,6 +7,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import xyz.refinedev.phoenix.Phoenix;
 import xyz.refinedev.phoenix.utils.Color;
+import xyz.refinedev.phoenix.utils.XMaterial;
 import xyz.refinedev.phoenix.utils.item.ItemBuilder;
 
 /**
@@ -26,7 +27,7 @@ public class QueueItem extends Item {
 
     @Override
     public ItemStack getItem(Player player) {
-        return new ItemBuilder(Material.BOOK, 1)
+        return new ItemBuilder(XMaterial.BOOK, 1)
                 .setName(Color.translate("&aQueue SkyWars &7(Right Click)"))
                 .toItemStack();
     }

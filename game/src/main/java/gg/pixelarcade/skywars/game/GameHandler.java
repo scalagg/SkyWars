@@ -25,7 +25,7 @@ import xyz.refinedev.phoenix.utils.general.Tasks;
 
 import java.util.*;
 
-import static xyz.refinedev.phoenix.utils.Utilities.getCentered;
+import static xyz.refinedev.phoenix.utils.CenterUtil.getCentered;
 
 /**
  * @author alfie

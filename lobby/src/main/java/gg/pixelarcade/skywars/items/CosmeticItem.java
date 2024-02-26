@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import xyz.refinedev.phoenix.utils.Color;
+import xyz.refinedev.phoenix.utils.XMaterial;
 import xyz.refinedev.phoenix.utils.item.ItemBuilder;
 import gg.pixelarcade.skywars.item.Item;
 
@@ -25,7 +26,7 @@ public class CosmeticItem extends Item {
 
     @Override
     public ItemStack getItem(Player player) {
-        return new ItemBuilder(Material.ENDER_CHEST)
+        return new ItemBuilder(XMaterial.ENDER_CHEST)
                 .setName(Color.translate("&aCosmetics &7(Right Click)"))
                 .toItemStack();
     }
