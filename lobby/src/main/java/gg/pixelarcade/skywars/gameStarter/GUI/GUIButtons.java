@@ -46,24 +46,17 @@ public class GUIButtons {
 
     public static class MapButton {
 
-        public ItemStack getButton(String mapName, boolean isFavorite){
-            if (mapName.equals(null) || mapName.equals("")) return null;
+        public ItemStack getButton(String mapName){
 
-            if(isFavorite){
-                return new ItemBuilder(XMaterial.OAK_SIGN)
-                        .setName(Color.translate("&c❤ &a" + mapName))
-                        .addLoreLine("")
-                        .addLoreLine(Color.translate("&aClick to Play"))
-                        .addLoreLine(Color.translate("&eRight click to toggle favorites"))
-                        .toItemStack();
-            } else {
-                return new ItemBuilder(XMaterial.OAK_SIGN)
-                        .setName(Color.translate("&a" + mapName))
-                        .addLoreLine("")
-                        .addLoreLine(Color.translate("&aClick to Play"))
-                        .addLoreLine(Color.translate("&eRight click to toggle favorites"))
-                        .toItemStack();
-            }
+            if (mapName == null || mapName.isEmpty()) return null;
+
+            return new ItemBuilder(XMaterial.OAK_SIGN)
+                    .setName(Color.translate("&a" + mapName))
+                    .addLoreLine("")
+                    .addLoreLine(Color.translate("&aClick to Play"))
+                    .addLoreLine(Color.translate("&eRight click to toggle favorites"))
+                    .toItemStack();
+
         }
     }
 

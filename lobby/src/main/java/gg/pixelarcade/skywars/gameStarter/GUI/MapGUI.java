@@ -1,7 +1,6 @@
 package gg.pixelarcade.skywars.gameStarter.GUI;
 
 
-import gg.pixelarcade.skywars.SkyWarsLobby;
 import gg.pixelarcade.skywars.game.state.GameType;
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
@@ -12,7 +11,7 @@ import xyz.refinedev.phoenix.utils.item.ItemBuilder;
 
 import java.util.ArrayList;
 
-public class CreateGUI {
+public class MapGUI {
 
     private ArrayList<ItemStack> guiBuilder = new ArrayList<>();
     private GUIButtons guiButtons;

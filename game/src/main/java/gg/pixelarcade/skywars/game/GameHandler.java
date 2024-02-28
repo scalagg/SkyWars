@@ -4,6 +4,7 @@ import gg.pixelarcade.skywars.SkyWarsGame;
 import gg.pixelarcade.skywars.SkyWarsPlugin;
 import gg.pixelarcade.skywars.chests.LootableChest;
 import gg.pixelarcade.skywars.chests.type.RefillType;
+import gg.pixelarcade.skywars.config.GameConfig;
 import gg.pixelarcade.skywars.game.event.*;
 import gg.pixelarcade.skywars.game.state.GameState;
 import gg.pixelarcade.skywars.game.task.GameCountdownTask;
@@ -40,7 +41,8 @@ public class GameHandler {
     private final GameMap map = SkyWarsGame.getGameInstance().getGameMapHandler().getGameMap();
 
     public GameHandler() {
-        this.game = new Game(map.getType());
+        //TODO: make a method that can pass in a gameType when launching the server (depending on in what way it was launched)
+        this.game = new Game(GameConfig.SETTINGS.type);
     }
 
     public void startCountdown() {
