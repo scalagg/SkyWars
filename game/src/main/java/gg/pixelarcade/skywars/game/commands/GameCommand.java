@@ -3,6 +3,7 @@ package gg.pixelarcade.skywars.game.commands;
 import gg.pixelarcade.skywars.SkyWarsGame;
 import gg.pixelarcade.skywars.SkyWarsPlugin;
 import gg.pixelarcade.skywars.game.GameHandler;
+import gg.pixelarcade.skywars.map.GameMap;
 import gg.pixelarcade.skywars.util.SpigotConstants;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.command.CommandSender;
@@ -57,8 +58,11 @@ public class GameCommand extends BaseCommand {
     public void leave(Player player) {
         handler.removePlayer(player);
 
+        GameHandler gameHandler = new GameHandler();
+        GameMap map = gameHandler.getMap();
+
         player.sendMessage(Color.translate(SpigotConstants.GAME + "&eYou have left &b"
-                + SkyWarsGame.getGameInstance().getGameMapHandler().getGameMap().getName() + "&e."));
+                + map.getName() + "&e."));
     }
 
     @Subcommand("forcestart")

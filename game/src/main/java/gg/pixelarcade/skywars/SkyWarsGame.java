@@ -5,6 +5,7 @@ import gg.pixelarcade.skywars.ability.command.AbilityCommand;
 import gg.pixelarcade.skywars.ability.listener.AbilityInteractListener;
 //import gg.pixelarcade.skywars.map.GameMapHandler;
 import gg.pixelarcade.skywars.chests.ChestHandler;
+import gg.pixelarcade.skywars.config.GameConfig;
 import gg.pixelarcade.skywars.game.GameHandler;
 import gg.pixelarcade.skywars.game.commands.GameCommand;
 import gg.pixelarcade.skywars.game.listener.GameListener;
@@ -35,6 +36,7 @@ public class SkyWarsGame extends SkyWarsShared {
 
     private GameHandler gameHandler;
     //private GameMapHandler gameMapHandler;
+    private GameConfig gameConfig;
     private KitHandler kitHandler;
     private ChestHandler chestHandler;
     private AbilityHandler abilityHandler;
@@ -50,12 +52,7 @@ public class SkyWarsGame extends SkyWarsShared {
     public void init() {
         gameInstance = this;
 
-//        try {
-//            gameMapHandler = new GameMapHandler();
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//            Bukkit.shutdown();
-//        }
+        gameConfig = new GameConfig();
 
         gameHandler = new GameHandler();
         kitHandler = new KitHandler();

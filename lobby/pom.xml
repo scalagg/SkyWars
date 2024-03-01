@@ -37,6 +37,12 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <groupId>net.mccade.phoenix</groupId>
+            <artifactId>bukkit</artifactId>
+            <version>1.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>xyz.refinedev</groupId>
             <artifactId>pxParty</artifactId>
             <version>1.0</version>

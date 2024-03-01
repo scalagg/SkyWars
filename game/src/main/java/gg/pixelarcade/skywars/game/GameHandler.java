@@ -37,12 +37,16 @@ import static xyz.refinedev.phoenix.utils.CenterUtil.getCentered;
 @Getter
 public class GameHandler {
 
+    @Getter
     private final Game game;
-    private final GameMap map = SkyWarsGame.getGameInstance().getGameMapHandler().getGameMap();
+    private final GameMap map = new GameMap(
+            GameConfig.SETTING.name,
+            GameConfig.SETTING.bounds,
+            GameConfig.SETTING.type);
 
     public GameHandler() {
         //TODO: make a method that can pass in a gameType when launching the server (depending on in what way it was launched)
-        this.game = new Game(GameConfig.SETTINGS.type);
+        this.game = new Game(GameConfig.SETTING.type);
     }
 
     public void startCountdown() {

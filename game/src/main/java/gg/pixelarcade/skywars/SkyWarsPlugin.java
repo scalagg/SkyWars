@@ -1,5 +1,6 @@
 package gg.pixelarcade.skywars;
 
+import gg.pixelarcade.skywars.config.GameConfig;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -17,14 +18,13 @@ public class SkyWarsPlugin extends JavaPlugin {
 
     private boolean debug = true;
 
-    public SkyWarsPlugin(JavaPluginLoader loader, PluginDescriptionFile description, File dataFolder, File file) {
-        super(loader, description, dataFolder, file);
-    }
-
 
     @Override
     public void onEnable() {
         instance = this;
+
+        GameConfig.IMP = new GameConfig();
+        GameConfig.IMP.reload();
 
         new SkyWarsGame(this);
     }

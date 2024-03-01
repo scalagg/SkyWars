@@ -4,7 +4,9 @@ import gg.pixelarcade.skywars.SkyWarsGame;
 import gg.pixelarcade.skywars.SkyWarsPlugin;
 import gg.pixelarcade.skywars.chests.type.RefillType;
 import gg.pixelarcade.skywars.game.Game;
+import gg.pixelarcade.skywars.game.GameHandler;
 import gg.pixelarcade.skywars.game.state.GameType;
+import gg.pixelarcade.skywars.map.GameMap;
 import gg.pixelarcade.skywars.util.ChanceUtil;
 import lombok.Getter;
 import org.bukkit.Location;
@@ -37,10 +39,13 @@ public abstract class LootableChest {
         if (!game.isActive())
             return;
 
+        GameHandler gameHandler = new GameHandler();
+        GameMap map = gameHandler.getMap();
+
         Tasks.runAsync(() -> {
-            for (Map.Entry<Location, String> entry : SkyWarsGame.getGameInstance().getGameMapHandler().getGameMap().getChests().entrySet()) {
-                Block block = SkyWarsGame.getGameInstance().getGameMapHandler()
-                        .getGameMap().getBounds().getWorld().getBlockAt(entry.getKey());
+            for (Map.Entry<Location, String> entry : map.getChests().entrySet()) {
+                Block block = map
+                        .getBounds().getWorld().getBlockAt(entry.getKey());
 
                 if (refillType == RefillType.SECOND
                         && entry.getValue().equalsIgnoreCase("MIDDLE")

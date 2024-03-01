@@ -1,12 +1,12 @@
 package gg.pixelarcade.skywars.game.listener;
 
 import gg.pixelarcade.skywars.SkyWarsGame;
-import gg.pixelarcade.skywars.game.GameHandler;
 import gg.pixelarcade.skywars.game.Game;
+import gg.pixelarcade.skywars.game.GameHandler;
 import gg.pixelarcade.skywars.game.event.GameStartEvent;
 import gg.pixelarcade.skywars.game.event.PlayerJoinGameEvent;
 import gg.pixelarcade.skywars.items.*;
-import gg.pixelarcade.skywars.map.GameMapHandler;
+import gg.pixelarcade.skywars.map.GameMap;
 import gg.pixelarcade.skywars.util.PlayerUtil;
 import gg.pixelarcade.skywars.util.SpigotConstants;
 import lombok.RequiredArgsConstructor;
@@ -66,14 +66,16 @@ public class GameListener implements Listener {
 
     @EventHandler
     public void onGameStart(GameStartEvent event) {
-        List<Location> zombieSpawns = plugin.getGameMapHandler().getGameMap().getZombieSpawns();
+
+
+        List<Location> zombieSpawns = plugin.getGameHandler().getMap().getZombieSpawns();
         if (zombieSpawns == null || zombieSpawns.isEmpty()) {
-            System.out.println("No zombie spawns found for arena " + plugin.getGameMapHandler().getGameMap().getName());
+            System.out.println("No zombie spawns found for arena " + plugin.getGameHandler().getMap().getName());
             return;
         }
 
         for (Location zombieSpawn : zombieSpawns) {
-            Zombie zombie = plugin.getGameMapHandler().getGameMap().getBounds().getWorld().spawn(zombieSpawn, Zombie.class);
+            Zombie zombie = plugin.getGameHandler().getMap().getBounds().getWorld().spawn(zombieSpawn, Zombie.class);
             zombie.setRemoveWhenFarAway(false);
             zombie.setBaby(false);
             zombie.setVillager(false);

@@ -40,5 +40,6 @@ public class ProfileItem extends Item {
     public void click(Action action) {
         Profile profile = new Profile(player.getUniqueId());
         Phoenix.getInstance().getMenuHandler().openMenu(new ProfileMenu(profile, true), player);
+        player.sendMessage("&6OPENING MENU...");
     }
 }

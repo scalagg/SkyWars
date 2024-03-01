@@ -44,11 +44,11 @@ public class ScoreboardAdapter implements AssembleAdapter {
         if (profile.hasMetadata("inGame") && plugin.getGameHandler().isSpectating(player.getUniqueId())) {
             lines.add("&4&l✖ DEAD! ✖");
             lines.add("&7■ &fGame Time: &6" + renderTime(game));
-            lines.add("&7■ &fMap: &6" + plugin.getGameMapHandler().getGameMap().getName());
+            lines.add("&7■ &fMap: &6" + plugin.getGameHandler().getMap().getName());
             lines.add("&7■ &fAlive: &6" + game.getAlivePlayers().size() + "/" + game.getPlayers().size());
         } else {
             lines.add("&7■ &fGame Time: &6" + renderTime(game));
-            lines.add("&7■ &fMap: &6" + plugin.getGameMapHandler().getGameMap().getName());
+            lines.add("&7■ &fMap: &6" + plugin.getGameHandler().getMap().getName());
             lines.add("&7■ &fAlive: &6" + game.getAlivePlayers().size() + "/" + game.getPlayers().size());
         }
 
