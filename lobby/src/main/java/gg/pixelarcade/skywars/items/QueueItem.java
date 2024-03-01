@@ -40,14 +40,14 @@ public class QueueItem extends Item {
 
     @Override
     public void click(Action action) {
+        //TODO: FINISH THIS BS
 
-        Set<String> worldNames = Phoenix.getInstance().getApi().getNetworkHandler().getWorldNames
-         Set<ServerData> test = Phoenix.getInstance().getApi().getNetworkHandler().getServersInGroup("GAME-SERVER");
-
-         for (ServerData server: test){
-             String region = server.getWorldName();
-             String name = server.getWorldName();
-             player.sendMessage(server.getWorld);
-         }
+//         Set<ServerData> test = Phoenix.getInstance().getApi().getNetworkHandler().getServersInGroup("GAME-SERVER");
+//
+//         for (ServerData server: test){
+//             String region = server.getWorldName();
+//             String name = server.getWorldName();
+//             player.sendMessage(server.getWorld);
+//         }
     }
 }
