@@ -31,7 +31,7 @@ public class MapGUI {
         mapSelector = Bukkit.createInventory(null, 54, gameType.name().replace("_", " "));
 
         switch (gameType){
-            case CASUAL_SOLO ->
+            case NORMAL ->
                 CreateBoarder();
 
         }

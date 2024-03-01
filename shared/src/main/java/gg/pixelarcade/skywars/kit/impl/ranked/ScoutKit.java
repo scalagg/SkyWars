@@ -1,0 +1,82 @@
+package gg.pixelarcade.skywars.kit.impl.ranked;
+
+import gg.pixelarcade.skywars.kit.Kit;
+import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import xyz.refinedev.phoenix.utils.item.ItemBuilder;
+import gg.pixelarcade.skywars.game.state.GameType;
+import gg.pixelarcade.skywars.kit.enums.KitRarity;
+
+import java.util.Arrays;
+
+/**
+ * @author alfie
+ * @project Skywars / gg.pixelarcade.game.kit.impl
+ * @date 26/09/2023 / 18:32
+ */
+
+public class ScoutKit extends Kit {
+
+    @Override
+    public String getName() {
+        return "Scout";
+    }
+
+    @Override
+    public int getCost() {
+        return 0;
+    }
+
+    @Override
+    public GameType getGameType() {
+        return GameType.RANKED;
+    }
+    @Override
+    public ItemBuilder getDisplayItem() {
+        return new ItemBuilder(Material.POTION).addCustomPotionEffect(new PotionEffect(PotionEffectType.SPEED, 25 * 20, 1), false)
+                .setName("&aScout")
+                .setLore(Arrays.asList(
+                        "&6&m---------------------",
+                        "&7■ &fSpeed 2 for 20 seconds",
+                        "&7■ &fIron Armor",
+                        "&7■ &fDiamond Axe",
+                        "&7■ &fDiamond Pickaxe",
+                        "&6&m---------------------"
+                        ));
+    }
+
+    @Override
+    public KitRarity getRarity() {
+        return KitRarity.COMMON;
+    }
+
+    @Override
+    public ItemStack[] getArmor() {
+        return new ItemStack[]{
+                new ItemStack(Material.IRON_HELMET),
+                new ItemStack(Material.IRON_CHESTPLATE),
+                new ItemStack(Material.IRON_LEGGINGS),
+                new ItemStack(Material.IRON_BOOTS)
+        };
+    }
+
+    @Override
+    public void apply(Player player) {
+        player.getInventory().addItem(new ItemBuilder(Material.DIAMOND_AXE)
+                .addUnsafeEnchantment(Enchantment.DIG_SPEED, 1)
+                .addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 1)
+                .toItemStack());
+
+        player.getInventory().addItem(new ItemBuilder(Material.DIAMOND_PICKAXE)
+                .addUnsafeEnchantment(Enchantment.DIG_SPEED, 1)
+                .toItemStack());
+
+        player.getInventory().addItem(new ItemBuilder(Material.POTION, 3)
+                .addCustomPotionEffect(new PotionEffect(PotionEffectType.SPEED, 25 * 20, 1), true)
+                .toItemStack());
+    }
+}

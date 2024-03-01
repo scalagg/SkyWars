@@ -49,7 +49,7 @@ public class GameListener implements Listener {
         Player player = event.getPlayer();
         Game game = event.getGame();
 
-        if (game.getPlayers().size() >= game.getGameType().getMaxPlayers())
+        if (game.getPlayers().size() >= game.getGameTeamType().getMaxPlayers())
             plugin.getGameHandler().startCountdown();
 
         PlayerUtil.resetPlayer(player);

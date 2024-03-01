@@ -16,11 +16,8 @@ import java.util.List;
 public class InsaneChest extends LootableChest {
 
     @Override
-    public List<GameType> getGameType() {
-        return Arrays.asList(
-                GameType.INSANE_SOLO,
-                GameType.INSANE_DOUBLES
-        );
+    public GameType getGameType() {
+        return GameType.INSANE;
     }
 
     @Override

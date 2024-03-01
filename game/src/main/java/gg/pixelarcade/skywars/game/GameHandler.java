@@ -18,7 +18,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
-import gg.pixelarcade.skywars.game.state.GameType;
 import xyz.refinedev.phoenix.SharedAPI;
 import xyz.refinedev.phoenix.profile.Profile;
 import xyz.refinedev.phoenix.utils.Color;
@@ -93,12 +92,16 @@ public class GameHandler {
                 SkyWarsProfile profile = SkyWarsGame.getGameInstance().getProfileHandler().getProfile(player.getUniqueId());
                 Kit kit = SkyWarsGame.getGameInstance().getKitHandler().getKitByName(profile.getSelectedKit());
 
-                for (GameType type : kit.getGameType()) {
-                    if (type == game.getGameType()) {
-                        kit.equipKit(kit, player);
-                        break;
-                    }
+                if (kit.getGameType() == game.getGameType()) {
+
                 }
+
+//                for (GameType type : kit.getGameType()) {
+//                    if (type == game.getGameType()) {
+//                        kit.equipKit(kit, player);
+//                        break;
+//                    }
+//                }
             }
         }
 

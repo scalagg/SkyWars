@@ -15,11 +15,8 @@ import java.util.List;
 public class RankedChest extends LootableChest {
 
     @Override
-    public List<GameType> getGameType() {
-        return Arrays.asList(
-                GameType.RANKED_SOLO,
-                GameType.RANKED_DOUBLES
-        );
+    public GameType getGameType() {
+        return GameType.RANKED;
     }
 
     @Override

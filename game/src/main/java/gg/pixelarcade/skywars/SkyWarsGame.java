@@ -17,7 +17,6 @@ import gg.pixelarcade.skywars.scoreboard.api.Assemble;
 import gg.pixelarcade.skywars.server.Server;
 import gg.pixelarcade.skywars.server.thread.ServerUpdaterThread;
 import lombok.Getter;
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Arrays;
@@ -37,7 +36,6 @@ public class SkyWarsGame extends SkyWarsShared {
     private GameHandler gameHandler;
     //private GameMapHandler gameMapHandler;
     private GameConfig gameConfig;
-    private KitHandler kitHandler;
     private ChestHandler chestHandler;
     private AbilityHandler abilityHandler;
 
@@ -55,7 +53,6 @@ public class SkyWarsGame extends SkyWarsShared {
         gameConfig = new GameConfig();
 
         gameHandler = new GameHandler();
-        kitHandler = new KitHandler();
         chestHandler = new ChestHandler();
         abilityHandler = new AbilityHandler();
 

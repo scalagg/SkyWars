@@ -1,6 +1,7 @@
 package gg.pixelarcade.skywars.server;
 
 import gg.pixelarcade.skywars.game.state.GameState;
+import gg.pixelarcade.skywars.game.state.GameTeamType;
 import gg.pixelarcade.skywars.game.state.GameType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,6 +24,7 @@ public class Server {
     private String mapName;
 
     private GameType gameType;
+    private GameTeamType gameTeamType;
     private GameState gameState;
 
     private int port;

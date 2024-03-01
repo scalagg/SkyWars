@@ -1,12 +1,10 @@
 package gg.pixelarcade.skywars.queue;
 
 import gg.pixelarcade.skywars.SkyWarsShared;
-import gg.pixelarcade.skywars.game.Game;
 import gg.pixelarcade.skywars.game.state.GameState;
 import gg.pixelarcade.skywars.game.state.GameType;
 import gg.pixelarcade.skywars.server.Server;
 import lombok.Getter;
-import xyz.refinedev.phoenix.utils.Utilities;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,7 +27,7 @@ public class QueueHandler {
             if (server.getGameState() != GameState.WAITING && server.getGameState() != GameState.COUNTDOWN)
                 continue;
 
-            if (server.getOnlinePlayers() >= server.getGameType().getMaxPlayers())
+            if (server.getOnlinePlayers() >= server.getGameTeamType().getMaxPlayers())
                 continue;
 
             shouldCreate = false;

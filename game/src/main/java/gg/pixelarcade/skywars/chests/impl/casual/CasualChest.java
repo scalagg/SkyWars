@@ -19,11 +19,8 @@ import java.util.List;
 public class CasualChest extends LootableChest {
 
     @Override
-    public List<GameType> getGameType() {
-        return Arrays.asList(
-                GameType.CASUAL_SOLO,
-                GameType.CASUAL_DOUBLES
-        );
+    public GameType getGameType() {
+        return GameType.NORMAL;
     }
 
     @Override

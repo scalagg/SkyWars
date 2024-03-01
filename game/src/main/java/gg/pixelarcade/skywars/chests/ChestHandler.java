@@ -28,7 +28,7 @@ public class ChestHandler {
 
     public LootableChest getChest(GameType gameType) {
         for (LootableChest chest : chests) {
-            if (chest.getGameType().contains(gameType))
+            if (chest.getGameType() == gameType)
                 return chest;
         }
 

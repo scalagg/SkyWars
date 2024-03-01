@@ -32,7 +32,7 @@ public abstract class LootableChest {
     public static final int MINIMUM_ITEMS = 3;
     public static final int MAXIMUM_ITEMS = 6;
 
-    public abstract List<GameType> getGameType();
+    public abstract GameType getGameType();
     public abstract List<ChestStage> getStages();
 
     public void fillChests(Game game, RefillType refillType) {

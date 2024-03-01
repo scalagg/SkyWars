@@ -2,6 +2,7 @@ package gg.pixelarcade.skywars.game;
 
 import gg.pixelarcade.skywars.chests.type.RefillType;
 import gg.pixelarcade.skywars.game.state.GameState;
+import gg.pixelarcade.skywars.game.state.GameTeamType;
 import gg.pixelarcade.skywars.game.state.GameType;
 import lombok.Data;
 
@@ -23,6 +24,7 @@ public class Game {
     private final UUID id = UUID.randomUUID();
 
     private GameType gameType;
+    private GameTeamType gameTeamType;
 
     private Set<UUID> spectators = new HashSet<>();
     private Set<UUID> players = new HashSet<>();
@@ -41,5 +43,9 @@ public class Game {
 
     public Game(GameType gameType) {
         this.gameType = gameType;
+    }
+
+    public boolean isRanked() {
+        return this.gameType == GameType.RANKED;
     }
 }
