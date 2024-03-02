@@ -1,5 +1,8 @@
 package gg.pixelarcade.skywars.adapter;
 
+import gg.pixelarcade.skywars.SkyWarsLobby;
+import gg.pixelarcade.skywars.leveling.enums.LevelEnum;
+import gg.pixelarcade.skywars.profile.SkyWarsProfile;
 import gg.pixelarcade.skywars.scoreboard.api.AssembleAdapter;
 import gg.pixelarcade.skywars.scoreboard.api.animation.impl.TitleAnimation;
 import org.bukkit.Bukkit;
@@ -11,7 +14,10 @@ import xyz.refinedev.phoenix.Phoenix;
 import xyz.refinedev.phoenix.SharedAPI;
 import xyz.refinedev.phoenix.profile.Profile;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -36,22 +42,31 @@ public class LobbyScoreboardAdapter implements AssembleAdapter {
 
     @Override
     public List<String> getLines(Player player) {
+
+        //-- Instance Variables
         List<String> lines = new ArrayList<>();
-        Profile profile = SharedAPI.getInstance().getProfileHandler().getProfile(player.getUniqueId());
+        SkyWarsProfile profile = SkyWarsLobby.getInstance().getProfileHandler().getProfile(player.getUniqueId());
 
-        lines.add("&f");
-        lines.add("&6&lYou&7:");
-        lines.add("&7■ &fRank: &r" + profile.getHighestRank().getDisplayName());
-        lines.add("&7■ &fCoins: &e" + pxCosmetics.getInstance().getProfileHandler().getProfile(player.getUniqueId()).getCoins() + "&6⛃");
+        //-- Date
+        DateFormat dateFormat = new SimpleDateFormat("MM,dd,yy");
+        Date date = new Date();
+        lines.add("");
+        lines.add("&7" + dateFormat.format(date).replace(",", "/"));
+        lines.add("");
 
-        int exp = SharedAPI.getInstance().getLevelHook().getExperience(profile);
-        Level level = pxLevels.getInstance().getLevelHandler().getLevelByExp(exp);
-        lines.add("&7■ &fLevel: " + level.getFormattedName());
+        //-- Level
+        int level = profile.getLevel();
+        LevelEnum prestige = profile.getPrestige(level);
+
+        lines.add("&6■ &fLevel: &r" + prestige.getColor() + "[" + level + "✯]");
+        lines.add(profile.getXPBar(prestige));
 
         lines.add("");
-        lines.add("&6&lOnline&7:");
-        lines.add("&7■ &fAll: &6" + Bukkit.getOnlinePlayers().stream().filter(p -> !SharedAPI.getInstance().getModUtilsHook().isVanished(p.getUniqueId())).count());
-        lines.add("&7■ &fPlaying: &60"); //TODO: make this grab all players
+        lines.add("&6■ &fWins: &a" + profile.getWins());
+        lines.add("&6■ &fKills: &a" + profile.getKills());
+
+        lines.add("");
+        lines.add("&6■ &fCoins: &6" + profile.getCoins());
 
         if (Phoenix.getInstance().getRebootHandler().isRebootScheduled()) {
             lines.add("");
@@ -60,7 +75,7 @@ public class LobbyScoreboardAdapter implements AssembleAdapter {
         }
 
         lines.add("");
-        lines.add("&7pixelarcade.gg");
+        lines.add("&eplay.mccade.net");
 
         return lines;
     }

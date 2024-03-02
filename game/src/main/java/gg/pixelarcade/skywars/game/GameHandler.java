@@ -132,15 +132,19 @@ public class GameHandler {
 
         SkyWarsGame.getInstance().getServerHandler().sendToLobby(winner);
 
+        // Gift the winner their new stats
         SkyWarsProfile skyWarsProfile = SkyWarsGame.getInstance().getProfileHandler().getProfile(winner.getUniqueId());
         skyWarsProfile.incrementWins();
+        skyWarsProfile.incrementXP(30);
+        skyWarsProfile.incrementCoins(150);
         skyWarsProfile.save();
+
 
         Profile profile = SharedAPI.getInstance().getProfileHandler().getProfile(winner.getUniqueId());
         for (String message : this.sendWinningMessage(profile))
             Bukkit.broadcastMessage(message);
 
-        SharedAPI.getInstance().getLevelHook().addExperience(profile, 50, "Won a game of SkyWarsGame");
+        SharedAPI.getInstance().getLevelHook().addExperience(profile, 50, "WON!");
 
         for (UUID uuid : game.getSpectators()) {
             Player spectator = Bukkit.getPlayer(uuid);

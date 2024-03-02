@@ -44,12 +44,4 @@ public class LobbyListener implements Listener {
         }
 
     }
-
-    @EventHandler(priority = EventPriority.HIGH)
-    public void onInventoryClick(final InventoryClickEvent e){
-        // TODO: When I finish the ability to make a GUI, make it so that specific gui is made a non exception
-//        if (!e.getInventory().equals(gameStarterGUI))
-    }
-
-
 }

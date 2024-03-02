@@ -1,12 +1,14 @@
 package gg.pixelarcade.skywars.game.listener;
 
 import gg.pixelarcade.skywars.SkyWarsGame;
+import gg.pixelarcade.skywars.SkyWarsShared;
 import gg.pixelarcade.skywars.game.Game;
 import gg.pixelarcade.skywars.game.GameHandler;
 import gg.pixelarcade.skywars.game.event.GameStartEvent;
 import gg.pixelarcade.skywars.game.event.PlayerJoinGameEvent;
 import gg.pixelarcade.skywars.items.*;
 import gg.pixelarcade.skywars.map.GameMap;
+import gg.pixelarcade.skywars.profile.SkyWarsProfile;
 import gg.pixelarcade.skywars.util.PlayerUtil;
 import gg.pixelarcade.skywars.util.SpigotConstants;
 import lombok.RequiredArgsConstructor;
@@ -152,6 +154,19 @@ public class GameListener implements Listener {
         if (player.getKiller() != null) {
             KillMessageType type = pxCosmetics.getInstance().getProfileHandler().getProfile(player.getKiller().getUniqueId()).getKillMessageType();
             String killerName = SharedAPI.getInstance().getProfileHandler().getProfile(player.getKiller().getUniqueId()).getNameWithColor();
+
+            // Gift the Killer their stats
+            SkyWarsProfile killerProfile = SkyWarsShared.getInstance().getProfileHandler().getProfile(player.getKiller().getUniqueId());
+            killerProfile.incrementXP(10);
+            killerProfile.incrementKills();
+            killerProfile.addSouls(1);
+            killerProfile.incrementCoins(35);
+            killerProfile.save();
+
+            // Send the Killer messages regarding their new stats
+            player.getKiller().sendMessage("&6+35 coins!");
+            player.getKiller().sendMessage("&b+1 Soul!");
+            //TODO: Play a sound when a player gets a kill
 
             if (type != KillMessageType.NONE)
                 deathMessage = SpigotConstants.GAME + displayName + "&f "
