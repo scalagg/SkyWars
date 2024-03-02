@@ -177,7 +177,7 @@ public class SkyWarsProfile {
     public int calculateFinalRating(int currentRating, boolean wonGame, int kills) {
         int ratingGain = calculateRatingGain(currentRating);
         int ratingChange = calculateRatingChange(currentRating, wonGame, kills);
-        return currentRating + ratingGain + ratingChange;
+        return currentRating + (wonGame ? ratingGain : ratingChange);
     }
 
     /**
