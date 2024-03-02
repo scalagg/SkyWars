@@ -2,6 +2,7 @@ package gg.pixelarcade.skywars.profile;
 
 import gg.pixelarcade.skywars.SkyWarsShared;
 import gg.pixelarcade.skywars.leveling.enums.LevelEnum;
+import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -15,8 +16,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
-@Getter
-@Setter
+@Data
 @RequiredArgsConstructor
 public class SkyWarsProfile {
 
@@ -39,7 +39,6 @@ public class SkyWarsProfile {
     private int elo = 0;
     private int heads = 0;
     private int souls = 0;
-
 
     private boolean canRate = false;
     private List<String> arenasRated = new ArrayList<>();
@@ -77,12 +76,12 @@ public class SkyWarsProfile {
         shared.getProfileHandler().saveToDatabase(uniqueId, this);
     }
 
-    public LevelEnum getPrestige(int level){
+    public LevelEnum getPrestige(int level) {
         LevelEnum prestige = null;
 
         // Iterate through the list of enums to find the one that fits the player's level
-        for (LevelEnum prestiges : LevelEnum.values()){
-            if (level >= prestiges.getMinLevel()){
+        for (LevelEnum prestiges : LevelEnum.values()) {
+            if (level >= prestiges.getMinLevel()) {
                 prestige = prestiges;
             }
         }
@@ -90,20 +89,20 @@ public class SkyWarsProfile {
         return prestige;
     }
 
-    public String getXPBar(LevelEnum prestige){
+    public String getXPBar(LevelEnum prestige) {
 
         //-- Variables
         StringBuilder xpBar = new StringBuilder();
         double percentage = ((double) xp / prestige.getXpPerLevel()) * 100;
-        int progress = (int) (Math.floor(percentage)/10);
+        int progress = (int) (Math.floor(percentage) / 10);
 
         //-- Progress
         xpBar.append("  &7[&e");
-        for (int i = 0; i < progress; i++){
+        for (int i = 0; i < progress; i++) {
             xpBar.append("♚");
         }
         xpBar.append("&7");
-        for (int i = 0; i <= 10 - progress; i++){
+        for (int i = 0; i <= 10 - progress; i++) {
             xpBar.append("♚");
         }
         xpBar.append("] ");
@@ -128,7 +127,7 @@ public class SkyWarsProfile {
         LevelEnum prestige = getPrestige(level);
 
         // If the new xp is higher than the minimum amount to level up
-        if (newXP >= prestige.getXpPerLevel()){
+        if (newXP >= prestige.getXpPerLevel()) {
             incrementLevel();
             xp = newXP - prestige.getXpPerLevel();
         } else xp = newXP;
@@ -147,16 +146,16 @@ public class SkyWarsProfile {
         deaths++;
     }
 
+    public void incrementElo(int amount) {
+        this.elo += amount;
+    }
+
     public void incrementWins() {
         this.wins++;
     }
 
     public void incrementLosses() {
         this.losses++;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public void addSouls(int amount) {
@@ -174,4 +173,54 @@ public class SkyWarsProfile {
     public String getNiceName() {
         return SharedAPI.getInstance().getProfileHandler().getProfile(uniqueId).getNameWithColor();
     }
+
+    public int calculateFinalRating(int currentRating, boolean wonGame, int kills) {
+        int ratingGain = calculateRatingGain(currentRating);
+        int ratingChange = calculateRatingChange(currentRating, wonGame, kills);
+        return currentRating + ratingGain + ratingChange;
+    }
+
+    /**
+     * This method calculates the rating change based on the current rating, game result, and kills.
+     *
+     * @param elo The current rating of the player.
+     * @param wonGame A boolean indicating whether the game was won.
+     * @param kills The number of kills the player achieved in the game.
+     * @return The rating change. If the game was won or the player achieved 2 or more kills, the change is 0.
+     *         If the current rating is less than 1000 and the game was lost with less than 2 kills, the change is -1.
+     *         If the current rating is 1000 or more and the game was lost with less than 2 kills, the change is -10.
+     */
+    private int calculateRatingChange(int elo, boolean wonGame, int kills) {
+        // TODO: I do not know if you want this to be a random number between two numbers
+        //  or if you want it to be a set amount - Alfie
+        if (wonGame || kills >= 2)
+            return 0;
+
+        if (elo < 1000)
+            return -1;
+
+        return -10;
+    }
+
+    /**
+     * This method calculates the rating gain based on the current rating.
+     *
+     * @param rating The current rating of the player.
+     * @return The rating gain. If the current rating is less than 1000, the gain is 30.
+     *         If the current rating is 2000 or more, the gain is 10.
+     *         Otherwise, the gain is determined by the RATING_GAINS array.
+     */
+    private int calculateRatingGain(int rating) {
+        if (rating < 1000)
+            return 30;
+
+        int index = (rating - 1000) / 100;
+        if (index >= RATING_GAINS.length)
+            return 10;
+
+        return RATING_GAINS[RATING_GAINS.length - 1 - index];
+    }
+
+    private static final int[] RATING_GAINS = {10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30};
+
 }

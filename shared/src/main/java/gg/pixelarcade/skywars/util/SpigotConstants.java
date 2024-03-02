@@ -11,6 +11,6 @@ public class SpigotConstants {
     public static final String GAME = ChatColor.AQUA + ChatColor.BOLD.toString() + "Game " + ChatColor.DARK_GRAY + "► " + ChatColor.WHITE;
     public static final String LOBBY = ChatColor.AQUA + ChatColor.BOLD.toString() + "Lobby " + ChatColor.DARK_GRAY + "► " + ChatColor.WHITE;
     public static final String CURRENT_SEASON = "1";
-    public static final String PREFIX = "&6&lPixel&e&lArcade&8 »&e ";
+    public static final String PREFIX = "&6&lMC&e&lCADE&8 »&e ";
 
 }

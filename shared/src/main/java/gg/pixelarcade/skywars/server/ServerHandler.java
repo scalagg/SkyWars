@@ -46,12 +46,16 @@ public class ServerHandler {
     public void createServer(String templateName, BiConsumer<Integer, String> consumer) {
         if (!deployerSupported)
             return;
-        Deployer.deploy(templateName, SharedAPI.getInstance().getNetworkHandler().getRegion(), (address, port) -> consumer.accept(port, address));
+
+        Deployer.deploy(templateName,
+                SharedAPI.getInstance().getNetworkHandler().getRegion(),
+                (address, port) -> consumer.accept(port, address));
     }
 
     public ServerData getBestLobby() {
         if (!deployerSupported)
             return null;
+
         double x = 0;
 
         ServerData bestLobby = null;

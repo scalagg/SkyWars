@@ -68,8 +68,6 @@ public class GameListener implements Listener {
 
     @EventHandler
     public void onGameStart(GameStartEvent event) {
-
-
         List<Location> zombieSpawns = plugin.getGameHandler().getMap().getZombieSpawns();
         if (zombieSpawns == null || zombieSpawns.isEmpty()) {
             System.out.println("No zombie spawns found for arena " + plugin.getGameHandler().getMap().getName());

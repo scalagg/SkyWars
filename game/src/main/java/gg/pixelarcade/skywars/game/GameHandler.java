@@ -7,6 +7,7 @@ import gg.pixelarcade.skywars.chests.type.RefillType;
 import gg.pixelarcade.skywars.config.GameConfig;
 import gg.pixelarcade.skywars.game.event.*;
 import gg.pixelarcade.skywars.game.state.GameState;
+import gg.pixelarcade.skywars.game.state.GameType;
 import gg.pixelarcade.skywars.game.task.GameCountdownTask;
 import gg.pixelarcade.skywars.kit.Kit;
 import gg.pixelarcade.skywars.map.GameMap;
@@ -92,16 +93,14 @@ public class GameHandler {
                 SkyWarsProfile profile = SkyWarsGame.getGameInstance().getProfileHandler().getProfile(player.getUniqueId());
                 Kit kit = SkyWarsGame.getGameInstance().getKitHandler().getKitByName(profile.getSelectedKit());
 
-                if (kit.getGameType() == game.getGameType()) {
-
-                }
-
+//                if (kit.getGameType() == game.getGameType()) {
 //                for (GameType type : kit.getGameType()) {
 //                    if (type == game.getGameType()) {
 //                        kit.equipKit(kit, player);
 //                        break;
 //                    }
 //                }
+// }
             }
         }
 
@@ -130,21 +129,26 @@ public class GameHandler {
             return;
         }
 
-        SkyWarsGame.getInstance().getServerHandler().sendToLobby(winner);
-
         // Gift the winner their new stats
         SkyWarsProfile skyWarsProfile = SkyWarsGame.getInstance().getProfileHandler().getProfile(winner.getUniqueId());
         skyWarsProfile.incrementWins();
         skyWarsProfile.incrementXP(30);
         skyWarsProfile.incrementCoins(150);
-        skyWarsProfile.save();
 
+        if (game.getGameType() == GameType.RANKED) {
+            int kills = game.getKills().get(winner.getUniqueId());
+            int elo = skyWarsProfile.calculateFinalRating(skyWarsProfile.getElo(), true, kills);
+            skyWarsProfile.incrementElo(elo);
+        }
+
+        skyWarsProfile.save();
 
         Profile profile = SharedAPI.getInstance().getProfileHandler().getProfile(winner.getUniqueId());
         for (String message : this.sendWinningMessage(profile))
             Bukkit.broadcastMessage(message);
 
         SharedAPI.getInstance().getLevelHook().addExperience(profile, 50, "WON!");
+        SkyWarsGame.getInstance().getServerHandler().sendToLobby(winner);
 
         for (UUID uuid : game.getSpectators()) {
             Player spectator = Bukkit.getPlayer(uuid);
@@ -165,14 +169,6 @@ public class GameHandler {
         GameEndEvent event = new GameEndEvent(game);
         Bukkit.getPluginManager().callEvent(event);
 
-        for (UUID uuid : game.getPlayers()) {
-            Player player = Bukkit.getPlayer(uuid);
-            if (player == null)
-                continue;
-
-            SkyWarsGame.getInstance().getServerHandler().sendToLobby(player);
-        }
-
         game.getPlayers().clear();
         game.getAlivePlayers().clear();
         game.getSpectators().clear();
@@ -183,7 +179,6 @@ public class GameHandler {
     public void playSound(Sound sound) {
         for (Player player : Bukkit.getOnlinePlayers())
             player.playSound(player.getLocation(), sound, 1.0F, 1.0F);
-
     }
 
     public void addPlayer(Player player) {
@@ -214,22 +209,20 @@ public class GameHandler {
         Bukkit.getPluginManager().callEvent(event);
     }
 
-    public void setState(GameState state) {
-        GameState oldState = game.getState();
-
-        GameStateChangeEvent event = new GameStateChangeEvent(game, oldState, state);
-        Bukkit.getPluginManager().callEvent(event);
-
-        game.setState(state);
-    }
-
     public void onDeath(Player player, Player killer) {
         game.getAlivePlayers().remove(player.getUniqueId());
-        addSpectator(player);
+        this.addSpectator(player);
 
         SkyWarsProfile profile = SkyWarsGame.getGameInstance().getProfileHandler().getProfile(player.getUniqueId());
         profile.incrementDeaths();
         profile.incrementLosses();
+
+        if (game.getGameType() == GameType.RANKED) {
+            int kills = game.getKills().get(player.getUniqueId());
+            int elo = profile.calculateFinalRating(profile.getElo(), false, kills);
+            profile.incrementElo(elo);
+        }
+
         profile.save();
 
         if (killer != null) {
@@ -244,7 +237,9 @@ public class GameHandler {
         }
 
         if (game.getAlivePlayers().size() <= 1)
-            game.getAlivePlayers().stream().findFirst().ifPresentOrElse(winner -> this.onWin(Bukkit.getPlayer(winner)), () -> this.onWin(null));
+            game.getAlivePlayers().stream()
+                    .findFirst()
+                    .ifPresentOrElse(winner -> this.onWin(Bukkit.getPlayer(winner)), () -> this.onWin(null));
     }
 
     public void addSpectator(Player player) {
@@ -276,6 +271,7 @@ public class GameHandler {
     public boolean hasStarted() {
         return game.getState() == GameState.LIVE;
     }
+
     public boolean isSpectating(UUID player) {
         return game.getSpectators().contains(player);
     }
