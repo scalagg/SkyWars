@@ -9,43 +9,12 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import xyz.refinedev.phoenix.utils.item.ItemBuilder;
 import gg.pixelarcade.skywars.game.state.GameType;
-import gg.pixelarcade.skywars.kit.enums.KitRarity;
-
-import java.util.Arrays;
+import gg.pixelarcade.skywars.kit.KitRarity;
 
 public class MagicianKit extends Kit {
 
-    @Override
-    public String getName() {
-        return "Magician";
-    }
-    @Override
-    public int getCost() {
-        return 0;
-    }
-
-    @Override
-    public ItemBuilder getDisplayItem() {
-        return new ItemBuilder(Material.STICK)
-                .setName("&aMagician")
-                .setLore(Arrays.asList(
-                        "&6&m---------------------",
-                        "&7■ &fIron Armor",
-                        "&7■ &fDiamond Chestplate with Protection 3",
-                        "&7■ &f2 Milk Buckets",
-                        "&7■ &f3 Harming Potions",
-                        "&7■ &f3 Weakness Potions",
-                        "&6&m---------------------"
-                ));
-    }
-    @Override
-    public GameType getGameType() {
-        return GameType.RANKED;
-    }
-
-    @Override
-    public KitRarity getRarity() {
-        return KitRarity.COMMON;
+    public MagicianKit() {
+        super("Magician", Material.STICK, 0, GameType.RANKED, KitRarity.COMMON);
     }
 
     @Override
@@ -59,6 +28,7 @@ public class MagicianKit extends Kit {
                 new ItemStack(Material.IRON_BOOTS)
         };
     }
+
     @Override
     public void apply(Player player) {
         player.getInventory().addItem(new ItemBuilder(Material.MILK_BUCKET, 2)

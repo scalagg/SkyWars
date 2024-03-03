@@ -7,43 +7,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import xyz.refinedev.phoenix.utils.item.ItemBuilder;
 import gg.pixelarcade.skywars.game.state.GameType;
-import gg.pixelarcade.skywars.kit.enums.KitRarity;
-
-import java.util.Arrays;
+import gg.pixelarcade.skywars.kit.KitRarity;
 
 public class ArmorerKit extends Kit {
 
-    @Override
-    public String getName() {
-        return "Armorer";
-    }
-
-    @Override
-    public int getCost() {
-        return 0;
-    }
-
-    public ItemBuilder getDisplayItem() {
-        return new ItemBuilder(Material.DIAMOND_CHESTPLATE)
-                .setName("&aArmorer")
-                .setLore(Arrays.asList(
-                        "&6&m---------------------",
-                        "&7■ &fDiamond Chestplate (Protection I)",
-                        "&7■ &fDiamond Boots (Protection I)",
-                        "&7■ &fIron Pickaxe",
-                        "&7■ &fIron Axe",
-                        "&6&m---------------------"
-                ));
-    }
-
-    @Override
-    public GameType getGameType() {
-        return GameType.RANKED;
-    }
-
-    @Override
-    public KitRarity getRarity() {
-        return KitRarity.COMMON;
+    public ArmorerKit() {
+        super("Armorer", Material.DIAMOND_CHESTPLATE, 0, GameType.RANKED, KitRarity.COMMON);
     }
 
     @Override
@@ -55,7 +24,6 @@ public class ArmorerKit extends Kit {
                 new ItemBuilder(Material.DIAMOND_BOOTS).toItemStack()
 
         };
-
     }
 
     @Override

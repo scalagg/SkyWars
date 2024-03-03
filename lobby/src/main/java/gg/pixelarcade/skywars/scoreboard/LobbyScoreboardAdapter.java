@@ -1,4 +1,4 @@
-package gg.pixelarcade.skywars.adapter;
+package gg.pixelarcade.skywars.scoreboard;
 
 import gg.pixelarcade.skywars.SkyWarsLobby;
 import gg.pixelarcade.skywars.leveling.enums.LevelEnum;

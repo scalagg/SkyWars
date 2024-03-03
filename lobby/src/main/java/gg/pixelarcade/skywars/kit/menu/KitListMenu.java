@@ -1,4 +1,4 @@
-package gg.pixelarcade.skywars.menu.kit;
+package gg.pixelarcade.skywars.kit.menu;
 
 import gg.pixelarcade.skywars.SkyWarsShared;
 import gg.pixelarcade.skywars.game.state.GameType;
@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import xyz.refinedev.phoenix.Phoenix;
 import xyz.refinedev.phoenix.menu.api.Button;
 import xyz.refinedev.phoenix.menu.api.Menu;
+import xyz.refinedev.phoenix.utils.item.ItemBuilder;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,29 +38,30 @@ public class KitListMenu extends Menu {
 
         kitHandler.getKits()
                 .stream().filter(kit -> kit.getGameType() == gameType)
-                .forEach(kit -> buttons.put(buttons.size(), new KitDisplayButton(kit)));
+                .forEach(kit -> buttons.put(buttons.size(), new KitButton(kit)));
 
         return buttons;
     }
 
     @RequiredArgsConstructor
-    protected static class KitDisplayButton extends Button {
+    protected static class KitButton extends Button {
         private final Kit kit;
 
         @Override
         public ItemStack getItem(Player player) {
-            return kit.getDisplayItem()
+            return new ItemBuilder(kit.getDisplayMaterial())
+                    .setName(ChatColor.GOLD + kit.getName() + " Kit")
                     .setLore(
                             "",
-                            ChatColor.GREEN + "Click to view."
+                            ChatColor.GREEN + "Click to view kit contents."
                     )
                     .toItemStack();
         }
 
         @Override
         public void clicked(Player player, ClickType clickType) {
-            Menu menu = new KitViewMenu(kit);
-            Phoenix.getInstance().getMenuHandler().openMenu(menu, player);
+            Phoenix.getInstance().getMenuHandler()
+                    .openMenu(new KitInspectMenu(kit), player);
         }
     }
 }

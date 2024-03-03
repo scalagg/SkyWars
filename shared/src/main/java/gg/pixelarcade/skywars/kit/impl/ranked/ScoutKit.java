@@ -9,9 +9,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import xyz.refinedev.phoenix.utils.item.ItemBuilder;
 import gg.pixelarcade.skywars.game.state.GameType;
-import gg.pixelarcade.skywars.kit.enums.KitRarity;
-
-import java.util.Arrays;
+import gg.pixelarcade.skywars.kit.KitRarity;
 
 /**
  * @author alfie
@@ -21,37 +19,8 @@ import java.util.Arrays;
 
 public class ScoutKit extends Kit {
 
-    @Override
-    public String getName() {
-        return "Scout";
-    }
-
-    @Override
-    public int getCost() {
-        return 0;
-    }
-
-    @Override
-    public GameType getGameType() {
-        return GameType.RANKED;
-    }
-    @Override
-    public ItemBuilder getDisplayItem() {
-        return new ItemBuilder(Material.POTION).addCustomPotionEffect(new PotionEffect(PotionEffectType.SPEED, 25 * 20, 1), false)
-                .setName("&aScout")
-                .setLore(Arrays.asList(
-                        "&6&m---------------------",
-                        "&7■ &fSpeed 2 for 20 seconds",
-                        "&7■ &fIron Armor",
-                        "&7■ &fDiamond Axe",
-                        "&7■ &fDiamond Pickaxe",
-                        "&6&m---------------------"
-                        ));
-    }
-
-    @Override
-    public KitRarity getRarity() {
-        return KitRarity.COMMON;
+    public ScoutKit() {
+        super("Scout", Material.POTION, 0, GameType.RANKED, KitRarity.COMMON);
     }
 
     @Override

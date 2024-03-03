@@ -1,49 +1,16 @@
 package gg.pixelarcade.skywars.kit.impl.normal;
 
 import gg.pixelarcade.skywars.kit.Kit;
-import gg.pixelarcade.skywars.kit.enums.KitRarity;
+import gg.pixelarcade.skywars.kit.KitRarity;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import xyz.refinedev.phoenix.utils.item.ItemBuilder;
 import gg.pixelarcade.skywars.game.state.GameType;
-
-import java.util.Arrays;
 
 public class DefaultKit extends Kit {
 
-    @Override
-    public String getName() {
-        return "Default";
-    }
-
-    @Override
-    public int getCost() {
-        return 0;
-    }
-
-    @Override
-    public GameType getGameType() {
-        return GameType.NORMAL;
-    }
-
-    @Override
-    public KitRarity getRarity() {
-        return KitRarity.COMMON;
-    }
-
-    @Override
-    public ItemBuilder getDisplayItem() {
-        return new ItemBuilder(Material.STONE_SWORD)
-                .setName("&aDefault")
-                .setLore(Arrays.asList(
-                        "&6&m---------------------",
-                        "&7■ &fStone Sword",
-                        "&7■ &fStone Pickaxe",
-                        "&7■ &fStone Axe",
-                        "&7■ &fStone Shovel",
-                        "&6&m---------------------"
-                ));
+    public DefaultKit() {
+        super("Default", Material.STONE_SWORD, 0, GameType.NORMAL, KitRarity.COMMON);
     }
 
     @Override

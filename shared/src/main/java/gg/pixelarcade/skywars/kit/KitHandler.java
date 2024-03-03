@@ -20,8 +20,8 @@ public class KitHandler {
     private final Map<String, Kit> kits = new HashMap<>();
 
     public KitHandler() {
-        registerKit(new DefaultKit());
-        registerKit(new RookieKit());
+        this.registerKit(new DefaultKit());
+        this.registerKit(new RookieKit());
     }
 
     public void registerKit(Kit kit) {

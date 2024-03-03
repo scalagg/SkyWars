@@ -1,7 +1,6 @@
 package gg.pixelarcade.skywars;
 
-import gg.pixelarcade.skywars.adapter.LobbyScoreboardAdapter;
-import gg.pixelarcade.skywars.gameStarter.GUI.GUIButtons;
+import gg.pixelarcade.skywars.scoreboard.LobbyScoreboardAdapter;
 import gg.pixelarcade.skywars.items.*;
 import gg.pixelarcade.skywars.listeners.LobbyListener;
 import gg.pixelarcade.skywars.music.MusicHandler;

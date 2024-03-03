@@ -1,4 +1,4 @@
-package gg.pixelarcade.skywars.menu.kit;
+package gg.pixelarcade.skywars.kit.menu;
 
 import gg.pixelarcade.skywars.kit.Kit;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ import java.util.Map;
  * @since Mar 01, 2024
  */
 @RequiredArgsConstructor
-public class KitViewMenu extends Menu {
+public class KitInspectMenu extends Menu {
 
     private final Kit kit;
 

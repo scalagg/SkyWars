@@ -2,46 +2,19 @@ package gg.pixelarcade.skywars.kit.impl.insane;
 
 import gg.pixelarcade.skywars.game.state.GameType;
 import gg.pixelarcade.skywars.kit.Kit;
-import gg.pixelarcade.skywars.kit.enums.KitRarity;
+import gg.pixelarcade.skywars.kit.KitRarity;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import xyz.refinedev.phoenix.utils.item.ItemBuilder;
-
-import java.util.Arrays;
 
 public class EndermanKit extends Kit {
-//    TODO: Make sure the pearls have a cooldown of 30 seconds for this kit.
-    @Override
-    public String getName() {
-        return "Enderman";
+
+    public EndermanKit() {
+        super("Enderman", Material.ENDER_PEARL, 30000, GameType.INSANE, KitRarity.LEGENDARY);
     }
 
-    @Override
-    public int getCost() {
-        return 30000;
-    }
+    //    TODO: Make sure the pearls have a cooldown of 30 seconds for this kit.
 
-    @Override
-    public GameType getGameType() {
-        return GameType.INSANE;
-    }
-
-    @Override
-    public KitRarity getRarity() {
-        return KitRarity.LEGENDARY;
-    }
-
-    @Override
-    public ItemBuilder getDisplayItem() {
-        return new ItemBuilder(Material.ENDER_PEARL)
-                .setName("&aEnderman")
-                .setLore(Arrays.asList(
-                        "&6&m---------------------",
-                        "&7■ &f2 Ender Pearl",
-                        "&6&m---------------------"
-                ));
-    }
     @Override
     public ItemStack[] getArmor() {
         return new ItemStack[0];

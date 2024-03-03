@@ -2,48 +2,17 @@ package gg.pixelarcade.skywars.kit.impl.insane;
 
 import gg.pixelarcade.skywars.game.state.GameType;
 import gg.pixelarcade.skywars.kit.Kit;
-import gg.pixelarcade.skywars.kit.enums.KitRarity;
+import gg.pixelarcade.skywars.kit.KitRarity;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import xyz.refinedev.phoenix.utils.item.ItemBuilder;
 
-import java.util.Arrays;
-
 public class RookieKit extends Kit {
-    @Override
-    public String getName() {
-        return "Rookie";
-    }
 
-    @Override
-    public int getCost() {
-        return 15000;
-    }
-
-    @Override
-    public GameType getGameType() {
-        return GameType.INSANE;
-    }
-
-    @Override
-    public KitRarity getRarity() {
-        return KitRarity.COMMON;
-    }
-
-    @Override
-    public ItemBuilder getDisplayItem() {
-        return new ItemBuilder(Material.LEATHER_CHESTPLATE)
-                .setName("&aRookie")
-                .setLore(Arrays.asList(
-                        "&6&m---------------------",
-                        "&7■ &fFull Iron Armor",
-                        "&7■ &fIron Sword",
-                        "&7■ &f24 Glass",
-                        "&7■ &f5 Steak",
-                        "&6&m---------------------"
-                ));
+    public RookieKit() {
+        super("Rookie", Material.LEATHER_CHESTPLATE, 15000, GameType.INSANE, KitRarity.COMMON);
     }
 
     @Override

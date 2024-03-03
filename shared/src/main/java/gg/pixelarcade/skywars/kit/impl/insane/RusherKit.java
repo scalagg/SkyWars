@@ -2,7 +2,7 @@ package gg.pixelarcade.skywars.kit.impl.insane;
 
 import gg.pixelarcade.skywars.game.state.GameType;
 import gg.pixelarcade.skywars.kit.Kit;
-import gg.pixelarcade.skywars.kit.enums.KitRarity;
+import gg.pixelarcade.skywars.kit.KitRarity;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -11,43 +11,10 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import xyz.refinedev.phoenix.utils.item.ItemBuilder;
 
-import java.util.Arrays;
-
 public class RusherKit extends Kit {
-    @Override
-    public String getName() {
-        return "Rusher";
-    }
 
-    @Override
-    public int getCost() {
-        return 20000;
-    }
-
-    @Override
-    public GameType getGameType() {
-        return GameType.INSANE;
-    }
-
-    @Override
-    public KitRarity getRarity() {
-        return KitRarity.RARE;
-    }
-
-    @Override
-    public ItemBuilder getDisplayItem() {
-        return new ItemBuilder(Material.IRON_AXE)
-                .setName("&aRusher")
-                .setLore(Arrays.asList(
-                        "&6&m---------------------",
-                        "&7■ &fDiamond Axe Efficiency 1 Sharpness 1",
-                        "&7■ &f16 Oak Wood",
-                        "&7■ &f2 Speed 2 Potions &7&o(20s)",
-                        "&7■ &f2 Jump 2 Potions &7&o(20s)",
-                        "&7■ &fIron Chestplate",
-                        "&7■ &fIron Boots Feather Falling 2",
-                        "&6&m---------------------"
-                ));
+    public RusherKit() {
+        super("Rusher", Material.IRON_AXE, 20000, GameType.INSANE, KitRarity.RARE);
     }
 
     @Override

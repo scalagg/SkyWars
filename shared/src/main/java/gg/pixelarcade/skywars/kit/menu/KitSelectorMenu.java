@@ -41,7 +41,9 @@ public class KitSelectorMenu extends PaginatedMenu {
         @Override
         public ItemStack getItem(Player player) {
             SkyWarsProfile profile = SkyWarsShared.getInstance().getProfileHandler().getProfile(player.getUniqueId());
-            ItemBuilder item = kit.getDisplayItem();
+            // TODO:
+            ItemBuilder item = new ItemBuilder(kit.getDisplayMaterial())
+                            .setName(kit.getName());
 
             if (profile.getSelectedKit().equalsIgnoreCase(kit.getName())) {
                 item.addUnsafeEnchantment(Enchantment.DURABILITY, 10);

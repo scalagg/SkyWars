@@ -8,44 +8,12 @@ import org.bukkit.inventory.ItemStack;
 import xyz.refinedev.phoenix.utils.item.ItemBuilder;
 import gg.pixelarcade.skywars.game.state.GameType;
 import gg.pixelarcade.skywars.kit.Kit;
-import gg.pixelarcade.skywars.kit.enums.KitRarity;
-
-import java.util.Arrays;
+import gg.pixelarcade.skywars.kit.KitRarity;
 
 public class SalmonKit extends Kit {
-    @Override
-    public String getName() {
-        return "Salmon";
-    }
 
-    @Override
-    public int getCost() {
-        return 30000;
-    }
-
-    @Override
-    public GameType getGameType() {
-        return GameType.INSANE;
-    }
-
-    @Override
-    public KitRarity getRarity() {
-        return KitRarity.LEGENDARY;
-    }
-
-    @Override
-    public ItemBuilder getDisplayItem() {
-        return new ItemBuilder(Material.COOKED_FISH)
-                .setName("&aSalmon")
-                .setLore(Arrays.asList(
-                        "&6&m---------------------",
-                        "&7■ &fIron Cap Aqua Affinity 1 Respiration 3",
-                        "&7■ &fRed Leather Chestplate",
-                        "&7■ &fIron Leggings",
-                        "&7■ &fRed Leather Boots Depth Strider 3",
-                        "&7■ &f3 Water bucket",
-                        "&6&m---------------------"
-                ));
+    public SalmonKit() {
+        super("Salmon", Material.COOKED_FISH, 30000, GameType.INSANE, KitRarity.LEGENDARY);
     }
 
     @Override

@@ -9,47 +9,12 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import xyz.refinedev.phoenix.utils.item.ItemBuilder;
 import gg.pixelarcade.skywars.game.state.GameType;
-import gg.pixelarcade.skywars.kit.enums.KitRarity;
-
-import java.util.Arrays;
+import gg.pixelarcade.skywars.kit.KitRarity;
 
 public class PyromancerKit extends Kit {
-    @Override
-    public String getName() {
-        return "Pyromancer";
-    }
 
-    @Override
-    public int getCost() {
-        return 0;
-    }
-
-    @Override
-    public GameType getGameType() {
-        return GameType.RANKED;
-    }
-
-    @Override
-    public ItemBuilder getDisplayItem() {
-        return new ItemBuilder(Material.LAVA_BUCKET)
-                .setName("&aPyromancer").setLore(Arrays.asList(
-                "&6&m---------------------",
-                "&7■ &fSplash Potion of Fire Resistance (90seconds)",
-                "&7■ &fDiamond Sword (Fire Aspect II)",
-                "&7■ &fDiamond Boots (Protection III, Fire Protection IV)",
-                "&7■ &fLava Bucket x2 (using 2 hotbars)",
-                "&7■ &fIron Pickaxe",
-                "&7■ &fIron Axe",
-                "&7■ &fIron Helmet",
-                "&7■ &fIron Chestplate",
-                "&7■ &fIron Leggings",
-                "&6&m---------------------"
-        ));
-    }
-
-    @Override
-    public KitRarity getRarity() {
-        return KitRarity.COMMON;
+    public PyromancerKit() {
+        super("Pyromancer", Material.LAVA_BUCKET, 0, GameType.RANKED, KitRarity.COMMON);
     }
 
     @Override

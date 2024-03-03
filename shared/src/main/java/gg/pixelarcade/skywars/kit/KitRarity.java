@@ -1,4 +1,4 @@
-package gg.pixelarcade.skywars.kit.enums;
+package gg.pixelarcade.skywars.kit;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

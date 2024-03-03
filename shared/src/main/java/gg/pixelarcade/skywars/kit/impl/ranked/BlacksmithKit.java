@@ -6,52 +6,15 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
-import xyz.refinedev.phoenix.utils.item.ItemBuilder;
 import gg.pixelarcade.skywars.game.state.GameType;
-import gg.pixelarcade.skywars.kit.enums.KitRarity;
+import gg.pixelarcade.skywars.kit.KitRarity;
 
-import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class BlacksmithKit extends Kit {
 
-    private final Material[] armorTypes = {
-            Material.DIAMOND_HELMET,
-            Material.DIAMOND_CHESTPLATE,
-            Material.DIAMOND_LEGGINGS,
-            Material.DIAMOND_BOOTS
-    };
-
-    @Override
-    public String getName() {
-        return "Blacksmith";
-    }
-
-    @Override
-    public int getCost() {
-        return 0;
-    }
-
-    @Override
-    public GameType getGameType() {
-        return GameType.RANKED;
-    }
-
-    @Override
-    public ItemBuilder getDisplayItem() {
-        return new ItemBuilder(Material.ANVIL)
-                .setName("&aBlacksmith")
-                .setLore(Arrays.asList(
-                        "&6&m---------------------",
-                        "&7■ &fIron Armor",
-                        "&7■ &fIron Sword",
-                        "&7■ &fIron Pickaxe",
-                        "&7■ &fIron Axe",
-                        "&7■ &f15 Levels",
-                        "&7■ &f5 Random Enchanted Books",
-                        "&7■ &f1 Random Diamond Armor Piece",
-                        "&6&m---------------------"
-                ));
+    public BlacksmithKit() {
+        super("Blacksmith", Material.ANVIL, 0, GameType.RANKED, KitRarity.COMMON);
     }
 
     @Override
@@ -65,11 +28,6 @@ public class BlacksmithKit extends Kit {
     }
 
     @Override
-    public KitRarity getRarity() {
-        return KitRarity.COMMON;
-    }
-
-    @Override
     public void apply(Player player) {
         for (int i = 0; i < 5; i++) {
             int enchantmentLevel = ThreadLocalRandom.current().nextInt(3) + 1;
@@ -80,17 +38,5 @@ public class BlacksmithKit extends Kit {
             enchantedBook.setItemMeta(meta);
             player.getInventory().addItem(enchantedBook);
         }
-
-        int randomIndex = ThreadLocalRandom.current().nextInt(armorTypes.length);
-        Material randomArmorType = armorTypes[randomIndex];
-
-        player.giveExpLevels(15);
-        player.getInventory().addItem(new ItemBuilder(Material.ANVIL).toItemStack());
-        player.getInventory().addItem(new ItemStack(randomArmorType));
-        player.getInventory().addItem(new ItemBuilder(Material.IRON_SWORD).toItemStack());
-        player.getInventory().addItem(new ItemBuilder(Material.IRON_PICKAXE).toItemStack());
-        player.getInventory().addItem(new ItemBuilder(Material.IRON_AXE).toItemStack());
     }
-
-
 }

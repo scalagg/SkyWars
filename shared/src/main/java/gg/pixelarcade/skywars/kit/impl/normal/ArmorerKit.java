@@ -1,7 +1,7 @@
 package gg.pixelarcade.skywars.kit.impl.normal;
 
 import gg.pixelarcade.skywars.kit.Kit;
-import gg.pixelarcade.skywars.kit.enums.KitRarity;
+import gg.pixelarcade.skywars.kit.KitRarity;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -9,40 +9,10 @@ import org.bukkit.inventory.ItemStack;
 import xyz.refinedev.phoenix.utils.item.ItemBuilder;
 import gg.pixelarcade.skywars.game.state.GameType;
 
-import java.util.Arrays;
-
 public class ArmorerKit extends Kit {
-    @Override
-    public String getName() {
-        return "Armorer";
-    }
 
-    @Override
-    public int getCost() {
-        return 20000;
-    }
-
-    @Override
-    public GameType getGameType() {
-        return GameType.NORMAL;
-    }
-
-    @Override
-    public KitRarity getRarity() {
-        return KitRarity.RARE;
-    }
-
-    @Override
-    public ItemBuilder getDisplayItem() {
-        return new ItemBuilder(Material.IRON_CHESTPLATE)
-                .setName("&aArmorer")
-                .setLore(Arrays.asList(
-                        "&6&m---------------------",
-                        "&7■ &fIron Chestplate",
-                        "&7■ &fLeather Pants",
-                        "&7■ &fLeather Boots",
-                        "&6&m---------------------"
-                ));
+    public ArmorerKit() {
+        super("Armorer", Material.IRON_CHESTPLATE, 20000, GameType.NORMAL, KitRarity.RARE);
     }
 
     @Override

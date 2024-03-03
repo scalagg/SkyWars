@@ -7,46 +7,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import xyz.refinedev.phoenix.utils.item.ItemBuilder;
 import gg.pixelarcade.skywars.game.state.GameType;
-import gg.pixelarcade.skywars.kit.enums.KitRarity;
-
-import java.util.Arrays;
+import gg.pixelarcade.skywars.kit.KitRarity;
 
 public class ChampionKit extends Kit {
 
-    @Override
-    public String getName() {
-        return "Champion";
-    }
-
-    @Override
-    public int getCost() {
-        return 0;
-    }
-
-    @Override
-    public GameType getGameType() {
-        return GameType.RANKED;
-    }
-
-    @Override
-    public ItemBuilder getDisplayItem() {
-        return new ItemBuilder(Material.DIAMOND_SWORD)
-                .setName("&aChampion")
-                .setLore(Arrays.asList(
-                        "&6&m---------------------",
-                        "&7■ &fIron Armor",
-                        "&7■ &fDiamond Sword with Sharpness 2",
-                        "&7■ &fIron Axe",
-                        "&7■ &fIron Pickaxe",
-                        "&7■ &fAnvil",
-                        "&7■ &f3 Sharpness 1 Books",
-                        "&6&m---------------------"
-                ));
-    }
-
-    @Override
-    public KitRarity getRarity() {
-        return KitRarity.COMMON;
+    public ChampionKit() {
+        super("Champion", Material.DIAMOND_SWORD, 0, GameType.RANKED, KitRarity.COMMON);
     }
 
     @Override

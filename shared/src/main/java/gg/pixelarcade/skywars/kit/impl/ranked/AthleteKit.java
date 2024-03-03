@@ -8,43 +8,12 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import xyz.refinedev.phoenix.utils.item.ItemBuilder;
 import gg.pixelarcade.skywars.game.state.GameType;
-import gg.pixelarcade.skywars.kit.enums.KitRarity;
-
-import java.util.Arrays;
+import gg.pixelarcade.skywars.kit.KitRarity;
 
 public class AthleteKit extends Kit {
-    @Override
-    public String getName() {
-        return "Athlete";
-    }
 
-    @Override
-    public int getCost() {
-        return 0;
-    }
-
-    @Override
-    public GameType getGameType() {
-        return GameType.RANKED;
-    }
-
-    @Override
-    public ItemBuilder getDisplayItem() {
-        return new ItemBuilder(Material.ARROW)
-                .setName("&aAthlete")
-                .setLore(Arrays.asList(
-                        "&6&m---------------------",
-                        "&7■ &fSpeed 3 for 3 seconds",
-                        "&7■ &fIron Armor",
-                        "&7■ &fDiamond Sword",
-                        "&7■ &fIron Axe",
-                        "&7■ &fIron Pickaxe",
-                        "&7■ &f2 Golden Apples",
-                        "&7■ &fFishing Rod",
-                        "&7■ &fWater Bucket",
-                        "&7■ &fStrength 2 for 45 seconds",
-                        "&6&m---------------------"
-                ));
+    public AthleteKit() {
+        super("Athlete", Material.ARROW, 0, GameType.RANKED, KitRarity.COMMON);
     }
 
     @Override
@@ -55,11 +24,6 @@ public class AthleteKit extends Kit {
                 new ItemStack(Material.IRON_LEGGINGS),
                 new ItemStack(Material.IRON_BOOTS)
         };
-    }
-
-    @Override
-    public KitRarity getRarity() {
-        return KitRarity.COMMON;
     }
 
     @Override
