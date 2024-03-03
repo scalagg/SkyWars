@@ -99,11 +99,11 @@ public class SkyWarsProfile {
         //-- Progress
         xpBar.append("  &7[&e");
         for (int i = 0; i < progress; i++) {
-            xpBar.append("♚");
+            xpBar.append("●");
         }
         xpBar.append("&7");
         for (int i = 0; i <= 10 - progress; i++) {
-            xpBar.append("♚");
+            xpBar.append("●");
         }
         xpBar.append("] ");
 

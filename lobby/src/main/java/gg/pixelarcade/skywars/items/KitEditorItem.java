@@ -1,5 +1,6 @@
 package gg.pixelarcade.skywars.items;
 
+import gg.pixelarcade.skywars.SkyWarsLobby;
 import gg.pixelarcade.skywars.SkyWarsLobbyPlugin;
 import gg.pixelarcade.skywars.SkyWarsShared;
 import gg.pixelarcade.skywars.item.Item;
@@ -37,5 +38,6 @@ public class KitEditorItem extends Item {
 
     @Override
     public void click(Action action) {
+        SkyWarsLobby.getInstance().
     }
 }
