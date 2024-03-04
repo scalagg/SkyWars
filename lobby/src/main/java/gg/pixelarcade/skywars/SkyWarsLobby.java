@@ -1,6 +1,10 @@
 package gg.pixelarcade.skywars;
 
+<<<<<<< Updated upstream
 import gg.pixelarcade.skywars.scoreboard.LobbyScoreboardAdapter;
+=======
+import gg.pixelarcade.skywars.adapter.LobbyScoreboardAdapter;
+>>>>>>> Stashed changes
 import gg.pixelarcade.skywars.items.*;
 import gg.pixelarcade.skywars.listeners.LobbyListener;
 import gg.pixelarcade.skywars.music.MusicHandler;
@@ -34,7 +38,6 @@ public class SkyWarsLobby extends SkyWarsShared {
 
     @Getter
     private static SkyWarsLobby lobbyInstance;
-
     private PaperCommandManager commandHandler;
     private MusicHandler musicHandler;
     private QueueHandler queueHandler;
@@ -70,8 +73,9 @@ public class SkyWarsLobby extends SkyWarsShared {
 
         // this is so weird but otherwise last player to die doesn't get items for some reason :/
         Tasks.runLater(() -> {
-            player.getInventory().setItem(1, new QueueItem(player).getItem(player));
-            player.getInventory().setItem(2, new ProfileItem(player).getItem(player));
+            player.getInventory().setItem(0, new SoloQueueItem(player).getItem(player));
+            player.getInventory().setItem(1, new DoublesQueueItem(player).getItem(player));
+            player.getInventory().setItem(3, new ProfileItem(player).getItem(player));
             player.getInventory().setItem(4, new CosmeticItem(player).getItem(player));
             player.getInventory().setItem(6, new SettingsItem(player).getItem(player));
             player.getInventory().setItem(7, new KitEditorItem(player).getItem(player));
