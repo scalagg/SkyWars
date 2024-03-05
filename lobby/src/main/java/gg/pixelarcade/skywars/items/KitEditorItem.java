@@ -1,12 +1,9 @@
 package gg.pixelarcade.skywars.items;
 
-<<<<<<< Updated upstream
-=======
 import gg.pixelarcade.skywars.SkyWarsLobby;
 import gg.pixelarcade.skywars.SkyWarsLobbyPlugin;
 import gg.pixelarcade.skywars.SkyWarsShared;
 import gg.pixelarcade.skywars.game.state.GameType;
->>>>>>> Stashed changes
 import gg.pixelarcade.skywars.item.Item;
 import gg.pixelarcade.skywars.kit.menu.KitMenu;
 import org.bukkit.entity.Player;
@@ -42,12 +39,10 @@ public class KitEditorItem extends Item {
 
     @Override
     public void click(Action action) {
-<<<<<<< Updated upstream
         Phoenix.getInstance().getMenuHandler()
                 .openMenu(new KitMenu(), player);
-=======
-        Menu KitListMenu = new KitListMenu(GameType.NORMAL);
-        Phoenix.getInstance().getMenuHandler().openMenu(KitListMenu, player);
->>>>>>> Stashed changes
+
+        //Menu KitListMenu = new KitListMenu(GameType.NORMAL);
+        //Phoenix.getInstance().getMenuHandler().openMenu(KitListMenu, player);
     }
 }

@@ -1,10 +1,6 @@
 package gg.pixelarcade.skywars;
-
-<<<<<<< Updated upstream
+import gg.pixelarcade.skywars.admin.commands.AdminExp;
 import gg.pixelarcade.skywars.scoreboard.LobbyScoreboardAdapter;
-=======
-import gg.pixelarcade.skywars.adapter.LobbyScoreboardAdapter;
->>>>>>> Stashed changes
 import gg.pixelarcade.skywars.items.*;
 import gg.pixelarcade.skywars.listeners.LobbyListener;
 import gg.pixelarcade.skywars.music.MusicHandler;
@@ -64,6 +60,7 @@ public class SkyWarsLobby extends SkyWarsShared {
 
         commandHandler.registerCommand(new MusicCommand());
         commandHandler.registerCommand(new RegionCommands());
+        commandHandler.registerCommand(new AdminExp());
 
         new Assemble(SkyWarsLobbyPlugin.getInstance(), new LobbyScoreboardAdapter());
     }
