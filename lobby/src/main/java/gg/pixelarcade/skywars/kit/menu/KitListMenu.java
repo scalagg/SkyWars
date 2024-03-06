@@ -44,7 +44,7 @@ public class KitListMenu extends Menu {
     }
 
     @RequiredArgsConstructor
-    protected static class KitButton extends Button {
+    private static class KitButton extends Button {
         private final Kit kit;
 
         @Override
@@ -53,7 +53,7 @@ public class KitListMenu extends Menu {
                     .setName(ChatColor.GOLD + kit.getName() + " Kit")
                     .setLore(
                             "",
-                            ChatColor.GREEN + "Click to view kit contents."
+                            ChatColor.GREEN + "Click to manage kit."
                     )
                     .toItemStack();
         }
@@ -61,7 +61,7 @@ public class KitListMenu extends Menu {
         @Override
         public void clicked(Player player, ClickType clickType) {
             Phoenix.getInstance().getMenuHandler()
-                    .openMenu(new KitInspectMenu(kit), player);
+                    .openMenu(new KitManageMenu(kit), player);
         }
     }
 }

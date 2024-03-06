@@ -40,6 +40,8 @@ public class SkyWarsProfile {
     private int heads = 0;
     private int souls = 0;
 
+    private List<String> ownedKits = new ArrayList<>();
+
     private boolean canRate = false;
     private List<String> arenasRated = new ArrayList<>();
 
@@ -68,6 +70,7 @@ public class SkyWarsProfile {
             this.elo = profile.getElo();
             this.heads = profile.getHeads();
             this.souls = profile.getSouls();
+            this.ownedKits = profile.getOwnedKits();
             this.arenasRated = profile.getArenasRated();
         });
     }
@@ -98,13 +101,9 @@ public class SkyWarsProfile {
 
         //-- Progress
         xpBar.append("  &7[&e");
-        for (int i = 0; i < progress; i++) {
-            xpBar.append("●");
-        }
+        xpBar.append("●".repeat(Math.max(0, progress)));
         xpBar.append("&7");
-        for (int i = 0; i <= 10 - progress; i++) {
-            xpBar.append("●");
-        }
+        xpBar.append("●".repeat(Math.max(0, 10 - progress + 1)));
         xpBar.append("] ");
 
         //-- Percentage to next level
