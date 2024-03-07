@@ -115,6 +115,9 @@ public class GameModeSelectorMenu extends PaginatedMenu {
             PacketHandler.send(new BungeePlayerSendPacket(player.getUniqueId(), selectedServer));
 
 
+
+            //Utilities.SendPlayer();
+
         }
     }
 }

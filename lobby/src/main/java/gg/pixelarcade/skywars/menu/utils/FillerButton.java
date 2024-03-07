@@ -12,7 +12,7 @@ public class FillerButton extends Button{
     @Override
     public ItemStack getItem(Player player) {
         return new ItemBuilder(Material.STAINED_GLASS_PANE, 1, (short) 4)
-                .setName("")
+                .setName("&r")
                 .toItemStack();
     }
 }

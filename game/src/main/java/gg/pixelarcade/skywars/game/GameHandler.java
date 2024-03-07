@@ -14,8 +14,10 @@ import gg.pixelarcade.skywars.map.GameMap;
 import gg.pixelarcade.skywars.profile.SkyWarsProfile;
 import gg.pixelarcade.skywars.util.PlayerUtil;
 import gg.pixelarcade.skywars.util.Tuple;
+import gg.pixelarcade.skywars.util.cuboid.Cuboid;
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -37,16 +39,18 @@ import static xyz.refinedev.phoenix.utils.CenterUtil.getCentered;
 @Getter
 public class GameHandler {
 
+    private final Cuboid bounds = new Cuboid(GameConfig.SETTINGS.firstCorner, GameConfig.SETTINGS.secondCorner);
+
     @Getter
     private final Game game;
     private final GameMap map = new GameMap(
-            GameConfig.SETTING.name,
-            GameConfig.SETTING.bounds,
-            GameConfig.SETTING.type);
+            GameConfig.SETTINGS.name,
+            bounds,
+            GameConfig.SETTINGS.type);
 
     public GameHandler() {
         //TODO: make a method that can pass in a gameType when launching the server (depending on in what way it was launched)
-        this.game = new Game(GameConfig.SETTING.type);
+        this.game = new Game(GameConfig.SETTINGS.type);
     }
 
     public void startCountdown() {
