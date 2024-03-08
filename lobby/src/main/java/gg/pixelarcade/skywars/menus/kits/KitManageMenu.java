@@ -113,7 +113,7 @@ public class KitManageMenu extends Menu {
                 return;
 
             final Menu confirmMenu = new ConfirmMenu(
-                    "Are you sure you want to buy " + kit.getName() + " Kit for " + kit.getCost() + " coins?",
+                    "Confirm purchase of " + kit.getName() + " Kit",
                     response -> {
                         if (response) {
                             purchaseKit(player, profile, kit);
