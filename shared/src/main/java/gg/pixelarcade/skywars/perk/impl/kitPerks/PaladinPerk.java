@@ -28,4 +28,9 @@ public class PaladinPerk extends Perk {
             player.sendMessage(ChatColor.GOLD + "[Paladin Perk]" + ChatColor.DARK_PURPLE + " You Received Resistence II for 7 Seconds!");
         }
     }
+
+    @Override
+    public boolean isKitPerk(){
+        return true;
+    }
 }

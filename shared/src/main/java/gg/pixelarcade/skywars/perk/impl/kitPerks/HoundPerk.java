@@ -35,4 +35,9 @@ public class HoundPerk extends Perk {
             player.sendMessage(ChatColor.GOLD + "[Hound Perk]" + ChatColor.DARK_PURPLE + " You Received a New Best Friend!");
         }
     }
+
+    @Override
+    public boolean isKitPerk(){
+        return true;
+    }
 }

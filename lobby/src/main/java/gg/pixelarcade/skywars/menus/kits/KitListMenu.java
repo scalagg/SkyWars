@@ -1,4 +1,4 @@
-package gg.pixelarcade.skywars.kit.menu;
+package gg.pixelarcade.skywars.menus.kits;
 
 import gg.pixelarcade.skywars.SkyWarsShared;
 import gg.pixelarcade.skywars.game.state.GameType;

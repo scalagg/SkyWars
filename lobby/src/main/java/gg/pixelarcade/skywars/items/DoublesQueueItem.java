@@ -2,7 +2,7 @@ package gg.pixelarcade.skywars.items;
 
 import gg.pixelarcade.skywars.game.state.GameTeamType;
 import gg.pixelarcade.skywars.item.Item;
-import gg.pixelarcade.skywars.menu.mapSelector.GameModeSelectorMenu;
+import gg.pixelarcade.skywars.menus.GameModeSelectorMenu;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;

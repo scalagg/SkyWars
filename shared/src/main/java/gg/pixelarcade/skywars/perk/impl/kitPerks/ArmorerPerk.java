@@ -45,4 +45,9 @@ public class ArmorerPerk extends Perk {
             player.sendMessage(ChatColor.GOLD + "[Armorer Perk]" + ChatColor.DARK_PURPLE + " +1 Prot Level!");
         }
     }
+
+    @Override
+    public boolean isKitPerk(){
+        return true;
+    }
 }

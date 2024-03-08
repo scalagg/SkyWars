@@ -1,7 +1,7 @@
 package gg.pixelarcade.skywars.items;
 
 import gg.pixelarcade.skywars.item.Item;
-import gg.pixelarcade.skywars.kit.menu.KitMenu;
+import gg.pixelarcade.skywars.menus.SkyWarsMenu;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
@@ -28,13 +28,13 @@ public class KitEditorItem extends Item {
     @Override
     public ItemStack getItem(Player player) {
         return new ItemBuilder(XMaterial.EMERALD, 1)
-                .setName(Color.translate("&aKit Editor &7(Right Click)"))
+                .setName(Color.translate("&aSkyWars Editor &7(Right Click)"))
                 .toItemStack();
     }
 
     @Override
     public void click(Action action) {
         Phoenix.getInstance().getMenuHandler()
-                .openMenu(new KitMenu(), player);
+                .openMenu(new SkyWarsMenu(), player);
     }
 }

@@ -41,4 +41,9 @@ public class BlacksmithPerk extends Perk {
             player.sendMessage(ChatColor.GOLD + "[Blacksmith Perk]" + ChatColor.DARK_PURPLE + " You Received 3 Experience Levels and +1 Enchantment Book!");
         }
     }
+
+    @Override
+    public boolean isKitPerk(){
+        return true;
+    }
 }

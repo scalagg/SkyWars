@@ -6,7 +6,9 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import xyz.refinedev.phoenix.SharedAPI;
 import xyz.refinedev.phoenix.utils.Exclude;
 
@@ -41,6 +43,8 @@ public class SkyWarsProfile {
     private int souls = 0;
 
     private List<String> ownedKits = new ArrayList<>();
+    private List<String> ownedPerks = new ArrayList<>();
+    private List<String> selectedPerks = new ArrayList<>();
 
     private boolean canRate = false;
     private List<String> arenasRated = new ArrayList<>();
@@ -71,6 +75,8 @@ public class SkyWarsProfile {
             this.heads = profile.getHeads();
             this.souls = profile.getSouls();
             this.ownedKits = profile.getOwnedKits();
+            this.ownedPerks = profile.getOwnedPerks();
+            this.selectedPerks = profile.getSelectedPerks();
             this.arenasRated = profile.getArenasRated();
         });
     }
@@ -117,7 +123,7 @@ public class SkyWarsProfile {
     }
 
     public void incrementLevel() {
-        this.level++;
+        level ++;
     }
 
     public void incrementXP(int amount) {
@@ -125,11 +131,12 @@ public class SkyWarsProfile {
         int newXP = xp + amount;
         LevelEnum prestige = getPrestige(level);
 
-        // If the new xp is higher than the minimum amount to level up
-        if (newXP >= prestige.getXpPerLevel()) {
+        while (newXP >= prestige.getXpPerLevel()) {
             incrementLevel();
-            xp = newXP - prestige.getXpPerLevel();
-        } else xp = newXP;
+            newXP =- prestige.getXpPerLevel();
+        }
+
+        xp = newXP;
     }
 
     public void incrementKills() {

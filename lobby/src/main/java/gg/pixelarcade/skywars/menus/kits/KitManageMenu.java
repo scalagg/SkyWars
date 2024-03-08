@@ -1,4 +1,4 @@
-package gg.pixelarcade.skywars.kit.menu;
+package gg.pixelarcade.skywars.menus.kits;
 
 import gg.pixelarcade.skywars.SkyWarsShared;
 import gg.pixelarcade.skywars.kit.Kit;
@@ -13,7 +13,6 @@ import xyz.refinedev.phoenix.Phoenix;
 import xyz.refinedev.phoenix.menu.api.Button;
 import xyz.refinedev.phoenix.menu.api.Menu;
 import xyz.refinedev.phoenix.menu.api.menus.ConfirmMenu;
-import xyz.refinedev.phoenix.utils.XMaterial;
 import xyz.refinedev.phoenix.utils.item.ItemBuilder;
 
 import java.util.ArrayList;

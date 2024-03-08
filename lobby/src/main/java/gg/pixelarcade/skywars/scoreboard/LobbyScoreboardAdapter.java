@@ -1,6 +1,7 @@
 package gg.pixelarcade.skywars.scoreboard;
 
 import gg.pixelarcade.skywars.SkyWarsLobby;
+import gg.pixelarcade.skywars.SkyWarsShared;
 import gg.pixelarcade.skywars.leveling.enums.LevelEnum;
 import gg.pixelarcade.skywars.profile.SkyWarsProfile;
 import gg.pixelarcade.skywars.scoreboard.api.AssembleAdapter;
@@ -45,7 +46,6 @@ public class LobbyScoreboardAdapter implements AssembleAdapter {
 
         //-- Instance Variables
         List<String> lines = new ArrayList<>();
-        SkyWarsProfile profile = SkyWarsLobby.getInstance().getProfileHandler().getProfile(player.getUniqueId());
 
         //-- Date
         DateFormat dateFormat = new SimpleDateFormat("MM,dd,yy");
@@ -55,18 +55,18 @@ public class LobbyScoreboardAdapter implements AssembleAdapter {
         lines.add("");
 
         //-- Level
-        int level = profile.getLevel();
-        LevelEnum prestige = profile.getPrestige(level);
+        int level = SkyWarsShared.getInstance().getProfileHandler().getProfile(player.getUniqueId()).getLevel();
+        LevelEnum prestige = SkyWarsShared.getInstance().getProfileHandler().getProfile(player.getUniqueId()).getPrestige(level);
 
         lines.add("&6■ &fLevel: &r" + prestige.getColor() + "[" + level + "✯]");
-        lines.add(profile.getXPBar(prestige));
+        lines.add(SkyWarsShared.getInstance().getProfileHandler().getProfile(player.getUniqueId()).getXPBar(prestige));
 
         lines.add("");
-        lines.add("&6■ &fWins: &a" + profile.getWins());
-        lines.add("&6■ &fKills: &a" + profile.getKills());
+        lines.add("&6■ &fWins: &a" + SkyWarsShared.getInstance().getProfileHandler().getProfile(player.getUniqueId()).getWins());
+        lines.add("&6■ &fKills: &a" + SkyWarsShared.getInstance().getProfileHandler().getProfile(player.getUniqueId()).getKills());
 
         lines.add("");
-        lines.add("&6■ &fCoins: &6" + profile.getCoins());
+        lines.add("&6■ &fCoins: &6" + SkyWarsShared.getInstance().getProfileHandler().getProfile(player.getUniqueId()).getCoins());
 
         if (Phoenix.getInstance().getRebootHandler().isRebootScheduled()) {
             lines.add("");

@@ -11,6 +11,14 @@ public abstract class Perk {
     private final Material displayMaterial;
     private final int cost;
     private final PerkRarity rarity;
+    private String description;
+
+    public boolean isKitPerk() {
+        return false;
+    }
+    public boolean isGlobalPerk() {
+        return false;
+    }
 
     public abstract void apply(Player player);
 

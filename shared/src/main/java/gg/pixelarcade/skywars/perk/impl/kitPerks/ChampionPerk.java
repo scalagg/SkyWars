@@ -43,4 +43,9 @@ public class ChampionPerk extends Perk {
             player.sendMessage(ChatColor.GOLD + "[Champion Perk]" + ChatColor.DARK_PURPLE + " +1 Sharpness Level!");
         }
     }
+
+    @Override
+    public boolean isKitPerk(){
+        return true;
+    }
 }

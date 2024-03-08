@@ -52,4 +52,9 @@ public class SniperPerk extends Perk {
             player.sendMessage(ChatColor.GOLD + "[Sniper Perk]" + ChatColor.DARK_PURPLE + " +1 Power Level!");
         }
     }
+
+    @Override
+    public boolean isKitPerk(){
+        return true;
+    }
 }

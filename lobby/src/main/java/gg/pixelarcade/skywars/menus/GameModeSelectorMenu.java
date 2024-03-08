@@ -1,19 +1,14 @@
-package gg.pixelarcade.skywars.menu.mapSelector;
+package gg.pixelarcade.skywars.menus;
 
-import com.google.common.io.ByteArrayDataOutput;
-import com.google.common.io.ByteStreams;
-import gg.pixelarcade.skywars.SkyWarsLobbyPlugin;
 import gg.pixelarcade.skywars.game.state.GameTeamType;
 import gg.pixelarcade.skywars.game.state.GameType;
-import gg.pixelarcade.skywars.menu.utils.FillerButton;
+import gg.pixelarcade.skywars.menus.utils.FillerButton;
 import lombok.RequiredArgsConstructor;
-import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 import xyz.refinedev.phoenix.Phoenix;
 import xyz.refinedev.phoenix.menu.api.Button;
-import xyz.refinedev.phoenix.menu.api.Menu;
 import xyz.refinedev.phoenix.menu.api.pagination.PaginatedMenu;
 import xyz.refinedev.phoenix.packet.api.PacketHandler;
 import xyz.refinedev.phoenix.packet.impl.profile.BungeePlayerSendPacket;
@@ -21,8 +16,6 @@ import xyz.refinedev.phoenix.server.ServerData;
 import xyz.refinedev.phoenix.utils.XMaterial;
 import xyz.refinedev.phoenix.utils.item.ItemBuilder;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
 import java.util.*;
 
 /**

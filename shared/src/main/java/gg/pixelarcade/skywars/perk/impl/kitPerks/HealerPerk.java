@@ -35,4 +35,9 @@ public class HealerPerk extends Perk {
             player.sendMessage(ChatColor.GOLD + "[Healer Perk]" + ChatColor.DARK_PURPLE + " You Have Been Healed! +1 Golden Apple!");
         }
     }
+
+    @Override
+    public boolean isKitPerk(){
+        return true;
+    }
 }

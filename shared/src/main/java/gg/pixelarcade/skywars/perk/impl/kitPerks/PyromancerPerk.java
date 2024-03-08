@@ -30,4 +30,9 @@ public class PyromancerPerk extends Perk {
             player.sendMessage(ChatColor.GOLD + "[Pyromancer Perk]" + ChatColor.DARK_PURPLE + " You Received Fire Resistance and Speed II!");
         }
     }
+
+    @Override
+    public boolean isKitPerk(){
+        return true;
+    }
 }

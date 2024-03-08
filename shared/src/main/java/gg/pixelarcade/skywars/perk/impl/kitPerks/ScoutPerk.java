@@ -26,4 +26,9 @@ public class ScoutPerk extends Perk {
             player.sendMessage(ChatColor.GOLD + "[Scout Perk]" + ChatColor.DARK_PURPLE + " +1 Ender Pearl!");
         }
     }
+
+    @Override
+    public boolean isKitPerk(){
+        return true;
+    }
 }

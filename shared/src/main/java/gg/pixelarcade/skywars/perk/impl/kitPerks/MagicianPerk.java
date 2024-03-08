@@ -49,8 +49,11 @@ public class MagicianPerk extends Perk {
                 player.setLevel(xp);
                 player.sendMessage(ChatColor.GOLD + "[Magician Perk]" + ChatColor.DARK_PURPLE + " You Received 10 Experience Levels!");
             }
-
         }
+    }
 
+    @Override
+    public boolean isKitPerk(){
+        return true;
     }
 }
