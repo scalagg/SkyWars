@@ -107,9 +107,13 @@ public class SkyWarsProfile {
 
         //-- Progress
         xpBar.append("  &7[&e");
-        xpBar.append("●".repeat(Math.max(0, progress)));
+        for (int i = 0; i < progress; i++) {
+            xpBar.append("●");
+        }
         xpBar.append("&7");
-        xpBar.append("●".repeat(Math.max(0, 10 - progress + 1)));
+        for (int i = 0; i <= 10 - progress; i++) {
+            xpBar.append("●");
+        }
         xpBar.append("] ");
 
         //-- Percentage to next level
