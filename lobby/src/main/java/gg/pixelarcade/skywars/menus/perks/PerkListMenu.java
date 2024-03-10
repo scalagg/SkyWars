@@ -25,17 +25,15 @@ import java.util.Map;
 
 public class PerkListMenu extends Menu {
 
-    protected final GameType gameType;
     private final PerkHandler perkHandler = SkyWarsShared.getInstance().getPerkHandler();
 
-    public PerkListMenu(GameType gameType){
-        this.gameType = gameType;
+    public PerkListMenu(){
         this.setBordered(true);
     }
 
     @Override
     public String getTitle(Player player) {
-        return gameType.getDisplayName() + " Perks";
+        return "Perks";
     }
 
     @Override
@@ -53,6 +51,7 @@ public class PerkListMenu extends Menu {
         buttons.put(this.getSlot(1, 3), new GlobalPerkDescription());
         buttons.put(this.getSlot(2, 3), new GlobalPerksButton(perkHandler.getPerkByName("Bulldozer Perk")));
         buttons.put(this.getSlot(3, 3), new GlobalPerksButton(perkHandler.getPerkByName("Juggernaut Perk")));
+        buttons.put(this.getSlot(6, 3), new BuyPerkMenu());
         buttons.put(this.getSlot(7, 3), new KitPerkMenu());
 
         //-- Footer
@@ -83,7 +82,7 @@ public class PerkListMenu extends Menu {
                                 ChatColor.YELLOW + "Left-Click to replace"
                         )
                         .toItemStack();
-            } else if (playerPerks.size() <= perkNum) {
+            } else if (playerPerks.size() >= perkNum) {
 
                 Perk perk = SkyWarsShared.getInstance().getPerkHandler().getPerkByName(playerPerks.get(perkNum -1));
                 return new ItemBuilder(perk.getDisplayMaterial())
@@ -109,8 +108,7 @@ public class PerkListMenu extends Menu {
         @Override
         public void clicked(Player player, ClickType clickType){
             if (clickType.isLeftClick()){
-                //TODO: open the owned perks menu
-                player.sendMessage("You found me!");
+                Phoenix.getInstance().getMenuHandler().openMenu(new OwnedPerksMenu(), player);
             }
         }
     }
@@ -120,14 +118,30 @@ public class PerkListMenu extends Menu {
 
         private final Perk perk;
 
-        //TODO: Add perk descriptions and add them to the lore
-
         @Override
         public ItemStack getItem(Player player) {
             return new ItemBuilder(perk.getDisplayMaterial())
                     .setName(ChatColor.GOLD + perk.getName())
                     .setLore(ChatColor.GRAY + perk.getDescription())
                     .toItemStack();
+        }
+    }
+
+    public static class BuyPerkMenu extends Button {
+
+        @Override
+        public ItemStack getItem(Player player) {
+            return new ItemBuilder(XMaterial.DIAMOND)
+                    .setName(ChatColor.GREEN + "Buy Perks")
+                    .setLore(
+                            ChatColor.GRAY + "Click here to Purchase new Perks!"
+                    )
+                    .toItemStack();
+        }
+
+        @Override
+        public void clicked(Player player, ClickType clickType) {
+            Phoenix.getInstance().getMenuHandler().openMenu(new PurchasePerkMenu(), player);
         }
     }
 

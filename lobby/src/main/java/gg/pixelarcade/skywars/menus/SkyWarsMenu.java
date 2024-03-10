@@ -46,9 +46,9 @@ public class SkyWarsMenu extends Menu {
         buttons.put(this.getSlot(6, 1), new KitCategoryButton(Material.DIAMOND_SWORD, GameType.RANKED));
 
         //-- Perk Buttons
-        buttons.put(this.getSlot(2, 2), new PerkCategoryButton(Material.NETHER_STAR, GameType.NORMAL));
-        buttons.put(this.getSlot(4, 2), new PerkCategoryButton(Material.NETHER_STAR, GameType.INSANE));
-        buttons.put(this.getSlot(6, 2), new PerkCategoryButton(Material.NETHER_STAR, GameType.RANKED));
+        buttons.put(this.getSlot(2, 2), new PerkCategoryButton(Material.NETHER_STAR));
+        buttons.put(this.getSlot(4, 2), new PerkCategoryButton(Material.NETHER_STAR));
+        buttons.put(this.getSlot(6, 2), new PerkCategoryButton(Material.NETHER_STAR));
 
         //-- Footer
         buttons.put(this.getSlot(3, 4), new ExitButton());
@@ -67,13 +67,12 @@ public class SkyWarsMenu extends Menu {
 
         //-- Instance Variables
         private final Material material;
-        private final GameType gameType;
 
         //-- Create Buttons with given values
         @Override
         public ItemStack getItem(Player player){
             return new ItemBuilder(material)
-                    .setName(ChatColor.DARK_PURPLE + gameType.getDisplayName() + " Perks")
+                    .setName(ChatColor.DARK_PURPLE + "Perks")
                     .setLore(
                             "",
                             ChatColor.GREEN + "Click to view."
@@ -83,7 +82,7 @@ public class SkyWarsMenu extends Menu {
 
         @Override
         public void clicked(Player player, ClickType clickType){
-            Phoenix.getInstance().getMenuHandler().openMenu(new PerkListMenu(gameType), player);
+            Phoenix.getInstance().getMenuHandler().openMenu(new PerkListMenu(), player);
         }
     }
 

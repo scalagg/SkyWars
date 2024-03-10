@@ -1,7 +1,6 @@
 package gg.pixelarcade.skywars.menus.perks;
 
 import gg.pixelarcade.skywars.SkyWarsShared;
-import gg.pixelarcade.skywars.game.state.GameType;
 import gg.pixelarcade.skywars.menus.SkyWarsMenu;
 import gg.pixelarcade.skywars.menus.utils.BackButton;
 import gg.pixelarcade.skywars.menus.utils.CoinsButton;
@@ -41,7 +40,7 @@ public class KitPerksMenu extends Menu {
                 .forEach(perk -> buttons.put(buttons.size() + 10, new PerkButton(perk)));
 
         //-- Footer
-        buttons.put(this.getSlot(3, 4), new BackButton(new SkyWarsMenu()));
+        buttons.put(this.getSlot(3, 4), new BackButton(new PerkListMenu()));
         buttons.put(this.getSlot(4, 4), new ExitButton());
         buttons.put(this.getSlot(5, 4), new CoinsButton());
 

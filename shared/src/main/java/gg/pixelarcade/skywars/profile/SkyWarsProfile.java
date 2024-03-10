@@ -2,6 +2,7 @@ package gg.pixelarcade.skywars.profile;
 
 import gg.pixelarcade.skywars.SkyWarsShared;
 import gg.pixelarcade.skywars.leveling.enums.LevelEnum;
+import gg.pixelarcade.skywars.perk.Perk;
 import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -178,6 +179,12 @@ public class SkyWarsProfile {
 
     public void removeSouls(int amount) {
         this.souls -= amount;
+    }
+
+    public void addSelectedPerk(Perk perk){
+        List<String> newSelectedPerks = new ArrayList<>(this.selectedPerks);
+        newSelectedPerks.add(perk.getName());
+        this.selectedPerks = newSelectedPerks;
     }
 
     public String getNiceName() {
