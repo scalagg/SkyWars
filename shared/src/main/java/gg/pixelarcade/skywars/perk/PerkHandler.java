@@ -26,6 +26,11 @@ public class PerkHandler {
         this.registerPerk(new LastStandPerk());
         this.registerPerk(new JuggernautPerk());
         this.registerPerk(new BulldozerPerk());
+        this.registerPerk(new ArrowRecoveryPerk());
+        this.registerPerk(new BridgerPerk());
+        this.registerPerk(new EnderMasteryPerk());
+        this.registerPerk(new EnvironmentalExpertPerk());
+        this.registerPerk(new RusherPerk());
     }
 
     public void registerPerk(Perk perk) {

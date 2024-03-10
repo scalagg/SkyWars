@@ -13,7 +13,8 @@ import java.util.Random;
 public class MagicianPerk extends Perk {
 
     public MagicianPerk() {
-        super("Magician Perk", Material.POTION, 0, PerkRarity.COMMON);
+        super("Magician Perk", Material.POTION, 0, PerkRarity.COMMON,
+                "Gain a random positive potion effect on kill, or 10 levels.");
     }
 
     @Override

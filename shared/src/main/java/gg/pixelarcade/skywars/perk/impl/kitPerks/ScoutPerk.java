@@ -11,7 +11,8 @@ import org.bukkit.inventory.ItemStack;
 public class ScoutPerk extends Perk {
 
     public ScoutPerk() {
-        super("Scout Perk", Material.FEATHER, 0, PerkRarity.COMMON);
+        super("Scout Perk", Material.FEATHER, 0, PerkRarity.COMMON,
+                "Obtain 1 Ender Pearl after each kill");
     }
 
     @Override

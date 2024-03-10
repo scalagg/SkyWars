@@ -12,7 +12,8 @@ import org.bukkit.inventory.ItemStack;
 public class ChampionPerk extends Perk {
 
     public ChampionPerk(){
-        super("Champion Perk", Material.DIAMOND_SWORD, 0, PerkRarity.COMMON);
+        super("Champion Perk", Material.DIAMOND_SWORD, 0, PerkRarity.COMMON,
+                "Champion Sword gains 1 level of Sharpness after each kill.");
     }
 
     @Override

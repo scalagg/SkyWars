@@ -11,7 +11,7 @@ public abstract class Perk {
     private final Material displayMaterial;
     private final int cost;
     private final PerkRarity rarity;
-    private String description;
+    private final String description;
 
     public boolean isKitPerk() {
         return false;

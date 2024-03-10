@@ -12,7 +12,8 @@ import org.bukkit.potion.PotionEffectType;
 public class PyromancerPerk extends Perk {
 
     public PyromancerPerk() {
-        super("Pyromancer Perk", Material.LAVA_BUCKET, 0, PerkRarity.COMMON);
+        super("Pyromancer Perk", Material.LAVA_BUCKET, 0, PerkRarity.COMMON,
+                "Upon kill obtain 24 seconds of Fire Resistance and 10 seconds of Speed II.");
     }
 
     @Override

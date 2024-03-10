@@ -9,7 +9,8 @@ import org.bukkit.potion.PotionEffectType;
 
 public class JuggernautPerk extends Perk {
     public JuggernautPerk() {
-        super("Juggernaut Perk", Material.DIAMOND_HELMET, 0, PerkRarity.LEGENDARY);
+        super("Juggernaut Perk", Material.DIAMOND_HELMET, 0, PerkRarity.LEGENDARY,
+                "Gain 10 seconds of Regeneration I after a kill.");
     }
 
     @Override

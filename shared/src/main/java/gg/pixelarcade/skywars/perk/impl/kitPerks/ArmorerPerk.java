@@ -11,9 +11,12 @@ import org.bukkit.inventory.ItemStack;
 
 public class ArmorerPerk extends Perk {
 
+
     public ArmorerPerk(){
-        super("Armorer Perk", Material.IRON_CHESTPLATE, 0, PerkRarity.COMMON);
+        super("Armorer Perk", Material.IRON_CHESTPLATE, 0, PerkRarity.COMMON
+        , "Armorer's armor gains 1 level of Protection after each kill.");
     }
+
 
     @Override
     public void apply(Player player) {

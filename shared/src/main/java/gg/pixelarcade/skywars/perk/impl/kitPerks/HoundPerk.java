@@ -14,7 +14,8 @@ import org.bukkit.inventory.ItemStack;
 public class HoundPerk extends Perk {
 
     public HoundPerk() {
-        super("Hound Perk", Material.EGG, 0, PerkRarity.COMMON);
+        super("Hound Perk", Material.EGG, 0, PerkRarity.COMMON,
+                "Spawns a wolf and get 16 steak on kill.");
     }
 
     @Override

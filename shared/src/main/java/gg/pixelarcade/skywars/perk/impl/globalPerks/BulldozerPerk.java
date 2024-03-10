@@ -10,7 +10,8 @@ import org.bukkit.potion.PotionEffectType;
 public class BulldozerPerk extends Perk {
 
     public BulldozerPerk() {
-        super("Bulldozer Perk", Material.ANVIL, 0, PerkRarity.LEGENDARY);
+        super("Bulldozer Perk", Material.ANVIL, 0, PerkRarity.LEGENDARY,
+                "Gain 5 seconds of Strength I after a kill.");
     }
 
     @Override

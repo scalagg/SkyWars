@@ -12,7 +12,8 @@ import org.bukkit.potion.PotionEffectType;
 public class PaladinPerk extends Perk {
 
     public PaladinPerk() {
-        super("Paladin Perk", Material.DIAMOND_SWORD, 0, PerkRarity.COMMON);
+        super("Paladin Perk", Material.DIAMOND_SWORD, 0, PerkRarity.COMMON,
+                "Gain Resistance II for 7 seconds on kill.");
     }
 
     @Override

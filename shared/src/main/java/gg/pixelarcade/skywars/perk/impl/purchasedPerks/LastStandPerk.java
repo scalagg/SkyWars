@@ -4,16 +4,17 @@ import gg.pixelarcade.skywars.perk.Perk;
 import gg.pixelarcade.skywars.perk.PerkRarity;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-
-//TODO: Finish
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 public class LastStandPerk extends Perk {
 
     public LastStandPerk() {
-        super("Last Stand", Material.APPLE, 1000, PerkRarity.RARE);
+        super("Last Stand Perk", Material.APPLE, 1000, PerkRarity.RARE,
+                "Gain 10 seconds of Resistance when below 5 hearts.");
     }
 
     @Override
     public void apply(Player player) {
-
+        player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 10, 1));
     }
 }

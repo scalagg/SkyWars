@@ -11,7 +11,8 @@ import org.bukkit.inventory.ItemStack;
 public class HealerPerk extends Perk {
 
     public HealerPerk() {
-        super("Healer Perk", Material.GOLDEN_APPLE, 0, PerkRarity.COMMON);
+        super("Healer Perk", Material.GOLDEN_APPLE, 0, PerkRarity.COMMON,
+                "Upon kill, max health increases by 4HP, heal for 8HP and gain a Golden Apple.");
     }
 
     @Override

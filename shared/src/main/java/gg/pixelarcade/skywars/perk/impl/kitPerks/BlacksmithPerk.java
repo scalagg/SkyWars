@@ -15,7 +15,8 @@ import java.util.concurrent.ThreadLocalRandom;
 public class BlacksmithPerk extends Perk {
 
     public BlacksmithPerk() {
-        super("Blacksmith Perk", Material.ANVIL, 0, PerkRarity.COMMON);
+        super("Blacksmith Perk", Material.ANVIL, 0, PerkRarity.COMMON,
+                "Every kill gains 3 levels and drops a random enchanted book");
     }
 
     @Override

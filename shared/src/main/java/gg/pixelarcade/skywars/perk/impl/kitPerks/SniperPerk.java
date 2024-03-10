@@ -14,7 +14,8 @@ public class SniperPerk extends Perk {
     //TODO: Doubles the effect of the Blazing Arrow and ArrowRecovery Perks
 
     public SniperPerk(){
-        super("Sniper Perk", Material.BOW, 0, PerkRarity.COMMON);
+        super("Sniper Perk", Material.BOW, 0, PerkRarity.COMMON,
+                "Archery Bow gains 1 level of Power after each kill.");
     }
 
     @Override
