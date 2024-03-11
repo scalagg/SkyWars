@@ -1,7 +1,6 @@
 package gg.pixelarcade.skywars.kit;
 
-import gg.pixelarcade.skywars.kit.impl.normal.DefaultKit;
-import gg.pixelarcade.skywars.kit.impl.normal.RookieKit;
+import gg.pixelarcade.skywars.kit.impl.normal.*;
 import lombok.Data;
 
 import java.util.Collection;
@@ -22,6 +21,22 @@ public class KitHandler {
     public KitHandler() {
         this.registerKit(new DefaultKit());
         this.registerKit(new RookieKit());
+        this.registerKit(new ArmorerKit());
+        this.registerKit(new ArmorsmithKit());
+        this.registerKit(new CannoneerKit());
+        this.registerKit(new EnchanterKit());
+        this.registerKit(new EndermanKit());
+        this.registerKit(new KnightKit());
+        this.registerKit(new MagicianKit());
+        this.registerKit(new MedicKit());
+        this.registerKit(new MinerKit());
+        this.registerKit(new MinerKit());
+        this.registerKit(new PyromancerKit());
+        this.registerKit(new RusherKit());
+        this.registerKit(new SalmonKit());
+        this.registerKit(new ScoutKit());
+        this.registerKit(new SniperKit());
+        this.registerKit(new TrapperKit());
     }
 
     public void registerKit(Kit kit) {

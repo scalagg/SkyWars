@@ -125,10 +125,12 @@ public class SkyWarsProfile {
 
     public void incrementCoins(int amount) {
         this.coins += amount;
+        this.save();
     }
 
     public void incrementLevel() {
         level ++;
+        this.save();
     }
 
     public void incrementXP(int amount) {
@@ -142,6 +144,8 @@ public class SkyWarsProfile {
         }
 
         xp = newXP;
+
+        this.save();
     }
 
     public void incrementKills() {
@@ -150,41 +154,51 @@ public class SkyWarsProfile {
 
         if (killStreak > highestKillStreak)
             highestKillStreak = killStreak;
+
+        this.save();
     }
 
     public void incrementDeaths() {
         killStreak = 0;
         deaths++;
+        this.save();
     }
 
     public void incrementElo(int amount) {
         this.elo += amount;
+        this.save();
     }
 
     public void incrementWins() {
         this.wins++;
+        this.save();
     }
 
     public void incrementLosses() {
         this.losses++;
+        this.save();
     }
 
     public void addSouls(int amount) {
         this.souls += amount;
+        this.save();
     }
 
     public void addHeads(int amount) {
         this.heads += amount;
+        this.save();
     }
 
     public void removeSouls(int amount) {
         this.souls -= amount;
+        this.save();
     }
 
     public void addSelectedPerk(Perk perk){
         List<String> newSelectedPerks = new ArrayList<>(this.selectedPerks);
         newSelectedPerks.add(perk.getName());
         this.selectedPerks = newSelectedPerks;
+        this.save();
     }
 
     public String getNiceName() {

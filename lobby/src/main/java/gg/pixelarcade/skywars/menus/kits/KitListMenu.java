@@ -4,6 +4,10 @@ import gg.pixelarcade.skywars.SkyWarsShared;
 import gg.pixelarcade.skywars.game.state.GameType;
 import gg.pixelarcade.skywars.kit.Kit;
 import gg.pixelarcade.skywars.kit.KitHandler;
+import gg.pixelarcade.skywars.menus.SkyWarsMenu;
+import gg.pixelarcade.skywars.menus.utils.BackButton;
+import gg.pixelarcade.skywars.menus.utils.CoinsButton;
+import gg.pixelarcade.skywars.menus.utils.ExitButton;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -21,11 +25,15 @@ import java.util.Map;
  * @author puugz
  * @since Mar 01, 2024
  */
-@RequiredArgsConstructor
 public class KitListMenu extends Menu {
 
     private final GameType gameType;
     private final KitHandler kitHandler = SkyWarsShared.getInstance().getKitHandler();
+
+    public KitListMenu (GameType gameType) {
+        this.gameType = gameType;
+        this.setBordered(true);
+    }
 
     @Override
     public String getTitle(Player player) {
@@ -39,6 +47,11 @@ public class KitListMenu extends Menu {
         kitHandler.getKits()
                 .stream().filter(kit -> kit.getGameType() == gameType)
                 .forEach(kit -> buttons.put(buttons.size(), new KitButton(kit)));
+
+        //-- Footer
+        buttons.put(this.getSlot(3, 4), new BackButton(new SkyWarsMenu()));
+        buttons.put(this.getSlot(4, 4), new ExitButton());
+        buttons.put(this.getSlot(5, 4), new CoinsButton());
 
         return buttons;
     }
