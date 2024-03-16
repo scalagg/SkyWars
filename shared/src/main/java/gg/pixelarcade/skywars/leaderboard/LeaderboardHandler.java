@@ -1,11 +1,25 @@
 package gg.pixelarcade.skywars.leaderboard;
 
+import gg.pixelarcade.skywars.leaderboard.impl.LevelLeaderboard;
+import gg.pixelarcade.skywars.leaderboard.impl.RankedLeaderboard;
+import gg.pixelarcade.skywars.leaderboard.impl.WinsLeaderboard;
+import gg.pixelarcade.skywars.leaderboard.impl.WinstreakLeaderboard;
+import lombok.Getter;
+
 import java.util.HashMap;
 import java.util.Map;
 
 @SuppressWarnings("unchecked")
 public class LeaderboardHandler {
+    @Getter
     private final Map<String, Leaderboard> leaderboards = new HashMap<>();
+
+    public LeaderboardHandler() {
+        registerLeaderboard(new LevelLeaderboard());
+        registerLeaderboard(new RankedLeaderboard());
+        registerLeaderboard(new WinsLeaderboard());
+        registerLeaderboard(new WinstreakLeaderboard());
+    }
 
     /**
      * Register a leaderboard
