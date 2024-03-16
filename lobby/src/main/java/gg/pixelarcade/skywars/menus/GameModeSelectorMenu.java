@@ -1,5 +1,6 @@
 package gg.pixelarcade.skywars.menus;
 
+import gg.pixelarcade.skywars.SkyWarsLobby;
 import gg.pixelarcade.skywars.game.state.GameTeamType;
 import gg.pixelarcade.skywars.game.state.GameType;
 import gg.pixelarcade.skywars.menus.utils.FillerButton;
@@ -13,6 +14,7 @@ import xyz.refinedev.phoenix.menu.api.pagination.PaginatedMenu;
 import xyz.refinedev.phoenix.packet.api.PacketHandler;
 import xyz.refinedev.phoenix.packet.impl.profile.BungeePlayerSendPacket;
 import xyz.refinedev.phoenix.server.ServerData;
+import xyz.refinedev.phoenix.utils.Utilities;
 import xyz.refinedev.phoenix.utils.XMaterial;
 import xyz.refinedev.phoenix.utils.item.ItemBuilder;
 
@@ -41,13 +43,13 @@ public class GameModeSelectorMenu extends PaginatedMenu {
 
         switch (gameTeamType) {
             case SOLO -> {
-                buttons.put(1, new GameModeButton(GameType.NORMAL));
-                buttons.put(3, new GameModeButton(GameType.INSANE));
-                buttons.put(5, new GameModeButton(GameType.RANKED));
+                buttons.put(1, new GameModeButton(GameType.NORMAL, GameTeamType.SOLO));
+                buttons.put(3, new GameModeButton(GameType.INSANE, GameTeamType.SOLO));
+                buttons.put(5, new GameModeButton(GameType.RANKED, GameTeamType.SOLO));
             }
             case DOUBLES -> {
-                buttons.put(1, new GameModeButton(GameType.NORMAL));
-                buttons.put(5, new GameModeButton(GameType.INSANE));
+                buttons.put(1, new GameModeButton(GameType.NORMAL, GameTeamType.DOUBLES));
+                buttons.put(5, new GameModeButton(GameType.INSANE, GameTeamType.DOUBLES));
             }
         }
 
@@ -61,6 +63,7 @@ public class GameModeSelectorMenu extends PaginatedMenu {
     @RequiredArgsConstructor
     public static class GameModeButton extends Button {
         private final GameType gameType;
+        private final GameTeamType gameTeamType;
 
         @Override
         public ItemStack getItem(Player player){
@@ -98,19 +101,42 @@ public class GameModeSelectorMenu extends PaginatedMenu {
         @Override
         public void clicked(Player player, ClickType clickType){
 
-            player.closeInventory();
-            List<ServerData> serverList = new ArrayList<ServerData>(Phoenix.getInstance().getApi().getNetworkHandler().getServersInGroup("GAME-SERVER"));
+            //-- Switch case for the team type: Solo or Doubles
+            switch (gameTeamType) {
 
-            Random rand = new Random();
-            int serverNumber = rand.nextInt(serverList.size());
-            String selectedServer = serverList.get(serverNumber).getServerName();
+                //-- If the team type is solo:
+                case SOLO -> {
 
-            PacketHandler.send(new BungeePlayerSendPacket(player.getUniqueId(), selectedServer));
+                    //-- Switch case for the game type: Ranked, Normal, Insane
+                    switch (gameType) {
+                        case RANKED -> {
+                            player.closeInventory();
+                            player.sendMessage("Server hasn't been created yet");
+                        }
+                        case INSANE -> {
+                            player.closeInventory();
+                            player.sendMessage("Server hasn't been created yet");
+                        }
+                        case NORMAL -> {
+                            player.closeInventory();
+                            Utilities.sendPlayer(player, "skywars-limbo-01", SkyWarsLobby.getLobbyInstance().getPlugin());
+                        }
+                    }
+                }
+                case DOUBLES -> {
 
-
-
-            //Utilities.SendPlayer();
-
+                    switch (gameType) {
+                        case INSANE -> {
+                            player.closeInventory();
+                            player.sendMessage("Server hasn't been created yet");
+                        }
+                        case NORMAL -> {
+                            player.closeInventory();
+                            player.sendMessage("Server hasn't been created yet");
+                        }
+                    }
+                }
+            }
         }
     }
 }
