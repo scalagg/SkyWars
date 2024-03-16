@@ -2,14 +2,14 @@ package gg.pixelarcade.skywars.listeners;
 
 import gg.pixelarcade.skywars.SkyWarsLobby;
 import gg.pixelarcade.skywars.SkyWarsLobbyPlugin;
+import gg.pixelarcade.skywars.SkyWarsShared;
+import gg.pixelarcade.skywars.profile.SkyWarsProfile;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 /**
@@ -26,6 +26,9 @@ public class LobbyListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerJoin(PlayerJoinEvent e) {
         plugin.giveItems(e.getPlayer());
+        SkyWarsProfile profile = SkyWarsShared.getInstance().getProfileHandler().getProfile(e.getPlayer().getUniqueId());
+        SkyWarsShared.getInstance().getLeaderboardHandler().getLeaderboards().values()
+                .forEach(leaderboard -> leaderboard.update(profile));
     }
 
     @EventHandler
