@@ -51,6 +51,16 @@ public abstract class Leaderboard {
         );
     }
 
+    public CompletableFuture<UUID> top(int position) {
+        return CompletableFuture.supplyAsync(() -> db.runRedisCommand(jedis -> {
+            List<String> list = jedis.zrevrange(key, position - 1, position - 1);
+            if (list.isEmpty()) {
+                return null;
+            }
+            return UUID.fromString(list.get(0));
+        }));
+    }
+
     /**
      * Returns the position of the given profile on the leaderboard
      *
