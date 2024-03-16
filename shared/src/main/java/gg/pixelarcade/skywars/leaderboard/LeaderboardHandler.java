@@ -7,10 +7,6 @@ import java.util.Map;
 public class LeaderboardHandler {
     private final Map<String, Leaderboard> leaderboards = new HashMap<>();
 
-    public Leaderboard getLeaderboard(String id) {
-        return leaderboards.get(id);
-    }
-
     /**
      * Register a leaderboard
      *
@@ -32,4 +28,13 @@ public class LeaderboardHandler {
                 .findFirst().orElse(null);
     }
 
+    /**
+     * Get a leaderboard by its id
+     *
+     * @param id the id of the leaderboard
+     * @return the leaderboard
+     */
+    public Leaderboard getLeaderboard(String id) {
+        return leaderboards.get(id);
+    }
 }
