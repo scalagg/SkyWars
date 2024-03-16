@@ -1,6 +1,5 @@
 package gg.pixelarcade.skywars.leaderboard;
 
-import gg.pixelarcade.skywars.SkyWarsShared;
 import gg.pixelarcade.skywars.profile.SkyWarsProfile;
 import lombok.Getter;
 import xyz.refinedev.phoenix.SharedAPI;
@@ -26,7 +25,7 @@ public abstract class Leaderboard {
     public Leaderboard(String id, String name) {
         this.id = id;
         this.name = name;
-        this.key = "leaderboard:" + id;
+        this.key = "leaderboard:skywars:" + id;
     }
 
     public abstract int score(SkyWarsProfile profile);
