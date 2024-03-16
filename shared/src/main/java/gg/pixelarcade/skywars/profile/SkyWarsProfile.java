@@ -24,7 +24,7 @@ import java.util.concurrent.CompletableFuture;
 public class SkyWarsProfile {
 
     @Exclude
-    private final SkyWarsShared shared = SkyWarsShared.getInstance();
+    private final static SkyWarsShared shared = SkyWarsShared.getInstance();
     private final UUID uniqueId;
 
     private String name;
