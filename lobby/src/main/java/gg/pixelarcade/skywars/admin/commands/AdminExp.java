@@ -3,6 +3,7 @@ package gg.pixelarcade.skywars.admin.commands;
 import gg.pixelarcade.skywars.SkyWarsShared;
 import gg.pixelarcade.skywars.leaderboard.impl.LevelLeaderboard;
 import gg.pixelarcade.skywars.profile.SkyWarsProfile;
+import gg.pixelarcade.skywars.util.GsonProvider;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -61,5 +62,13 @@ public class AdminExp extends BaseCommand {
             SkyWarsProfile profile = SkyWarsShared.getInstance().getProfileHandler().getProfile(uuid);
             sender.sendMessage(ChatColor.GOLD + profile.getName() + " - " + profile.getLevel());
         });
+    }
+
+    @Private
+    @CommandPermission("skywars.admin")
+    @CommandAlias("skaprofile")
+    public void profile(CommandSender player, @Name("player") Player name){
+        SkyWarsProfile profile = SkyWarsShared.getInstance().getProfileHandler().getProfile(name.getUniqueId());
+        player.sendMessage(GsonProvider.GSON.toJson(profile));
     }
 }
