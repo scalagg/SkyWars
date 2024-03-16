@@ -51,6 +51,7 @@ public class SkyWarsLobby extends SkyWarsShared {
         regionHandler = new RegionHandler();
         queueHandler = new QueueHandler();
         musicHandler = new MusicHandler(new File(SkyWarsLobbyPlugin.getInstance().getDataFolder(), "music"));
+        leaderboardNPCsHandler = new LeaderboardNPCsHandler();
         commandHandler = Phoenix.getInstance().getCommandHandler();
 
         Arrays.asList(
@@ -64,7 +65,13 @@ public class SkyWarsLobby extends SkyWarsShared {
         commandHandler.registerCommand(new AdminExp());
 
         new Assemble(SkyWarsLobbyPlugin.getInstance(), new LobbyScoreboardAdapter());
+        getPlugin().getServer().getMessenger().registerOutgoingPluginChannel(getPlugin(), "BungeeCord");
     }
+
+    @Override
+    public void stop() {
+        super.stop();
+        leaderboardNPCsHandler.destroy();
 
     public void giveItems(Player player) {
         PlayerUtil.resetPlayer(player);

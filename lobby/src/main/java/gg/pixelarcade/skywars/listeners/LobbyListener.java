@@ -41,7 +41,7 @@ public class LobbyListener implements Listener {
             return;
         }
 
-        if(event.getCause() == EntityDamageEvent.DamageCause.VOID){
+        if (event.getCause() == EntityDamageEvent.DamageCause.VOID){
             event.setCancelled(true);
             player.teleport(SkyWarsLobbyPlugin.getInstance().getServer().getWorld("world").getSpawnLocation());
         }
