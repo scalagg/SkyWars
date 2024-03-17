@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
+/** The handler that manages the leaderboard holograms */
 @Getter
 public class LeaderboardHologramHandler {
     private static final SkyWarsShared shared = SkyWarsShared.getInstance();
@@ -25,24 +26,31 @@ public class LeaderboardHologramHandler {
             = shared.getLeaderboardHandler().getLeaderboard(WinsLeaderboard.class);
 
     private final Map<String, Supplier<List<String>>> linesMap;
+
+    /** The holograms that shows their respective leaderboards */
     private final Hologram levels, wins;
     private HologramUpdateThread thread;
 
     public LeaderboardHologramHandler() {
+        // Create the holograms
         levels = DHAPI.createHologram("levels", HologramLocation.LEVELS.getLocation());
         wins = DHAPI.createHologram("wins", HologramLocation.WINS.getLocation());
 
+        // Add titles
         DHAPI.addHologramLine(levels, "&b&nLevels Leaderboard");
         DHAPI.addHologramLine(wins, "&b&nWins Leaderboard");
 
+        // Add a blank line
         DHAPI.addHologramLine(levels, "");
         DHAPI.addHologramLine(wins, "");
 
+        // Add default "loading" line
         for (int i = 0; i < 10; i++) {
             DHAPI.addHologramLine(levels, "&7&oLoading...");
             DHAPI.addHologramLine(wins, "&7&oLoading...");
         }
 
+        // Setup lines suppliers
         linesMap = new HashMap<>();
         linesMap.put("levels", () -> {
             List<SkyWarsProfile> profiles = GLOBAL_LEADERBOARD.top10().join().stream()
@@ -64,9 +72,11 @@ public class LeaderboardHologramHandler {
             ).toList();
         });
 
+        // Start updater thread
         Tasks.runLater(() -> this.thread = new HologramUpdateThread(), 20L * 5);
     }
 
+    /** Updates the leaderboards */
     public void update() {
         List<String> levelsLines = linesMap.get("levels").get();
         List<String> winsLines = linesMap.get("wins").get();
@@ -78,6 +88,7 @@ public class LeaderboardHologramHandler {
         wins.updateAll();
     }
 
+    /** Removes the leaderboards */
     public void destroy() {
         levels.destroy();
         wins.destroy();
