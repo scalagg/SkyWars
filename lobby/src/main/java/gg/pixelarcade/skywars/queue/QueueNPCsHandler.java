@@ -91,8 +91,4 @@ public class QueueNPCsHandler {
             this.location = location;
         }
     }
-<<<<<<< Updated upstream
 }
-=======
-}
->>>>>>> Stashed changes

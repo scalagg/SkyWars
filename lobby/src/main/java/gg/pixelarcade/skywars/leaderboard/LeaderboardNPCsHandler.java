@@ -86,6 +86,7 @@ public class LeaderboardNPCsHandler {
             var profile = future.join();
 
             NPC npc = CitizensAPI.getNPCRegistry().getById(id);
+            if (npc == null) return;
             SkinTrait skinTrait = npc.getOrAddTrait(SkinTrait.class);
 
             var name = profile == null ? "Anonymous" : profile.getName();
