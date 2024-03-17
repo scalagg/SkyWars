@@ -6,3 +6,5 @@ main: gg.pixelarcade.skywars.SkyWarsLobbyPlugin
 
 depend:
   - Retention
+  - Citizens
+  - DecentHolograms

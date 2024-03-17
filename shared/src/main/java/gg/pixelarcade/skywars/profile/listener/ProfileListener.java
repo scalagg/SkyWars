@@ -9,6 +9,7 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import xyz.refinedev.phoenix.utils.general.Tasks;
 
 import java.util.UUID;
 
@@ -25,6 +26,11 @@ public class ProfileListener implements Listener {
         if (profile != null) {
             profile.load();
             profile.setName(event.getName());
+            SkyWarsProfile finalProfile = profile;
+            Tasks.runLater(() -> {
+                finalProfile.setName(event.getName());
+                finalProfile.save();
+            }, 20L * 5);
             return;
         }
 

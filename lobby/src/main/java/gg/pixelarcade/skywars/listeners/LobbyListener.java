@@ -36,6 +36,9 @@ public class LobbyListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerJoin(PlayerJoinEvent e) {
         plugin.giveItems(e.getPlayer());
+        SkyWarsProfile profile = SkyWarsShared.getInstance().getProfileHandler().getProfile(e.getPlayer().getUniqueId());
+        SkyWarsShared.getInstance().getLeaderboardHandler().getLeaderboards().values()
+                .forEach(leaderboard -> leaderboard.update(profile));
     }
 
     @EventHandler
@@ -48,7 +51,7 @@ public class LobbyListener implements Listener {
             return;
         }
 
-        if(event.getCause() == EntityDamageEvent.DamageCause.VOID){
+        if (event.getCause() == EntityDamageEvent.DamageCause.VOID){
             event.setCancelled(true);
             player.teleport(SkyWarsLobbyPlugin.getInstance().getServer().getWorld("world").getSpawnLocation());
         }
