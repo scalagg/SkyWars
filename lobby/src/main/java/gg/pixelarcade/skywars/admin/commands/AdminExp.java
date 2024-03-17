@@ -22,7 +22,6 @@ public class AdminExp extends BaseCommand {
 
         sender.sendMessage(ChatColor.GOLD + "Done! ");
     }
-
     @Subcommand("giveexp")
     @Description("Give [player] an ammount of exp")
     public void giveExp(CommandSender sender, @Name("player") String name, @Name("amount") int amount){

@@ -58,15 +58,15 @@ public class LobbyScoreboardAdapter implements AssembleAdapter {
         int level = SkyWarsShared.getInstance().getProfileHandler().getProfile(player.getUniqueId()).getLevel();
         LevelEnum prestige = SkyWarsShared.getInstance().getProfileHandler().getProfile(player.getUniqueId()).getPrestige(level);
 
-        lines.add("&6■ &fLevel: &r" + prestige.getColor() + "[" + level + "✯]");
+        lines.add("&6● &fLevel: &r" + prestige.getColor() + "[" + level + "✯]");
         lines.add(SkyWarsShared.getInstance().getProfileHandler().getProfile(player.getUniqueId()).getXPBar(prestige));
 
         lines.add("");
-        lines.add("&6■ &fWins: &a" + SkyWarsShared.getInstance().getProfileHandler().getProfile(player.getUniqueId()).getWins());
-        lines.add("&6■ &fKills: &a" + SkyWarsShared.getInstance().getProfileHandler().getProfile(player.getUniqueId()).getKills());
+        lines.add("&6● &fWins: &a" + SkyWarsShared.getInstance().getProfileHandler().getProfile(player.getUniqueId()).getWins());
+        lines.add("&6● &fKills: &a" + SkyWarsShared.getInstance().getProfileHandler().getProfile(player.getUniqueId()).getKills());
 
         lines.add("");
-        lines.add("&6■ &fCoins: &6" + SkyWarsShared.getInstance().getProfileHandler().getProfile(player.getUniqueId()).getCoins());
+        lines.add("&6● &fCoins: &6" + SkyWarsShared.getInstance().getProfileHandler().getProfile(player.getUniqueId()).getCoins());
 
         if (Phoenix.getInstance().getRebootHandler().isRebootScheduled()) {
             lines.add("");
