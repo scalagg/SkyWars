@@ -13,8 +13,8 @@ import xyz.refinedev.phoenix.utils.XMaterial;
 import xyz.refinedev.phoenix.utils.item.ItemBuilder;
 
 /**
- * @author alfie
- * @project Skywars / gg.pixelarcade.game.item.impl
+ * @author Disunion
+ * @project Skywars
  * @date 25/09/2023 / 22:45
  */
 
