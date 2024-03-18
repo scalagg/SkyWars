@@ -17,7 +17,6 @@ import gg.pixelarcade.skywars.util.Tuple;
 import gg.pixelarcade.skywars.util.cuboid.Cuboid;
 import lombok.Getter;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;

@@ -13,14 +13,10 @@ import org.bukkit.entity.Player;
 import xyz.refinedev.phoenix.SharedAPI;
 import xyz.refinedev.phoenix.utils.Exclude;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 @Data
-@RequiredArgsConstructor
 public class SkyWarsProfile {
 
     @Exclude
@@ -46,6 +42,8 @@ public class SkyWarsProfile {
     private List<String> ownedKits = new ArrayList<>();
     private List<String> ownedPerks = new ArrayList<>();
     private List<String> selectedPerks = new ArrayList<>();
+
+    private Map<String, Integer> achievements = new HashMap<>();
 
     private boolean canRate = false;
     private List<String> arenasRated = new ArrayList<>();
@@ -79,6 +77,7 @@ public class SkyWarsProfile {
             this.ownedPerks = profile.getOwnedPerks();
             this.selectedPerks = profile.getSelectedPerks();
             this.arenasRated = profile.getArenasRated();
+            this.achievements = profile.getAchievements() == null ? new HashMap<>() : profile.getAchievements();
         });
     }
 
@@ -108,13 +107,9 @@ public class SkyWarsProfile {
 
         //-- Progress
         xpBar.append("  &7[&e");
-        for (int i = 0; i < progress; i++) {
-            xpBar.append("●");
-        }
+        xpBar.append("●".repeat(Math.max(0, progress)));
         xpBar.append("&7");
-        for (int i = 0; i <= 10 - progress; i++) {
-            xpBar.append("●");
-        }
+        xpBar.append("●".repeat(Math.max(0, 10 - progress + 1)));
         xpBar.append("] ");
 
         //-- Percentage to next level
