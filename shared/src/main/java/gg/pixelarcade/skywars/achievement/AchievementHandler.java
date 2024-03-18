@@ -1,17 +1,24 @@
 package gg.pixelarcade.skywars.achievement;
 
+import gg.pixelarcade.skywars.SkyWarsShared;
+import gg.pixelarcade.skywars.achievement.impl.ChickenDinnerAchievement;
 import lombok.Getter;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Getter @SuppressWarnings("unchecked")
 public class AchievementHandler {
-
     private final List<Achievement> achievements;
 
-    public AchievementHandler() {
-        this.achievements = new ArrayList<>();
+    public AchievementHandler(SkyWarsShared plugin) {
+        this.achievements = Arrays.asList(
+                new ChickenDinnerAchievement()
+        );
+
+        this.achievements.forEach(achievement ->
+                plugin.getPlugin().getServer().getPluginManager().registerEvents(achievement, plugin.getPlugin())
+        );
     }
 
     public Achievement getAchievement(String id) {
