@@ -84,6 +84,11 @@ public class SkyWarsLobby extends SkyWarsShared {
         new Assemble(SkyWarsLobbyPlugin.getInstance(), new LobbyScoreboardAdapter());
 
         getPlugin().getServer().getMessenger().registerOutgoingPluginChannel(getPlugin(), "BungeeCord");
+        Bukkit.getWorlds().get(0).getEntities()
+                .forEach(it -> {
+                    if (it instanceof Player) return;
+                    it.remove();
+                });
     }
 
     @Override
