@@ -13,8 +13,9 @@ public interface Achievement extends Listener {
     String getName();
     String[] getDescription();
 
-    void onAchieve(UUID player);
     int getGoal();
+
+    default void onAchieve(UUID player) {}
 
     default boolean isAchieved(UUID player) {
         SkyWarsProfile profile = getProfile(player);

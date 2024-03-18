@@ -20,11 +20,6 @@ public class ChickenDinnerAchievement implements Achievement {
     };
 
     @Override
-    public void onAchieve(UUID player) {
-
-    }
-
-    @Override
     public int getGoal() {
         return 1;
     }
