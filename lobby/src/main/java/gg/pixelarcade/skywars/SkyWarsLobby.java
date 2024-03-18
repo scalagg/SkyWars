@@ -3,10 +3,9 @@ package gg.pixelarcade.skywars;
 import gg.pixelarcade.skywars.admin.commands.AdminExp;
 import gg.pixelarcade.skywars.leaderboard.LeaderboardHologramHandler;
 import gg.pixelarcade.skywars.leaderboard.LeaderboardNPCsHandler;
-
+import gg.pixelarcade.skywars.profile.PersonalStatsNPCHandler;
 import gg.pixelarcade.skywars.menus.GameModeSelectorMenu;
 import gg.pixelarcade.skywars.queue.QueueNPCsHandler;
-
 import gg.pixelarcade.skywars.scoreboard.LobbyScoreboardAdapter;
 import gg.pixelarcade.skywars.items.*;
 import gg.pixelarcade.skywars.listeners.LobbyListener;
@@ -50,6 +49,7 @@ public class SkyWarsLobby extends SkyWarsShared {
     private QueueNPCsHandler queueNPCsHandler;
 
     private LeaderboardHologramHandler leaderboardHologramHandler;
+    private PersonalStatsNPCHandler personalStatsNPCHandler;
 
     public SkyWarsLobby(JavaPlugin plugin) {
         super(plugin);
@@ -67,6 +67,7 @@ public class SkyWarsLobby extends SkyWarsShared {
         queueNPCsHandler = new QueueNPCsHandler();
 
         leaderboardHologramHandler = new LeaderboardHologramHandler();
+        personalStatsNPCHandler = new PersonalStatsNPCHandler();
 
         commandHandler = Phoenix.getInstance().getCommandHandler();
 
@@ -93,6 +94,7 @@ public class SkyWarsLobby extends SkyWarsShared {
         queueNPCsHandler.destroy();
 
         leaderboardHologramHandler.destroy();
+        personalStatsNPCHandler.destroy();
     }
 
     public void giveItems(Player player) {
