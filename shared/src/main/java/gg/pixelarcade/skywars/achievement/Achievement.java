@@ -38,6 +38,12 @@ public interface Achievement extends Listener {
         }
     }
 
+    default void resetProgress(UUID player) {
+        SkyWarsProfile profile = getProfile(player);
+        profile.getAchievements().put(getId(), 0);
+        profile.save();
+    }
+
     default SkyWarsProfile getProfile(Player player) {
         return SkyWarsShared.getInstance().getProfileHandler().getProfile(player.getUniqueId());
     }

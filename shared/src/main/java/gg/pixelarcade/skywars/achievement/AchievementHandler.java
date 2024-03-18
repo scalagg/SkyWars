@@ -14,7 +14,7 @@ public class AchievementHandler {
     public AchievementHandler(SkyWarsShared plugin) {
         this.achievements = Arrays.asList(
                 new ChickenDinnerAchievement(), new NoWeaponAchievement(), new TacticalTacticianAchievement(),
-                new FirstBloodAchievement()
+                new FirstBloodAchievement(), new KillstreakAchievement()
         );
 
         this.achievements.forEach(achievement ->
