@@ -5,6 +5,7 @@ import gg.pixelarcade.skywars.SkyWarsShared;
 import gg.pixelarcade.skywars.game.Game;
 import gg.pixelarcade.skywars.game.event.GameStartEvent;
 import gg.pixelarcade.skywars.game.event.PlayerJoinGameEvent;
+import gg.pixelarcade.skywars.game.event.PlayerKillEvent;
 import gg.pixelarcade.skywars.items.*;
 import gg.pixelarcade.skywars.profile.SkyWarsProfile;
 import gg.pixelarcade.skywars.util.PlayerUtil;
@@ -174,6 +175,9 @@ public class GameListener implements Listener {
         }
 
         Bukkit.broadcastMessage(deathMessage);
+
+        PlayerKillEvent killEvent = new PlayerKillEvent(player, player.getKiller(), plugin.getGameHandler().getGame());
+        Bukkit.getPluginManager().callEvent(killEvent);
 
         if (player.getKiller() != null)
             plugin.getGameHandler().onDeath(player, player.getKiller());

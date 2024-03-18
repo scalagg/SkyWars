@@ -32,9 +32,9 @@ public class MusicListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerJoin(PlayerJoinEvent event) {
-        handler.getRadioSongPlayer().addPlayer(event.getPlayer().getUniqueId());
-
-        sendActionBar(event.getPlayer(), Color.translate("&6&lPixel Radio &7- &fCurrent Song: &e" + handler.getRadioSongPlayer().getSong().getTitle()));
+//       TODO: Disabled for now
+//       handler.getRadioSongPlayer().addPlayer(event.getPlayer().getUniqueId());
+//       sendActionBar(event.getPlayer(), Color.translate("&6&lPixel Radio &7- &fCurrent Song: &e" + handler.getRadioSongPlayer().getSong().getTitle()));
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
