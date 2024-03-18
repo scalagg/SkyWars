@@ -4,6 +4,7 @@ import gg.pixelarcade.skywars.SkyWarsGame;
 import gg.pixelarcade.skywars.SkyWarsShared;
 import gg.pixelarcade.skywars.game.Game;
 import gg.pixelarcade.skywars.game.event.GameStartEvent;
+import gg.pixelarcade.skywars.game.event.PlayerDamagePlayerEvent;
 import gg.pixelarcade.skywars.game.event.PlayerJoinGameEvent;
 import gg.pixelarcade.skywars.game.event.PlayerKillEvent;
 import gg.pixelarcade.skywars.items.*;
@@ -201,6 +202,14 @@ public class GameListener implements Listener {
             return;
 
         event.setCancelled(!plugin.getGameHandler().hasStarted());
+
+        if (!event.isCancelled()) {
+            Player player = (Player) event.getEntity();
+            Player damager = (Player) event.getDamager();
+
+            PlayerDamagePlayerEvent damageEvent = new PlayerDamagePlayerEvent(player, damager, plugin.getGameHandler().getGame());
+            Bukkit.getPluginManager().callEvent(damageEvent);
+        }
     }
 
 }
