@@ -29,6 +29,7 @@ import xyz.refinedev.phoenix.profile.Profile;
 import xyz.refinedev.phoenix.utils.Color;
 import xyz.refinedev.phoenix.utils.general.Tasks;
 
+import java.io.File;
 import java.util.*;
 
 import static xyz.refinedev.phoenix.utils.CenterUtil.getCentered;
@@ -67,7 +68,7 @@ public class GameHandler {
             Vector vector = WorldEditUtils.getVectorByLocation(map.getRandomSpawn());
             try {
                 WorldEditUtils.pasteSchematic(
-                        profile.getCurrentCage(game.getGameTeamType()).getFilePath(),
+                        new File(profile.getCurrentCage(game.getGameTeamType()).getFilePath()),
                         vector);
             } catch (Exception e) {
                 SkyWarsPlugin.getInstance().getLogger().severe("Failed to paste cage for " + player.getName());

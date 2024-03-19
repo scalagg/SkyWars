@@ -44,7 +44,7 @@ public class CageHandler {
             String name = split[0];
             GameTeamType type = GameTeamType.valueOf(split[1].toUpperCase());
 
-            Cage cage = new Cage(name, type, file);
+            Cage cage = new Cage(name, type, file.getPath());
             cages.add(cage);
 
             SkyWarsShared.getInstance().getPlugin().getLogger().info("Loaded cage (" + name
