@@ -19,7 +19,7 @@ public class FirstBloodAchievement implements Achievement {
 
     @Override
     public int getGoal() {
-        return 10;
+        return 1;
     }
 
     @EventHandler

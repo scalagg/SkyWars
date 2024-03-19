@@ -113,6 +113,7 @@ public interface Achievement extends Listener {
     /**
      * Check if the current server is a game server
      * @return if the current server is a game server
+     * @deprecated avoid using this method if possible
      */
     @Deprecated
     default boolean isGameServer() {
