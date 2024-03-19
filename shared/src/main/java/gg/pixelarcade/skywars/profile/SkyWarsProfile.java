@@ -147,13 +147,10 @@ public class SkyWarsProfile {
         while (newXP >= prestige.getXpPerLevel()) {
             incrementLevel();
             prestige = getPrestige(level);
-<<<<<<< Updated upstream
             newXP -= prestige.getXpPerLevel();
-=======
             if (newXP >= prestige.getXpPerLevel()) {
                 newXP -= prestige.getXpPerLevel();
             }
->>>>>>> Stashed changes
         }
 
         xp = newXP;
