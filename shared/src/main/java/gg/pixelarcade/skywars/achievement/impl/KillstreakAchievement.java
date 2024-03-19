@@ -18,7 +18,7 @@ public class KillstreakAchievement implements Achievement {
     private final String id = "killstreak";
     private final String name = "Killstreak";
     private final String[] description = new String[] {
-            "Get 10 kills in a single game of Ranked SkyWars."
+            "Get 10 kills in a single game of Ranked SkyWars"
     };
 
     @Override

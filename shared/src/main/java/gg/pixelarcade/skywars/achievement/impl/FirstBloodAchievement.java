@@ -14,7 +14,7 @@ public class FirstBloodAchievement implements Achievement {
     private final String id = "first-blood";
     private final String name = "First Blood";
     private final String[] description = new String[] {
-            "Get the first kill in a game of Ranked SkyWars."
+            "Get the first kill in a game of Ranked SkyWars"
     };
 
     @Override

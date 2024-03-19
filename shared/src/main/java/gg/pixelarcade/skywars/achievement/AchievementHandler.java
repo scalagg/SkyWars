@@ -15,7 +15,7 @@ public class AchievementHandler {
         this.achievements = Arrays.asList(
                 new ChickenDinnerAchievement(), new NoWeaponAchievement(), new TacticalTacticianAchievement(),
                 new FirstBloodAchievement(), new KillstreakAchievement(), new TopOfTheLadderAchievement(),
-                new TeamPlayerAchievement()
+                new TeamPlayerAchievement(), new IronManAchievement()
         );
 
         this.achievements.forEach(achievement ->

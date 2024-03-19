@@ -22,7 +22,7 @@ public class TacticalTacticianAchievement implements Achievement {
     private final String[] description = new String[] {
             "Win a game of Ranked SkyWars without actively attacking anyone,",
             "relying solely on strategic positioning, trapping, and",
-            "your tactical skills to outsmart your opponents."
+            "your tactical skills to outsmart your opponents"
     };
 
     @Override
