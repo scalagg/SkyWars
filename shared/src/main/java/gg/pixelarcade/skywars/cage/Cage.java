@@ -1,8 +1,11 @@
 package gg.pixelarcade.skywars.cage;
 
+import gg.pixelarcade.skywars.game.state.GameTeamType;
 import gg.pixelarcade.skywars.game.state.GameType;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+
+import java.io.File;
 
 /**
  * @author alfie
@@ -15,7 +18,13 @@ import lombok.RequiredArgsConstructor;
 public class Cage {
 
     private final String name;
-    private final String displayName;
-    private final GameType gameType;
+    private final GameTeamType gameType;
 
+    private File filePath;
+
+    public Cage(String name, GameTeamType gameType, File filePath) {
+        this.name = name;
+        this.gameType = gameType;
+        this.filePath = filePath;
+    }
 }

@@ -10,6 +10,7 @@ import com.sk89q.worldedit.schematic.SchematicFormat;
 import com.sk89q.worldedit.world.World;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 
 import java.io.File;
 import java.io.IOException;
@@ -47,6 +48,10 @@ public class WorldEditUtils {
         clipboard.paste(EDIT_SESSION, pasteAt, true);
 
         return clipboard;
+    }
+
+    public Vector getVectorByLocation(Location location) {
+        return new Vector(location.getX(), location.getY(), location.getZ());
     }
 
 }
