@@ -20,9 +20,9 @@ public class Cage {
     private final String name;
     private final GameTeamType gameType;
 
-    private File filePath;
+    private String filePath;
 
-    public Cage(String name, GameTeamType gameType, File filePath) {
+    public Cage(String name, GameTeamType gameType, String filePath) {
         this.name = name;
         this.gameType = gameType;
         this.filePath = filePath;
