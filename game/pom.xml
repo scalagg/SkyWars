@@ -31,6 +31,20 @@
             <version>1.8.8</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.sk89q</groupId>
+            <artifactId>worldedit</artifactId>
+            <version>6.1.9-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/worldedit-1.8.8.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.sk89q</groupId>
+            <artifactId>fawe</artifactId>
+            <version>6.1.9-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/FastAsyncWorldEdit.jar</systemPath>
+        </dependency>
     </dependencies>
 
     <build>

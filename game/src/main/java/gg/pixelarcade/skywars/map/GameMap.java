@@ -67,7 +67,6 @@ public final class GameMap {
 
     public Location getRandomSpawn() {
         List<Location> availableSpawns = new ArrayList<>(spawns);
-
         availableSpawns.removeAll(usedSpawns);
 
         if (!availableSpawns.isEmpty()) {

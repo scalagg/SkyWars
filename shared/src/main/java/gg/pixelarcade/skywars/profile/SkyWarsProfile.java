@@ -1,23 +1,16 @@
 package gg.pixelarcade.skywars.profile;
 
 import gg.pixelarcade.skywars.SkyWarsShared;
+import gg.pixelarcade.skywars.cage.Cage;
+import gg.pixelarcade.skywars.game.state.GameTeamType;
 import gg.pixelarcade.skywars.leveling.enums.LevelEnum;
 import gg.pixelarcade.skywars.perk.Perk;
 import lombok.Data;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 import xyz.refinedev.phoenix.SharedAPI;
 import xyz.refinedev.phoenix.utils.Exclude;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
+import java.util.*;
 
 @Data
 @RequiredArgsConstructor
@@ -46,6 +39,8 @@ public class SkyWarsProfile {
     private List<String> ownedKits = new ArrayList<>();
     private List<String> ownedPerks = new ArrayList<>();
     private List<String> selectedPerks = new ArrayList<>();
+
+    private Map<GameTeamType, Cage> selectedCages = new HashMap<>();
 
     private boolean canRate = false;
     private List<String> arenasRated = new ArrayList<>();
@@ -79,6 +74,8 @@ public class SkyWarsProfile {
             this.ownedPerks = profile.getOwnedPerks();
             this.selectedPerks = profile.getSelectedPerks();
             this.arenasRated = profile.getArenasRated();
+            this.canRate = profile.isCanRate();
+            this.selectedCages = profile.getSelectedCages();
         });
     }
 
@@ -133,6 +130,20 @@ public class SkyWarsProfile {
         this.save();
     }
 
+    public void setCage(GameTeamType teamType, Cage cage) {
+        selectedCages.put(teamType, cage);
+        this.save();
+    }
+
+    public void removeCage(GameTeamType teamType) {
+        selectedCages.remove(teamType);
+        this.save();
+    }
+
+    public Cage getCurrentCage(GameTeamType teamType) {
+        return selectedCages.get(teamType);
+    }
+
     public void incrementXP(int amount) {
 
         int newXP = xp + amount;
@@ -140,11 +151,11 @@ public class SkyWarsProfile {
 
         while (newXP >= prestige.getXpPerLevel()) {
             incrementLevel();
-            newXP =- prestige.getXpPerLevel();
+            prestige = getPrestige(level);
+            newXP -= prestige.getXpPerLevel();
         }
 
         xp = newXP;
-
         this.save();
     }
 

@@ -1,5 +1,6 @@
 package gg.pixelarcade.skywars.game;
 
+import com.sk89q.worldedit.Vector;
 import gg.pixelarcade.skywars.SkyWarsGame;
 import gg.pixelarcade.skywars.SkyWarsPlugin;
 import gg.pixelarcade.skywars.chests.LootableChest;
@@ -14,6 +15,7 @@ import gg.pixelarcade.skywars.map.GameMap;
 import gg.pixelarcade.skywars.profile.SkyWarsProfile;
 import gg.pixelarcade.skywars.util.PlayerUtil;
 import gg.pixelarcade.skywars.util.Tuple;
+import gg.pixelarcade.skywars.util.WorldEditUtils;
 import gg.pixelarcade.skywars.util.cuboid.Cuboid;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -57,11 +59,21 @@ public class GameHandler {
         game.setState(GameState.COUNTDOWN);
 
         for (UUID uuid : game.getPlayers()) {
+            SkyWarsProfile profile = SkyWarsGame.getGameInstance().getProfileHandler().getProfile(uuid);
             Player player = Bukkit.getPlayer(uuid);
+            
+            Vector vector = WorldEditUtils.getVectorByLocation(map.getRandomSpawn());
+            try {
+                WorldEditUtils.pasteSchematic(
+                        profile.getCurrentCage(game.getGameTeamType()).getFilePath(),
+                        vector);
+            } catch (Exception e) {
+                throw new RuntimeException("Failed to paste cage for player " + player.getName(), e);
+            }
+
             player.teleport(map.getRandomSpawn());
 
             PlayerUtil.resetPlayer(player);
-
             player.setMetadata("frozen", new FixedMetadataValue(SkyWarsPlugin.getInstance(), this));
         }
 
