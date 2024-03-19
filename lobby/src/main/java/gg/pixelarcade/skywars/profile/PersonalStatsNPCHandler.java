@@ -9,6 +9,7 @@ import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.trait.SkinTrait;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -36,6 +37,11 @@ public class PersonalStatsNPCHandler {
         SkinTrait skin = npc.getOrAddTrait(SkinTrait.class);
         skin.setSkinName("xulvy");
         npc.spawn(NPC_LOCATION);
+    }
+
+    public void getMenu(Player player) {
+        String playerName = player.getName();
+        player.sendMessage(ChatColor.UNDERLINE.toString() + ChatColor.AQUA.toString() + "www.mccade.net/u/"+playerName+"/general");
     }
 
     public void destroy() {

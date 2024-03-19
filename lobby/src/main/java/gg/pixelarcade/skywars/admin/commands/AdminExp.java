@@ -41,6 +41,17 @@ public class AdminExp extends BaseCommand {
                 SkyWarsShared.getInstance().getProfileHandler().getProfile(player.getUniqueId())
         );
         sender.sendMessage(ChatColor.GOLD + "Done!");
+        SkyWarsShared.getInstance().getProfileHandler().getProfile(player.getUniqueId()).save();
+    }
+
+    @Subcommand("setLevel")
+    public void setLevel(CommandSender sender, @Name("player name") String name, @Name("level") int amount) {
+        SkyWarsShared.getInstance().getProfileHandler().getProfile(Bukkit.getPlayer(name).getUniqueId()).setLevel(amount);
+        SkyWarsShared.getInstance().getLeaderboardHandler().getLeaderboard(LevelLeaderboard.class).update(
+                SkyWarsShared.getInstance().getProfileHandler().getProfile(Bukkit.getPlayer(name).getUniqueId())
+        );
+        sender.sendMessage(ChatColor.GOLD + "Done!");
+        SkyWarsShared.getInstance().getProfileHandler().getProfile(Bukkit.getPlayer(name).getUniqueId()).save();
     }
 
     @Subcommand("incrementLevel")

@@ -105,13 +105,9 @@ public class SkyWarsProfile {
 
         //-- Progress
         xpBar.append("  &7[&e");
-        for (int i = 0; i < progress; i++) {
-            xpBar.append("●");
-        }
+        xpBar.append("●".repeat(Math.max(0, progress)));
         xpBar.append("&7");
-        for (int i = 0; i <= 10 - progress; i++) {
-            xpBar.append("●");
-        }
+        xpBar.append("●".repeat(Math.max(0, 10 - progress + 1)));
         xpBar.append("] ");
 
         //-- Percentage to next level
@@ -145,7 +141,6 @@ public class SkyWarsProfile {
     }
 
     public void incrementXP(int amount) {
-
         int newXP = xp + amount;
         LevelEnum prestige = getPrestige(level);
 
@@ -153,6 +148,9 @@ public class SkyWarsProfile {
             incrementLevel();
             prestige = getPrestige(level);
             newXP -= prestige.getXpPerLevel();
+            if (newXP >= prestige.getXpPerLevel()) {
+                newXP -= prestige.getXpPerLevel();
+            }
         }
 
         xp = newXP;
@@ -206,6 +204,8 @@ public class SkyWarsProfile {
     }
 
     public void addSelectedPerk(Perk perk){
+
+        // if selectedperks != null
         List<String> newSelectedPerks = new ArrayList<>(this.selectedPerks);
         newSelectedPerks.add(perk.getName());
         this.selectedPerks = newSelectedPerks;

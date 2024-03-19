@@ -22,7 +22,7 @@ public class QueueNPCsHandler {
     //-- Instance Variables
     private final NPC experimental, solo, doubles;
     @Getter
-    private final List<NPC> npcs = new ArrayList<NPC>();
+    private final List<NPC> npcs = new ArrayList<>();
 
     //-- Constructor
     public QueueNPCsHandler() {
@@ -49,7 +49,7 @@ public class QueueNPCsHandler {
     }
 
     public void getMenu(NPC npc, Player player) {
-        if (npc.equals(experimental)){
+        if (npc.equals(experimental)) {
             player.sendMessage(ChatColor.RED + "Sorry, this gamemode isn't out yet!");
         }
         if (npc.equals(solo)) {

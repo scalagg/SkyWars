@@ -73,7 +73,14 @@ public class LobbyListener implements Listener {
         Player player = event.getClicker();
         NPC npc = event.getNPC();
 
-        SkyWarsLobby.getLobbyInstance().getQueueNPCsHandler().getMenu(npc, player);
+        if (SkyWarsLobby.getLobbyInstance().getQueueNPCsHandler().getNpcs().contains(npc)) {
+            SkyWarsLobby.getLobbyInstance().getQueueNPCsHandler().getMenu(npc, player);
+        } else {
+            SkyWarsLobby.getLobbyInstance().getPersonalStatsNPCHandler().getMenu(player);
+        }
+
+
+
     }
 
     @EventHandler
