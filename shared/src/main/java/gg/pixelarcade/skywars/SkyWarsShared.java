@@ -50,7 +50,7 @@ public abstract class SkyWarsShared {
         kitHandler = new KitHandler();
         perkHandler = new PerkHandler();
         leaderboardHandler = new LeaderboardHandler();
-        achievementHandler = new AchievementHandler();
+        achievementHandler = new AchievementHandler(this);
         commandHandler = Phoenix.getInstance().getCommandHandler();
 
         Arrays.asList(
