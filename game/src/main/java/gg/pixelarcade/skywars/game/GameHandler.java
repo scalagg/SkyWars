@@ -7,6 +7,7 @@ import gg.pixelarcade.skywars.chests.type.RefillType;
 import gg.pixelarcade.skywars.config.GameConfig;
 import gg.pixelarcade.skywars.game.event.*;
 import gg.pixelarcade.skywars.game.state.GameState;
+import gg.pixelarcade.skywars.game.state.GameTeamType;
 import gg.pixelarcade.skywars.game.state.GameType;
 import gg.pixelarcade.skywars.game.task.GameCountdownTask;
 import gg.pixelarcade.skywars.kit.Kit;
@@ -239,10 +240,15 @@ public class GameHandler {
             SharedAPI.getInstance().getLevelHook().addExperience(levelProfile, 10, "Killed a player in SkyWarsGame");
         }
 
-        if (game.getAlivePlayers().size() <= 1)
-            game.getAlivePlayers().stream()
-                    .findFirst()
-                    .ifPresentOrElse(winner -> this.onWin(Bukkit.getPlayer(winner)), () -> this.onWin(null));
+        if (game.getGameTeamType() == GameTeamType.SOLO) {
+            if (game.getAlivePlayers().size() <= 1)
+                game.getAlivePlayers().stream()
+                        .findFirst()
+                        .ifPresentOrElse(winner -> this.onWin(Bukkit.getPlayer(winner)), () -> this.onWin(null));
+        } else {
+            // Team game
+
+        }
     }
 
     public void addSpectator(Player player) {
