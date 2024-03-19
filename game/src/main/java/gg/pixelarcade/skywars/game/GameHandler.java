@@ -1,5 +1,6 @@
 package gg.pixelarcade.skywars.game;
 
+import com.sk89q.worldedit.CuboidClipboard;
 import com.sk89q.worldedit.Vector;
 import gg.pixelarcade.skywars.SkyWarsGame;
 import gg.pixelarcade.skywars.SkyWarsPlugin;
@@ -61,14 +62,16 @@ public class GameHandler {
         for (UUID uuid : game.getPlayers()) {
             SkyWarsProfile profile = SkyWarsGame.getGameInstance().getProfileHandler().getProfile(uuid);
             Player player = Bukkit.getPlayer(uuid);
-            
+
+            // Paste the cage for the player
             Vector vector = WorldEditUtils.getVectorByLocation(map.getRandomSpawn());
             try {
                 WorldEditUtils.pasteSchematic(
                         profile.getCurrentCage(game.getGameTeamType()).getFilePath(),
                         vector);
             } catch (Exception e) {
-                throw new RuntimeException("Failed to paste cage for player " + player.getName(), e);
+                SkyWarsPlugin.getInstance().getLogger().severe("Failed to paste cage for " + player.getName());
+                e.printStackTrace();
             }
 
             player.teleport(map.getRandomSpawn());
@@ -86,6 +89,14 @@ public class GameHandler {
 
         game.setActive(true);
         game.setStartedAt(new Date());
+
+        // Remove the cages from the map after the game has started
+        for (Location location : map.getUsedSpawns()) {
+            WorldEditUtils.clear(
+                    WorldEditUtils.getVectorByLocation(location),
+                    WorldEditUtils.getVectorByLocation(location.add(10, 7, 10))
+            );
+        }
 
         LootableChest chest = SkyWarsGame.getGameInstance().getChestHandler().getChest(game.getGameType());
         chest.fillChests(game, RefillType.FIRST);
