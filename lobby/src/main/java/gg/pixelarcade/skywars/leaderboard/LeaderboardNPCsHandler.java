@@ -19,6 +19,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+/** The handler that manages Leaderboard NPCs */
 public class LeaderboardNPCsHandler {
     private static final SkyWarsShared shared = SkyWarsShared.getInstance();
     private static final LevelLeaderboard GLOBAL_LEADERBOARD
@@ -29,6 +30,7 @@ public class LeaderboardNPCsHandler {
     private final Map<Integer, Supplier<CompletableFuture<SkyWarsProfile>>> npcmap;
     private final Map<Integer, Function<String, String>> nameMap;
 
+    /** The npc that show its respective top player */
     private final NPC
             global1, global2, global3,
             ranked1, ranked2, ranked3;
@@ -39,6 +41,7 @@ public class LeaderboardNPCsHandler {
         this.npcmap = new HashMap<>();
         this.nameMap = new HashMap<>();
 
+        // Creates the NPCs
         this.global1 = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, "global1");
         this.global2 = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, "global2");
         this.global3 = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, "global3");
@@ -49,13 +52,11 @@ public class LeaderboardNPCsHandler {
         this.setupNpcMap();
         this.setupNameMap();
 
-
-        Tasks.runLater(() -> {
-            spawn();
-            this.thread = new NPCUpdateThread();
-        }, 20L * 5);
+        // Spawns the NPCs and start the updater thread
+        Tasks.runLater(() -> { spawn(); this.thread = new NPCUpdateThread(); }, 20L * 5);
     }
 
+    /** Spawns in the NPCs */
     public void spawn() {
         global1.spawn(NPCSpawnLocation.GLOBAL_1.getLocation());
         global2.spawn(NPCSpawnLocation.GLOBAL_2.getLocation());
@@ -66,6 +67,7 @@ public class LeaderboardNPCsHandler {
         ranked3.spawn(NPCSpawnLocation.RANKED_3.getLocation());
     }
 
+    /** Despawns the npcs */
     public void destroy() {
         global1.destroy();
         global2.destroy();
@@ -77,12 +79,14 @@ public class LeaderboardNPCsHandler {
         this.thread.interrupt();
     }
 
+    /** Updates the npcs */
     public void update() {
         npcmap.forEach((id, supplier) -> {
             CompletableFuture<SkyWarsProfile> future = supplier.get();
             var profile = future.join();
 
             NPC npc = CitizensAPI.getNPCRegistry().getById(id);
+            if (npc == null) return;
             SkinTrait skinTrait = npc.getOrAddTrait(SkinTrait.class);
 
             var name = profile == null ? "Anonymous" : profile.getName();

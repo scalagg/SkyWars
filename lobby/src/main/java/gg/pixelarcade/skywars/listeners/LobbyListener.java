@@ -14,10 +14,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import xyz.refinedev.phoenix.utils.general.Tasks;
 import org.bukkit.metadata.MetadataValue;
 
 import java.util.List;
@@ -39,7 +42,14 @@ public class LobbyListener implements Listener {
         SkyWarsProfile profile = SkyWarsShared.getInstance().getProfileHandler().getProfile(e.getPlayer().getUniqueId());
         SkyWarsShared.getInstance().getLeaderboardHandler().getLeaderboards().values()
                 .forEach(leaderboard -> leaderboard.update(profile));
+        Tasks.runLater(() -> SkyWarsLobby.getLobbyInstance().getPersonalStatsNPCHandler().spawnHologram(e.getPlayer()), 10L);
     }
+
+    @EventHandler
+    public void onPlayerLeave(PlayerQuitEvent event) {
+        SkyWarsLobby.getLobbyInstance().getPersonalStatsNPCHandler().destroyHologram(event.getPlayer());
+    }
+
 
     @EventHandler
     public void onDamage(EntityDamageEvent event) {
@@ -64,5 +74,11 @@ public class LobbyListener implements Listener {
         NPC npc = event.getNPC();
 
         SkyWarsLobby.getLobbyInstance().getQueueNPCsHandler().getMenu(npc, player);
+    }
+
+    @EventHandler
+    public void onMobSpawn(EntitySpawnEvent event) {
+        if (event.getEntity() instanceof Player) return;
+        event.setCancelled(true);
     }
 }
