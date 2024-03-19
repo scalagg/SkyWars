@@ -195,6 +195,8 @@ public class SkyWarsProfile {
     }
 
     public void addSelectedPerk(Perk perk){
+
+        // if selectedperks != null
         List<String> newSelectedPerks = new ArrayList<>(this.selectedPerks);
         newSelectedPerks.add(perk.getName());
         this.selectedPerks = newSelectedPerks;
