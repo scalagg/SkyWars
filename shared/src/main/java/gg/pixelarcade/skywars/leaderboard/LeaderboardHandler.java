@@ -11,6 +11,7 @@ import java.util.Map;
 
 @SuppressWarnings("unchecked")
 public class LeaderboardHandler {
+    /** A map of the registered leaderboards, mapped by their id */
     @Getter
     private final Map<String, Leaderboard> leaderboards = new HashMap<>();
 

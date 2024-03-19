@@ -3,11 +3,11 @@ package gg.pixelarcade.skywars.game.listener;
 import gg.pixelarcade.skywars.SkyWarsGame;
 import gg.pixelarcade.skywars.SkyWarsShared;
 import gg.pixelarcade.skywars.game.Game;
-import gg.pixelarcade.skywars.game.GameHandler;
 import gg.pixelarcade.skywars.game.event.GameStartEvent;
+import gg.pixelarcade.skywars.game.event.PlayerDamagePlayerEvent;
 import gg.pixelarcade.skywars.game.event.PlayerJoinGameEvent;
+import gg.pixelarcade.skywars.game.event.PlayerKillEvent;
 import gg.pixelarcade.skywars.items.*;
-import gg.pixelarcade.skywars.map.GameMap;
 import gg.pixelarcade.skywars.profile.SkyWarsProfile;
 import gg.pixelarcade.skywars.util.PlayerUtil;
 import gg.pixelarcade.skywars.util.SpigotConstants;
@@ -177,6 +177,9 @@ public class GameListener implements Listener {
 
         Bukkit.broadcastMessage(deathMessage);
 
+        PlayerKillEvent killEvent = new PlayerKillEvent(player, player.getKiller(), plugin.getGameHandler().getGame());
+        Bukkit.getPluginManager().callEvent(killEvent);
+
         if (player.getKiller() != null)
             plugin.getGameHandler().onDeath(player, player.getKiller());
         else plugin.getGameHandler().onDeath(player, null);
@@ -199,6 +202,14 @@ public class GameListener implements Listener {
             return;
 
         event.setCancelled(!plugin.getGameHandler().hasStarted());
+
+        if (!event.isCancelled()) {
+            Player player = (Player) event.getEntity();
+            Player damager = (Player) event.getDamager();
+
+            PlayerDamagePlayerEvent damageEvent = new PlayerDamagePlayerEvent(player, damager, plugin.getGameHandler().getGame());
+            Bukkit.getPluginManager().callEvent(damageEvent);
+        }
     }
 
 }

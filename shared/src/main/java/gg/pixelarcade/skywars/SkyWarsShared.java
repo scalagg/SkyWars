@@ -1,5 +1,6 @@
 package gg.pixelarcade.skywars;
 
+import gg.pixelarcade.skywars.achievement.AchievementHandler;
 import gg.pixelarcade.skywars.cage.CageHandler;
 import gg.pixelarcade.skywars.item.listeners.ItemListener;
 import gg.pixelarcade.skywars.kit.KitHandler;
@@ -39,6 +40,7 @@ public abstract class SkyWarsShared {
     private final CageHandler cageHandler;
     private final QuestHandler questHandler;
     private final LeaderboardHandler leaderboardHandler;
+    private final AchievementHandler achievementHandler;
 
     public final PaperCommandManager commandHandler;
 
@@ -54,6 +56,7 @@ public abstract class SkyWarsShared {
         perkHandler = new PerkHandler();
         questHandler = new QuestHandler();
         leaderboardHandler = new LeaderboardHandler();
+        achievementHandler = new AchievementHandler(this);
         commandHandler = Phoenix.getInstance().getCommandHandler();
 
         Arrays.asList(

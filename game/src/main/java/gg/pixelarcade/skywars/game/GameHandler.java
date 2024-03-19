@@ -9,6 +9,7 @@ import gg.pixelarcade.skywars.chests.type.RefillType;
 import gg.pixelarcade.skywars.config.GameConfig;
 import gg.pixelarcade.skywars.game.event.*;
 import gg.pixelarcade.skywars.game.state.GameState;
+import gg.pixelarcade.skywars.game.state.GameTeamType;
 import gg.pixelarcade.skywars.game.state.GameType;
 import gg.pixelarcade.skywars.game.task.GameCountdownTask;
 import gg.pixelarcade.skywars.kit.Kit;
@@ -21,7 +22,6 @@ import gg.pixelarcade.skywars.util.WorldEditUtils;
 import gg.pixelarcade.skywars.util.cuboid.Cuboid;
 import lombok.Getter;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -275,10 +275,15 @@ public class GameHandler {
             SharedAPI.getInstance().getLevelHook().addExperience(levelProfile, 10, "Killed a player in SkyWars Game");
         }
 
-        if (game.getAlivePlayers().size() <= 1)
-            game.getAlivePlayers().stream()
-                    .findFirst()
-                    .ifPresentOrElse(winner -> this.onWin(Bukkit.getPlayer(winner)), () -> this.onWin(null));
+        if (game.getGameTeamType() == GameTeamType.SOLO) {
+            if (game.getAlivePlayers().size() <= 1)
+                game.getAlivePlayers().stream()
+                        .findFirst()
+                        .ifPresentOrElse(winner -> this.onWin(Bukkit.getPlayer(winner)), () -> this.onWin(null));
+        } else {
+            // Team game
+
+        }
     }
 
     public void addSpectator(Player player) {
