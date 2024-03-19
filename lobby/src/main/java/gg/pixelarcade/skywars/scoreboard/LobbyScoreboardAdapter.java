@@ -48,10 +48,9 @@ public class LobbyScoreboardAdapter implements AssembleAdapter {
         List<String> lines = new ArrayList<>();
 
         //-- Date
-        DateFormat dateFormat = new SimpleDateFormat("MM,dd,yy");
-        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yy HH:mm:ss");
         lines.add("");
-        lines.add("&7" + dateFormat.format(date).replace(",", "/"));
+        lines.add("&7" + dateFormat.format(System.currentTimeMillis()));
         lines.add("");
 
         //-- Level
