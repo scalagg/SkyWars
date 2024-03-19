@@ -22,10 +22,22 @@ public class AchievementHandler {
         );
     }
 
+    /**
+     * Get an achievement by its id
+     *
+     * @param id the id of the achievement
+     * @return the achievement
+     */
     public Achievement getAchievement(String id) {
         return this.achievements.stream().filter(achievement -> achievement.getId().equals(id)).findFirst().orElse(null);
     }
 
+    /**
+     * Get an achievement by its class
+     *
+     * @param clazz the class of the achievement
+     * @return the achievement
+     */
     public <T extends Achievement> T getAchievement(Class<T> clazz) {
         return (T) this.achievements.stream()
                 .filter(achievement -> achievement.getClass().equals(clazz))
