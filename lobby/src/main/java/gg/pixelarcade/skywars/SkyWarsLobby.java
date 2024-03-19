@@ -3,6 +3,7 @@ package gg.pixelarcade.skywars;
 import gg.pixelarcade.skywars.admin.commands.AdminExp;
 import gg.pixelarcade.skywars.leaderboard.LeaderboardHologramHandler;
 import gg.pixelarcade.skywars.leaderboard.LeaderboardNPCsHandler;
+import gg.pixelarcade.skywars.listeners.QuestListener;
 import gg.pixelarcade.skywars.profile.PersonalStatsNPCHandler;
 import gg.pixelarcade.skywars.menus.GameModeSelectorMenu;
 import gg.pixelarcade.skywars.queue.QueueNPCsHandler;
@@ -74,7 +75,8 @@ public class SkyWarsLobby extends SkyWarsShared {
         Arrays.asList(
                 new RegionListener(regionHandler),
                 new RegionSelectionListener(regionHandler),
-                new LobbyListener(this)
+                new LobbyListener(this),
+                new QuestListener()
         ).forEach(listener -> Bukkit.getPluginManager().registerEvents(listener, SkyWarsLobbyPlugin.getInstance()));
 
         commandHandler.registerCommand(new MusicCommand());

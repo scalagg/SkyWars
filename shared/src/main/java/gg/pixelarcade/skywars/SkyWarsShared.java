@@ -7,6 +7,7 @@ import gg.pixelarcade.skywars.leaderboard.LeaderboardHandler;
 import gg.pixelarcade.skywars.perk.PerkHandler;
 import gg.pixelarcade.skywars.profile.ProfileHandler;
 import gg.pixelarcade.skywars.profile.listener.ProfileListener;
+import gg.pixelarcade.skywars.quests.QuestHandler;
 import gg.pixelarcade.skywars.server.ServerHandler;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -36,6 +37,7 @@ public abstract class SkyWarsShared {
     private final KitHandler kitHandler;
     private final PerkHandler perkHandler;
     private final CageHandler cageHandler;
+    private final QuestHandler questHandler;
     private final LeaderboardHandler leaderboardHandler;
 
     public final PaperCommandManager commandHandler;
@@ -50,6 +52,7 @@ public abstract class SkyWarsShared {
         kitHandler = new KitHandler();
         cageHandler = new CageHandler();
         perkHandler = new PerkHandler();
+        questHandler = new QuestHandler();
         leaderboardHandler = new LeaderboardHandler();
         commandHandler = Phoenix.getInstance().getCommandHandler();
 

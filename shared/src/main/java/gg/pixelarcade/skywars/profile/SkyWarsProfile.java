@@ -5,6 +5,8 @@ import gg.pixelarcade.skywars.cage.Cage;
 import gg.pixelarcade.skywars.game.state.GameTeamType;
 import gg.pixelarcade.skywars.leveling.enums.LevelEnum;
 import gg.pixelarcade.skywars.perk.Perk;
+import gg.pixelarcade.skywars.quests.Quest;
+import gg.pixelarcade.skywars.quests.progression.ProgressionTracker;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import xyz.refinedev.phoenix.SharedAPI;
@@ -41,6 +43,8 @@ public class SkyWarsProfile {
     private List<String> selectedPerks = new ArrayList<>();
 
     private Map<GameTeamType, Cage> selectedCages = new HashMap<>();
+    private Map<Long, String> dailyQuests = new HashMap<>();
+    private Map<String, ProgressionTracker> tracker = new HashMap<>();
 
     private boolean canRate = false;
     private List<String> arenasRated = new ArrayList<>();
@@ -96,6 +100,14 @@ public class SkyWarsProfile {
         return prestige;
     }
 
+    public ProgressionTracker getTracker(String trackerName) {
+        return this.tracker.get(trackerName);
+    }
+
+    public void addMetric(String trackerName, ProgressionTracker tracker) {
+        this.tracker.put(trackerName, tracker);
+    }
+
     public String getXPBar(LevelEnum prestige) {
 
         //-- Variables
@@ -118,6 +130,15 @@ public class SkyWarsProfile {
         xpBar.append(Math.round(percentage)).append("%");
 
         return xpBar.toString();
+    }
+
+    public void findNewDailyQuest() {
+        dailyQuests.clear();
+
+        Quest newQuest = shared.getQuestHandler().getRandomQuest();
+        dailyQuests.put(System.currentTimeMillis(), newQuest.getId());
+
+        this.save();
     }
 
     public void incrementCoins(int amount) {

@@ -23,6 +23,7 @@ public class Game {
 
     private final UUID id = UUID.randomUUID();
 
+    private UUID winner;
     private GameType gameType;
     private GameTeamType gameTeamType;
 

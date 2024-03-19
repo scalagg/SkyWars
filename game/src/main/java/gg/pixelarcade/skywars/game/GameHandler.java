@@ -14,6 +14,7 @@ import gg.pixelarcade.skywars.game.task.GameCountdownTask;
 import gg.pixelarcade.skywars.kit.Kit;
 import gg.pixelarcade.skywars.map.GameMap;
 import gg.pixelarcade.skywars.profile.SkyWarsProfile;
+import gg.pixelarcade.skywars.quests.Quest;
 import gg.pixelarcade.skywars.util.PlayerUtil;
 import gg.pixelarcade.skywars.util.Tuple;
 import gg.pixelarcade.skywars.util.WorldEditUtils;
@@ -156,8 +157,18 @@ public class GameHandler {
             return;
         }
 
-        // Gift the winner their new stats
+        game.setWinner(winner.getUniqueId());
+
         SkyWarsProfile skyWarsProfile = SkyWarsGame.getInstance().getProfileHandler().getProfile(winner.getUniqueId());
+        for (String questId : skyWarsProfile.getDailyQuests().values()) {
+            Quest quest = SkyWarsGame.getInstance().getQuestHandler().getQuest(questId);
+            if (quest == null)
+                continue;
+
+            quest.completeQuest(winner, game);
+        }
+
+        // Gift the winner their new stats
         skyWarsProfile.incrementWins();
         skyWarsProfile.incrementXP(30);
         skyWarsProfile.incrementCoins(150);
@@ -254,13 +265,14 @@ public class GameHandler {
 
         if (killer != null) {
             SkyWarsProfile killerProfile = SkyWarsGame.getGameInstance().getProfileHandler().getProfile(killer.getUniqueId());
+            killerProfile.getTracker("twenty_kills").increment();
             killerProfile.incrementKills();
             killerProfile.save();
 
             game.getKills().put(killer.getUniqueId(), game.getKills().getOrDefault(killer.getUniqueId(), 0) + 1);
 
             Profile levelProfile = SharedAPI.getInstance().getProfileHandler().getProfile(killer.getUniqueId());
-            SharedAPI.getInstance().getLevelHook().addExperience(levelProfile, 10, "Killed a player in SkyWarsGame");
+            SharedAPI.getInstance().getLevelHook().addExperience(levelProfile, 10, "Killed a player in SkyWars Game");
         }
 
         if (game.getAlivePlayers().size() <= 1)
