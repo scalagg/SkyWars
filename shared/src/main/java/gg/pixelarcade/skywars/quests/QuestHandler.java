@@ -1,9 +1,9 @@
 package gg.pixelarcade.skywars.quests;
 
-import gg.pixelarcade.skywars.quests.impl.GetTwentyKillsQuest;
+import gg.pixelarcade.skywars.SkyWarsShared;
+import gg.pixelarcade.skywars.quests.impl.WinADoublesGameQuest;
 import gg.pixelarcade.skywars.quests.impl.WinASoloGameQuest;
 import lombok.Getter;
-import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,18 +23,12 @@ public class QuestHandler {
     public QuestHandler() {
         // Register Quests Here
         quests.add(new WinASoloGameQuest());
-        quests.add(new GetTwentyKillsQuest());
+        quests.add(new WinADoublesGameQuest());
     }
 
     public Quest getQuest(String id) {
         return quests.stream()
                 .filter(quest -> quest.getId().equalsIgnoreCase(id))
-                .findFirst().orElse(null);
-    }
-
-    public Quest getQuest(int priority) {
-        return quests.stream()
-                .filter(quest -> quest.getPriority() == priority)
                 .findFirst().orElse(null);
     }
 

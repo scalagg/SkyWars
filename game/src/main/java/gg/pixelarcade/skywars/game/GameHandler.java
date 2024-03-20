@@ -22,6 +22,7 @@ import gg.pixelarcade.skywars.util.WorldEditUtils;
 import gg.pixelarcade.skywars.util.cuboid.Cuboid;
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -159,16 +160,8 @@ public class GameHandler {
 
         game.setWinner(winner.getUniqueId());
 
-        SkyWarsProfile skyWarsProfile = SkyWarsGame.getInstance().getProfileHandler().getProfile(winner.getUniqueId());
-        for (String questId : skyWarsProfile.getDailyQuests().values()) {
-            Quest quest = SkyWarsGame.getInstance().getQuestHandler().getQuest(questId);
-            if (quest == null)
-                continue;
-
-            quest.completeQuest(winner, game);
-        }
-
         // Gift the winner their new stats
+        SkyWarsProfile skyWarsProfile = SkyWarsGame.getInstance().getProfileHandler().getProfile(winner.getUniqueId());
         skyWarsProfile.incrementWins();
         skyWarsProfile.incrementXP(30);
         skyWarsProfile.incrementCoins(150);

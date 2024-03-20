@@ -3,7 +3,6 @@ package gg.pixelarcade.skywars.quests;
 import gg.pixelarcade.skywars.SkyWarsShared;
 import gg.pixelarcade.skywars.game.Game;
 import gg.pixelarcade.skywars.profile.SkyWarsProfile;
-import gg.pixelarcade.skywars.quests.progression.ProgressionTracker;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
@@ -20,31 +19,32 @@ import java.util.List;
  */
 
 @Getter
-@RequiredArgsConstructor
-public abstract class Quest {
+public abstract class Quest implements Listener {
 
     // This is used to track the quest across different systems and for saving/loading quest data.
     private final String id;
-    // This can be used to sort quests in a list or to determine the order in which quests should be completed.
-    private final int priority;
     // This is used to determine what command should be run when the quest is completed.
     private final QuestRewardType rewardType;
-    // This is used to determine if the quest has been completed.
-    private final QuestCompletionStrategy strategy;
 
     public abstract String getDisplayName();
     public abstract ItemStack getDisplayIcon();
     public abstract List<String> getDescription();
+
+    public Quest(String id, QuestRewardType rewardType) {
+        this.id = id;
+        this.rewardType = rewardType;
+
+        SkyWarsShared.getInstance().getPlugin().getServer().getPluginManager().registerEvents(
+                this, SkyWarsShared.getInstance().getPlugin());
+    }
 
     /**
      * Complete the quest for the player
      *
      * @param player the player to complete the quest for
      */
-    public void completeQuest(Player player, Game game) {
+    public void completeQuest(Player player) {
         SkyWarsProfile profile = SkyWarsShared.getInstance().getProfileHandler().getProfile(player.getUniqueId());
-        if (!strategy.isQuestCompleted(player, game))
-            return;
 
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), rewardType.getCommand()
                 .replace("%player%", player.getName()));
