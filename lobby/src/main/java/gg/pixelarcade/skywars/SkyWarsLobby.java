@@ -40,6 +40,7 @@ public class SkyWarsLobby extends SkyWarsShared {
 
     @Getter
     private static SkyWarsLobby lobbyInstance;
+
     private PaperCommandManager commandHandler;
     private MusicHandler musicHandler;
     private RegionHandler regionHandler;
@@ -82,7 +83,8 @@ public class SkyWarsLobby extends SkyWarsShared {
 
         new Assemble(SkyWarsLobbyPlugin.getInstance(), new LobbyScoreboardAdapter());
 
-        getPlugin().getServer().getMessenger().registerOutgoingPluginChannel(getPlugin(), "BungeeCord");
+        this.getPlugin().getServer().getMessenger().registerOutgoingPluginChannel(getPlugin(), "BungeeCord");
+
         Bukkit.getWorlds().get(0).getEntities()
                 .forEach(it -> {
                     if (it instanceof Player) return;

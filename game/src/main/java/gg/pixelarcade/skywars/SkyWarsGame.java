@@ -32,7 +32,6 @@ public class SkyWarsGame extends SkyWarsShared {
     private static SkyWarsGame gameInstance;
 
     private GameHandler gameHandler;
-    //private GameMapHandler gameMapHandler;
     private GameConfig gameConfig;
     private ChestHandler chestHandler;
     private AbilityHandler abilityHandler;

@@ -17,8 +17,6 @@ import java.util.*;
 @Data
 public class SkyWarsProfile {
 
-    @Exclude
-    private final static SkyWarsShared shared = SkyWarsShared.getInstance();
     private final UUID uniqueId;
 
     private String name;
@@ -49,7 +47,7 @@ public class SkyWarsProfile {
     private List<String> arenasRated = new ArrayList<>();
 
     public void load() {
-        shared.getProfileHandler().getFromDatabase(uniqueId).whenComplete((profile, error) -> {
+        SkyWarsShared.getInstance().getProfileHandler().getFromDatabase(uniqueId).whenComplete((profile, error) -> {
             if (error != null) {
                 error.printStackTrace();
                 return;
@@ -85,7 +83,7 @@ public class SkyWarsProfile {
     }
 
     public void save() {
-        shared.getProfileHandler().saveToDatabase(uniqueId, this);
+        SkyWarsShared.getInstance().getProfileHandler().saveToDatabase(uniqueId, this);
     }
 
     public LevelEnum getPrestige(int level) {
@@ -124,7 +122,7 @@ public class SkyWarsProfile {
     public void findNewDailyQuest() {
         dailyQuests.clear();
 
-        Quest newQuest = shared.getQuestHandler().getRandomQuest();
+        Quest newQuest = SkyWarsShared.getInstance().getQuestHandler().getRandomQuest();
         dailyQuests.put(System.currentTimeMillis(), newQuest.getId());
 
         this.save();
