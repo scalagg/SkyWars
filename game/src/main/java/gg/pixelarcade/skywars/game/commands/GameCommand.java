@@ -58,8 +58,7 @@ public class GameCommand extends BaseCommand {
     public void leave(Player player) {
         handler.removePlayer(player);
 
-        GameHandler gameHandler = new GameHandler();
-        GameMap map = gameHandler.getMap();
+        GameMap map = SkyWarsGame.getGameInstance().getGameHandler().getMap();
 
         player.sendMessage(Color.translate(SpigotConstants.GAME + "&eYou have left &b"
                 + map.getName() + "&e."));
