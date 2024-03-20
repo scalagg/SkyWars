@@ -6,7 +6,6 @@ import gg.pixelarcade.skywars.game.state.GameTeamType;
 import gg.pixelarcade.skywars.leveling.enums.LevelEnum;
 import gg.pixelarcade.skywars.perk.Perk;
 import gg.pixelarcade.skywars.quests.Quest;
-import gg.pixelarcade.skywars.quests.progression.ProgressionTracker;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import xyz.refinedev.phoenix.SharedAPI;
@@ -42,7 +41,6 @@ public class SkyWarsProfile {
     private List<String> ownedPerks = new ArrayList<>();
     private List<String> selectedPerks = new ArrayList<>();
 
-    private Map<String, ProgressionTracker> tracker = new HashMap<>();
     private Map<Long, String> dailyQuests = new HashMap<>();
     private Map<GameTeamType, Cage> selectedCages = new HashMap<>();
     private Map<String, Integer> achievements = new HashMap<>();
@@ -81,6 +79,7 @@ public class SkyWarsProfile {
             this.arenasRated = profile.getArenasRated();
             this.achievements = profile.getAchievements() == null ? new HashMap<>() : profile.getAchievements();
             this.canRate = profile.isCanRate();
+            this.dailyQuests = (profile.getDailyQuests() == null ? new HashMap<>() : profile.getDailyQuests());
             this.selectedCages = profile.getSelectedCages();
         });
     }
@@ -100,14 +99,6 @@ public class SkyWarsProfile {
         }
 
         return prestige;
-    }
-
-    public ProgressionTracker getTracker(String trackerName) {
-        return this.tracker.get(trackerName);
-    }
-
-    public void addMetric(String trackerName, ProgressionTracker tracker) {
-        this.tracker.put(trackerName, tracker);
     }
 
     public String getXPBar(LevelEnum prestige) {
