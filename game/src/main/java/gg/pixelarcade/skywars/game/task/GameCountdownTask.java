@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.scheduler.BukkitRunnable;
+import xyz.refinedev.commands.CC;
 
 /**
  * @author alfie
@@ -25,7 +26,7 @@ public class GameCountdownTask extends BukkitRunnable {
     @Override
     public void run() {
         if (--countdown == 0) {
-            Bukkit.broadcastMessage("&eGame started.");
+            Bukkit.broadcastMessage(CC.translate("&eGame started."));
             game.startGame();
             cancel();
             return;
@@ -33,7 +34,7 @@ public class GameCountdownTask extends BukkitRunnable {
 
         for (int reminder : reminders) {
             if (countdown == reminder) {
-                Bukkit.broadcastMessage("&eGame starting in &c" + reminder + " &eseconds.");
+                Bukkit.broadcastMessage(CC.translate("&eGame starting in &c" + reminder + " &eseconds."));
                 game.playSound(Sound.NOTE_PLING);
             }
         }
