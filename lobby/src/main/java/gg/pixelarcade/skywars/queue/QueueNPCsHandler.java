@@ -22,7 +22,7 @@ public class QueueNPCsHandler {
     //-- Instance Variables
     private final NPC experimental, solo, doubles;
     @Getter
-    private final List<NPC> npcs = new ArrayList<NPC>();
+    private final List<NPC> npcs = new ArrayList<>();
 
     //-- Constructor
     public QueueNPCsHandler() {

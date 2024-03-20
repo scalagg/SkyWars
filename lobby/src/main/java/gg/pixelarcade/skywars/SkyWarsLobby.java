@@ -12,7 +12,6 @@ import gg.pixelarcade.skywars.items.*;
 import gg.pixelarcade.skywars.listeners.LobbyListener;
 import gg.pixelarcade.skywars.music.MusicHandler;
 import gg.pixelarcade.skywars.music.commands.MusicCommand;
-import gg.pixelarcade.skywars.queue.QueueHandler;
 import gg.pixelarcade.skywars.region.RegionHandler;
 import gg.pixelarcade.skywars.region.commands.RegionCommands;
 import gg.pixelarcade.skywars.region.listeners.RegionListener;
@@ -43,7 +42,6 @@ public class SkyWarsLobby extends SkyWarsShared {
     private static SkyWarsLobby lobbyInstance;
     private PaperCommandManager commandHandler;
     private MusicHandler musicHandler;
-    private QueueHandler queueHandler;
     private RegionHandler regionHandler;
     private LeaderboardNPCsHandler leaderboardNPCsHandler;
 
@@ -61,7 +59,6 @@ public class SkyWarsLobby extends SkyWarsShared {
         lobbyInstance = this;
 
         regionHandler = new RegionHandler();
-        queueHandler = new QueueHandler();
         musicHandler = new MusicHandler(new File(SkyWarsLobbyPlugin.getInstance().getDataFolder(), "music"));
         leaderboardNPCsHandler = new LeaderboardNPCsHandler();
 
@@ -95,7 +92,6 @@ public class SkyWarsLobby extends SkyWarsShared {
 
     @Override
     public void stop() {
-        super.stop();
         leaderboardNPCsHandler.destroy();
 
         queueNPCsHandler.destroy();

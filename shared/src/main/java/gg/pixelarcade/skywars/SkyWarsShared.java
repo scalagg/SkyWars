@@ -9,7 +9,6 @@ import gg.pixelarcade.skywars.perk.PerkHandler;
 import gg.pixelarcade.skywars.profile.ProfileHandler;
 import gg.pixelarcade.skywars.profile.listener.ProfileListener;
 import gg.pixelarcade.skywars.quests.QuestHandler;
-import gg.pixelarcade.skywars.server.ServerHandler;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -34,7 +33,6 @@ public abstract class SkyWarsShared {
     private final JavaPlugin plugin;
 
     private final ProfileHandler profileHandler;
-    private final ServerHandler serverHandler;
     private final KitHandler kitHandler;
     private final PerkHandler perkHandler;
     private final CageHandler cageHandler;
@@ -50,7 +48,6 @@ public abstract class SkyWarsShared {
         this.plugin = plugin;
 
         profileHandler = new ProfileHandler();
-        serverHandler = new ServerHandler();
         kitHandler = new KitHandler();
         cageHandler = new CageHandler();
         perkHandler = new PerkHandler();
@@ -68,9 +65,7 @@ public abstract class SkyWarsShared {
     }
 
     public abstract void init();
+    public abstract void stop();
 
-    public void stop() {
-        this.serverHandler.stopThreads();
-    }
 
 }

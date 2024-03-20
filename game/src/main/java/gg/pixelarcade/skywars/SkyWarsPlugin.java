@@ -31,7 +31,6 @@ public class SkyWarsPlugin extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        SkyWarsGame.getGameInstance().getUpdaterThread().interrupt();
         SkyWarsGame.getInstance().stop();
     }
 

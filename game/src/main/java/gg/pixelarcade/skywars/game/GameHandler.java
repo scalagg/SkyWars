@@ -17,6 +17,7 @@ import gg.pixelarcade.skywars.map.GameMap;
 import gg.pixelarcade.skywars.profile.SkyWarsProfile;
 import gg.pixelarcade.skywars.quests.Quest;
 import gg.pixelarcade.skywars.util.PlayerUtil;
+import gg.pixelarcade.skywars.util.ServerUtil;
 import gg.pixelarcade.skywars.util.Tuple;
 import gg.pixelarcade.skywars.util.WorldEditUtils;
 import gg.pixelarcade.skywars.util.cuboid.Cuboid;
@@ -179,14 +180,14 @@ public class GameHandler {
             Bukkit.broadcastMessage(message);
 
         SharedAPI.getInstance().getLevelHook().addExperience(profile, 50, "WON!");
-        SkyWarsGame.getInstance().getServerHandler().sendToLobby(winner);
+        ServerUtil.sendToLobby(winner);
 
         for (UUID uuid : game.getSpectators()) {
             Player spectator = Bukkit.getPlayer(uuid);
             if (spectator == null)
                 continue;
 
-            SkyWarsGame.getInstance().getServerHandler().sendToLobby(spectator);
+            ServerUtil.sendToLobby(spectator);
         }
 
         endGame();
@@ -231,7 +232,7 @@ public class GameHandler {
 
             map.removeUsedSpawn(player.getLocation());
 
-            SkyWarsGame.getInstance().getServerHandler().sendToLobby(player);
+            ServerUtil.sendToLobby(player);
             return;
         }
 
@@ -258,7 +259,6 @@ public class GameHandler {
 
         if (killer != null) {
             SkyWarsProfile killerProfile = SkyWarsGame.getGameInstance().getProfileHandler().getProfile(killer.getUniqueId());
-            killerProfile.getTracker("twenty_kills").increment();
             killerProfile.incrementKills();
             killerProfile.save();
 
