@@ -25,6 +25,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
@@ -47,9 +48,9 @@ public class GameListener implements Listener {
     private final SkyWarsGame plugin;
 
     @EventHandler
-    public void onPlayerJoinGame(PlayerJoinGameEvent event) {
+    public void onPlayerJoinGame(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        Game game = event.getGame();
+        Game game = SkyWarsGame.getGameInstance().getGameHandler().getGame();
 
         plugin.getGameHandler().addPlayer(player);
 
@@ -64,7 +65,6 @@ public class GameListener implements Listener {
         if (player.isOp())
             player.getInventory().setItem(4, new ForceStartItem(player).getItem(player));
 
-//        player.getInventory().setItem(7, new CosmeticItem(player).getItem(player));
         player.getInventory().setItem(8, new LeaveGameItem(player).getItem(player));
     }
 
