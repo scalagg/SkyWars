@@ -155,7 +155,6 @@ public class SkyWarsProfile {
     }
 
     public void incrementXP(int amount) {
-
         int newXP = xp + amount;
         LevelEnum prestige = getPrestige(level);
 
@@ -163,6 +162,9 @@ public class SkyWarsProfile {
             incrementLevel();
             prestige = getPrestige(level);
             newXP -= prestige.getXpPerLevel();
+            if (newXP >= prestige.getXpPerLevel()) {
+                newXP -= prestige.getXpPerLevel();
+            }
         }
 
         xp = newXP;
@@ -216,6 +218,8 @@ public class SkyWarsProfile {
     }
 
     public void addSelectedPerk(Perk perk){
+
+        // if selectedperks != null
         List<String> newSelectedPerks = new ArrayList<>(this.selectedPerks);
         newSelectedPerks.add(perk.getName());
         this.selectedPerks = newSelectedPerks;

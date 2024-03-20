@@ -49,7 +49,7 @@ public class QueueNPCsHandler {
     }
 
     public void getMenu(NPC npc, Player player) {
-        if (npc.equals(experimental)){
+        if (npc.equals(experimental)) {
             player.sendMessage(ChatColor.RED + "Sorry, this gamemode isn't out yet!");
         }
         if (npc.equals(solo)) {

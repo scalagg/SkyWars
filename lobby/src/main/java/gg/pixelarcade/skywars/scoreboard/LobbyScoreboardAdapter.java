@@ -48,10 +48,9 @@ public class LobbyScoreboardAdapter implements AssembleAdapter {
         List<String> lines = new ArrayList<>();
 
         //-- Date
-        DateFormat dateFormat = new SimpleDateFormat("MM,dd,yy");
-        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yy HH:mm:ss");
         lines.add("");
-        lines.add("&7" + dateFormat.format(date).replace(",", "/"));
+        lines.add("&7" + dateFormat.format(System.currentTimeMillis()));
         lines.add("");
 
         //-- Level
@@ -62,8 +61,8 @@ public class LobbyScoreboardAdapter implements AssembleAdapter {
         lines.add(SkyWarsShared.getInstance().getProfileHandler().getProfile(player.getUniqueId()).getXPBar(prestige));
 
         lines.add("");
-        lines.add("&6● &fWins: &a" + SkyWarsShared.getInstance().getProfileHandler().getProfile(player.getUniqueId()).getWins());
-        lines.add("&6● &fKills: &a" + SkyWarsShared.getInstance().getProfileHandler().getProfile(player.getUniqueId()).getKills());
+        lines.add("&6● &fWins: &5" + SkyWarsShared.getInstance().getProfileHandler().getProfile(player.getUniqueId()).getWins());
+        lines.add("&6● &fKills: &5" + SkyWarsShared.getInstance().getProfileHandler().getProfile(player.getUniqueId()).getKills());
 
         lines.add("");
         lines.add("&6● &fCoins: &6" + SkyWarsShared.getInstance().getProfileHandler().getProfile(player.getUniqueId()).getCoins());
