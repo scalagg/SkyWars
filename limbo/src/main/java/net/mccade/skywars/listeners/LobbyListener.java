@@ -13,6 +13,8 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import xyz.refinedev.phoenix.Phoenix;
+import xyz.refinedev.phoenix.SharedAPI;
+import xyz.refinedev.phoenix.profile.Profile;
 import xyz.refinedev.phoenix.utils.Color;
 import xyz.refinedev.phoenix.utils.general.Tasks;
 
@@ -25,14 +27,13 @@ public class LobbyListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         // Variables
         Player player = event.getPlayer();
-
         plugin.getLobbyHandler().addPlayer(player);
 
         // We want to give the player time to see their join message
         Tasks.runLater(() -> {
             // Broadcast that the player has joined, as well as their position in the queue
             Bukkit.broadcastMessage(
-                    Color.translate(Phoenix.getInstance().getApi().getProfileHandler().getProfile(player.getUniqueId()).getNameWithColor()) +
+                    Color.translate(SharedAPI.getInstance().getProfileHandler().getProfile(player.getUniqueId()).getNameWithColor()) +
                             ChatColor.YELLOW + " has joined (" +
                             ChatColor.AQUA + plugin.getLobbyHandler().getLobby().getPlayers().size() +
                             ChatColor.YELLOW + "/" +
@@ -49,7 +50,8 @@ public class LobbyListener implements Listener {
         plugin.getLobbyHandler().removePlayer(player);
 
         // Broadcast that the player has left
-        Bukkit.broadcastMessage(player.getDisplayName() + ChatColor.YELLOW + " has quit!");
+        Profile profile = SharedAPI.getInstance().getProfileHandler().getProfile(player.getUniqueId());
+        Bukkit.broadcastMessage(profile.getNameWithColor() + ChatColor.YELLOW + " has quit!");
     }
 
     @EventHandler
