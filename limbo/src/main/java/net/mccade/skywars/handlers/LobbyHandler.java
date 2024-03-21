@@ -63,7 +63,7 @@ public class LobbyHandler {
         lobby.setPlayers(currentPlayers);
 
         int playerCount = lobby.getPlayers().size();
-        if (playerCount < LimboConfig.SETTINGS.minPlayers) {
+        if (playerCount < LimboConfig.SETTINGS.minPlayers && lobby.getCountdown() != null) {
             lobby.getCountdown().setStop(true);
         }
 
