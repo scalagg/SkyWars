@@ -5,6 +5,7 @@ import gg.pixelarcade.skywars.game.state.GameType;
 import lombok.Data;
 import net.mccade.skywars.handlers.task.CountdownTask;
 import net.mccade.skywars.util.LimboState;
+import net.mccade.skywars.util.StartingState;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -19,6 +20,7 @@ public class Lobby {
     private GameTeamType gameTeamType;
 
     private LimboState limboState;
+    private StartingState startingState;
     private String serverName;
     private boolean serverDeployed;
     private CountdownTask countdown;
@@ -29,7 +31,8 @@ public class Lobby {
         this.gameType = gameType;
         this.gameTeamType = gameTeamType;
 
-        this.limboState = LimboState.WAITING;
+        this.limboState = LimboState.STALE;
+        this.startingState = StartingState.WAITING;
         this.serverName = "";
         this.serverDeployed = false;
     }

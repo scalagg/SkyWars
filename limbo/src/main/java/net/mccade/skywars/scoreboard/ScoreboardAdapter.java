@@ -6,6 +6,7 @@ import gg.pixelarcade.skywars.scoreboard.api.animation.impl.TitleAnimation;
 import lombok.RequiredArgsConstructor;
 import net.mccade.skywars.Limbo;
 import net.mccade.skywars.util.LimboState;
+import net.mccade.skywars.util.StartingState;
 import org.bukkit.entity.Player;
 
 import java.text.DateFormat;
@@ -48,16 +49,19 @@ public class ScoreboardAdapter implements AssembleAdapter {
         lines.add("");
 
         //-- Waiting
-        if (plugin.getLobbyHandler().getLobby().getLimboState() != LimboState.COUNTING) {
+        if (plugin.getLobbyHandler().getLobby().getStartingState() != StartingState.COUNTING) {
             lines.add("&fWaiting...");
             lines.add("");
         } else {
-            lines.add("&f" + plugin.getLobbyHandler().getLobby().getCountdown().getCountdown() + "s");
+            lines.add("&aStarting in: " + plugin.getLobbyHandler().getLobby().getCountdown().getCountdown() + "s");
             lines.add("");
         }
 
+        String badType = plugin.getLobbyHandler().getLobby().getGameTeamType().name().toLowerCase();
+        String goodType = badType.substring(0,1).toUpperCase() + badType.substring(1);
+
         //-- Map, Mode, Bracket if there is one
-        lines.add("&fType: " + "&b&l" + plugin.getLobbyHandler().getLobby().getGameTeamType().name().toLowerCase());
+        lines.add("&fType: " + "&b&l" + goodType);
         lines.add("&fMode: " + "&b&l" + plugin.getLobbyHandler().getLobby().getGameType().getDisplayName());
         GameType gameType = plugin.getLobbyHandler().getLobby().getGameType();
 //        if (gameType == GameType.RANKED) {

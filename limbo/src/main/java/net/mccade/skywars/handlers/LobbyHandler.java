@@ -6,6 +6,7 @@ import net.mccade.skywars.LimboPlugin;
 import net.mccade.skywars.config.LimboConfig;
 import net.mccade.skywars.handlers.task.CountdownTask;
 import net.mccade.skywars.util.LimboState;
+import net.mccade.skywars.util.StartingState;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import studio.pinkcloud.deploy.spigot.api.Deployer;
@@ -47,7 +48,7 @@ public class LobbyHandler {
         }
 
         if (playerCount == LimboConfig.SETTINGS.minPlayers) {
-            lobby.setLimboState(LimboState.COUNTING);
+            lobby.setStartingState(StartingState.COUNTING);
             if (lobby.getCountdown() == null) {
                 lobby.setCountdown(new CountdownTask(60));
                 lobby.getCountdown().runTaskTimer(LimboPlugin.getInstance(), 20, 20);
@@ -57,7 +58,6 @@ public class LobbyHandler {
         }
 
         if (playerCount == LimboConfig.SETTINGS.maxPlayers) {
-            lobby.setLimboState(LimboState.COUNTING);
             if (!(lobby.getCountdown().getCountdown() <= 30)) {
                 lobby.getCountdown().setCountdown(30);
             }
