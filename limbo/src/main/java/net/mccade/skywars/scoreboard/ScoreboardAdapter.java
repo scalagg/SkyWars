@@ -37,10 +37,8 @@ public class ScoreboardAdapter implements AssembleAdapter {
         List<String> lines = new ArrayList<>();
 
         //-- Date
-        DateFormat dateFormat = new SimpleDateFormat("MM,dd,yy");
-        Date date = new Date();
-        lines.add("");
-        lines.add("&7" + dateFormat.format(date).replace(",", "/"));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
+        lines.add("&7" + dateFormat.format(System.currentTimeMillis()));
         lines.add("");
 
         //-- Player Count

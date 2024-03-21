@@ -5,7 +5,6 @@ import gg.pixelarcade.skywars.scoreboard.api.Assemble;
 import lombok.Getter;
 import net.mccade.skywars.config.LimboConfig;
 import net.mccade.skywars.handlers.LobbyHandler;
-import net.mccade.skywars.handlers.server.packet.ServerHandler;
 import net.mccade.skywars.listeners.LobbyListener;
 import net.mccade.skywars.listeners.QueueListener;
 import net.mccade.skywars.scoreboard.ScoreboardAdapter;
@@ -22,7 +21,6 @@ public class Limbo extends SkyWarsShared {
 
     private LimboConfig limboConfig;
     private LobbyHandler lobbyHandler;
-    private ServerHandler serverHandler;
 
     public Limbo(JavaPlugin plugin) {
         super(plugin);
@@ -34,7 +32,6 @@ public class Limbo extends SkyWarsShared {
 
         limboConfig = new LimboConfig();
         lobbyHandler = new LobbyHandler();
-        serverHandler = new ServerHandler();
 
         Arrays.asList(
                 new LobbyListener(this),
