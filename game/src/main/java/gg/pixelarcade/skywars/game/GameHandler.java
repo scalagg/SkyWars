@@ -111,7 +111,7 @@ public class GameHandler {
             game.getKills().put(uuid, 0);
 
             Profile levelProfile = SharedAPI.getInstance().getProfileHandler().getProfile(player.getUniqueId());
-            SharedAPI.getInstance().getLevelHook().addExperience(levelProfile, 10, "Started a game of SkyWarsGame");
+            SharedAPI.getInstance().getLevelHook().addExperience(levelProfile, 10, "Started a game of SkyWars");
 
             if (player.getInventory().firstEmpty() == 0) {
                 SkyWarsProfile profile = SkyWarsGame.getGameInstance().getProfileHandler().getProfile(player.getUniqueId());
