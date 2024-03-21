@@ -18,7 +18,10 @@ public class ServerUtil {
         double x = 0;
 
         ServerData bestLobby = null;
-        for (ServerData runningService : SharedAPI.getInstance().getNetworkHandler().getServersInGroup("skywars-lobby")) {
+        for (ServerData runningService : SharedAPI.getInstance().getNetworkHandler().getServersInGroup("GAMELOBBY")) {
+            if (!runningService.getServerName().contains("skywars"))
+                continue;
+
             double percentage = (runningService.getOnlinePlayers().size() * 100.0 / runningService.getMaxPlayers());
 
             if (percentage < x) {
