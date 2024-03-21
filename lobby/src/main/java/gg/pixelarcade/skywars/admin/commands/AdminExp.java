@@ -17,17 +17,17 @@ public class AdminExp extends BaseCommand {
 
     @Subcommand("givecoins")
     @Description("Give [player] an amount of coins")
-    public void giveCoins(CommandSender sender, @Name("player") Player player, @Name("amount") int amount) {
-        SkyWarsShared.getInstance().getProfileHandler().getProfile(player.getUniqueId()).incrementCoins(amount);
+    public void giveCoins(CommandSender sender, @Name("player") String name, @Name("amount") int amount) {
+        SkyWarsShared.getInstance().getProfileHandler().getProfile(Bukkit.getPlayer(name).getUniqueId()).incrementCoins(amount);
 
         sender.sendMessage(ChatColor.GOLD + "Done! ");
     }
     @Subcommand("giveexp")
     @Description("Give [player] an ammount of exp")
-    public void giveExp(CommandSender sender, @Name("player") Player player, @Name("amount") int amount){
-        SkyWarsShared.getInstance().getProfileHandler().getProfile(player.getUniqueId()).incrementXP(amount);
+    public void giveExp(CommandSender sender, @Name("player") String name, @Name("amount") int amount){
+        SkyWarsShared.getInstance().getProfileHandler().getProfile(Bukkit.getPlayer(name).getUniqueId()).incrementXP(amount);
         SkyWarsShared.getInstance().getLeaderboardHandler().getLeaderboard(LevelLeaderboard.class).update(
-                SkyWarsShared.getInstance().getProfileHandler().getProfile(player.getUniqueId())
+                SkyWarsShared.getInstance().getProfileHandler().getProfile(Bukkit.getPlayer(name).getUniqueId())
         );
 
         sender.sendMessage(ChatColor.GOLD + "Done!");
@@ -35,13 +35,13 @@ public class AdminExp extends BaseCommand {
 
     @Subcommand("setexp")
     @Description("Set [player]'s exp")
-    public void setExp(CommandSender sender, @Name("player") Player player, @Name("amount") int amount){
-        SkyWarsShared.getInstance().getProfileHandler().getProfile(player.getUniqueId()).setXp(amount);
+    public void setExp(CommandSender sender, @Name("player") String name, @Name("amount") int amount){
+        SkyWarsShared.getInstance().getProfileHandler().getProfile(Bukkit.getPlayer(name).getUniqueId()).setXp(amount);
         SkyWarsShared.getInstance().getLeaderboardHandler().getLeaderboard(LevelLeaderboard.class).update(
-                SkyWarsShared.getInstance().getProfileHandler().getProfile(player.getUniqueId())
+                SkyWarsShared.getInstance().getProfileHandler().getProfile(Bukkit.getPlayer(name).getUniqueId())
         );
         sender.sendMessage(ChatColor.GOLD + "Done!");
-        SkyWarsShared.getInstance().getProfileHandler().getProfile(player.getUniqueId()).save();
+        SkyWarsShared.getInstance().getProfileHandler().getProfile(Bukkit.getPlayer(name).getUniqueId()).save();
     }
 
     @Subcommand("setLevel")

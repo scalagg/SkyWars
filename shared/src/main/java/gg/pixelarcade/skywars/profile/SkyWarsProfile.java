@@ -8,6 +8,8 @@ import gg.pixelarcade.skywars.perk.Perk;
 import gg.pixelarcade.skywars.quests.Quest;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import xyz.refinedev.phoenix.SharedAPI;
 import xyz.refinedev.phoenix.utils.Exclude;
 
@@ -134,7 +136,10 @@ public class SkyWarsProfile {
     }
 
     public void incrementLevel() {
+
+        Bukkit.getPlayer(uniqueId).sendMessage(levelUpMessage());
         level ++;
+
         this.save();
     }
 
@@ -277,4 +282,18 @@ public class SkyWarsProfile {
 
     private static final int[] RATING_GAINS = {10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30};
 
+    private String[] levelUpMessage() {
+
+        int nextLevel = this.level + 1;
+
+        String[] toReturn = {
+
+                ChatColor.GOLD + "---------------------------",
+                ChatColor.AQUA + "SkyWars Experience",
+                ChatColor.translateAlternateColorCodes('&', getPrestige(level).getColor()) + "Level " + this.level + "      Level " + nextLevel,
+                " " + ChatColor.translateAlternateColorCodes('&', getXPBar(getPrestige(level))),
+                ChatColor.GOLD + "---------------------------"
+        };
+        return toReturn;
+    }
 }

@@ -109,11 +109,7 @@ public class GameModeSelectorMenu extends PaginatedMenu {
 
                     //-- Switch case for the game type: Ranked, Normal, Insane
                     switch (gameType) {
-                        case RANKED -> {
-                            player.closeInventory();
-                            player.sendMessage("Server hasn't been created yet");
-                        }
-                        case INSANE -> {
+                        case RANKED, INSANE -> {
                             player.closeInventory();
                             player.sendMessage("Server hasn't been created yet");
                         }
