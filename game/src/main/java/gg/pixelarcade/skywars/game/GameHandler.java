@@ -12,6 +12,7 @@ import gg.pixelarcade.skywars.game.task.GameCountdownTask;
 import gg.pixelarcade.skywars.kit.Kit;
 import gg.pixelarcade.skywars.map.GameMap;
 import gg.pixelarcade.skywars.profile.SkyWarsProfile;
+import gg.pixelarcade.skywars.util.DefaultFontInfo;
 import gg.pixelarcade.skywars.util.PlayerUtil;
 import gg.pixelarcade.skywars.util.ServerUtil;
 import gg.pixelarcade.skywars.util.Tuple;
@@ -25,7 +26,6 @@ import studio.pinkcloud.deploy.spigot.api.Deployer;
 import xyz.refinedev.phoenix.SharedAPI;
 import xyz.refinedev.phoenix.profile.Profile;
 import xyz.refinedev.phoenix.utils.Color;
-import xyz.refinedev.phoenix.utils.DefaultFontInfo;
 import xyz.refinedev.phoenix.utils.general.Tasks;
 
 import java.util.*;
@@ -174,14 +174,17 @@ public class GameHandler {
             Bukkit.broadcastMessage(message);
 
         SharedAPI.getInstance().getLevelHook().addExperience(profile, 50, "WON!");
-        ServerUtil.sendToLobby(winner);
 
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            if (player == null)
-                continue;
+        // Kicks all players out of the game in 5 seconds
+        Tasks.runLater(() -> {
+            ServerUtil.sendToLobby(winner);
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                if (player == null)
+                    continue;
 
-            ServerUtil.sendToLobby(player);
-        }
+                ServerUtil.sendToLobby(player);
+            }
+        }, 20 * 5L);
 
         endGame();
     }
@@ -265,8 +268,9 @@ public class GameHandler {
         }
 
         // TODO: Add a way to grab the team type when initializing the game otherwise this will error
+        // TODO: probably find a better way to do this
 //        if (game.getGameTeamType() == GameTeamType.SOLO) {
-            if (game.getAlivePlayers().size() <= 1)
+            if (game.getAlivePlayers().size() == 1)
                 game.getAlivePlayers().stream()
                         .findFirst()
                         .ifPresentOrElse(winner -> this.onWin(Bukkit.getPlayer(winner)), () -> this.onWin(null));
