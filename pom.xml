@@ -12,6 +12,7 @@
         <module>shared</module>
         <module>lobby</module>
         <module>game</module>
+        <module>limbo</module>
     </modules>
 
     <properties>

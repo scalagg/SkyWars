@@ -5,7 +5,6 @@ import gg.pixelarcade.skywars.leaderboard.LeaderboardHologramHandler;
 import gg.pixelarcade.skywars.leaderboard.LeaderboardNPCsHandler;
 import gg.pixelarcade.skywars.listeners.QuestListener;
 import gg.pixelarcade.skywars.profile.PersonalStatsNPCHandler;
-import gg.pixelarcade.skywars.menus.GameModeSelectorMenu;
 import gg.pixelarcade.skywars.queue.QueueNPCsHandler;
 import gg.pixelarcade.skywars.scoreboard.LobbyScoreboardAdapter;
 import gg.pixelarcade.skywars.items.*;
