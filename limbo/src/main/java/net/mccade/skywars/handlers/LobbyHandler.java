@@ -45,8 +45,12 @@ public class LobbyHandler {
         }
         if (playerCount == LimboConfig.SETTINGS.minPlayers) {
             lobby.setLimboState(LimboState.COUNTING);
-            lobby.setCountdown(new CountdownTask(60));
-            lobby.getCountdown().runTaskTimer(LimboPlugin.getInstance(), 20, 20);
+            if (lobby.getCountdown() == null) {
+                lobby.setCountdown(new CountdownTask(60));
+                lobby.getCountdown().runTaskTimer(LimboPlugin.getInstance(), 20, 20);
+            } else {
+                lobby.getCountdown().setCountdown(60);
+            }
         }
         if (playerCount == LimboConfig.SETTINGS.maxPlayers) {
             lobby.setLimboState(LimboState.COUNTING);
@@ -65,6 +69,7 @@ public class LobbyHandler {
         int playerCount = lobby.getPlayers().size();
         if (playerCount < LimboConfig.SETTINGS.minPlayers && lobby.getCountdown() != null) {
             lobby.getCountdown().setStop(true);
+            lobby.setLimboState(LimboState.DEPLOYED);
         }
 
         Bukkit.broadcastMessage("Countdown stopped (Unfullfilled requirements)");
@@ -98,8 +103,10 @@ public class LobbyHandler {
 
         Limbo.getLobbyInstance().getServerHandler()
                 .createServer(templateName, serverName -> {
+
                     // Send all the players to the server
                     if (!sendOnDeploy) {
+                        Limbo.getLobbyInstance().getLobbyHandler().getLobby().setLimboState(LimboState.DEPLOYED);
                         Limbo.getLobbyInstance().getLobbyHandler().getLobby().setServerName(serverName);
                         return;
                     }
