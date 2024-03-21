@@ -23,8 +23,7 @@ public class ServerUtil {
                 continue;
 
             double percentage = (runningService.getOnlinePlayers().size() * 100.0 / runningService.getMaxPlayers());
-
-            if (percentage < x) {
+            if (percentage <= x) {
                 bestLobby = runningService;
                 x = percentage;
             }

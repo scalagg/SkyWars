@@ -61,6 +61,8 @@ public abstract class SkyWarsShared {
                 new ProfileListener(this)
         ).forEach(listener -> Bukkit.getPluginManager().registerEvents(listener, plugin));
 
+        Bukkit.getMessenger().registerOutgoingPluginChannel(plugin, "BungeeCord");
+
         init();
     }
 
