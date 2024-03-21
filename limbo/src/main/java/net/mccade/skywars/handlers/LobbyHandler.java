@@ -44,12 +44,12 @@ public class LobbyHandler {
             Limbo.getLobbyInstance().getLobbyHandler().deployGame(false);
         }
         if (playerCount == LimboConfig.SETTINGS.minPlayers) {
-            lobby.setLimboState(LimboState.MIN_PLAYERS_REACHED);
+            lobby.setLimboState(LimboState.COUNTING);
             lobby.setCountdown(new CountdownTask(60));
             lobby.getCountdown().runTaskTimer(LimboPlugin.getInstance(), 20, 20);
         }
         if (playerCount == LimboConfig.SETTINGS.maxPlayers) {
-            lobby.setLimboState(LimboState.MAX_PLAYERS_REACHED);
+            lobby.setLimboState(LimboState.COUNTING);
             if (!(lobby.getCountdown().getCountdown() <= 30)) {
                 lobby.getCountdown().setCountdown(30);
             }
