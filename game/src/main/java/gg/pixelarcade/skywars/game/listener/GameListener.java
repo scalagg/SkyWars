@@ -29,6 +29,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
+import xyz.refinedev.commands.CC;
 import xyz.refinedev.cosmetics.cosmetics.killmessages.KillMessageType;
 import xyz.refinedev.cosmetics.pxCosmetics;
 import xyz.refinedev.phoenix.SharedAPI;
@@ -54,7 +55,9 @@ public class GameListener implements Listener {
 
         plugin.getGameHandler().addPlayer(player);
 
-        if (game.getPlayers().size() >= game.getGameTeamType().getMaxPlayers())
+        //TODO: need to make a way to get the max players depending on the team type
+        // but bc we don't set the team type we can't use game#getTeamType due to it null
+        if (game.getPlayers().size() >= 12)
             plugin.getGameHandler().startCountdown();
 
         PlayerUtil.resetPlayer(player);
@@ -175,7 +178,7 @@ public class GameListener implements Listener {
             else deathMessage = SpigotConstants.GAME + displayName + "&f was &aslain&f by " + killerName + "&f.";
         }
 
-        Bukkit.broadcastMessage(deathMessage);
+        Bukkit.broadcastMessage(CC.translate(deathMessage));
 
         PlayerKillEvent killEvent = new PlayerKillEvent(player, player.getKiller(), plugin.getGameHandler().getGame());
         Bukkit.getPluginManager().callEvent(killEvent);

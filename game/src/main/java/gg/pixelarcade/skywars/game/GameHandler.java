@@ -1,7 +1,5 @@
 package gg.pixelarcade.skywars.game;
 
-import com.sk89q.worldedit.CuboidClipboard;
-import com.sk89q.worldedit.Vector;
 import gg.pixelarcade.skywars.SkyWarsGame;
 import gg.pixelarcade.skywars.SkyWarsPlugin;
 import gg.pixelarcade.skywars.chests.LootableChest;
@@ -9,33 +7,28 @@ import gg.pixelarcade.skywars.chests.type.RefillType;
 import gg.pixelarcade.skywars.config.GameConfig;
 import gg.pixelarcade.skywars.game.event.*;
 import gg.pixelarcade.skywars.game.state.GameState;
-import gg.pixelarcade.skywars.game.state.GameTeamType;
 import gg.pixelarcade.skywars.game.state.GameType;
 import gg.pixelarcade.skywars.game.task.GameCountdownTask;
 import gg.pixelarcade.skywars.kit.Kit;
 import gg.pixelarcade.skywars.map.GameMap;
 import gg.pixelarcade.skywars.profile.SkyWarsProfile;
-import gg.pixelarcade.skywars.quests.Quest;
 import gg.pixelarcade.skywars.util.PlayerUtil;
 import gg.pixelarcade.skywars.util.ServerUtil;
 import gg.pixelarcade.skywars.util.Tuple;
-import gg.pixelarcade.skywars.util.WorldEditUtils;
 import gg.pixelarcade.skywars.util.cuboid.Cuboid;
 import lombok.Getter;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
+import studio.pinkcloud.deploy.spigot.api.Deployer;
 import xyz.refinedev.phoenix.SharedAPI;
 import xyz.refinedev.phoenix.profile.Profile;
 import xyz.refinedev.phoenix.utils.Color;
+import xyz.refinedev.phoenix.utils.DefaultFontInfo;
 import xyz.refinedev.phoenix.utils.general.Tasks;
 
-import java.io.File;
 import java.util.*;
-
-import static xyz.refinedev.phoenix.utils.CenterUtil.getCentered;
 
 /**
  * @author alfie
@@ -68,15 +61,15 @@ public class GameHandler {
             Player player = Bukkit.getPlayer(uuid);
 
             // Paste the cage for the player
-            Vector vector = WorldEditUtils.getVectorByLocation(map.getRandomSpawn());
-            try {
-                WorldEditUtils.pasteSchematic(
-                        new File(profile.getCurrentCage(game.getGameTeamType()).getFilePath()),
-                        vector);
-            } catch (Exception e) {
-                SkyWarsPlugin.getInstance().getLogger().severe("Failed to paste cage for " + player.getName());
-                e.printStackTrace();
-            }
+//            Vector vector = WorldEditUtils.getVectorByLocation(map.getRandomSpawn());
+//            try {
+//                WorldEditUtils.pasteSchematic(
+//                        new File(profile.getCurrentCage(game.getGameTeamType()).getFilePath()),
+//                        vector);
+//            } catch (Exception e) {
+//                SkyWarsPlugin.getInstance().getLogger().severe("Failed to paste cage for " + player.getName());
+//                e.printStackTrace();
+//            }
 
             player.teleport(map.getRandomSpawn());
 
@@ -95,12 +88,12 @@ public class GameHandler {
         game.setStartedAt(new Date());
 
         // Remove the cages from the map after the game has started
-        for (Location location : map.getUsedSpawns()) {
-            WorldEditUtils.clear(
-                    WorldEditUtils.getVectorByLocation(location),
-                    WorldEditUtils.getVectorByLocation(location.add(10, 7, 10))
-            );
-        }
+//        for (Location location : map.getUsedSpawns()) {
+//            WorldEditUtils.clear(
+//                    WorldEditUtils.getVectorByLocation(location),
+//                    WorldEditUtils.getVectorByLocation(location.add(10, 7, 10))
+//            );
+//        }
 
         LootableChest chest = SkyWarsGame.getGameInstance().getChestHandler().getChest(game.getGameType());
         chest.fillChests(game, RefillType.FIRST);
@@ -183,12 +176,11 @@ public class GameHandler {
         SharedAPI.getInstance().getLevelHook().addExperience(profile, 50, "WON!");
         ServerUtil.sendToLobby(winner);
 
-        for (UUID uuid : game.getSpectators()) {
-            Player spectator = Bukkit.getPlayer(uuid);
-            if (spectator == null)
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if (player == null)
                 continue;
 
-            ServerUtil.sendToLobby(spectator);
+            ServerUtil.sendToLobby(player);
         }
 
         endGame();
@@ -206,7 +198,10 @@ public class GameHandler {
         game.getAlivePlayers().clear();
         game.getSpectators().clear();
 
-        Bukkit.shutdown();
+        // Delete the server deployment in 8 seconds from now
+        Tasks.runLater(
+                () -> Deployer.deleteDeployment(SharedAPI.getInstance().getNetworkHandler().getServerName()),
+                20L * 8);
     }
 
     public void playSound(Sound sound) {
@@ -269,15 +264,15 @@ public class GameHandler {
             SharedAPI.getInstance().getLevelHook().addExperience(levelProfile, 10, "Killed a player in SkyWars Game");
         }
 
-        if (game.getGameTeamType() == GameTeamType.SOLO) {
+        // TODO: Add a way to grab the team type when initializing the game otherwise this will error
+//        if (game.getGameTeamType() == GameTeamType.SOLO) {
             if (game.getAlivePlayers().size() <= 1)
                 game.getAlivePlayers().stream()
                         .findFirst()
                         .ifPresentOrElse(winner -> this.onWin(Bukkit.getPlayer(winner)), () -> this.onWin(null));
-        } else {
+//        } else {
             // Team game
-
-        }
+//        }
     }
 
     public void addSpectator(Player player) {
@@ -327,15 +322,51 @@ public class GameHandler {
 
         return Color.translate(List.of(
                 "&7&m----------------------------------------",
-                getCentered("&6&lSkyWars"),
+                centerMessage("&6&lSkyWars"),
                 "",
-                getCentered("&eWinner &7- " + winner.getNameWithColor()),
+                centerMessage("&eWinner &7- " + winner.getNameWithColor()),
                 "",
-                getCentered("&e&l1st Killer &7- " + firstKiller.value() + " &7(&e" + game.getKills().get(firstKiller.key()) + "&7)"),
-                getCentered("&6&l2nd Killer &7- " + secondKiller.value() + " &7(&e" + game.getKills().get(secondKiller.key()) + "&7)"),
-                getCentered("&c&l3rd Killer &7- " + thirdKiller.value() + " &7(&e" + game.getKills().get(thirdKiller.key()) + "&7)"),
+                centerMessage("&e&l1st Killer &7- " + firstKiller.value() + " &7(&e" + game.getKills().get(firstKiller.key()) + "&7)"),
+                centerMessage("&6&l2nd Killer &7- " + secondKiller.value() + " &7(&e" + game.getKills().get(secondKiller.key()) + "&7)"),
+                centerMessage("&c&l3rd Killer &7- " + thirdKiller.value() + " &7(&e" + game.getKills().get(thirdKiller.key()) + "&7)"),
                 "",
                 "&7&m----------------------------------------"
         ));
+    }
+
+    public String centerMessage(String message) {
+        if (message == null || message.equals("")) {
+            return "";
+        }
+
+        int messagePxSize = 0;
+        boolean previousCode = false;
+        boolean isBold = false;
+
+        for (char c : message.toCharArray()) {
+            if (c == '§') {
+                previousCode = true;
+                continue;
+            }
+            if (previousCode) {
+                previousCode = false;
+                isBold = c == 'l' || c == 'L';
+                continue;
+            }
+
+            DefaultFontInfo dFI = DefaultFontInfo.getDefaultFontInfo(c);
+            messagePxSize += isBold ? dFI.getBoldLength() : dFI.getLength();
+            messagePxSize++;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        int halvedMessageSize = messagePxSize / 2;
+        int toCompensate = 154 - halvedMessageSize;
+        int spaceLength = DefaultFontInfo.SPACE.getLength() + 1;
+        for (int compensated = 0; compensated < toCompensate; compensated += spaceLength) {
+            sb.append(" ");
+        }
+
+        return sb + message;
     }
 }
