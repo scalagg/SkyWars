@@ -40,8 +40,10 @@ public class LobbyHandler {
 
         // Player count checks
         if (playerCount == LimboConfig.SETTINGS.serverStartPlayers) {
-            lobby.setLimboState(LimboState.DEPLOYING);
-            Limbo.getLobbyInstance().getLobbyHandler().deployGame(false);
+            if (!lobby.isServerDeployed()) {
+                lobby.setLimboState(LimboState.DEPLOYING);
+                Limbo.getLobbyInstance().getLobbyHandler().deployGame(false);
+            }
         }
         if (playerCount == LimboConfig.SETTINGS.minPlayers) {
             lobby.setLimboState(LimboState.COUNTING);

@@ -45,6 +45,7 @@ public class CountdownTask extends BukkitRunnable {
                 }
 
                 lobby.getLobby().setLimboState(LimboState.WAITING);
+                Limbo.getLobbyInstance().getLobbyHandler().getLobby().setServerDeployed(false);
                 cancel();
                 return;
             }

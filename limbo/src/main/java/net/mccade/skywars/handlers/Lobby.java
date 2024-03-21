@@ -20,6 +20,7 @@ public class Lobby {
 
     private LimboState limboState;
     private String serverName;
+    private boolean serverDeployed;
     private CountdownTask countdown;
 
     private Set<UUID> players = new HashSet<>();
@@ -30,6 +31,7 @@ public class Lobby {
 
         this.limboState = LimboState.WAITING;
         this.serverName = "";
+        this.serverDeployed = false;
     }
 
     public boolean isRanked() {
