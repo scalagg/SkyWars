@@ -14,8 +14,6 @@ import gg.pixelarcade.skywars.game.listener.SpectatorListener;
 import gg.pixelarcade.skywars.kit.KitHandler;
 import gg.pixelarcade.skywars.scoreboard.ScoreboardAdapter;
 import gg.pixelarcade.skywars.scoreboard.api.Assemble;
-import gg.pixelarcade.skywars.server.Server;
-import gg.pixelarcade.skywars.server.thread.ServerUpdaterThread;
 import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -34,13 +32,9 @@ public class SkyWarsGame extends SkyWarsShared {
     private static SkyWarsGame gameInstance;
 
     private GameHandler gameHandler;
-    //private GameMapHandler gameMapHandler;
     private GameConfig gameConfig;
     private ChestHandler chestHandler;
     private AbilityHandler abilityHandler;
-
-    private Server gameServer;
-    private ServerUpdaterThread updaterThread;
 
     public SkyWarsGame(JavaPlugin plugin) {
         super(plugin);
@@ -61,15 +55,14 @@ public class SkyWarsGame extends SkyWarsShared {
                 new GameListener(this),
                 new SpectatorListener(this),
                 new PreventionListener(this)
-        ).forEach(listener -> SkyWarsPlugin.getInstance().getServer().getPluginManager().registerEvents(
-                listener, SkyWarsPlugin.getInstance()));
+        ).forEach(listener -> SkyWarsPlugin.getInstance().getServer().getPluginManager().registerEvents(listener, SkyWarsPlugin.getInstance()));
 
         commandHandler.registerCommand(new GameCommand());
         commandHandler.registerCommand(new AbilityCommand());
 
-        gameServer = new Server();
-        updaterThread = new ServerUpdaterThread();
-
         new Assemble(SkyWarsPlugin.getInstance(), new ScoreboardAdapter(this));
     }
+
+    @Override
+    public void stop() {}
 }

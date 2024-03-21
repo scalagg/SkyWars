@@ -5,19 +5,18 @@ import gg.pixelarcade.skywars.cage.Cage;
 import gg.pixelarcade.skywars.game.state.GameTeamType;
 import gg.pixelarcade.skywars.leveling.enums.LevelEnum;
 import gg.pixelarcade.skywars.perk.Perk;
+import gg.pixelarcade.skywars.quests.Quest;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import xyz.refinedev.phoenix.SharedAPI;
 import xyz.refinedev.phoenix.utils.Exclude;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.*;
 
 @Data
-@RequiredArgsConstructor
 public class SkyWarsProfile {
 
-    @Exclude
-    private final static SkyWarsShared shared = SkyWarsShared.getInstance();
     private final UUID uniqueId;
 
     private String name;
@@ -40,13 +39,15 @@ public class SkyWarsProfile {
     private List<String> ownedPerks = new ArrayList<>();
     private List<String> selectedPerks = new ArrayList<>();
 
+    private Map<Long, String> dailyQuests = new HashMap<>();
     private Map<GameTeamType, Cage> selectedCages = new HashMap<>();
+    private Map<String, Integer> achievements = new HashMap<>();
 
     private boolean canRate = false;
     private List<String> arenasRated = new ArrayList<>();
 
     public void load() {
-        shared.getProfileHandler().getFromDatabase(uniqueId).whenComplete((profile, error) -> {
+        SkyWarsShared.getInstance().getProfileHandler().getFromDatabase(uniqueId).whenComplete((profile, error) -> {
             if (error != null) {
                 error.printStackTrace();
                 return;
@@ -74,13 +75,15 @@ public class SkyWarsProfile {
             this.ownedPerks = profile.getOwnedPerks();
             this.selectedPerks = profile.getSelectedPerks();
             this.arenasRated = profile.getArenasRated();
+            this.achievements = profile.getAchievements() == null ? new HashMap<>() : profile.getAchievements();
             this.canRate = profile.isCanRate();
+            this.dailyQuests = (profile.getDailyQuests() == null ? new HashMap<>() : profile.getDailyQuests());
             this.selectedCages = profile.getSelectedCages();
         });
     }
 
     public void save() {
-        shared.getProfileHandler().saveToDatabase(uniqueId, this);
+        SkyWarsShared.getInstance().getProfileHandler().saveToDatabase(uniqueId, this);
     }
 
     public LevelEnum getPrestige(int level) {
@@ -114,6 +117,15 @@ public class SkyWarsProfile {
         xpBar.append(Math.round(percentage)).append("%");
 
         return xpBar.toString();
+    }
+
+    public void findNewDailyQuest() {
+        dailyQuests.clear();
+
+        Quest newQuest = SkyWarsShared.getInstance().getQuestHandler().getRandomQuest();
+        dailyQuests.put(System.currentTimeMillis(), newQuest.getId());
+
+        this.save();
     }
 
     public void incrementCoins(int amount) {

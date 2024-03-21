@@ -3,11 +3,11 @@ package gg.pixelarcade.skywars.game.listener;
 import gg.pixelarcade.skywars.SkyWarsGame;
 import gg.pixelarcade.skywars.SkyWarsShared;
 import gg.pixelarcade.skywars.game.Game;
-import gg.pixelarcade.skywars.game.GameHandler;
 import gg.pixelarcade.skywars.game.event.GameStartEvent;
+import gg.pixelarcade.skywars.game.event.PlayerDamagePlayerEvent;
 import gg.pixelarcade.skywars.game.event.PlayerJoinGameEvent;
+import gg.pixelarcade.skywars.game.event.PlayerKillEvent;
 import gg.pixelarcade.skywars.items.*;
-import gg.pixelarcade.skywars.map.GameMap;
 import gg.pixelarcade.skywars.profile.SkyWarsProfile;
 import gg.pixelarcade.skywars.util.PlayerUtil;
 import gg.pixelarcade.skywars.util.SpigotConstants;
@@ -25,9 +25,11 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
+import xyz.refinedev.commands.CC;
 import xyz.refinedev.cosmetics.cosmetics.killmessages.KillMessageType;
 import xyz.refinedev.cosmetics.pxCosmetics;
 import xyz.refinedev.phoenix.SharedAPI;
@@ -47,13 +49,15 @@ public class GameListener implements Listener {
     private final SkyWarsGame plugin;
 
     @EventHandler
-    public void onPlayerJoinGame(PlayerJoinGameEvent event) {
+    public void onPlayerJoinGame(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        Game game = event.getGame();
+        Game game = SkyWarsGame.getGameInstance().getGameHandler().getGame();
 
         plugin.getGameHandler().addPlayer(player);
 
-        if (game.getPlayers().size() >= game.getGameTeamType().getMaxPlayers())
+        //TODO: need to make a way to get the max players depending on the team type
+        // but bc we don't set the team type we can't use game#getTeamType due to it null
+        if (game.getPlayers().size() >= 12)
             plugin.getGameHandler().startCountdown();
 
         PlayerUtil.resetPlayer(player);
@@ -64,7 +68,6 @@ public class GameListener implements Listener {
         if (player.isOp())
             player.getInventory().setItem(4, new ForceStartItem(player).getItem(player));
 
-//        player.getInventory().setItem(7, new CosmeticItem(player).getItem(player));
         player.getInventory().setItem(8, new LeaveGameItem(player).getItem(player));
     }
 
@@ -175,7 +178,10 @@ public class GameListener implements Listener {
             else deathMessage = SpigotConstants.GAME + displayName + "&f was &aslain&f by " + killerName + "&f.";
         }
 
-        Bukkit.broadcastMessage(deathMessage);
+        Bukkit.broadcastMessage(CC.translate(deathMessage));
+
+        PlayerKillEvent killEvent = new PlayerKillEvent(player, player.getKiller(), plugin.getGameHandler().getGame());
+        Bukkit.getPluginManager().callEvent(killEvent);
 
         if (player.getKiller() != null)
             plugin.getGameHandler().onDeath(player, player.getKiller());
@@ -199,6 +205,14 @@ public class GameListener implements Listener {
             return;
 
         event.setCancelled(!plugin.getGameHandler().hasStarted());
+
+        if (!event.isCancelled()) {
+            Player player = (Player) event.getEntity();
+            Player damager = (Player) event.getDamager();
+
+            PlayerDamagePlayerEvent damageEvent = new PlayerDamagePlayerEvent(player, damager, plugin.getGameHandler().getGame());
+            Bukkit.getPluginManager().callEvent(damageEvent);
+        }
     }
 
 }

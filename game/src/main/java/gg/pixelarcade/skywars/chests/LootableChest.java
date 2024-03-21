@@ -39,9 +39,7 @@ public abstract class LootableChest {
         if (!game.isActive())
             return;
 
-        GameHandler gameHandler = new GameHandler();
-        GameMap map = gameHandler.getMap();
-
+        GameMap map = SkyWarsGame.getGameInstance().getGameHandler().getMap();
         Tasks.runAsync(() -> {
             for (Map.Entry<Location, String> entry : map.getChests().entrySet()) {
                 Block block = map

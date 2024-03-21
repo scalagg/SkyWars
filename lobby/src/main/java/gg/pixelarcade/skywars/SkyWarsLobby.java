@@ -3,6 +3,7 @@ package gg.pixelarcade.skywars;
 import gg.pixelarcade.skywars.admin.commands.AdminExp;
 import gg.pixelarcade.skywars.leaderboard.LeaderboardHologramHandler;
 import gg.pixelarcade.skywars.leaderboard.LeaderboardNPCsHandler;
+import gg.pixelarcade.skywars.listeners.QuestListener;
 import gg.pixelarcade.skywars.profile.PersonalStatsNPCHandler;
 import gg.pixelarcade.skywars.menus.GameModeSelectorMenu;
 import gg.pixelarcade.skywars.queue.QueueNPCsHandler;
@@ -11,7 +12,6 @@ import gg.pixelarcade.skywars.items.*;
 import gg.pixelarcade.skywars.listeners.LobbyListener;
 import gg.pixelarcade.skywars.music.MusicHandler;
 import gg.pixelarcade.skywars.music.commands.MusicCommand;
-import gg.pixelarcade.skywars.queue.QueueHandler;
 import gg.pixelarcade.skywars.region.RegionHandler;
 import gg.pixelarcade.skywars.region.commands.RegionCommands;
 import gg.pixelarcade.skywars.region.listeners.RegionListener;
@@ -40,9 +40,9 @@ public class SkyWarsLobby extends SkyWarsShared {
 
     @Getter
     private static SkyWarsLobby lobbyInstance;
+
     private PaperCommandManager commandHandler;
     private MusicHandler musicHandler;
-    private QueueHandler queueHandler;
     private RegionHandler regionHandler;
     private LeaderboardNPCsHandler leaderboardNPCsHandler;
 
@@ -60,7 +60,6 @@ public class SkyWarsLobby extends SkyWarsShared {
         lobbyInstance = this;
 
         regionHandler = new RegionHandler();
-        queueHandler = new QueueHandler();
         musicHandler = new MusicHandler(new File(SkyWarsLobbyPlugin.getInstance().getDataFolder(), "music"));
         leaderboardNPCsHandler = new LeaderboardNPCsHandler();
 
@@ -74,7 +73,8 @@ public class SkyWarsLobby extends SkyWarsShared {
         Arrays.asList(
                 new RegionListener(regionHandler),
                 new RegionSelectionListener(regionHandler),
-                new LobbyListener(this)
+                new LobbyListener(this),
+                new QuestListener()
         ).forEach(listener -> Bukkit.getPluginManager().registerEvents(listener, SkyWarsLobbyPlugin.getInstance()));
 
         commandHandler.registerCommand(new MusicCommand());
@@ -83,7 +83,8 @@ public class SkyWarsLobby extends SkyWarsShared {
 
         new Assemble(SkyWarsLobbyPlugin.getInstance(), new LobbyScoreboardAdapter());
 
-        getPlugin().getServer().getMessenger().registerOutgoingPluginChannel(getPlugin(), "BungeeCord");
+        this.getPlugin().getServer().getMessenger().registerOutgoingPluginChannel(getPlugin(), "BungeeCord");
+
         Bukkit.getWorlds().get(0).getEntities()
                 .forEach(it -> {
                     if (it instanceof Player) return;
@@ -93,7 +94,6 @@ public class SkyWarsLobby extends SkyWarsShared {
 
     @Override
     public void stop() {
-        super.stop();
         leaderboardNPCsHandler.destroy();
 
         queueNPCsHandler.destroy();

@@ -25,7 +25,6 @@ import java.util.concurrent.ThreadLocalRandom;
 public final class GameMap {
 
     private final String name;
-    private String displayName;
 
     private final GameType type;
     private final Cuboid bounds;
@@ -124,7 +123,6 @@ public final class GameMap {
 
                     break;
                 case SKELETON:
-                    System.out.println("Found spectator spawn");
                     spectatorSpawn = skullLocation;
 
                     block.setType(Material.AIR);

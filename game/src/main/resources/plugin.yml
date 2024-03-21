@@ -6,4 +6,4 @@ main: gg.pixelarcade.skywars.SkyWarsPlugin
 
 depend:
   - Retention
-  - WorldEdit
+#  - WorldEdit

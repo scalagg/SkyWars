@@ -28,6 +28,12 @@ public abstract class Leaderboard {
         this.key = "leaderboard:skywars:" + id;
     }
 
+    /**
+     * Returns the score of the given profile
+     *
+     * @param profile the profile to get the score of
+     * @return the score of the profile
+     */
     public abstract int score(SkyWarsProfile profile);
 
     /**
@@ -51,6 +57,11 @@ public abstract class Leaderboard {
         );
     }
 
+    /**
+     * Returns the top X player on the leaderboard
+     *
+     * @return the top X player
+     */
     public CompletableFuture<UUID> top(int position) {
         return CompletableFuture.supplyAsync(() -> db.runRedisCommand(jedis -> {
             List<String> list = jedis.zrevrange(key, position - 1, position - 1);
