@@ -9,6 +9,7 @@ import net.mccade.skywars.util.LimboState;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import studio.pinkcloud.deploy.spigot.api.Deployer;
+import xyz.refinedev.phoenix.SharedAPI;
 import xyz.refinedev.phoenix.utils.Utilities;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.Consumer;
 
 @Getter
 public class LobbyHandler {
@@ -32,9 +34,7 @@ public class LobbyHandler {
         }
 
         // Add the player to the player list
-        Set<UUID> currentPlayers = lobby.getPlayers();
-        currentPlayers.add(player.getUniqueId());
-        lobby.setPlayers(currentPlayers);
+        lobby.getPlayers().add(player.getUniqueId());
 
         int playerCount = lobby.getPlayers().size();
 
@@ -43,6 +43,7 @@ public class LobbyHandler {
             lobby.setLimboState(LimboState.DEPLOYING);
             Limbo.getLobbyInstance().getLobbyHandler().deployGame(false);
         }
+
         if (playerCount == LimboConfig.SETTINGS.minPlayers) {
             lobby.setLimboState(LimboState.COUNTING);
             if (lobby.getCountdown() == null) {
@@ -52,6 +53,7 @@ public class LobbyHandler {
                 lobby.getCountdown().setCountdown(60);
             }
         }
+
         if (playerCount == LimboConfig.SETTINGS.maxPlayers) {
             lobby.setLimboState(LimboState.COUNTING);
             if (!(lobby.getCountdown().getCountdown() <= 30)) {
@@ -62,9 +64,7 @@ public class LobbyHandler {
 
     public void removePlayer(Player player) {
         // Remove the player from the player list
-        Set<UUID> currentPlayers = lobby.getPlayers();
-        currentPlayers.remove(player.getUniqueId());
-        lobby.setPlayers(currentPlayers);
+        lobby.getPlayers().remove(player.getUniqueId());
 
         int playerCount = lobby.getPlayers().size();
         if (playerCount < LimboConfig.SETTINGS.minPlayers && lobby.getCountdown() != null) {
@@ -72,7 +72,7 @@ public class LobbyHandler {
             lobby.setLimboState(LimboState.DEPLOYED);
         }
 
-        Bukkit.broadcastMessage("Countdown stopped (Unfullfilled requirements)");
+        Bukkit.broadcastMessage("Countdown stopped (Unfulfilled requirements)");
     }
 
     public void deployGame(boolean sendOnDeploy) {
@@ -85,10 +85,7 @@ public class LobbyHandler {
             return;
         }
 
-        //-- Grab a list of all the skywars game template's names
         for (String template : templates) {
-            System.out.println(template);
-
             if (template.startsWith("skywars-"))
                 skywarsTemplates.add(template);
         }
@@ -101,25 +98,25 @@ public class LobbyHandler {
         int number = ThreadLocalRandom.current().nextInt(skywarsTemplates.size());
         String templateName = skywarsTemplates.get(number);
 
-        Limbo.getLobbyInstance().getServerHandler()
-                .createServer(templateName, serverName -> {
+        createServer(templateName, serverName -> {
+            // Send all the players to the server
+            if (!sendOnDeploy) {
+                Limbo.getLobbyInstance().getLobbyHandler().getLobby().setLimboState(LimboState.DEPLOYED);
+                Limbo.getLobbyInstance().getLobbyHandler().getLobby().setServerName(serverName);
+                return;
+            }
 
-                    // Send all the players to the server
-                    if (!sendOnDeploy) {
-                        Limbo.getLobbyInstance().getLobbyHandler().getLobby().setLimboState(LimboState.DEPLOYED);
-                        Limbo.getLobbyInstance().getLobbyHandler().getLobby().setServerName(serverName);
-                        return;
-                    }
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                player.sendMessage("Sending you to the game!");
+                Utilities.sendPlayer(player, serverName, LimboPlugin.getInstance());
+            }
+        });
+    }
 
-                    for (UUID uuid : lobby.getPlayers()) {
-                        Player player = LimboPlugin.getInstance().getServer().getPlayer(uuid);
-                        if (player == null)
-                            continue;
-
-                        player.sendMessage("Sending you to the game!");
-                        Utilities.sendPlayer(player, serverName, LimboPlugin.getInstance());
-                    }
-                });
+    public void createServer(String templateName, Consumer<String> consumer) {
+        Deployer.deploy(templateName,
+                SharedAPI.getInstance().getNetworkHandler().getRegion(),
+                consumer);
     }
 
 }
