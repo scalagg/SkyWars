@@ -5,6 +5,7 @@ plugins {
     kotlin("kapt") version "1.9.10"
     id("com.github.johnrengelman.shadow") version "7.1.2"
     id("org.ajoberstar.grgit") version "4.1.1"
+    id("io.freefair.lombok") version "8.0.1" // make sure to use the latest version
 }
 
 
@@ -22,6 +23,7 @@ allprojects {
     apply(plugin = "com.github.johnrengelman.shadow")
     apply(plugin = "org.jetbrains.kotlin.jvm")
     apply(plugin = "org.jetbrains.kotlin.kapt")
+    apply(plugin = "io.freefair.lombok")
 
     group = "gg.pixelarcade"
     version = "1.0.9${
@@ -60,12 +62,14 @@ allprojects {
     }
 
     dependencies {
+        compileOnly("org.projectlombok:lombok:1.18.34")
+        annotationProcessor("org.projectlombok:lombok:1.18.34")
+
         compileOnly("net.kyori:adventure-api:4.14.0")
-        compileOnly("org.projectlombok:lombok:1.18.24")
         compileOnly("org.paperspigot:PaperSpigot:1.8.8")
 
-        compileOnly("gg.scala.commons:bukkit:3.5.1")
-        kapt("gg.scala.commons:bukkit:3.5.1")
+        compileOnly("gg.scala.commons:bukkit:4.0.0")
+        kapt("gg.scala.commons:bukkit:4.0.0")
 
         compileOnly("gg.scala.lemon:bukkit:1.7.0")
         compileOnly("gg.scala.cgs:common:1.4.2")
@@ -83,6 +87,8 @@ allprojects {
 
 tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
+    options.compilerArgs.add("-processorpath")
+    options.annotationProcessorPath = configurations.annotationProcessor.get()
 }
 
 tasks.register<Jar>("shade") {

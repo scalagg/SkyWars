@@ -8,11 +8,11 @@ import gg.pixelarcade.skywars.util.SpigotConstants;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import xyz.refinedev.commands.BaseCommand;
-import xyz.refinedev.commands.CommandHelp;
-import xyz.refinedev.commands.ConditionFailedException;
-import xyz.refinedev.commands.annotation.*;
-import xyz.refinedev.phoenix.utils.Color;
+import gg.scala.commons.acf.BaseCommand;
+import gg.scala.commons.acf.CommandHelp;
+import gg.scala.commons.acf.ConditionFailedException;
+import gg.scala.commons.acf.annotation.*;
+import net.evilblock.cubed.util.Color;
 import gg.pixelarcade.skywars.game.state.GameType;
 
 @RequiredArgsConstructor

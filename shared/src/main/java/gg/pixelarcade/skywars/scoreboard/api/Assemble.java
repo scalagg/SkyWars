@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Getter @Setter
+
 public class Assemble {
 
 	private final JavaPlugin plugin;
@@ -27,7 +27,6 @@ public class Assemble {
 
 	private long ticks = 2;
 	private boolean hook = false, debugMode = true, callEvents = true;
-
 	private final ChatColor[] chatColorCache = ChatColor.values();
 
 	/**
@@ -63,10 +62,10 @@ public class Assemble {
 		}
 
 		// Register new boards for existing online players.
-		for (Player player : this.getPlugin().getServer().getOnlinePlayers()) {
+		for (Player player : this.plugin.getServer().getOnlinePlayers()) {
 
 			// Call Events if enabled.
-			if (this.isCallEvents()) {
+			if (this.callEvents) {
 				AssembleBoardCreateEvent createEvent = new AssembleBoardCreateEvent(player);
 
 				Bukkit.getPluginManager().callEvent(createEvent);
@@ -75,7 +74,7 @@ public class Assemble {
 				}
 			}
 
-			getBoards().putIfAbsent(player.getUniqueId(), new AssembleBoard(player, this));
+			boards.putIfAbsent(player.getUniqueId(), new AssembleBoard(player, this));
 		}
 
 		// Start Thread.
@@ -99,16 +98,95 @@ public class Assemble {
 		}
 
 		// Destroy player scoreboards.
-		for (UUID uuid : getBoards().keySet()) {
+		for (UUID uuid : boards.keySet()) {
 			Player player = Bukkit.getPlayer(uuid);
 
 			if (player == null || !player.isOnline()) {
 				continue;
 			}
 
-			getBoards().remove(uuid);
+			boards.remove(uuid);
 			player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
 		}
 	}
 
+	public JavaPlugin getPlugin() {
+		return plugin;
+	}
+
+	public AssembleAdapter getAdapter() {
+		return adapter;
+	}
+
+	public AssembleThread getThread() {
+		return thread;
+	}
+
+	public AssembleListener getListeners() {
+		return listeners;
+	}
+
+	public AssembleStyle getAssembleStyle() {
+		return assembleStyle;
+	}
+
+	public Map<UUID, AssembleBoard> getBoards() {
+		return boards;
+	}
+
+	public long getTicks() {
+		return ticks;
+	}
+
+	public boolean isHook() {
+		return hook;
+	}
+
+	public boolean isDebugMode() {
+		return debugMode;
+	}
+
+	public boolean isCallEvents() {
+		return callEvents;
+	}
+
+	public ChatColor[] getChatColorCache() {
+		return chatColorCache;
+	}
+
+	public void setAdapter(AssembleAdapter adapter) {
+		this.adapter = adapter;
+	}
+
+	public void setThread(AssembleThread thread) {
+		this.thread = thread;
+	}
+
+	public void setListeners(AssembleListener listeners) {
+		this.listeners = listeners;
+	}
+
+	public void setAssembleStyle(AssembleStyle assembleStyle) {
+		this.assembleStyle = assembleStyle;
+	}
+
+	public void setBoards(Map<UUID, AssembleBoard> boards) {
+		this.boards = boards;
+	}
+
+	public void setTicks(long ticks) {
+		this.ticks = ticks;
+	}
+
+	public void setHook(boolean hook) {
+		this.hook = hook;
+	}
+
+	public void setDebugMode(boolean debugMode) {
+		this.debugMode = debugMode;
+	}
+
+	public void setCallEvents(boolean callEvents) {
+		this.callEvents = callEvents;
+	}
 }

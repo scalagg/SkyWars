@@ -14,7 +14,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.inventory.Inventory;
-import xyz.refinedev.phoenix.utils.general.Tasks;
+import net.evilblock.cubed.util.bukkit.Tasks;
 
 import java.util.List;
 import java.util.Map;

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@Getter
+
 public class AssembleBoard {
 
 	private final Assemble assemble;
@@ -22,6 +22,8 @@ public class AssembleBoard {
 	private final List<String> identifiers = new ArrayList<>();
 
 	private final UUID uuid;
+
+
 
 	/**
 	 * Assemble Board.
@@ -41,8 +43,8 @@ public class AssembleBoard {
 	 * @return either existing scoreboard or new scoreboard.
 	 */
 	public Scoreboard getScoreboard() {
-		Player player = Bukkit.getPlayer(getUuid());
-		if (getAssemble().isHook() || player.getScoreboard() != Bukkit.getScoreboardManager().getMainScoreboard()) {
+		Player player = Bukkit.getPlayer(uuid);
+		if (assemble.isHook() || player.getScoreboard() != Bukkit.getScoreboardManager().getMainScoreboard()) {
 			return player.getScoreboard();
 		} else {
 			return Bukkit.getScoreboardManager().getNewScoreboard();
@@ -127,4 +129,19 @@ public class AssembleBoard {
 		return assemble.getChatColorCache()[position].toString();
 	}
 
+	public Assemble getAssemble() {
+		return assemble;
+	}
+
+	public List<AssembleBoardEntry> getEntries() {
+		return entries;
+	}
+
+	public List<String> getIdentifiers() {
+		return identifiers;
+	}
+
+	public UUID getUuid() {
+		return uuid;
+	}
 }

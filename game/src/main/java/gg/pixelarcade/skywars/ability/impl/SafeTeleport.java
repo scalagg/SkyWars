@@ -13,9 +13,9 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
-import xyz.refinedev.phoenix.utils.Color;
-import xyz.refinedev.phoenix.utils.general.Tasks;
-import xyz.refinedev.phoenix.utils.item.ItemBuilder;
+import net.evilblock.cubed.util.Color;
+import net.evilblock.cubed.util.bukkit.Tasks;
+import net.evilblock.cubed.util.bukkit.ItemBuilder;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -41,11 +41,11 @@ public class SafeTeleport extends Ability implements Interact {
     @Override
     public ItemStack getItem() {
         return new ItemBuilder(Material.NETHER_STAR)
-                .setName(getName())
-                .setLore(Color.translate("&7Click to teleport where you were last touching the ground."))
-                .addLoreLine(" ")
-                .addLoreLine(Color.translate("&e&lNOTE: &fWe store your location every 15 seconds."))
-                .toItemStack();
+                .name(getName())
+                .addToLore(Color.translate("&7Click to teleport where you were last touching the ground."))
+                .addToLore(" ")
+                .addToLore(Color.translate("&e&lNOTE: &fWe store your location every 15 seconds."))
+                .build();
     }
 
     @Override

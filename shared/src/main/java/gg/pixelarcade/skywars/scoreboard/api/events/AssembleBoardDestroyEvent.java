@@ -7,10 +7,10 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-@Getter @Setter
+
 public class AssembleBoardDestroyEvent extends Event implements Cancellable {
 
-    @Getter public static HandlerList handlerList = new HandlerList();
+    public static HandlerList handlerList = new HandlerList();
 
     private Player player;
     private boolean cancelled = false;
@@ -27,5 +27,22 @@ public class AssembleBoardDestroyEvent extends Event implements Cancellable {
     @Override
     public HandlerList getHandlers() {
         return handlerList;
+    }
+
+    public static HandlerList getHandlerList() {
+        return handlerList;
+    }
+    public Player getPlayer() {
+        return player;
+    }
+
+    @Override
+    public boolean isCancelled() {
+        return cancelled;
+    }
+
+    @Override
+    public void setCancelled(boolean cancelled) {
+        this.cancelled = cancelled;
     }
 }

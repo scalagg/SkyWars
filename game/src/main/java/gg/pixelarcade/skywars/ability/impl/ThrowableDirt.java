@@ -13,8 +13,8 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import xyz.refinedev.phoenix.utils.Color;
-import xyz.refinedev.phoenix.utils.item.ItemBuilder;
+import net.evilblock.cubed.util.Color;
+import net.evilblock.cubed.util.bukkit.ItemBuilder;
 import gg.pixelarcade.skywars.ability.type.Interact;
 import gg.pixelarcade.skywars.util.VelocityUtil;
 
@@ -36,10 +36,10 @@ public class ThrowableDirt extends Ability implements Interact {
     @Override
     public ItemStack getItem() {
         return new ItemBuilder(Material.DIRT)
-                .setName(getName())
-                .setLore(Color.translate("&7Right click to throw dirt, anyone hit by it will be knocked back"))
-                .addUnsafeEnchantment(Enchantment.DURABILITY, 1)
-                .toItemStack();
+                .name(getName())
+                .addToLore(Color.translate("&7Right click to throw dirt, anyone hit by it will be knocked back"))
+                .enchant(Enchantment.DURABILITY, 1)
+                .build();
     }
 
     @Override

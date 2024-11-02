@@ -5,8 +5,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import xyz.refinedev.phoenix.Phoenix;
-import xyz.refinedev.phoenix.utils.Color;
-import xyz.refinedev.phoenix.utils.item.ItemBuilder;
+import net.evilblock.cubed.util.Color;
+import net.evilblock.cubed.util.bukkit.ItemBuilder;
 import gg.pixelarcade.skywars.item.Item;
 import gg.pixelarcade.skywars.kit.menu.KitSelectorMenu;
 
@@ -26,10 +26,10 @@ public class LoadoutItem extends Item {
     }
 
     @Override
-    public ItemStack getItem(Player player) {
+    public ItemStack getButtonItem(Player player) {
         return new ItemBuilder(Material.EMERALD)
-                .setName(Color.translate("&aKit Selector &7(Right Click)"))
-                .toItemStack();
+                .name(Color.translate("&aKit Selector &7(Right Click)"))
+                .build();
     }
 
     @Override

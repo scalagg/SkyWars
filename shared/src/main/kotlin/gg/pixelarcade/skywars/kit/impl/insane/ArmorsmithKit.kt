@@ -1,0 +1,25 @@
+package gg.pixelarcade.skywars.kit.impl.insane
+
+import gg.pixelarcade.skywars.game.state.GameType
+import gg.pixelarcade.skywars.kit.Kit
+import gg.pixelarcade.skywars.kit.KitRarity
+import net.evilblock.cubed.util.bukkit.ItemBuilder
+import org.bukkit.Material
+import org.bukkit.enchantments.Enchantment
+import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemStack
+
+class ArmorsmithKit : Kit("Armorsmith", Material.ANVIL, 15000, GameType.INSANE, KitRarity.COMMON) {
+    override val armor: Array<ItemStack?>
+        get() = arrayOfNulls(0)
+
+    override fun apply(player: Player) {
+        player.inventory.addItem(ItemStack(Material.ANVIL))
+        player.inventory.addItem(
+            ItemBuilder(Material.ENCHANTED_BOOK).enchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3).build()
+        )
+        player.inventory.addItem(ItemBuilder(Material.ENCHANTED_BOOK).enchant(Enchantment.DAMAGE_ALL, 2).build())
+        player.inventory.addItem(ItemBuilder(Material.ENCHANTED_BOOK).enchant(Enchantment.ARROW_DAMAGE, 2).build())
+        player.inventory.addItem(ItemStack(Material.EXP_BOTTLE, 64))
+    }
+}

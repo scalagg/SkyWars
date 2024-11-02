@@ -9,7 +9,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import io.netty.util.internal.ThreadLocalRandom;
 
-import xyz.refinedev.phoenix.utils.item.ItemBuilder;
+import net.evilblock.cubed.util.bukkit.ItemBuilder;
 
 import java.util.Arrays;
 import java.util.List;
@@ -30,44 +30,44 @@ public class FirstRankedStage extends ChestStage {
     @Override
     public List<ChestItem> getSpawnLoot() {
         return Arrays.asList(
-                new ChestItem(new ItemBuilder(Material.POTION, 1).addCustomPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 33, 1), true).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.POTION, 1).addCustomPotionEffect(new PotionEffect(PotionEffectType.SPEED, 67, 2), true).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.SNOW_BALL, ThreadLocalRandom.current().nextInt(8, 16)).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.SNOW_BALL, ThreadLocalRandom.current().nextInt(8, 16)).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.FISHING_ROD, 1).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.LAVA_BUCKET, 1).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.WATER_BUCKET, 1).toItemStack(), 100)
+                new ChestItem(new ItemBuilder(Material.POTION, 1).addCustomPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 33, 1), true).build(), 100),
+                new ChestItem(new ItemBuilder(Material.POTION, 1).addCustomPotionEffect(new PotionEffect(PotionEffectType.SPEED, 67, 2), true).build(), 100),
+                new ChestItem(new ItemBuilder(Material.SNOW_BALL, ThreadLocalRandom.current().nextInt(8, 16)).build(), 100),
+                new ChestItem(new ItemBuilder(Material.SNOW_BALL, ThreadLocalRandom.current().nextInt(8, 16)).build(), 100),
+                new ChestItem(new ItemBuilder(Material.FISHING_ROD, 1).build(), 100),
+                new ChestItem(new ItemBuilder(Material.LAVA_BUCKET, 1).build(), 100),
+                new ChestItem(new ItemBuilder(Material.WATER_BUCKET, 1).build(), 100)
         );
     }
 
     @Override
     public List<ChestItem> getMiddleLoot() {
         return Arrays.asList(
-                new ChestItem(new ItemBuilder(Material.POTION, 1).addCustomPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 33, 1), true).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.POTION, 1).addCustomPotionEffect(new PotionEffect(PotionEffectType.SPEED, 67, 2), true).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.POTION, 1).addCustomPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 33, 2), true).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.POTION, 1).addCustomPotionEffect(new PotionEffect(PotionEffectType.HEAL, 0, 1), false).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.GOLDEN_APPLE, 8).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.DIAMOND_AXE, 1).addEnchant(Enchantment.DIG_SPEED, 1).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.DIAMOND_PICKAXE, 1).addEnchant(Enchantment.DIG_SPEED, 1).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.DIAMOND_SWORD, 1).addEnchant(Enchantment.FIRE_ASPECT, 1).toItemStack(), 50),
-                new ChestItem(new ItemBuilder(Material.DIAMOND_SWORD, 1).addEnchant(Enchantment.FIRE_ASPECT, 1).toItemStack(), 50),
-                new ChestItem(new ItemBuilder(Material.SNOW_BALL, ThreadLocalRandom.current().nextInt(8, 16)).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.SNOW_BALL, ThreadLocalRandom.current().nextInt(8, 16)).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.FISHING_ROD, 1).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.LAVA_BUCKET, 1).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.WATER_BUCKET, 1).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.LOG, 32).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.DIAMOND_HELMET, 1).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1).toItemStack(), 25),
-                new ChestItem(new ItemBuilder(Material.DIAMOND_CHESTPLATE, 1).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1).toItemStack(), 25),
-                new ChestItem(new ItemBuilder(Material.DIAMOND_LEGGINGS, 1).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1).toItemStack(), 25),
-                new ChestItem(new ItemBuilder(Material.DIAMOND_BOOTS, 1).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1).toItemStack(), 25),
-                new ChestItem(new ItemBuilder(Material.POTION, 1).addCustomPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 45, 1), false).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.BOW, 1).addEnchant(Enchantment.ARROW_DAMAGE, 1).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.ARROW, 16).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.ARROW, 32).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.EXP_BOTTLE, 12).toItemStack(), 100),
-                new ChestItem(new ItemBuilder(Material.EXP_BOTTLE, 8).toItemStack(), 100)
+                new ChestItem(new ItemBuilder(Material.POTION, 1).addCustomPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 33, 1), true).build(), 100),
+                new ChestItem(new ItemBuilder(Material.POTION, 1).addCustomPotionEffect(new PotionEffect(PotionEffectType.SPEED, 67, 2), true).build(), 100),
+                new ChestItem(new ItemBuilder(Material.POTION, 1).addCustomPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 33, 2), true).build(), 100),
+                new ChestItem(new ItemBuilder(Material.POTION, 1).addCustomPotionEffect(new PotionEffect(PotionEffectType.HEAL, 0, 1), false).build(), 100),
+                new ChestItem(new ItemBuilder(Material.GOLDEN_APPLE, 8).build(), 100),
+                new ChestItem(new ItemBuilder(Material.DIAMOND_AXE, 1).enchant(Enchantment.DIG_SPEED, 1).build(), 100),
+                new ChestItem(new ItemBuilder(Material.DIAMOND_PICKAXE, 1).enchant(Enchantment.DIG_SPEED, 1).build(), 100),
+                new ChestItem(new ItemBuilder(Material.DIAMOND_SWORD, 1).enchant(Enchantment.FIRE_ASPECT, 1).build(), 50),
+                new ChestItem(new ItemBuilder(Material.DIAMOND_SWORD, 1).enchant(Enchantment.FIRE_ASPECT, 1).build(), 50),
+                new ChestItem(new ItemBuilder(Material.SNOW_BALL, ThreadLocalRandom.current().nextInt(8, 16)).build(), 100),
+                new ChestItem(new ItemBuilder(Material.SNOW_BALL, ThreadLocalRandom.current().nextInt(8, 16)).build(), 100),
+                new ChestItem(new ItemBuilder(Material.FISHING_ROD, 1).build(), 100),
+                new ChestItem(new ItemBuilder(Material.LAVA_BUCKET, 1).build(), 100),
+                new ChestItem(new ItemBuilder(Material.WATER_BUCKET, 1).build(), 100),
+                new ChestItem(new ItemBuilder(Material.LOG, 32).build(), 100),
+                new ChestItem(new ItemBuilder(Material.DIAMOND_HELMET, 1).enchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1).build(), 25),
+                new ChestItem(new ItemBuilder(Material.DIAMOND_CHESTPLATE, 1).enchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1).build(), 25),
+                new ChestItem(new ItemBuilder(Material.DIAMOND_LEGGINGS, 1).enchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1).build(), 25),
+                new ChestItem(new ItemBuilder(Material.DIAMOND_BOOTS, 1).enchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1).build(), 25),
+                new ChestItem(new ItemBuilder(Material.POTION, 1).addCustomPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 45, 1), false).build(), 100),
+                new ChestItem(new ItemBuilder(Material.BOW, 1).enchant(Enchantment.ARROW_DAMAGE, 1).build(), 100),
+                new ChestItem(new ItemBuilder(Material.ARROW, 16).build(), 100),
+                new ChestItem(new ItemBuilder(Material.ARROW, 32).build(), 100),
+                new ChestItem(new ItemBuilder(Material.EXP_BOTTLE, 12).build(), 100),
+                new ChestItem(new ItemBuilder(Material.EXP_BOTTLE, 8).build(), 100)
         );
     }
 }

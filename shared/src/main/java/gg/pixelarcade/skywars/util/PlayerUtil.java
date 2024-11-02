@@ -11,10 +11,10 @@ import org.bukkit.inventory.ItemStack;
  * @date 27/10/2023 / 03:05
  */
 
-@UtilityClass
+
 public class PlayerUtil {
 
-    public void resetPlayer(Player player) {
+    public static void resetPlayer(Player player) {
         player.getInventory().clear();
         player.getActivePotionEffects().clear();
         player.getInventory().setArmorContents(new ItemStack[4]);

@@ -117,7 +117,7 @@ public class ItemStackAdapter implements JsonDeserializer<ItemStack>, JsonSerial
             enchantments = (JsonObject) element.get("enchants");
             for (Enchantment enchantment : Enchantment.values()) {
                 if (!enchantments.has(enchantment.getName())) continue;
-                item.addUnsafeEnchantment(enchantment, enchantments.get(enchantment.getName()).getAsInt());
+                item.addEnchantment(enchantment, enchantments.get(enchantment.getName()).getAsInt());
             }
         }
         return item;

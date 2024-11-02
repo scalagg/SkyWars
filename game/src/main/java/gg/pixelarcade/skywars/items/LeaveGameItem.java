@@ -6,8 +6,8 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
-import xyz.refinedev.phoenix.utils.Color;
-import xyz.refinedev.phoenix.utils.item.ItemBuilder;
+import net.evilblock.cubed.util.Color;
+import net.evilblock.cubed.util.bukkit.ItemBuilder;
 import gg.pixelarcade.skywars.item.Item;
 
 /**
@@ -26,10 +26,10 @@ public class LeaveGameItem extends Item {
     }
 
     @Override
-    public ItemStack getItem(Player player) {
+    public ItemStack getButtonItem(Player player) {
         return new ItemBuilder(Material.BED)
-                .setName(Color.translate("&cLeave Game &7(Right Click)"))
-                .toItemStack();
+                .name(Color.translate("&cLeave Game &7(Right Click)"))
+                .build();
     }
 
     @Override

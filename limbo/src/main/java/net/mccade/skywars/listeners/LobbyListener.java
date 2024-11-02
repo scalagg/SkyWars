@@ -15,8 +15,8 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import xyz.refinedev.phoenix.Phoenix;
 import xyz.refinedev.phoenix.SharedAPI;
 import xyz.refinedev.phoenix.profile.Profile;
-import xyz.refinedev.phoenix.utils.Color;
-import xyz.refinedev.phoenix.utils.general.Tasks;
+import net.evilblock.cubed.util.Color;
+import net.evilblock.cubed.util.bukkit.Tasks;
 
 @RequiredArgsConstructor
 public class LobbyListener implements Listener {

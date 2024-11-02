@@ -14,14 +14,21 @@ repositories {
     maven { url = uri("https://maven.citizensnpcs.co/repo") }
 }
 
+
 dependencies {
-    implementation project(":shared")
-    compileOnly("xyz.refinedev.phoenix:bukkit:1.0")
+    compileOnly("org.projectlombok:lombok:1.18.28") // or latest version
+    annotationProcessor("org.projectlombok:lombok:1.18.28")
+
+    implementation(project(":shared"))
+
+    compileOnly("gg.scala.basics.plugin:scala-basics-plugin:1.0.5")
     compileOnly("com.github.decentsoftware-eu:decentholograms:2.8.6")
     compileOnly("com.github.koca2000:NoteBlockAPI:1.6.1")
     compileOnly("net.citizensnpcs:citizens-main:2.0.29-SNAPSHOT") {
         exclude(group = "*", module = "*")
     }
+    compileOnly("gg.scala.cgs:lobby:1.4.2")
+
 }
 
 tasks.withType<JavaCompile> {

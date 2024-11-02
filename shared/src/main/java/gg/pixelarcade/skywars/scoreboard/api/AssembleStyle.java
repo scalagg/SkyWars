@@ -2,7 +2,7 @@ package gg.pixelarcade.skywars.scoreboard.api;
 
 import lombok.Getter;
 
-@Getter
+
 public enum AssembleStyle {
 
 	KOHI(true, 15), VIPER(true, -1), MODERN(false, 1), CUSTOM(false, 0);
@@ -19,6 +19,13 @@ public enum AssembleStyle {
 	AssembleStyle(boolean descending, int startNumber) {
 		this.descending = descending;
 		this.startNumber = startNumber;
+	}
+
+	public boolean isDescending() {
+		return descending;
+	}
+	public int getStartNumber() {
+		return startNumber;
 	}
 
 	public AssembleStyle reverse() {

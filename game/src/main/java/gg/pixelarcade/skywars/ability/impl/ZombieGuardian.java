@@ -11,9 +11,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import xyz.refinedev.phoenix.utils.Color;
-import xyz.refinedev.phoenix.utils.general.Tasks;
-import xyz.refinedev.phoenix.utils.item.ItemBuilder;
+import net.evilblock.cubed.util.Color;
+import net.evilblock.cubed.util.bukkit.Tasks;
+import net.evilblock.cubed.util.bukkit.ItemBuilder;
 
 import java.util.List;
 
@@ -37,12 +37,12 @@ public class ZombieGuardian extends Ability implements Interact {
     public ItemStack getItem() {
         return new ItemBuilder(Material.MONSTER_EGG)
                 .setDurability(54)
-                .setName(getName())
-                .setLore(Color.translate(List.of(
+                .name(getName())
+                .addToLore(Color.translate(List.of(
                         "&7Click to spawn a Zombie Guardian which will fight for you.",
                         " ",
                         "&e&lNOTE: &fZombie Guardian will only last for " + ZOMBIE_DURATION + " seconds."
-                ))).toItemStack();
+                ))).build();
     }
 
     @Override

@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.scheduler.BukkitRunnable;
-import xyz.refinedev.commands.CC;
+import gg.scala.commons.acf.CC;
 
 /**
  * @author alfie

@@ -8,7 +8,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
-import xyz.refinedev.phoenix.utils.item.ItemBuilder;
+import net.evilblock.cubed.util.bukkit.ItemBuilder;
 
 /**
  * @author alfie
@@ -26,10 +26,10 @@ public class ForceStartItem extends Item {
     }
 
     @Override
-    public ItemStack getItem(Player player) {
+    public ItemStack getButtonItem(Player player) {
         return new ItemBuilder(Material.DIAMOND)
-                .setName("&aForce Start &7(Right Click)")
-                .toItemStack();
+                .name("&aForce Start &7(Right Click)")
+                .build();
     }
 
     @Override

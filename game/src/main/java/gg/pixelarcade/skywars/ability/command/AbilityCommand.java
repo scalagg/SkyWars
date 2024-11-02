@@ -5,9 +5,9 @@ import gg.pixelarcade.skywars.SkyWarsPlugin;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import xyz.refinedev.commands.BaseCommand;
-import xyz.refinedev.commands.CommandHelp;
-import xyz.refinedev.commands.annotation.*;
+import gg.scala.commons.acf.BaseCommand;
+import gg.scala.commons.acf.CommandHelp;
+import gg.scala.commons.acf.annotation.*;
 
 /**
  * @author alfie

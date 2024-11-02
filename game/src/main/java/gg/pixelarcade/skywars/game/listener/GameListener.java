@@ -29,11 +29,11 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
-import xyz.refinedev.commands.CC;
+import gg.scala.commons.acf.CC;
 import xyz.refinedev.cosmetics.cosmetics.killmessages.KillMessageType;
 import xyz.refinedev.cosmetics.pxCosmetics;
 import xyz.refinedev.phoenix.SharedAPI;
-import xyz.refinedev.phoenix.utils.general.Tasks;
+import net.evilblock.cubed.util.bukkit.Tasks;
 
 import java.util.List;
 
@@ -159,7 +159,7 @@ public class GameListener implements Listener {
             String killerName = SharedAPI.getInstance().getProfileHandler().getProfile(player.getKiller().getUniqueId()).getNameWithColor();
 
             // Gift the Killer their stats
-            SkyWarsProfile killerProfile = SkyWarsShared.getInstance().getProfileHandler().getProfile(player.getKiller().getUniqueId());
+            SkyWarsProfile killerProfile = SkyWarsShared.instance.getProfile(player.getKiller().getUniqueId());
             killerProfile.incrementXP(10);
             killerProfile.incrementKills();
             killerProfile.addSouls(1);

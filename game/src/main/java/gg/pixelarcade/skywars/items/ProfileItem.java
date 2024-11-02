@@ -18,12 +18,12 @@ package gg.pixelarcade.skywars.items;
 //    }
 //
 //    @Override
-//    public ItemStack getItem(Player player) {
+//    public ItemStack getButtonItem(Player player) {
 //        return new ItemBuilder(Material.SKULL_ITEM, 1, (byte) 3)
-//                .setName(Color.translate("&aProfile &7(Right Click)"))
-//                .setLore(Color.translate("&7Click to view your profile."))
+//                .name(Color.translate("&aProfile &7(Right Click)"))
+//                .addToLore(Color.translate("&7Click to view your profile."))
 //                .setSkullOwner(player.getName())
-//                .toItemStack();
+//                .build();
 //    }
 //
 //

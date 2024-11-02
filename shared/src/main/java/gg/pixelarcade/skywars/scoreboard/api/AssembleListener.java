@@ -35,7 +35,7 @@ public class AssembleListener implements Listener {
 			}
 		}
 
-		getAssemble().getBoards().put(event.getPlayer().getUniqueId(), new AssembleBoard(event.getPlayer(), getAssemble()));
+		assemble.getBoards().put(event.getPlayer().getUniqueId(), new AssembleBoard(event.getPlayer(), assemble));
 	}
 
 	@EventHandler
@@ -50,7 +50,7 @@ public class AssembleListener implements Listener {
 			}
 		}
 
-		getAssemble().getBoards().remove(event.getPlayer().getUniqueId());
+		assemble.getBoards().remove(event.getPlayer().getUniqueId());
 		event.getPlayer().setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
 	}
 

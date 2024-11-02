@@ -7,8 +7,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 import xyz.refinedev.phoenix.SharedAPI;
-import xyz.refinedev.phoenix.utils.Color;
-import xyz.refinedev.phoenix.utils.item.ItemBuilder;
+import net.evilblock.cubed.util.Color;
+import net.evilblock.cubed.util.bukkit.ItemBuilder;
 import gg.pixelarcade.skywars.item.Item;
 import gg.pixelarcade.skywars.profile.SkyWarsProfile;
 
@@ -30,10 +30,10 @@ public class StatisticItem extends Item {
     }
 
     @Override
-    public ItemStack getItem(Player player) {
+    public ItemStack getButtonItem(Player player) {
         return new ItemBuilder(Material.BOOK)
-                .setName(Color.translate("&aStatistics &7(Right Click)"))
-                .toItemStack();
+                .name(Color.translate("&aStatistics &7(Right Click)"))
+                .build();
     }
 
     @Override

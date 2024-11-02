@@ -25,8 +25,8 @@ import org.bukkit.metadata.FixedMetadataValue;
 import studio.pinkcloud.deploy.spigot.api.Deployer;
 import xyz.refinedev.phoenix.SharedAPI;
 import xyz.refinedev.phoenix.profile.Profile;
-import xyz.refinedev.phoenix.utils.Color;
-import xyz.refinedev.phoenix.utils.general.Tasks;
+import net.evilblock.cubed.util.Color;
+import net.evilblock.cubed.util.bukkit.Tasks;
 
 import java.util.*;
 

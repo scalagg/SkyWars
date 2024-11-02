@@ -14,15 +14,13 @@ repositories {
 }
 
 dependencies {
-    implementation project (":shared")
+    implementation(project(":shared"))
 
     compileOnly("net.kyori:adventure-api:4.14.0")
     compileOnly("org.projectlombok:lombok:1.18.24")
-    compileOnly("xyz.refinedev.phoenix:bukkit:1.0")
-    compileOnly("xyz.refinedev.retention:loader-api:1.0")
+
     compileOnly("org.paperspigot:PaperSpigot:1.8.8")
-    compileOnly("xyz.refinedev:pxCosmetics:1.0")
-    compileOnly("xyz.refinedev:pxLevels:1.0")
+
     compileOnly("studio.pinkcloud.deploy:spigot:1.0-SNAPSHOT")
 
 

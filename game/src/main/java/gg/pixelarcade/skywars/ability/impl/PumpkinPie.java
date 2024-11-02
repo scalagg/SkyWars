@@ -7,8 +7,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import xyz.refinedev.phoenix.utils.Color;
-import xyz.refinedev.phoenix.utils.item.ItemBuilder;
+import net.evilblock.cubed.util.Color;
+import net.evilblock.cubed.util.bukkit.ItemBuilder;
 
 /**
  * @author alfie
@@ -30,9 +30,9 @@ public class PumpkinPie extends Ability implements Interact {
     @Override
     public ItemStack getItem() {
         return new ItemBuilder(Material.PUMPKIN_PIE)
-                .setName(getName())
-                .setLore(Color.translate("&7Right click to gain &a&lSpeed " + SPEED_DISPLAY_LEVEL + " &7for " + SPEED_DURATION + " seconds"))
-                .toItemStack();
+                .name(getName())
+                .addToLore(Color.translate("&7Right click to gain &a&lSpeed " + SPEED_DISPLAY_LEVEL + " &7for " + SPEED_DURATION + " seconds"))
+                .build();
     }
 
     @Override

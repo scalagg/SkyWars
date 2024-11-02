@@ -9,8 +9,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
-import xyz.refinedev.phoenix.utils.Color;
-import xyz.refinedev.phoenix.utils.item.ItemBuilder;
+import net.evilblock.cubed.util.Color;
+import net.evilblock.cubed.util.bukkit.ItemBuilder;
 
 /**
  * @author alfie
@@ -28,11 +28,11 @@ public class Magnet extends Ability implements Interact {
     @Override
     public ItemStack getItem() {
         return new ItemBuilder(Material.IRON_BARDING)
-                .setName(getName())
-                .addLoreLine(Color.translate("&7Click in the direction of a nearby player to pull them towards you."))
-                .addLoreLine(" ")
-                .addLoreLine(Color.translate("&e&lNOTE: &fThe heavier the armor the greater the force."))
-                .toItemStack();
+                .name(getName())
+                .addToLore(Color.translate("&7Click in the direction of a nearby player to pull them towards you."))
+                .addToLore(" ")
+                .addToLore(Color.translate("&e&lNOTE: &fThe heavier the armor the greater the force."))
+                .build();
     }
 
     @Override

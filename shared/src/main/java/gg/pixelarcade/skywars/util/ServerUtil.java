@@ -1,10 +1,12 @@
 package gg.pixelarcade.skywars.util;
 
 import gg.pixelarcade.skywars.SkyWarsShared;
+import gg.scala.commons.agnostic.sync.ServerSync;
+import gg.scala.commons.agnostic.sync.server.AbstractServer;
+import gg.scala.commons.agnostic.sync.server.ServerContainer;
+import gg.scala.commons.agnostic.sync.server.impl.GameServer;
+import net.evilblock.cubed.util.bungee.BungeeUtil;
 import org.bukkit.entity.Player;
-import xyz.refinedev.phoenix.SharedAPI;
-import xyz.refinedev.phoenix.server.ServerData;
-import xyz.refinedev.phoenix.utils.Utilities;
 
 /**
  * @author alfie
@@ -14,17 +16,17 @@ import xyz.refinedev.phoenix.utils.Utilities;
 
 public class ServerUtil {
 
-    public static ServerData getBestLobby() {
+    public static GameServer getBestLobby() {
         double x = 0;
 
-        ServerData bestLobby = null;
-        for (ServerData runningService : SharedAPI.getInstance().getNetworkHandler().getServersInGroup("GAMELOBBY")) {
-            if (!runningService.getServerName().contains("skywars"))
+        GameServer bestLobby = null;
+        for (AbstractServer runningService : ServerContainer.INSTANCE.getServersInGroup("skywars-lobby")) {
+            if(!(runningService instanceof GameServer server))
                 continue;
 
-            double percentage = (runningService.getOnlinePlayers().size() * 100.0 / runningService.getMaxPlayers());
+            double percentage = (server.getPlayersCount() * 100.0 / server.getMaxPlayers());
             if (percentage <= x) {
-                bestLobby = runningService;
+                bestLobby = server;
                 x = percentage;
             }
         }
@@ -34,13 +36,13 @@ public class ServerUtil {
     }
 
     public static void sendToLobby(Player player) {
-        ServerData server = getBestLobby();
+        AbstractServer server = getBestLobby();
         if (server == null) {
             player.kickPlayer("§cThere are no available servers, please try again later.");
             return;
         }
 
-        Utilities.sendPlayer(player, server.getServerName(), SkyWarsShared.getInstance().getPlugin());
+        BungeeUtil.sendToServer(player, server.getId());
     }
 
 }

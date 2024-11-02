@@ -11,8 +11,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import xyz.refinedev.phoenix.utils.Color;
-import xyz.refinedev.phoenix.utils.item.ItemBuilder;
+import net.evilblock.cubed.util.Color;
+import net.evilblock.cubed.util.bukkit.ItemBuilder;
 
 /**
  * @author alfie
@@ -32,9 +32,9 @@ public class ThrowableTNT extends Ability implements Interact {
     @Override
     public ItemStack getItem() {
         return new ItemBuilder(Material.TNT)
-                .setName(getName())
-                .setLore(Color.translate("&7Right click to throw TNT"))
-                .toItemStack();
+                .name(getName())
+                .addToLore(Color.translate("&7Right click to throw TNT"))
+                .build();
     }
 
     @Override

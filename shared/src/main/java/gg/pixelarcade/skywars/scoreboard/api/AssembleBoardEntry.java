@@ -9,7 +9,7 @@ public class AssembleBoardEntry {
 	private final AssembleBoard board;
 
 	private Team team;
-	@Setter
+
 	private String text, identifier;
 
 	/**
@@ -25,6 +25,18 @@ public class AssembleBoardEntry {
 		this.identifier = this.board.getUniqueIdentifier(position);
 
 		this.setup();
+	}
+
+	public void setTeam(Team team) {
+		this.team = team;
+	}
+
+	public void setIdentifier(String identifier) {
+		this.identifier = identifier;
+	}
+
+	public void setText(String text) {
+		this.text = text;
 	}
 
 	/**

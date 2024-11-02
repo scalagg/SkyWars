@@ -14,13 +14,20 @@ import java.util.List;
  * @date 26/09/2023 / 18:21
  */
 
-@AllArgsConstructor
+
 public final class TitleAnimation extends TextAnimation {
 
     private final String title;
     private final String primaryColor;
     private final String secondaryColor;
     private final String pulseColor;
+
+    public TitleAnimation(String title, String primaryColor, String secondaryColor, String pulseColor) {
+        this.title = title;
+        this.primaryColor = primaryColor;
+        this.secondaryColor = secondaryColor;
+        this.pulseColor = pulseColor;
+    }
 
     @Override
     public String[] getCalculatedFrames() {
