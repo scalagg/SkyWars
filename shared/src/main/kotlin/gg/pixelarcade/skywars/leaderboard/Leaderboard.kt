@@ -1,12 +1,12 @@
 package gg.pixelarcade.skywars.leaderboard
 
 import gg.pixelarcade.skywars.profile.SkyWarsProfile
-import lombok.Getter
+
 import net.evilblock.cubed.ScalaCommonsSpigot
 import java.util.*
 import java.util.concurrent.CompletableFuture
 
-@Getter
+
 abstract class Leaderboard(
     /**
      * The id of the leaderboard

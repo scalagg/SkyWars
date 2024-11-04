@@ -1,6 +1,6 @@
 package gg.pixelarcade.skywars.util.cuboid;
 
-import lombok.Data;
+
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-@Data
+
 public class Cuboid implements Iterable<Block>, Cloneable {
 
     private String worldName;

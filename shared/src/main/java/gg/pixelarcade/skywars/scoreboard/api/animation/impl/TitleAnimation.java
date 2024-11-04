@@ -2,7 +2,6 @@ package gg.pixelarcade.skywars.scoreboard.api.animation.impl;
 
 import com.google.common.base.Strings;
 import gg.pixelarcade.skywars.scoreboard.api.animation.TextAnimation;
-import lombok.AllArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.Collections;

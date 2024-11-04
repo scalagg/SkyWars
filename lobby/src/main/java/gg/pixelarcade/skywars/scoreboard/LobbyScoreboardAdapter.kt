@@ -1,17 +1,19 @@
 package gg.pixelarcade.skywars.scoreboard
 
 import gg.pixelarcade.skywars.SkyWarsShared
-import gg.pixelarcade.skywars.scoreboard.api.AssembleAdapter
 import gg.pixelarcade.skywars.scoreboard.api.animation.impl.TitleAnimation
+import net.evilblock.cubed.scoreboard.ScoreboardAdapter
 import org.bukkit.entity.Player
 import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * @author alfie
  * @project SkyWars
  * @date 27/10/2023 / 02:32
  */
-class LobbyScoreboardAdapter : AssembleAdapter {
+class LobbyScoreboardAdapter : ScoreboardAdapter() {
     private val animation = TitleAnimation(
         "SKYWARS",
         "&6&l",
@@ -19,14 +21,8 @@ class LobbyScoreboardAdapter : AssembleAdapter {
         "&f&l"
     )
 
-    override fun getTitle(player: Player): String {
-        return animation.currentFrame
-    }
-
-    override fun getLines(player: Player): List<String> {
+    override fun getLines(lines: LinkedList<String>, player: Player) {
         //-- Instance Variables
-
-        val lines: MutableList<String> = ArrayList()
         val profile = SkyWarsShared.instance.getProfile(player.uniqueId)
 
         //-- Date
@@ -50,7 +46,11 @@ class LobbyScoreboardAdapter : AssembleAdapter {
 
         lines.add("")
         lines.add("&eplay.mccade.net")
-
-        return lines
     }
+
+    override fun getTitle(player: Player): String {
+        return animation.currentFrame
+    }
+
+
 }

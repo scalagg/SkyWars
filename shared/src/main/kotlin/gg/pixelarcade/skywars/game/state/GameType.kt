@@ -1,7 +1,7 @@
 package gg.pixelarcade.skywars.game.state
 
-import lombok.Getter
-import lombok.RequiredArgsConstructor
+
+
 
 /**
  * @author puugz

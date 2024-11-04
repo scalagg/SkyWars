@@ -1,6 +1,5 @@
 package gg.pixelarcade.skywars.util;
 
-import lombok.experimental.UtilityClass;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

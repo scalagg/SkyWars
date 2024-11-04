@@ -7,7 +7,7 @@ import gg.scala.cgs.common.information.CgsGameGeneralInfo
  * @date 11/1/2024
  * @author Moose1301
  */
-class SkyWarsGameInfo : CgsGameGeneralInfo(
+object SkyWarsGameInfo : CgsGameGeneralInfo(
     "SkyWars", 0.01F, 2,
     10, SkyWarsGameRewards, false, true,
     true, true, true,

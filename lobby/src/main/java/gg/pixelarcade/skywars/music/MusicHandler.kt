@@ -7,7 +7,7 @@ import com.xxmicloxx.NoteBlockAPI.songplayer.RadioSongPlayer
 import com.xxmicloxx.NoteBlockAPI.utils.NBSDecoder
 import gg.pixelarcade.skywars.SkyWarsLobbyPlugin
 import gg.pixelarcade.skywars.music.listener.MusicListener
-import lombok.Getter
+
 import org.bukkit.Bukkit
 import java.io.File
 
@@ -16,7 +16,7 @@ import java.io.File
  * @project Phoenix-FORK / xyz.refinedev.phoenix.music
  * @date 18/10/2023 / 17:47
  */
-@Getter
+
 class MusicHandler(musicFolder: File) {
     var radioSongPlayer: RadioSongPlayer? = null
 
@@ -32,6 +32,7 @@ class MusicHandler(musicFolder: File) {
             if (musicFolder.listFiles() == null) return
 
             val songs = ArrayList(getSongsInFolder(musicFolder))
+
 
             Bukkit.getLogger().info("Loaded " + songs.size + " songs.")
 

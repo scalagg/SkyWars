@@ -3,7 +3,7 @@ package gg.pixelarcade.skywars.region.menu.buttons
 import gg.pixelarcade.skywars.SkyWarsLobby
 import gg.pixelarcade.skywars.region.Region
 import gg.pixelarcade.skywars.region.menu.RegionEditMenu
-import lombok.RequiredArgsConstructor
+
 import net.evilblock.cubed.menu.Button
 import net.evilblock.cubed.util.Color
 import net.evilblock.cubed.util.bukkit.ItemBuilder
@@ -25,7 +25,7 @@ class RegionsButton(private val region: Region) : Button() {
         return ItemBuilder(Material.PAPER)
             .name("&6&l" + region.name)
             .setLore(
-                Arrays.asList<String>(
+                listOf<String>(
                     "",
                     "&6■ &fToggled&7: &e" + colorBoolean(region.enabled),
                     "&6■ &fBreak Blocks&7: &e" + colorBoolean(region.breakBlocks),

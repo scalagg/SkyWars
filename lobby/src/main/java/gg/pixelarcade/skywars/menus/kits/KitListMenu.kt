@@ -7,7 +7,7 @@ import gg.pixelarcade.skywars.menus.SkyWarsMenu
 import gg.pixelarcade.skywars.menus.utils.BackButton
 import gg.pixelarcade.skywars.menus.utils.CoinsButton
 import gg.pixelarcade.skywars.menus.utils.ExitButton
-import lombok.RequiredArgsConstructor
+
 import net.evilblock.cubed.menu.Button
 import net.evilblock.cubed.menu.Menu
 import net.evilblock.cubed.util.bukkit.ItemBuilder
@@ -43,7 +43,7 @@ class KitListMenu(private val gameType: GameType) : Menu() {
         return buttons
     }
 
-    @RequiredArgsConstructor
+    
     private class KitButton( private val kit: Kit) : Button() {
 
         override fun getButtonItem(player: Player): ItemStack {

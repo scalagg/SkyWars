@@ -2,8 +2,9 @@ package gg.pixelarcade.skywars.game.event
 
 import gg.pixelarcade.skywars.game.Game
 import gg.pixelarcade.skywars.game.state.GameState
-import lombok.Getter
-import lombok.RequiredArgsConstructor
+import net.evilblock.cubed.event.PluginEvent
+
+
 import org.bukkit.event.Event
 import org.bukkit.event.HandlerList
 
@@ -13,13 +14,7 @@ import org.bukkit.event.HandlerList
  * @date 26/09/2023 / 23:02
  */
 
-class GameStateChangeEvent(val game: Game, val oldState: GameState, val newState: GameState) : Event() {
+class GameStateChangeEvent(val game: Game, val oldState: GameState, val newState: GameState) : PluginEvent() {
 
-    override fun getHandlers(): HandlerList {
-        return handlerList
-    }
 
-    companion object {
-        val handlerList: HandlerList = HandlerList()
-    }
 }

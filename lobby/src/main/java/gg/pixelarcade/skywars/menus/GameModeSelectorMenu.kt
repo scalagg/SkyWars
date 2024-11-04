@@ -4,7 +4,7 @@ import com.cryptomorin.xseries.XMaterial
 import gg.pixelarcade.skywars.game.state.GameTeamType
 import gg.pixelarcade.skywars.game.state.GameType
 import gg.pixelarcade.skywars.menus.utils.FillerButton
-import lombok.RequiredArgsConstructor
+
 import net.evilblock.cubed.menu.Button
 import net.evilblock.cubed.menu.pagination.PaginatedMenu
 import net.evilblock.cubed.util.bukkit.ItemBuilder
@@ -48,7 +48,7 @@ class GameModeSelectorMenu(private val gameTeamType: GameTeamType) : PaginatedMe
         return buttons
     }
 
-    @RequiredArgsConstructor
+    
     class GameModeButton(private val gameType: GameType, private val gameTeamType: GameTeamType) : Button() {
 
         override fun getButtonItem(player: Player): ItemStack {

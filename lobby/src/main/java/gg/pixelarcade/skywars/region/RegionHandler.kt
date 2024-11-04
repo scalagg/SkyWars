@@ -9,7 +9,7 @@ import gg.pixelarcade.skywars.region.listeners.RegionListener
 import gg.pixelarcade.skywars.region.selection.RegionSelection
 import gg.pixelarcade.skywars.region.selection.listeners.RegionSelectionListener
 import gg.pixelarcade.skywars.util.GsonProvider
-import lombok.Getter
+
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.entity.Player
@@ -22,7 +22,7 @@ import java.io.IOException
  * @project Skywars / gg.pixelarcade.game.region
  * @date 19/10/2023 / 15:49
  */
-@Getter
+
 class RegionHandler {
     private val regions: MutableMap<String, Region> = HashMap()
 

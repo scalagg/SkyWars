@@ -4,12 +4,12 @@
 //import com.google.common.io.Files;
 //import gg.pixelarcade.skywars.SkyWarsPlugin;
 //import gg.pixelarcade.skywars.util.GsonProvider;
-//import lombok.Getter;
+//;
 //import lombok.SneakyThrows;
 //
 //import java.io.File;
 //
-//@Getter
+//
 //public final class GameMapHandler {
 //
 //    private final GameMap gameMap;

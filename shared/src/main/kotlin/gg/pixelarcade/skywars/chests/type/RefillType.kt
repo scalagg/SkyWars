@@ -1,7 +1,7 @@
 package gg.pixelarcade.skywars.chests.type
 
-import lombok.Getter
-import lombok.RequiredArgsConstructor
+
+
 
 /**
  * @author alfie

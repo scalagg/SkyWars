@@ -3,7 +3,7 @@ package gg.pixelarcade.skywars.menus.kits
 import gg.pixelarcade.skywars.SkyWarsShared
 import gg.pixelarcade.skywars.kit.Kit
 import gg.pixelarcade.skywars.profile.SkyWarsProfile
-import lombok.RequiredArgsConstructor
+
 import net.evilblock.cubed.menu.Button
 import net.evilblock.cubed.menu.Menu
 import net.evilblock.cubed.menu.menus.ConfirmMenu
@@ -54,7 +54,7 @@ class KitManageMenu //        this.setBordered(true);
         }
     }
 
-    @RequiredArgsConstructor
+    
     private inner class BuyKitButton(private val profile: SkyWarsProfile) : Button() {
 
         override fun getButtonItem(player: Player): ItemStack {

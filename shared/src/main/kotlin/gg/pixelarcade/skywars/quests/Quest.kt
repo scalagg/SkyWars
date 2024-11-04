@@ -1,7 +1,7 @@
 package gg.pixelarcade.skywars.quests
 
 import gg.pixelarcade.skywars.SkyWarsShared
-import lombok.Getter
+
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.event.Listener
@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack
  * @project SkyWars
  * @date 19/03/2024 / 15:27
  */
-@Getter
+
 abstract class Quest(// This is used to track the quest across different systems and for saving/loading quest data.
     val id: String, // This is used to determine what command should be run when the quest is completed.
     val rewardType: QuestRewardType

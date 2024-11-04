@@ -1,7 +1,7 @@
 package gg.pixelarcade.skywars.quests.listener
 
 import gg.pixelarcade.skywars.SkyWarsShared
-import lombok.RequiredArgsConstructor
+
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent

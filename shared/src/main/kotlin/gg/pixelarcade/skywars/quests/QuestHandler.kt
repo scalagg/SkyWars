@@ -2,7 +2,7 @@ package gg.pixelarcade.skywars.quests
 
 import gg.pixelarcade.skywars.quests.impl.WinADoublesGameQuest
 import gg.pixelarcade.skywars.quests.impl.WinASoloGameQuest
-import lombok.Getter
+
 import java.util.concurrent.ThreadLocalRandom
 
 /**
@@ -10,7 +10,7 @@ import java.util.concurrent.ThreadLocalRandom
  * @project SkyWars
  * @date 19/03/2024 / 15:29
  */
-@Getter
+
 class QuestHandler {
     private val quests: MutableList<Quest> = ArrayList()
 

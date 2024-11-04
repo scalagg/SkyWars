@@ -6,7 +6,7 @@ import gg.pixelarcade.skywars.menus.perks.PerkListMenu
 import gg.pixelarcade.skywars.menus.utils.CoinsButton
 import gg.pixelarcade.skywars.menus.utils.ExitButton
 import gg.pixelarcade.skywars.menus.utils.FillerButton
-import lombok.RequiredArgsConstructor
+
 import net.evilblock.cubed.menu.Button
 import net.evilblock.cubed.menu.Menu
 import net.evilblock.cubed.util.bukkit.ItemBuilder
@@ -51,7 +51,7 @@ class SkyWarsMenu : Menu() {
         return buttons
     }
 
-    @RequiredArgsConstructor
+    
     private class PerkCategoryButton(private val material: Material): Button() {
 
 
@@ -71,7 +71,7 @@ class SkyWarsMenu : Menu() {
         }
     }
 
-    @RequiredArgsConstructor
+    
     private class KitCategoryButton(private val material: Material, private val gameType: GameType) : Button() {
 
         //-- Create Buttons with given values

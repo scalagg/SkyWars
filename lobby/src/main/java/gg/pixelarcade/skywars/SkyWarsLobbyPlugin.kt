@@ -2,7 +2,8 @@ package gg.pixelarcade.skywars
 
 import gg.scala.cgs.lobby.gamemode.CgsGameLobby
 import gg.scala.commons.ExtendedScalaPlugin
-import lombok.Getter
+import gg.scala.commons.core.plugin.*
+
 import org.bukkit.plugin.java.JavaPlugin
 
 /**
@@ -10,7 +11,18 @@ import org.bukkit.plugin.java.JavaPlugin
  * @project SkyWars
  * @date 27/10/2023 / 02:28
  */
-
+@Plugin(
+    name = "SkyWars-Lobby",
+    version = "%remote%/%branch%/%id%"
+)
+@PluginAuthor("Solara")
+@PluginWebsite("https://scala.gg")
+@PluginDependencyComposite(
+    PluginDependency("scala-commons"),
+    PluginDependency("Lemon"),
+    PluginDependency("ScGameLobby"),
+    PluginDependency("cloudsync", soft = true),
+)
 class SkyWarsLobbyPlugin : ExtendedScalaPlugin() {
     override fun enable() {
         instance = this

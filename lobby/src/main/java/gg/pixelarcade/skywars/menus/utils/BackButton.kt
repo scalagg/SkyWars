@@ -1,7 +1,7 @@
 package gg.pixelarcade.skywars.menus.utils
 
 import com.cryptomorin.xseries.XMaterial
-import lombok.RequiredArgsConstructor
+
 import net.evilblock.cubed.menu.Button
 import net.evilblock.cubed.menu.Menu
 import net.evilblock.cubed.util.bukkit.ItemBuilder
@@ -11,7 +11,7 @@ import org.bukkit.event.inventory.ClickType
 import org.bukkit.inventory.InventoryView
 import org.bukkit.inventory.ItemStack
 
-@RequiredArgsConstructor
+
 class BackButton(private val previousMenu: Menu) : Button() {
 
     override fun getButtonItem(player: Player): ItemStack {

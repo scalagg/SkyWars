@@ -1,7 +1,6 @@
 package gg.pixelarcade.skywars.kit
 
 import gg.pixelarcade.skywars.kit.impl.normal.*
-import lombok.Data
 import java.util.*
 
 /**

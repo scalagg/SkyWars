@@ -3,9 +3,9 @@ plugins {
     id("maven-publish")
     kotlin("jvm") version "1.9.10"
     kotlin("kapt") version "1.9.10"
+    id("com.jfrog.artifactory") version "4.29.2"
     id("com.github.johnrengelman.shadow") version "7.1.2"
     id("org.ajoberstar.grgit") version "4.1.1"
-    id("io.freefair.lombok") version "8.0.1" // make sure to use the latest version
 }
 
 
@@ -23,7 +23,7 @@ allprojects {
     apply(plugin = "com.github.johnrengelman.shadow")
     apply(plugin = "org.jetbrains.kotlin.jvm")
     apply(plugin = "org.jetbrains.kotlin.kapt")
-    apply(plugin = "io.freefair.lombok")
+    apply(plugin = "com.jfrog.artifactory")
 
     group = "gg.pixelarcade"
     version = "1.0.9${
@@ -34,7 +34,14 @@ allprojects {
         mavenLocal()
         mavenCentral()
         maven(url = "https://jitpack.io")
-        configureScalaRepository()
+        maven {
+            url = uri("${property("artifactory_contextUrl")}/gradle-release")
+
+            credentials {
+                username = property("artifactory_user").toString()
+                password = property("artifactory_password").toString()
+            }
+        }
         maven {
             url = uri("https://maven.refinedev.xyz/repository/maven-releases/")
             name = "refine-releases"
@@ -62,9 +69,6 @@ allprojects {
     }
 
     dependencies {
-        compileOnly("org.projectlombok:lombok:1.18.34")
-        annotationProcessor("org.projectlombok:lombok:1.18.34")
-
         compileOnly("net.kyori:adventure-api:4.14.0")
         compileOnly("org.paperspigot:PaperSpigot:1.8.8")
 
@@ -80,44 +84,45 @@ allprojects {
 
         compileOnly("gg.scala.cloudsync:spigot:1.0.3")
     }
-}
 
+    tasks.shadowJar {
+        archiveClassifier.set("")
 
+        exclude("**/*.kotlin_metadata")
+        exclude("**/*.kotlin_module")
 
-
-tasks.withType<JavaCompile> {
-    options.encoding = "UTF-8"
-    options.compilerArgs.add("-processorpath")
-    options.annotationProcessorPath = configurations.annotationProcessor.get()
-}
-
-tasks.register<Jar>("shade") {
-    dependsOn("jar")
-    archiveClassifier.set("")
-    from(sourceSets.main.get().output)
-    doLast {
-        println("Shading dependencies complete.")
+        archiveFileName.set("skywars-${project.name}.jar")
     }
-}
 
-// Additional Git properties plugin configuration
-tasks.register("generateGitProperties") {
-    doLast {
-        println("Generating git.properties file.")
-    }
-}
-tasks.getByName("build")
-    .dependsOn(
-        "shadowJar",
-        "publishMavenJavaPublicationToScalaRepository"
-    )
+    publishing {
+        publications {
+            create<MavenPublication>("shadow") {
+                project.shadow.component(this)
+            }
+        }
 
-fun RepositoryHandler.configureScalaRepository(dev: Boolean = false) {
-    maven("${property("artifactory_contextUrl")}/gradle-${if (dev) "dev" else "release"}") {
-        name = "scala"
-        credentials {
-            username = property("artifactory_user").toString()
-            password = property("artifactory_password").toString()
+        repositories {
+            maven {
+                name = "scala"
+                url = uri("${property("artifactory_contextUrl")}/gradle-release")
+
+                credentials {
+                    username = property("artifactory_user") as String
+                    password = property("artifactory_password") as String
+                }
+            }
         }
     }
+
+    tasks.build {
+        dependsOn(
+            tasks.shadowJar,
+            //tasks.named("publishShadowPublicationToScalaRepository")
+        )
+    }
+
 }
+
+
+
+

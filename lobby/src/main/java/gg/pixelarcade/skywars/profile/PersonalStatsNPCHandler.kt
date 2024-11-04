@@ -1,30 +1,28 @@
 package gg.pixelarcade.skywars.profile
 
-import eu.decentsoftware.holograms.api.DHAPI
-import eu.decentsoftware.holograms.api.holograms.Hologram
+
 import gg.pixelarcade.skywars.SkyWarsShared
-import net.citizensnpcs.api.CitizensAPI
-import net.citizensnpcs.api.npc.NPC
-import net.citizensnpcs.trait.SkinTrait
+import net.evilblock.cubed.entity.EntityHandler
+import net.evilblock.cubed.entity.hologram.personalized.PersonalizedHologramEntity
+import net.evilblock.cubed.entity.npc.NpcEntity
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.Location
-import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
 import java.util.*
 
 class PersonalStatsNPCHandler {
-    private val holograms: MutableMap<UUID, Hologram?> =
+    private val holograms: MutableMap<UUID, PersonalizedHologramEntity> =
         HashMap()
 
 
-    private val npc: NPC =
-        CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, "&eRIGHT CLICK FOR MORE")
+    private val npc: NpcEntity = NpcEntity(listOf("&eRIGHT CLICK FOR MORE"), NPC_LOCATION)
 
     init {
-        val skin = npc.getOrAddTrait(SkinTrait::class.java)
-        skin.skinName = "xulvy"
-        npc.spawn(NPC_LOCATION)
+        npc.updateTextureByUsername("xulvy", onComplete = { success, thrown ->
+            EntityHandler.trackEntity(npc)
+        })
+
     }
 
     fun getMenu(player: Player) {
@@ -33,40 +31,35 @@ class PersonalStatsNPCHandler {
     }
 
     fun destroy() {
-        npc.destroy()
-        holograms.forEach { (_: UUID?, hologram: Hologram?) -> hologram!!.destroy() }
+        EntityHandler.forgetEntity(npc)
+        holograms.forEach { (playerId: UUID?, hologram: PersonalizedHologramEntity) ->
+            run {
+                val player: Player? = Bukkit.getPlayer(playerId);
+
+                player?.let { hologram.destroy(it) }
+            }
+        }
     }
 
     fun spawnHologram(player: Player) {
         if (holograms[player.uniqueId] != null) {
-            holograms[player.uniqueId]!!.destroy()
+            holograms[player.uniqueId]!!.destroy(player)
         }
 
         val profile = SkyWarsShared.instance.getProfile(player.uniqueId)
-        val level = profile.getPrestige(profile.level)
 
-        val hologram = DHAPI.createHologram("stats-" + player.uniqueId.toString(), HOLOGRAM_LOCATION)
-
-        DHAPI.addHologramLine(hologram, "&b&nPersonal Stats")
-        DHAPI.addHologramLine(hologram, "")
-        DHAPI.addHologramLine(hologram, "&fLevel: " + level!!.color + profile.level + " ✯")
-        DHAPI.addHologramLine(hologram, "&fProgress: &b" + profile.xp + "&7/&a" + level.xpPerLevel)
-        DHAPI.addHologramLine(hologram, "&fWins: &b" + profile.wins)
-        DHAPI.addHologramLine(hologram, "&fKills: &b" + profile.kills)
-        DHAPI.addHologramLine(hologram, "&fDeaths: &b" + profile.deaths)
-        DHAPI.addHologramLine(hologram, "")
-        hologram.isDefaultVisibleState = false
-        hologram.showPlayers.add(player.uniqueId)
-        hologram.show(player, 0)
+        val hologram = StatsHologram(HOLOGRAM_LOCATION, profile)
+        hologram.spawn(player)
         holograms[player.uniqueId] = hologram
     }
 
     fun destroyHologram(player: Player) {
         if (holograms[player.uniqueId] != null) {
-            holograms[player.uniqueId]!!.destroy()
+            holograms[player.uniqueId]!!.destroy(player)
             holograms.remove(player.uniqueId)
         }
     }
+
 
     companion object {
         private val NPC_LOCATION = Location(

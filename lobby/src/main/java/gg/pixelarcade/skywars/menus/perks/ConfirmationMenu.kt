@@ -2,7 +2,7 @@ package gg.pixelarcade.skywars.menus.perks
 
 import gg.pixelarcade.skywars.SkyWarsShared
 import gg.pixelarcade.skywars.perk.Perk
-import lombok.RequiredArgsConstructor
+
 import net.evilblock.cubed.menu.Button
 import net.evilblock.cubed.menu.Menu
 import net.evilblock.cubed.util.bukkit.ItemBuilder
@@ -27,7 +27,7 @@ class ConfirmationMenu(private val perk: Perk) : Menu() {
         return buttons
     }
 
-    @RequiredArgsConstructor
+    
     class ConfirmButton(private val perk: Perk) : Button() {
 
         override fun getButtonItem(player: Player): ItemStack {

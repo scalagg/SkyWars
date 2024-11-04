@@ -1,9 +1,0 @@
-name: SkyWars
-api-version: 1.20
-author: MCCade Development Team
-version: ${version}-${git.commit.id.abbrev}-${git.branch}
-main: net.mccade.skywars.LimboPlugin
-
-depend:
-  - Retention
-#  - WorldEdit

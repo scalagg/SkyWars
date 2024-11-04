@@ -4,7 +4,6 @@ import gg.pixelarcade.skywars.perk.impl.globalPerks.BulldozerPerk
 import gg.pixelarcade.skywars.perk.impl.globalPerks.JuggernautPerk
 import gg.pixelarcade.skywars.perk.impl.kitPerks.*
 import gg.pixelarcade.skywars.perk.impl.purchasedPerks.*
-import lombok.Data
 import java.util.*
 
 

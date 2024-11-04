@@ -4,7 +4,7 @@ import gg.pixelarcade.skywars.SkyWarsShared
 import gg.pixelarcade.skywars.leaderboard.impl.LevelLeaderboard
 import gg.pixelarcade.skywars.leaderboard.impl.RankedLeaderboard
 import gg.pixelarcade.skywars.profile.SkyWarsProfile
-import lombok.Getter
+
 import net.citizensnpcs.api.CitizensAPI
 import net.citizensnpcs.api.npc.NPC
 import net.citizensnpcs.trait.SkinTrait
@@ -173,7 +173,7 @@ class LeaderboardNPCsHandler {
         }
     }
 
-    @Getter
+    
     private enum class NPCSpawnLocation(val location: Location) {
         GLOBAL_1(Location(Bukkit.getWorld("world"), -9.5, 102.0, 45.5, -90f, 0f)),
         GLOBAL_2(Location(Bukkit.getWorld("world"), -8.5, 101.0, 47.5, -90f, 0f)),

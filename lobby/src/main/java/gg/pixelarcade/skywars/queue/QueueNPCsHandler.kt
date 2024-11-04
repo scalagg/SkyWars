@@ -2,7 +2,7 @@ package gg.pixelarcade.skywars.queue
 
 import gg.pixelarcade.skywars.game.state.GameTeamType
 import gg.pixelarcade.skywars.menus.GameModeSelectorMenu
-import lombok.Getter
+
 import net.citizensnpcs.api.CitizensAPI
 import net.citizensnpcs.api.npc.NPC
 import net.citizensnpcs.trait.SkinTrait

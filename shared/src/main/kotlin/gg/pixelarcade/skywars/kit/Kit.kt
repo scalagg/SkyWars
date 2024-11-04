@@ -3,7 +3,7 @@ package gg.pixelarcade.skywars.kit
 import gg.pixelarcade.skywars.game.state.GameType
 import gg.pixelarcade.skywars.util.CalenderUtil
 import gg.pixelarcade.skywars.util.PlayerUtil
-import lombok.Getter
+
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack

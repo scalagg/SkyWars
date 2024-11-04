@@ -37,6 +37,7 @@ class SkyWarsProfile(identifier: UUID) : GameSpecificStatistics(identifier) {
     var canRate = false
     var arenasRated: MutableList<String> = ArrayList()
 
+
     override fun save(): CompletableFuture<Void> {
         return DataStoreObjectControllerCache.findNotNull<SkyWarsProfile>()
             .save(this, DataStoreStorageType.MONGO)

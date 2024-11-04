@@ -1,7 +1,7 @@
 package gg.pixelarcade.skywars.region.menu
 
 import gg.pixelarcade.skywars.region.Region
-import lombok.RequiredArgsConstructor
+
 import net.evilblock.cubed.menu.Button
 import net.evilblock.cubed.menu.Menu
 import net.evilblock.cubed.menu.buttons.BackButton
@@ -52,7 +52,7 @@ class RegionEditMenu(private val region: Region) : Menu() {
         return buttons
     }
 
-    @RequiredArgsConstructor
+    
     class RegionEnableButton(private val region: Region) : Button() {
 
 
@@ -68,7 +68,7 @@ class RegionEditMenu(private val region: Region) : Menu() {
         }
     }
 
-    @RequiredArgsConstructor
+    
     class RegionPlaceButton(private val region: Region) : Button() {
 
         override fun getButtonItem(player: Player): ItemStack {
@@ -83,7 +83,7 @@ class RegionEditMenu(private val region: Region) : Menu() {
         }
     }
 
-    @RequiredArgsConstructor
+    
     class RegionBreakButton(private val region: Region) : Button() {
 
         override fun getButtonItem(player: Player): ItemStack {
@@ -98,7 +98,7 @@ class RegionEditMenu(private val region: Region) : Menu() {
         }
     }
 
-    @RequiredArgsConstructor
+    
     class RegionDropsButton(private val region: Region) : Button() {
 
         override fun getButtonItem(player: Player): ItemStack {
@@ -113,7 +113,7 @@ class RegionEditMenu(private val region: Region) : Menu() {
         }
     }
 
-    @RequiredArgsConstructor
+    
     class RegionHungerButton(private val region: Region) : Button() {
 
         override fun getButtonItem(player: Player): ItemStack {
@@ -128,7 +128,7 @@ class RegionEditMenu(private val region: Region) : Menu() {
         }
     }
 
-    @RequiredArgsConstructor
+    
     class RegionPickupButton(private val region: Region) : Button() {
 
         override fun getButtonItem(player: Player): ItemStack {
@@ -143,7 +143,7 @@ class RegionEditMenu(private val region: Region) : Menu() {
         }
     }
 
-    @RequiredArgsConstructor
+    
     class RegionLeavesButton(private val region: Region) : Button() {
 
         override fun getButtonItem(player: Player): ItemStack {
@@ -158,7 +158,7 @@ class RegionEditMenu(private val region: Region) : Menu() {
         }
     }
 
-    @RequiredArgsConstructor
+    
     class RegionInteractButton(private val region: Region) : Button() {
 
         override fun getButtonItem(player: Player): ItemStack {
@@ -173,7 +173,7 @@ class RegionEditMenu(private val region: Region) : Menu() {
         }
     }
 
-    @RequiredArgsConstructor
+    
     class RegionDamageButton(private val region: Region) : Button() {
 
         override fun getButtonItem(player: Player): ItemStack {

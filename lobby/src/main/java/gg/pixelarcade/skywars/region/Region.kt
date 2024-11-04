@@ -1,16 +1,16 @@
 package gg.pixelarcade.skywars.region
 
 import gg.pixelarcade.skywars.util.cuboid.Cuboid
-import lombok.Getter
-import lombok.Setter
+
+
 
 /**
  * @author alfie
  * @project Skywars / gg.pixelarcade.game.region
  * @date 19/10/2023 / 15:45
  */
-@Getter
-@Setter
+
+
 class Region {
     val bounds: Cuboid
     var name: String? = null

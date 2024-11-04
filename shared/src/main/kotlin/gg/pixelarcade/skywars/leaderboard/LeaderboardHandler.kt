@@ -4,7 +4,7 @@ import gg.pixelarcade.skywars.leaderboard.impl.LevelLeaderboard
 import gg.pixelarcade.skywars.leaderboard.impl.RankedLeaderboard
 import gg.pixelarcade.skywars.leaderboard.impl.WinsLeaderboard
 import gg.pixelarcade.skywars.leaderboard.impl.WinstreakLeaderboard
-import lombok.Getter
+
 
 class LeaderboardHandler {
     /** A map of the registered leaderboards, mapped by their id  */

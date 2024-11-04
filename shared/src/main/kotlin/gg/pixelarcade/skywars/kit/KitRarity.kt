@@ -1,7 +1,7 @@
 package gg.pixelarcade.skywars.kit
 
-import lombok.Getter
-import lombok.RequiredArgsConstructor
+
+
 import org.bukkit.ChatColor
 
 enum class KitRarity(val displayName: String, val color: ChatColor) {

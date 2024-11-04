@@ -14,9 +14,8 @@ import gg.pixelarcade.skywars.region.RegionHandler
 import gg.pixelarcade.skywars.region.commands.RegionCommands
 import gg.pixelarcade.skywars.region.listeners.RegionListener
 import gg.pixelarcade.skywars.region.selection.listeners.RegionSelectionListener
-import gg.pixelarcade.skywars.scoreboard.LobbyScoreboardAdapter
-import gg.pixelarcade.skywars.scoreboard.api.Assemble
 import gg.pixelarcade.skywars.util.PlayerUtil
+import gg.scala.commons.ExtendedScalaPlugin
 import net.evilblock.cubed.util.bukkit.Tasks.delayed
 import org.bukkit.Bukkit
 import org.bukkit.entity.Entity
@@ -24,7 +23,6 @@ import org.bukkit.entity.Player
 import org.bukkit.event.Listener
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
-import java.util.*
 import java.util.function.Consumer
 
 /**
@@ -33,7 +31,7 @@ import java.util.function.Consumer
  * @date 27/10/2023 / 04:31
  */
 
-class SkyWarsLobby(plugin: JavaPlugin) : SkyWarsShared(plugin) {
+class SkyWarsLobby(plugin: ExtendedScalaPlugin) : SkyWarsShared(plugin) {
     lateinit var musicHandler: MusicHandler
     lateinit var regionHandler: RegionHandler
     lateinit var leaderboardNPCsHandler: LeaderboardNPCsHandler
@@ -56,7 +54,7 @@ class SkyWarsLobby(plugin: JavaPlugin) : SkyWarsShared(plugin) {
         personalStatsNPCHandler = PersonalStatsNPCHandler()
 
 
-        Arrays.asList(
+        listOf(
             RegionListener(regionHandler),
             RegionSelectionListener(regionHandler),
             LobbyListener(this),
@@ -68,8 +66,6 @@ class SkyWarsLobby(plugin: JavaPlugin) : SkyWarsShared(plugin) {
         commandHandler.registerCommand(MusicCommand())
         commandHandler.registerCommand(RegionCommands())
         commandHandler.registerCommand(AdminExp())
-
-        Assemble(SkyWarsLobbyPlugin.instance, LobbyScoreboardAdapter())
 
         plugin.server.messenger.registerOutgoingPluginChannel(plugin, "BungeeCord")
 

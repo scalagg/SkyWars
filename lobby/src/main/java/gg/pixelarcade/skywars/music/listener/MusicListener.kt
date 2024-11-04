@@ -2,7 +2,9 @@ package gg.pixelarcade.skywars.music.listener
 
 import com.xxmicloxx.NoteBlockAPI.event.SongNextEvent
 import gg.pixelarcade.skywars.music.MusicHandler
-import lombok.RequiredArgsConstructor
+import gg.pixelarcade.skywars.util.PlayerUtil
+import gg.scala.commons.util.Players
+
 import net.evilblock.cubed.util.Color
 import net.minecraft.server.v1_8_R3.ChatComponentText
 import net.minecraft.server.v1_8_R3.PacketPlayOutChat

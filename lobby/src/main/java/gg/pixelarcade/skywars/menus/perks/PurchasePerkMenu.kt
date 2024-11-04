@@ -5,7 +5,7 @@ import gg.pixelarcade.skywars.menus.utils.BackButton
 import gg.pixelarcade.skywars.menus.utils.CoinsButton
 import gg.pixelarcade.skywars.menus.utils.ExitButton
 import gg.pixelarcade.skywars.perk.Perk
-import lombok.RequiredArgsConstructor
+
 import net.evilblock.cubed.menu.Button
 import net.evilblock.cubed.menu.Menu
 import net.evilblock.cubed.util.bukkit.ItemBuilder

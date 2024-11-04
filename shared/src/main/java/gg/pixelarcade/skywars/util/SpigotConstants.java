@@ -1,10 +1,8 @@
 package gg.pixelarcade.skywars.util;
 
-import lombok.experimental.UtilityClass;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
-@UtilityClass
 public class SpigotConstants {
 
     public static final String GAME_NAME = ChatColor.AQUA +ChatColor.BOLD.toString() + "Skywars " + ChatColor.DARK_GRAY + "► " + ChatColor.WHITE;

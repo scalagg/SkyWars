@@ -2,7 +2,7 @@ package gg.pixelarcade.skywars.region.selection.listeners
 
 import gg.pixelarcade.skywars.region.RegionHandler
 import gg.pixelarcade.skywars.region.selection.RegionSelection
-import lombok.RequiredArgsConstructor
+
 import net.evilblock.cubed.util.Color
 import org.bukkit.event.Event
 import org.bukkit.event.EventHandler

@@ -1,8 +1,8 @@
 package gg.pixelarcade.skywars.leveling.enums
 
-import lombok.Getter
 
-@Getter
+
+
 enum class LevelEnum(
     val priority: Int,
     val minLevel: Int,

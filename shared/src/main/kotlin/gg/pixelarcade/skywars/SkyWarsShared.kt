@@ -8,8 +8,9 @@ import gg.pixelarcade.skywars.profile.SkyWarsProfile
 import gg.pixelarcade.skywars.quests.QuestHandler
 import gg.scala.cgs.common.player.handler.CgsPlayerHandler
 import gg.scala.cgs.common.player.handler.CgsPlayerHandler.find
+import gg.scala.commons.ExtendedScalaPlugin
 import gg.scala.commons.acf.PaperCommandManager
-import lombok.Getter
+
 import net.evilblock.cubed.ScalaCommonsSpigot
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
@@ -23,7 +24,7 @@ import java.util.function.Consumer
  * @date 27/10/2023 / 02:34
  */
 
-abstract class SkyWarsShared(val plugin: JavaPlugin) {
+abstract class SkyWarsShared(val plugin: ExtendedScalaPlugin) {
     val kitHandler: KitHandler
     val perkHandler: PerkHandler
     val questHandler: QuestHandler
@@ -60,6 +61,7 @@ abstract class SkyWarsShared(val plugin: JavaPlugin) {
 
     fun getProfile(playerId: UUID): SkyWarsProfile {
         val cgsGamePlayer = find(playerId);
+        println("Got game player for $playerId correct: ${cgsGamePlayer != null}")
         return cgsGamePlayer?.let { CgsPlayerHandler.engine.getStatistics(it) } as SkyWarsProfile
     }
 
