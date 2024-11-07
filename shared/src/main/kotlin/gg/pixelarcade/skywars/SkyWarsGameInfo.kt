@@ -8,7 +8,7 @@ import gg.scala.cgs.common.information.CgsGameGeneralInfo
  * @author Moose1301
  */
 object SkyWarsGameInfo : CgsGameGeneralInfo(
-    "SkyWars", 0.01F, 2,
+    "SkyWars", 1F, 2,
     10, SkyWarsGameRewards, false, true,
     true, true, true,
     true, listOf(SkyWarsSoloGamemode)

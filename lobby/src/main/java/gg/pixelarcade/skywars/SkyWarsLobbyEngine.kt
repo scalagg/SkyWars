@@ -97,7 +97,7 @@ object SkyWarsLobbyEngine : CgsGameLobby<SkyWarsProfile>(
         TopWinsRankingEntry
     )
 
-    override fun getScoreboardAdapter() = LobbyScoreboardAdapter()
+    override fun getScoreboardAdapter() = LobbyScoreboardAdapter
 
 
 }

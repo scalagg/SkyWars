@@ -60,9 +60,7 @@ abstract class SkyWarsShared(val plugin: ExtendedScalaPlugin) {
     }
 
     fun getProfile(playerId: UUID): SkyWarsProfile {
-        val cgsGamePlayer = find(playerId);
-        println("Got game player for $playerId correct: ${cgsGamePlayer != null}")
-        return cgsGamePlayer?.let { CgsPlayerHandler.engine.getStatistics(it) } as SkyWarsProfile
+        return CgsPlayerHandler.statistics[playerId] as SkyWarsProfile
     }
 
     abstract fun init()

@@ -1,5 +1,6 @@
 package gg.pixelarcade.skywars.gamemode
 
+import gg.pixelarcade.skywars.arena.SkywarsArena
 import gg.scala.cgs.common.information.arena.CgsGameArena
 import gg.scala.cgs.common.information.mode.CgsGameMode
 import net.evilblock.cubed.util.CC
@@ -18,7 +19,9 @@ object SkyWarsSoloGamemode : CgsGameMode
 
     override fun getDescription() = "${CC.GRAY}An solo game of Skywars!"
 
-    override fun getArenas(): List<CgsGameArena> = listOf()
+    override fun getArenas(): List<CgsGameArena> = listOf(
+        SkywarsArena
+    )
 
     override fun getTeamSize() = 1 // team size
     override fun getMaxTeams() = 12 // max teams

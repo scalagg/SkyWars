@@ -27,10 +27,13 @@ class LobbyListener(private val plugin: SkyWarsLobby) : Listener {
         plugin.giveItems(e.player)
         val profile = SkyWarsShared.instance.getProfile(e.player.uniqueId)
 
-        SkyWarsShared.instance.leaderboardHandler.getLeaderboards()
-            .forEach(Consumer { leaderboard: Leaderboard -> leaderboard.update(profile) })
 
-        delayed(10L, Runnable { SkyWarsLobby.lobbyInstance.personalStatsNPCHandler.spawnHologram(e.player) })
+
+        delayed(60L, Runnable {
+            SkyWarsShared.instance.leaderboardHandler.getLeaderboards()
+                .forEach(Consumer { leaderboard: Leaderboard -> leaderboard.update(profile) })
+            SkyWarsLobby.lobbyInstance.personalStatsNPCHandler.spawnHologram(e.player)
+        })
     }
 
     @EventHandler

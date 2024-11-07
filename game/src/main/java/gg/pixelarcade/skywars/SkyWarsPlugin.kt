@@ -7,7 +7,7 @@ import gg.scala.commons.core.plugin.*
 import org.bukkit.plugin.java.JavaPlugin
 
 @Plugin(
-    name = "SkyWars-Lobby",
+    name = "SkyWars-Game",
     version = "%remote%/%branch%/%id%"
 )
 @PluginAuthor("Solara")

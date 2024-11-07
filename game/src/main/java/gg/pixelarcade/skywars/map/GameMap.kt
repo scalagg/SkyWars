@@ -82,8 +82,11 @@ class GameMap(val name: String, val bounds: Cuboid, val type: GameType) {
     }
 
     private fun scanLocations() {
+        println("Scanning Locations Bounds: (${bounds.lowerCorner} -> ${bounds.upperCorner})")
         forEachBlock { block: Block ->
             val type = block.type
+
+
             if (type == Material.BEACON) {
                 suddenDeathSpawnLoc = block.location.clone().add(0.5, 0.0, 0.5)
 
@@ -107,6 +110,7 @@ class GameMap(val name: String, val bounds: Cuboid, val type: GameType) {
 
             val skullLocation = block.location.clone().add(0.5, 1.5, 0.5)
             skullLocation.yaw = (faceToYaw(skull.rotation) + 90).toFloat()
+
             when (skull.skullType) {
                 SkullType.ZOMBIE -> {
                     lobbySpawnLoc = skullLocation
@@ -164,8 +168,8 @@ class GameMap(val name: String, val bounds: Cuboid, val type: GameType) {
             }
         }
 
-        Preconditions.checkNotNull<List<Location>>(spawns, "Spawns (player head) cannot be null.")
-        Preconditions.checkArgument(spawns.isNotEmpty(), "Spawns (player head) cannot be empty.")
+       Preconditions.checkNotNull<List<Location>>(spawns, "Spawns (player head) cannot be null.")
+       Preconditions.checkArgument(spawns.isNotEmpty(), "Spawns (player head) cannot be empty.")
     }
 
     private fun forEachBlock(callback: Callback<Block>) {

@@ -37,14 +37,13 @@ class SkyWarsProfile(identifier: UUID) : GameSpecificStatistics(identifier) {
     var canRate = false
     var arenasRated: MutableList<String> = ArrayList()
 
-
     override fun save(): CompletableFuture<Void> {
         return DataStoreObjectControllerCache.findNotNull<SkyWarsProfile>()
             .save(this, DataStoreStorageType.MONGO)
     }
 
-    fun getPrestige(level: Int): LevelEnum? {
-        var prestige: LevelEnum? = null
+    fun getPrestige(level: Int): LevelEnum {
+        var prestige: LevelEnum = LevelEnum.ROOKIE
 
         // Iterate through the list of enums to find the one that fits the player's level
         for (prestiges in LevelEnum.entries) {

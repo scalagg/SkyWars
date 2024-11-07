@@ -13,7 +13,7 @@ import kotlin.collections.ArrayList
  * @project SkyWars
  * @date 27/10/2023 / 02:32
  */
-class LobbyScoreboardAdapter : ScoreboardAdapter() {
+object LobbyScoreboardAdapter : ScoreboardAdapter() {
     private val animation = TitleAnimation(
         "SKYWARS",
         "&6&l",
@@ -34,12 +34,12 @@ class LobbyScoreboardAdapter : ScoreboardAdapter() {
         val level = profile.level
         val prestige = profile.getPrestige(level)
 
-        lines.add("&6● &fLevel: &r" + prestige!!.color + "[" + level + "✯]")
+        lines.add("&6● &fLevel: &r" + prestige.color + "[" + level + "✯]")
         lines.add(profile.getXPBar(prestige))
 
         lines.add("")
-        lines.add("&6● &fWins: &5" + profile.wins)
-        lines.add("&6● &fKills: &5" + profile.kills)
+        lines.add("&6● &fWins: &5" + profile.wins.value)
+        lines.add("&6● &fKills: &5" + profile.kills.value)
 
         lines.add("")
         lines.add("&6● &fCoins: &6" + profile.coins)

@@ -31,7 +31,9 @@ class SkyWarsEngine(
         var INSTANCE by Delegates.notNull<SkyWarsEngine>()
     }
 
-    override fun getScoreboardRenderer() = SkywarsScoreboardAdapter
+    override fun getScoreboardRenderer(): CgsGameScoreboardRenderer {
+        return SkywarsScoreboardAdapter(SkyWarsGame.gameInstance)
+    }
 
     override fun getVisibilityAdapter() = SkyWarsVisibilityAdapter
     override fun getNametagAdapter() = SkyWarsNametagAdapter

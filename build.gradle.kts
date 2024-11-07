@@ -75,7 +75,7 @@ allprojects {
         compileOnly("gg.scala.commons:bukkit:4.0.0")
         kapt("gg.scala.commons:bukkit:4.0.0")
 
-        compileOnly("gg.scala.lemon:bukkit:1.7.0")
+        compileOnly("gg.scala.lemon:bukkit:1.9.1")
         compileOnly("gg.scala.cgs:common:1.4.2")
 
 

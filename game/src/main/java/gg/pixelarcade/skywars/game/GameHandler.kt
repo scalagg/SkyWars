@@ -70,10 +70,10 @@ class GameHandler {
             player.teleport(map.randomSpawn)
 
             PlayerUtil.resetPlayer(player)
-            player.setMetadata("frozen", FixedMetadataValue(SkyWarsPlugin.instance, this))
+          //  player.setMetadata("frozen", FixedMetadataValue(SkyWarsPlugin.instance, this))
         }
 
-        Bukkit.getScheduler().runTaskTimer(SkyWarsPlugin.instance, GameCountdownTask(), 0L, 20L)
+       // Bukkit.getScheduler().runTaskTimer(SkyWarsPlugin.instance, GameCountdownTask(), 0L, 20L)
     }
 
     fun startGame() {

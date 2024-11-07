@@ -18,6 +18,8 @@ class QuestListener : Listener {
         val player = event.player
         val profile: SkyWarsProfile = SkyWarsLobby.lobbyInstance.getProfile(player.uniqueId)
 
+        if(profile.dailyQuests.isEmpty()) return
+
         val entry: Map.Entry<Long, String> = profile.dailyQuests.entries.iterator().next()
         val time = 24 * 60 * 60 * 1000 // 24 hours in milliseconds
 

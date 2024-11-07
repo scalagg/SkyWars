@@ -11,6 +11,7 @@ import gg.pixelarcade.skywars.items.LoadoutItem
 import gg.pixelarcade.skywars.items.StatisticItem
 import gg.pixelarcade.skywars.util.PlayerUtil
 import gg.pixelarcade.skywars.util.SpigotConstants
+import gg.scala.cgs.common.CgsGameEngine
 import gg.scala.lemon.util.QuickAccess.coloredName
 import gg.tropic.game.extensions.cosmetics.CosmeticRegistry
 import gg.tropic.game.extensions.cosmetics.messagebundles.KillMessageBundleCosmeticCategory
@@ -66,6 +67,14 @@ class GameListener( private val plugin: SkyWarsGame ): Listener {
         player.inventory.setItem(8, LeaveGameItem(player).getItem(player))
     }
 
+    @EventHandler
+    fun onGameStart(event: CgsGameEngine.CgsGameStartEvent?) {
+        plugin.gameHandler.startGame()
+    }
+    @EventHandler
+    fun onGameStart(event: CgsGameEngine.CgsGamePreStartEvent?) {
+        plugin.gameHandler.startCountdown()
+    }
     @EventHandler
     fun onGameStart(event: GameStartEvent?) {
         val zombieSpawns: List<Location> = plugin.gameHandler.map.zombieSpawns

@@ -14,6 +14,6 @@ import org.bukkit.event.HandlerList
  * @date 26/09/2023 / 22:09
  */
 
-class PlayerKillEvent(val player: Player, val killer: Player, val game: Game) : PluginEvent() {
+class PlayerKillEvent(val player: Player, val killer: Player?, val game: Game) : PluginEvent() {
 
 }
