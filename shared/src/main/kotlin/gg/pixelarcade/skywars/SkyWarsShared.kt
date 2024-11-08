@@ -10,6 +10,7 @@ import gg.scala.cgs.common.player.handler.CgsPlayerHandler
 import gg.scala.cgs.common.player.handler.CgsPlayerHandler.find
 import gg.scala.commons.ExtendedScalaPlugin
 import gg.scala.commons.acf.PaperCommandManager
+import gg.scala.store.storage.type.DataStoreStorageType
 
 import net.evilblock.cubed.ScalaCommonsSpigot
 import org.bukkit.Bukkit
@@ -60,7 +61,15 @@ abstract class SkyWarsShared(val plugin: ExtendedScalaPlugin) {
     }
 
     fun getProfile(playerId: UUID): SkyWarsProfile {
-        return CgsPlayerHandler.statistics[playerId] as SkyWarsProfile
+        val stats = CgsPlayerHandler.statistics[playerId];
+        if(stats != null || Bukkit.isPrimaryThread())
+            return stats as SkyWarsProfile
+
+        val gameSpecificStatistics = CgsPlayerHandler.statsLayer
+            .load(playerId, DataStoreStorageType.MONGO)
+            .join()
+
+        return gameSpecificStatistics as SkyWarsProfile
     }
 
     abstract fun init()

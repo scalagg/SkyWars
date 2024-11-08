@@ -5,6 +5,7 @@ import org.bukkit.Location
 import org.bukkit.entity.Player
 
 class StatsHologram(location: Location, val profile: SkyWarsProfile) : PersonalizedHologramEntity(location) {
+
     override fun getNewLines(player: Player): List<String> {
         val level = profile.getPrestige(profile.level)
 

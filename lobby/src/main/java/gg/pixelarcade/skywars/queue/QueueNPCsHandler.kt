@@ -2,8 +2,8 @@ package gg.pixelarcade.skywars.queue
 
 import gg.pixelarcade.skywars.game.state.GameTeamType
 import gg.pixelarcade.skywars.menus.GameModeSelectorMenu
-import gg.pixelarcade.skywars.updateSkin
 import gg.scala.cache.uuid.ScalaStoreUuidCache
+import net.evilblock.cubed.entity.EntityHandler
 
 import net.evilblock.cubed.entity.npc.NpcEntity
 import org.bukkit.Bukkit
@@ -68,9 +68,9 @@ class QueueNPCsHandler {
 
 
     private fun setSkins() {
-        experimental.updateSkin(UUID.fromString("a9c58c9d-660a-416b-820d-a56b2ed3824a"))
-        solo.updateSkin(UUID.fromString("b4ecea17-46c2-4965-8419-efe45f5c5771"))
-        doubles.updateSkin(UUID.fromString("8fd2a5c2-0ce0-4844-a99e-7c5ec74ae94a"))
+        experimental.updateTextureByUsername("Wuusty__", onComplete = { success, thrown -> EntityHandler.trackEntity(experimental) })
+        solo.updateTextureByUsername("KuudraStun", onComplete = { success, thrown -> EntityHandler.trackEntity(solo) })
+        doubles.updateTextureByUsername("luanpereiradev2", onComplete = { success, thrown -> EntityHandler.trackEntity(doubles) })
     }
 
 

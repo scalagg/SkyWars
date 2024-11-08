@@ -5,10 +5,12 @@ import gg.pixelarcade.skywars.SkyWarsShared
 import gg.pixelarcade.skywars.leaderboard.impl.LevelLeaderboard
 import gg.pixelarcade.skywars.leaderboard.impl.WinsLeaderboard
 import gg.pixelarcade.skywars.profile.SkyWarsProfile
+import net.evilblock.cubed.entity.EntityHandler
 import net.evilblock.cubed.entity.hologram.updating.FormatUpdatingHologramEntity
 import net.evilblock.cubed.entity.hologram.updating.UpdatingHologramEntity
 
 import net.evilblock.cubed.util.bukkit.Tasks.delayed
+import net.minecraft.server.v1_8_R3.EntityTracker
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import java.util.*
@@ -29,6 +31,10 @@ class LeaderboardHologramHandler {
         // Create the holograms
         levels = FormatUpdatingHologramEntity("levels", HologramLocation.LEVELS.location)
         wins = FormatUpdatingHologramEntity("wins", HologramLocation.WINS.location)
+        levels.initializeData()
+        wins.initializeData()
+        EntityHandler.trackEntity(levels)
+        EntityHandler.trackEntity(wins)
 
         // Add titles
        levels.format.add("&b&nLevels Leaderboard")
