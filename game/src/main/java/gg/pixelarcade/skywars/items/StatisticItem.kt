@@ -32,15 +32,15 @@ class StatisticItem(private val player: Player) : Item(player) {
                 "&7&m----------------------------------------",
                 "&6&l$displayName &lStatistics",
                 "&7",
-                "&7■ &fKills: &6" + profile.kills,
-                "&7■ &fDeaths: &6" + profile.deaths,
+                "&7■ &fKills: &6" + profile.kills.value,
+                "&7■ &fDeaths: &6" + profile.deaths.value,
                 "&7■ &fKill Streak: &6" + profile.killStreak,
                 "",
                 "&7■ &fHeads: &6" + profile.heads,
                 "&7■ &fSouls: &6" + profile.souls,
                 "",
-                "&7■ &fWins: &6" + profile.wins,
-                "&7■ &fLosses: &6" + profile.losses,
+                "&7■ &fWins: &6" + profile.wins.value,
+                "&7■ &fLosses: &6" + profile.losses.value,
                 "&7&m----------------------------------------"
             )
         )

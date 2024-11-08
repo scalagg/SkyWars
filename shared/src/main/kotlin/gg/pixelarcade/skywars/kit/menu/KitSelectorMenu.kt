@@ -38,8 +38,10 @@ class KitSelectorMenu : PaginatedMenu() {
             val profile = SkyWarsShared.instance.getProfile(player);
 
             // TODO:
+            val owned = kit.canUse(profile)
+
             val item = ItemBuilder(kit.displayMaterial)
-                .name(CC.RESET + kit.name)
+                .name(CC.RESET + (if(owned) CC.GREEN else CC.RED) + kit.name)
 
             if (profile.selectedKit.equals(kit.name, ignoreCase = true))
                 item.enchant(Enchantment.DURABILITY, 10)
@@ -51,6 +53,10 @@ class KitSelectorMenu : PaginatedMenu() {
         override fun clicked(player: Player, slot: Int, clickType: ClickType, view: InventoryView) {
             val profile = SkyWarsShared.instance.getProfile(player);
 
+            if(!kit.canUse(profile)) {
+                playFail(player)
+                return
+            }
             profile.selectedKit = kit.name.lowercase()
             profile.save()
         }

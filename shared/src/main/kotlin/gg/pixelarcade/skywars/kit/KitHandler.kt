@@ -1,6 +1,8 @@
 package gg.pixelarcade.skywars.kit
 
+import gg.pixelarcade.skywars.SkyWarsShared
 import gg.pixelarcade.skywars.kit.impl.normal.*
+import gg.scala.commons.preconfigure.PreConfigureSubTypeProcessor.objectInstance
 import java.util.*
 
 /**
@@ -13,25 +15,15 @@ class KitHandler {
     private val kits: MutableMap<String, Kit> = HashMap()
 
     init {
-        this.registerKit(DefaultKit())
-        this.registerKit(RookieKit())
-        this.registerKit(ArmorerKit())
-        this.registerKit(ArmorsmithKit())
-        this.registerKit(CannoneerKit())
-        this.registerKit(EnchanterKit())
-        this.registerKit(EndermanKit())
-        this.registerKit(KnightKit())
-        this.registerKit(MagicianKit())
-        this.registerKit(MedicKit())
-        this.registerKit(MinerKit())
-        this.registerKit(MinerKit())
-        this.registerKit(PyromancerKit())
-        this.registerKit(RusherKit())
-        this.registerKit(SalmonKit())
-        this.registerKit(ScoutKit())
-        this.registerKit(SniperKit())
-        this.registerKit(TrapperKit())
+        SkyWarsShared.instance.plugin.packageIndexer
+            .getSubTypes<Kit>()
+            .forEach {
+                registerKit((it.objectInstance() ?: it.newInstance()) as Kit)
+            }
     }
+
+
+
 
     fun registerKit(kit: Kit) {
         kits[kit.name.toLowerCase()] = kit

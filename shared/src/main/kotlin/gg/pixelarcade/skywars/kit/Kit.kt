@@ -1,6 +1,7 @@
 package gg.pixelarcade.skywars.kit
 
 import gg.pixelarcade.skywars.game.state.GameType
+import gg.pixelarcade.skywars.profile.SkyWarsProfile
 import gg.pixelarcade.skywars.util.CalenderUtil
 import gg.pixelarcade.skywars.util.PlayerUtil
 
@@ -44,4 +45,12 @@ abstract class Kit protected constructor(
 
     val isFree: Boolean
         get() = cost == 0 || CalenderUtil.isWeekend()
+
+
+    fun canUse(profile: SkyWarsProfile): Boolean {
+        if(isFree || isDefault)
+            return true
+
+        return profile.ownedKits.contains(name.lowercase())
+    }
 }

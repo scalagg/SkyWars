@@ -90,12 +90,8 @@ class SkyWarsLobby(plugin: ExtendedScalaPlugin) : SkyWarsShared(plugin) {
 
         // this is so weird but otherwise last player to die doesn't get items for some reason :/
         delayed(2L, Runnable {
-            player.inventory.setItem(0, SoloQueueItem(player).getItem(player))
-            player.inventory.setItem(1, DoublesQueueItem(player).getItem(player))
-            player.inventory.setItem(3, ProfileItem(player).getItem(player))
-            player.inventory.setItem(4, CosmeticItem(player).getItem(player))
-            player.inventory.setItem(6, SettingsItem(player).getItem(player))
-            player.inventory.setItem(7, KitEditorItem(player).getItem(player))
+            player.inventory.setItem(0, ProfileItem(player).getItem(player))
+            player.inventory.setItem(8, KitEditorItem(player).getItem(player))
         })
     }
 
