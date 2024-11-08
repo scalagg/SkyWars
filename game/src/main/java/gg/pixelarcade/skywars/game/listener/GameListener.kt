@@ -46,16 +46,12 @@ import org.bukkit.inventory.ItemStack
 
 class GameListener( private val plugin: SkyWarsGame ): Listener {
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     fun onPlayerJoinGame(event: PlayerJoinEvent) {
         val player = event.player
         val game = SkyWarsGame.gameInstance.gameHandler.game
 
         plugin.gameHandler.addPlayer(player)
-
-        //TODO: need to make a way to get the max players depending on the team type
-        // but bc we don't set the team type we can't use game#getTeamType due to it null
-        if (game.players.size >= 12) plugin.gameHandler.startCountdown()
 
         PlayerUtil.resetPlayer(player)
 

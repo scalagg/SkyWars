@@ -2,6 +2,8 @@ package gg.pixelarcade.skywars.game
 
 import gg.pixelarcade.skywars.SkyWarsGame
 import gg.pixelarcade.skywars.SkyWarsPlugin
+import gg.pixelarcade.skywars.cages.*
+import gg.pixelarcade.skywars.cages.sync.SchemaCageDataSync
 import gg.pixelarcade.skywars.chests.LootableChest
 import gg.pixelarcade.skywars.chests.type.RefillType
 import gg.pixelarcade.skywars.config.GameConfig
@@ -11,14 +13,10 @@ import gg.pixelarcade.skywars.game.event.PlayerJoinGameEvent
 import gg.pixelarcade.skywars.game.event.PlayerLeaveGameEvent
 import gg.pixelarcade.skywars.game.state.GameState
 import gg.pixelarcade.skywars.game.state.GameType
-import gg.pixelarcade.skywars.game.task.GameCountdownTask
 import gg.pixelarcade.skywars.kit.Kit
 import gg.pixelarcade.skywars.map.GameMap
 import gg.pixelarcade.skywars.profile.SkyWarsProfile
-import gg.pixelarcade.skywars.util.DefaultFontInfo
-import gg.pixelarcade.skywars.util.PlayerUtil
-import gg.pixelarcade.skywars.util.ServerUtil
-import gg.pixelarcade.skywars.util.Tuple
+import gg.pixelarcade.skywars.util.*
 import gg.pixelarcade.skywars.util.cuboid.Cuboid
 import gg.scala.commons.agnostic.sync.ServerSync
 import gg.scala.lemon.util.QuickAccess
@@ -27,8 +25,8 @@ import net.evilblock.cubed.util.Color
 import net.evilblock.cubed.util.bukkit.Tasks
 import org.bukkit.Bukkit
 import org.bukkit.Sound
+import org.bukkit.block.BlockFace
 import org.bukkit.entity.Player
-import org.bukkit.metadata.FixedMetadataValue
 import studio.pinkcloud.deploy.spigot.api.Deployer
 import java.util.*
 import kotlin.math.min
@@ -49,26 +47,39 @@ class GameHandler {
         bounds,
         GameConfig.SETTINGS.type
     )
+    val cages = mutableMapOf<UUID, LocalCage>()
 
     fun startCountdown() {
         game.state = GameState.COUNTDOWN
 
         for (uuid in game.players) {
-            val profile: SkyWarsProfile = SkyWarsGame.gameInstance.getProfile(uuid)
             val player: Player = Bukkit.getPlayer(uuid)
 
             // Paste the cage for the player
-//            Vector vector = WorldEditUtils.getVectorByLocation(map.getRandomSpawn());
-//            try {
-//                WorldEditUtils.pasteSchematic(
-//                        new File(profile.getCurrentCage(game.getGameTeamType()).getFilePath()),
-//                        vector);
-//            } catch (Exception e) {
-//                SkyWarsPlugin.getInstance().getLogger().severe("Failed to paste cage for " + player.getName());
-//                e.printStackTrace();
-//            }
-            player.teleport(map.randomSpawn)
+            val playerSpawn = map.randomSpawn!!;
 
+            val randomCosmetic = CageCategory
+                .cosmetics()
+                .firstOrNull { cosmetic -> cosmetic.equipped(player) } as CageCosmeticLike?
+
+            val randomCage = randomCosmetic
+                ?.cage
+                ?.linkedSchema
+                ?.let { schema ->
+                    SchemaCageDataSync.cached().schemas[schema]
+                }
+                ?: SchemaCageDefaultSchemas.DEFAULT
+            val baseBlock = playerSpawn.world
+                .getBlockAt(playerSpawn)
+                .getRelative(BlockFace.DOWN)
+
+            randomCage.applyTo(baseBlock)
+            player.teleport(playerSpawn)
+            cages[player.uniqueId] = LocalCage(
+                cage = randomCage,
+                location = baseBlock.location.toVector(),
+                owner = player.uniqueId
+            )
             PlayerUtil.resetPlayer(player)
           //  player.setMetadata("frozen", FixedMetadataValue(SkyWarsPlugin.instance, this))
         }
@@ -83,13 +94,7 @@ class GameHandler {
         game.active = true
         game.startedAt = Date()
 
-        // Remove the cages from the map after the game has started
-//        for (Location location : map.getUsedSpawns()) {
-//            WorldEditUtils.clear(
-//                    WorldEditUtils.getVectorByLocation(location),
-//                    WorldEditUtils.getVectorByLocation(location.add(10, 7, 10))
-//            );
-//        }
+
         val chest: LootableChest = SkyWarsGame.gameInstance.chestHandler.getChest(game.gameType)!!
         chest.fillChests(game, RefillType.FIRST)
 
@@ -102,7 +107,11 @@ class GameHandler {
             player.removeMetadata("frozen", SkyWarsPlugin.instance)
 
             PlayerUtil.resetPlayer(player)
-
+            cages[player.uniqueId]?.apply {
+                cage.removeAll(
+                    location.toLocation(map.getLobbySpawn().world).block
+                )
+            }
             game.kills[uuid] = 0
 
             val skyWarsProfile: SkyWarsProfile = SkyWarsGame.gameInstance.getProfile(player.uniqueId)
@@ -111,15 +120,9 @@ class GameHandler {
             if (player.inventory.firstEmpty() == 0) {
                 val profile: SkyWarsProfile = SkyWarsGame.gameInstance.getProfile(player.uniqueId)
                 val kit: Kit = SkyWarsGame.gameInstance.kitHandler.getKitByName(profile.selectedKit)!!
-
-                //                if (kit.getGameType() == game.getGameType()) {
-//                for (GameType type : kit.getGameType()) {
-//                    if (type == game.getGameType()) {
-//                        kit.equipKit(kit, player);
-//                        break;
-//                    }
-//                }
-// }
+                if(kit.gameType == game.gameType) {
+                    kit.equipKit(player)
+                }
             }
         }
 
@@ -222,6 +225,13 @@ class GameHandler {
 
             ServerUtil.sendToLobby(player)
             return
+        }
+        if(game.state == GameState.COUNTDOWN) {
+            cages[player.uniqueId]?.apply {
+                cage.removeAll(
+                    location.toLocation(map.getLobbySpawn().world).block
+                )
+            }
         }
 
         onDeath(player, null)

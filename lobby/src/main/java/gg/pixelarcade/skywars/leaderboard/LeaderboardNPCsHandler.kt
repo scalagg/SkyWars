@@ -4,15 +4,11 @@ import gg.pixelarcade.skywars.SkyWarsShared
 import gg.pixelarcade.skywars.leaderboard.impl.LevelLeaderboard
 import gg.pixelarcade.skywars.leaderboard.impl.RankedLeaderboard
 import gg.pixelarcade.skywars.profile.SkyWarsProfile
-
-import net.citizensnpcs.api.CitizensAPI
-import net.citizensnpcs.api.npc.NPC
-import net.citizensnpcs.trait.SkinTrait
+import net.evilblock.cubed.entity.EntityHandler
+import net.evilblock.cubed.entity.npc.NpcEntity
 import net.evilblock.cubed.util.bukkit.Tasks.delayed
-import net.evilblock.cubed.util.bukkit.Tasks.sync
 import org.bukkit.Bukkit
 import org.bukkit.Location
-import org.bukkit.entity.EntityType
 import java.util.*
 import java.util.concurrent.CompletableFuture
 import java.util.function.Function
@@ -28,55 +24,68 @@ class LeaderboardNPCsHandler {
     /** The npc that show its respective top player  */
 
     // Creates the NPCs
-    private val global1: NPC =
-        CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, "global1")
-    private val global2: NPC =
-        CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, "global2")
-    private val global3: NPC =
-        CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, "global3")
+    private val global1: NpcEntity
+    private val global2: NpcEntity
+    private val global3: NpcEntity
 
-    private val ranked1: NPC =
-        CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, "ranked1")
-    private val ranked2: NPC =
-        CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, "ranked2")
-    private val ranked3: NPC =
-        CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, "ranked3")
+    private val ranked1: NpcEntity
+    private val ranked2: NpcEntity
+    private val ranked3: NpcEntity
 
 
     private var thread: NPCUpdateThread? = null
 
     init {
+        global1 = NpcEntity(mutableListOf("???"), NPCSpawnLocation.GLOBAL_1.location)
+        global2 = NpcEntity(mutableListOf("???"), NPCSpawnLocation.GLOBAL_2.location)
+        global3 = NpcEntity(mutableListOf("???"), NPCSpawnLocation.GLOBAL_3.location)
+
+        ranked1 = NpcEntity(mutableListOf("???"), NPCSpawnLocation.RANKED_1.location)
+        ranked2 = NpcEntity(mutableListOf("???"), NPCSpawnLocation.RANKED_2.location)
+        ranked3 = NpcEntity(mutableListOf("???"), NPCSpawnLocation.RANKED_3.location)
+
+
+        global1.initializeData()
+        global2.initializeData()
+        global3.initializeData()
+        ranked1.initializeData()
+        ranked2.initializeData()
+        ranked3.initializeData()
+        EntityHandler.trackEntity(global1)
+        EntityHandler.trackEntity(global2)
+        EntityHandler.trackEntity(global3)
+        EntityHandler.trackEntity(ranked1)
+        EntityHandler.trackEntity(ranked2)
+        EntityHandler.trackEntity(ranked3)
+
+
         this.setupNpcMap()
         this.setupNameMap()
 
         // Spawns the NPCs and start the updater thread
         delayed(20L * 5, Runnable {
-            spawn()
             this.thread = NPCUpdateThread()
         })
     }
 
-    /** Spawns in the NPCs  */
-    fun spawn() {
-        global1.spawn(NPCSpawnLocation.GLOBAL_1.location)
-        global2.spawn(NPCSpawnLocation.GLOBAL_2.location)
-        global3.spawn(NPCSpawnLocation.GLOBAL_3.location)
-
-        ranked1.spawn(NPCSpawnLocation.RANKED_1.location)
-        ranked2.spawn(NPCSpawnLocation.RANKED_2.location)
-        ranked3.spawn(NPCSpawnLocation.RANKED_3.location)
-    }
 
     /** Despawns the npcs  */
     fun destroy() {
-        global1.destroy()
-        global2.destroy()
-        global3.destroy()
+        global1.destroyForCurrentWatchers()
+        global2.destroyForCurrentWatchers()
+        global3.destroyForCurrentWatchers()
 
-        ranked1.destroy()
-        ranked2.destroy()
-        ranked3.destroy()
+        ranked1.destroyForCurrentWatchers()
+        ranked2.destroyForCurrentWatchers()
+        ranked3.destroyForCurrentWatchers()
         thread!!.interrupt()
+
+        EntityHandler.forgetEntity(global1)
+        EntityHandler.forgetEntity(global2)
+        EntityHandler.forgetEntity(global3)
+        EntityHandler.forgetEntity(ranked1)
+        EntityHandler.forgetEntity(ranked2)
+        EntityHandler.forgetEntity(ranked3)
     }
 
     /** Updates the npcs  */
@@ -85,18 +94,11 @@ class LeaderboardNPCsHandler {
             val future: CompletableFuture<SkyWarsProfile> = supplier.get()
             val profile = future.join()
 
-            val npc = CitizensAPI.getNPCRegistry().getById(id) ?: return@forEach
-            val skinTrait = npc.getOrAddTrait(SkinTrait::class.java)
+            val npc: NpcEntity = EntityHandler.getEntityById(id) as NpcEntity
 
             val name = profile?.name ?: "Anonymous"
-            if (!name.equals(skinTrait.skinName, ignoreCase = true)) {
-                sync {
-                    skinTrait.setSkinName(name, true)
-                    if (profile != null) {
-                        npc.name = nameMap[id]!!.apply(name)
-                    }
-                }
-            }
+            npc.updateTextureByUsername(name, onComplete = { success, thrown -> })
+            npc.hologram.updateLines(listOf(nameMap[id]!!.apply(name)))
         }
     }
 
@@ -173,7 +175,7 @@ class LeaderboardNPCsHandler {
         }
     }
 
-    
+
     private enum class NPCSpawnLocation(val location: Location) {
         GLOBAL_1(Location(Bukkit.getWorld("world"), -9.5, 102.0, 45.5, -90f, 0f)),
         GLOBAL_2(Location(Bukkit.getWorld("world"), -8.5, 101.0, 47.5, -90f, 0f)),

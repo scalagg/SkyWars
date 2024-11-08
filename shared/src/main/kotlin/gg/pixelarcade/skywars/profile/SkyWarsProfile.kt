@@ -42,6 +42,7 @@ class SkyWarsProfile(identifier: UUID) : GameSpecificStatistics(identifier) {
             .save(this, DataStoreStorageType.MONGO)
     }
 
+    @OptIn(ExperimentalStdlibApi::class)
     fun getPrestige(level: Int): LevelEnum {
         var prestige: LevelEnum = LevelEnum.ROOKIE
 

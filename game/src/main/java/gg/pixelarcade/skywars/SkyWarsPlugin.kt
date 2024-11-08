@@ -24,6 +24,7 @@ class SkyWarsPlugin : ExtendedScalaPlugin() {
 
 
     override fun enable() {
+        super.enable()
         instance = this
 
 
@@ -32,6 +33,7 @@ class SkyWarsPlugin : ExtendedScalaPlugin() {
 
     override fun disable() {
         SkyWarsGame.gameInstance.stop()
+        super.disable()
     }
 
 

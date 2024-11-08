@@ -12,6 +12,7 @@ import gg.pixelarcade.skywars.game.listener.PreventionListener
 import gg.pixelarcade.skywars.game.listener.SpectatorListener
 import gg.pixelarcade.skywars.adapter.SkywarsScoreboardAdapter
 import gg.pixelarcade.skywars.arena.SkywarsArena
+import gg.pixelarcade.skywars.cages.command.SchemaCageCommandCustomizers
 import gg.scala.cgs.common.information.arena.CgsGameArenaHandler
 import gg.scala.cgs.common.information.mode.CgsGameMode
 import gg.scala.commons.ExtendedScalaPlugin

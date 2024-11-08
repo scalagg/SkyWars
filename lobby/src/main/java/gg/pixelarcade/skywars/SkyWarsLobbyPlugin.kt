@@ -25,6 +25,7 @@ import org.bukkit.plugin.java.JavaPlugin
 )
 class SkyWarsLobbyPlugin : ExtendedScalaPlugin() {
     override fun enable() {
+        super.enable()
         instance = this
 
         SkyWarsLobby(this)
@@ -37,6 +38,7 @@ class SkyWarsLobbyPlugin : ExtendedScalaPlugin() {
 
     override fun disable() {
         SkyWarsShared.instance.stop()
+        super.disable()
     }
 
 

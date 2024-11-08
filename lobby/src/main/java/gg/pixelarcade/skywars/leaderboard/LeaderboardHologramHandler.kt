@@ -1,11 +1,12 @@
 package gg.pixelarcade.skywars.leaderboard
 
-import eu.decentsoftware.holograms.api.DHAPI
-import eu.decentsoftware.holograms.api.holograms.Hologram
+
 import gg.pixelarcade.skywars.SkyWarsShared
 import gg.pixelarcade.skywars.leaderboard.impl.LevelLeaderboard
 import gg.pixelarcade.skywars.leaderboard.impl.WinsLeaderboard
 import gg.pixelarcade.skywars.profile.SkyWarsProfile
+import net.evilblock.cubed.entity.hologram.updating.FormatUpdatingHologramEntity
+import net.evilblock.cubed.entity.hologram.updating.UpdatingHologramEntity
 
 import net.evilblock.cubed.util.bukkit.Tasks.delayed
 import org.bukkit.Bukkit
@@ -20,27 +21,27 @@ class LeaderboardHologramHandler {
     private val linesMap: MutableMap<String, Supplier<List<String>>>
 
     /** The holograms that shows their respective leaderboards  */
-    private val levels: Hologram
-    private val wins: Hologram
+    private val levels: FormatUpdatingHologramEntity
+    private val wins: FormatUpdatingHologramEntity
     private var thread: HologramUpdateThread? = null
 
     init {
         // Create the holograms
-        levels = DHAPI.createHologram("levels", HologramLocation.LEVELS.location)
-        wins = DHAPI.createHologram("wins", HologramLocation.WINS.location)
+        levels = FormatUpdatingHologramEntity("levels", HologramLocation.LEVELS.location)
+        wins = FormatUpdatingHologramEntity("wins", HologramLocation.WINS.location)
 
         // Add titles
-        DHAPI.addHologramLine(levels, "&b&nLevels Leaderboard")
-        DHAPI.addHologramLine(wins, "&b&nWins Leaderboard")
+       levels.format.add("&b&nLevels Leaderboard")
+        wins.format.add("&b&nWins Leaderboard")
 
         // Add a blank line
-        DHAPI.addHologramLine(levels, "")
-        DHAPI.addHologramLine(wins, "")
+        levels.format.add( "")
+        wins.format.add( "")
 
         // Add default "loading" line
         for (i in 0..9) {
-            DHAPI.addHologramLine(levels, "&7&oLoading...")
-            DHAPI.addHologramLine(wins, "&7&oLoading...")
+            levels.format.add( "&7&oLoading...")
+            wins.format.add( "&7&oLoading...")
         }
 
         // Setup lines suppliers
@@ -54,7 +55,7 @@ class LeaderboardHologramHandler {
                 }.toList()
             profiles.stream().map { it: SkyWarsProfile ->
                 ("&e" + (profiles.indexOf(it) + 1) + ". &7" + it.niceName
-                        + " " + it.getPrestige(it.level)!!.color + it.level + " ✯")
+                        + " " + it.getPrestige(it.level).color + it.level + " ✯")
             }.toList()
         }
 
@@ -80,17 +81,14 @@ class LeaderboardHologramHandler {
         val levelsLines = linesMap["levels"]!!.get()
         val winsLines = linesMap["wins"]!!.get()
 
-        levelsLines.forEach(Consumer { it: String -> DHAPI.setHologramLine(levels, levelsLines.indexOf(it) + 2, it) })
-        winsLines.forEach(Consumer { it: String -> DHAPI.setHologramLine(wins, winsLines.indexOf(it) + 2, it) })
-
-        levels.updateAll()
-        wins.updateAll()
+        levelsLines.forEach(Consumer { it: String -> levels.format[levelsLines.indexOf(it) + 2] = it })
+        winsLines.forEach(Consumer { it: String ->  wins.format[winsLines.indexOf(it) + 2] = it })
     }
 
     /** Removes the leaderboards  */
     fun destroy() {
-        levels.destroy()
-        wins.destroy()
+        levels.destroyForCurrentWatchers()
+        wins.destroyForCurrentWatchers()
         thread!!.interrupt()
     }
 

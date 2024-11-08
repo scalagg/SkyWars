@@ -32,11 +32,11 @@ abstract class Kit protected constructor(
     val potionEffects: List<PotionEffect>?
         get() = null
 
-    fun equipKit(kit: Kit, player: Player) {
+    fun equipKit(player: Player) {
         PlayerUtil.resetPlayer(player)
 
         apply(player)
-        player.inventory.armorContents = kit.armor
+        player.inventory.armorContents = armor
     }
 
     val isDefault: Boolean

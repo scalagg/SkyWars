@@ -4,6 +4,7 @@ import gg.pixelarcade.skywars.SkyWarsShared
 import gg.pixelarcade.skywars.kit.Kit
 import net.evilblock.cubed.menu.Button
 import net.evilblock.cubed.menu.pagination.PaginatedMenu
+import net.evilblock.cubed.util.CC
 import net.evilblock.cubed.util.bukkit.ItemBuilder
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Player
@@ -13,6 +14,10 @@ import org.bukkit.inventory.ItemStack
 import java.util.*
 
 class KitSelectorMenu : PaginatedMenu() {
+    init {
+        updateAfterClick = true
+    }
+
     override fun getAllPagesButtons(player: Player): Map<Int, Button> {
         val buttons: MutableMap<Int, Button> = HashMap()
 
@@ -34,7 +39,7 @@ class KitSelectorMenu : PaginatedMenu() {
 
             // TODO:
             val item = ItemBuilder(kit.displayMaterial)
-                .name(kit.name)
+                .name(CC.RESET + kit.name)
 
             if (profile.selectedKit.equals(kit.name, ignoreCase = true))
                 item.enchant(Enchantment.DURABILITY, 10)
@@ -46,8 +51,9 @@ class KitSelectorMenu : PaginatedMenu() {
         override fun clicked(player: Player, slot: Int, clickType: ClickType, view: InventoryView) {
             val profile = SkyWarsShared.instance.getProfile(player);
 
-            profile.selectedKit = kit.name.lowercase(Locale.getDefault())
+            profile.selectedKit = kit.name.lowercase()
             profile.save()
         }
     }
+
 }

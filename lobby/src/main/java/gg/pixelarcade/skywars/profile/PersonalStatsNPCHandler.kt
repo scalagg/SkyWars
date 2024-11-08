@@ -2,6 +2,7 @@ package gg.pixelarcade.skywars.profile
 
 
 import gg.pixelarcade.skywars.SkyWarsShared
+import gg.pixelarcade.skywars.updateSkin
 import net.evilblock.cubed.entity.EntityHandler
 import net.evilblock.cubed.entity.hologram.personalized.PersonalizedHologramEntity
 import net.evilblock.cubed.entity.npc.NpcEntity
@@ -16,12 +17,12 @@ class PersonalStatsNPCHandler {
         HashMap()
 
 
-    private val npc: NpcEntity = NpcEntity(listOf("&eRIGHT CLICK FOR MORE"), NPC_LOCATION)
+    private val npc: NpcEntity = NpcEntity(mutableListOf("&eRIGHT CLICK FOR MORE"), NPC_LOCATION)
 
     init {
-        npc.updateTextureByUsername("xulvy", onComplete = { success, thrown ->
-            EntityHandler.trackEntity(npc)
-        })
+        npc.initializeData()
+        npc.updateSkin(UUID.fromString("8aa31200-451c-44d5-821e-4878833ef6e1"))
+        EntityHandler.trackEntity(npc)
 
     }
 

@@ -4,7 +4,8 @@ import gg.pixelarcade.skywars.SkyWarsLobby
 import gg.pixelarcade.skywars.SkyWarsLobbyPlugin
 import gg.pixelarcade.skywars.SkyWarsShared
 import gg.pixelarcade.skywars.leaderboard.Leaderboard
-import net.citizensnpcs.api.event.NPCRightClickEvent
+import net.evilblock.cubed.entity.event.PlayerRightClickEntityEvent
+import net.evilblock.cubed.entity.npc.NpcEntity
 import net.evilblock.cubed.util.bukkit.Tasks.delayed
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -59,9 +60,12 @@ class LobbyListener(private val plugin: SkyWarsLobby) : Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGH)
-    fun onPlayerInteract(event: NPCRightClickEvent) {
-        val player = event.clicker
-        val npc = event.npc
+    fun onPlayerInteract(event: PlayerRightClickEntityEvent) {
+        val player = event.player
+        if(event.entity !is NpcEntity)
+            return
+
+        val npc = event.entity as NpcEntity
 
         if (SkyWarsLobby.lobbyInstance.queueNPCsHandler.getNpcs().contains(npc)) {
             SkyWarsLobby.lobbyInstance.queueNPCsHandler.getMenu(npc, player)

@@ -12,4 +12,8 @@ object SkyWarsGameInfo : CgsGameGeneralInfo(
     10, SkyWarsGameRewards, false, true,
     true, true, true,
     true, listOf(SkyWarsSoloGamemode)
-)
+) {
+    init {
+        configureCombatLog = false
+    }
+}

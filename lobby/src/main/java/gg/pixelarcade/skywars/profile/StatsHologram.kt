@@ -13,9 +13,9 @@ class StatsHologram(location: Location, val profile: SkyWarsProfile) : Personali
         lines.add("")
         lines.add("&fLevel: " + level!!.color + profile.level + " ✯")
         lines.add("&fProgress: &b" + profile.xp + "&7/&a" + level.xpPerLevel)
-        lines.add("&fWins: &b" + profile.wins)
-        lines.add("&fKills: &b" + profile.kills)
-        lines.add("&fDeaths: &b" + profile.deaths)
+        lines.add("&fWins: &b" + profile.wins.value)
+        lines.add("&fKills: &b" + profile.kills.value)
+        lines.add("&fDeaths: &b" + profile.deaths.value)
         lines.add("")
 
         return lines

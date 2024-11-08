@@ -15,7 +15,6 @@ dependencies {
     implementation(project(":shared"))
     compileOnly("studio.pinkcloud.deploy:spigot:1.0-SNAPSHOT")
     compileOnly("org.paperspigot:PaperSpigot:1.8.8")
-    compileOnly("gg.tropic.game.extensions:tropic-core-game-extensions:1.1.1")
     compileOnly(files("libs/worldedit-1.8.8.jar"))
     compileOnly(files("libs/FastAsyncWorldEdit.jar"))
 }

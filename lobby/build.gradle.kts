@@ -22,11 +22,8 @@ dependencies {
     implementation(project(":shared"))
 
     compileOnly("gg.scala.basics.plugin:scala-basics-plugin:1.0.5")
-    compileOnly("com.github.decentsoftware-eu:decentholograms:2.8.6")
     compileOnly("com.github.koca2000:NoteBlockAPI:1.6.1")
-    compileOnly("net.citizensnpcs:citizens-main:2.0.29-SNAPSHOT") {
-        exclude(group = "*", module = "*")
-    }
+
     compileOnly("gg.scala.cgs:lobby:1.4.2")
 
 }

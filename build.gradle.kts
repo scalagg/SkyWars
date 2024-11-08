@@ -83,6 +83,7 @@ allprojects {
         compileOnly("gg.scala.store:shared:0.1.9")
 
         compileOnly("gg.scala.cloudsync:spigot:1.0.3")
+        compileOnly("gg.tropic.game.extensions:tropic-core-game-extensions:1.3.0")
     }
 
     tasks.shadowJar {
