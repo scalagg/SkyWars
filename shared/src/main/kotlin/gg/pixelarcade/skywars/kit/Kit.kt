@@ -48,7 +48,14 @@ abstract class Kit protected constructor(
 
 
     fun canUse(profile: SkyWarsProfile): Boolean {
-        if(isFree || isDefault)
+        if (isFree || isDefault)
+            return true
+
+        return profile.ownedKits.contains(name.lowercase())
+    }
+
+    fun doesOwn(profile: SkyWarsProfile): Boolean {
+        if (cost == 0 || isDefault)
             return true
 
         return profile.ownedKits.contains(name.lowercase())

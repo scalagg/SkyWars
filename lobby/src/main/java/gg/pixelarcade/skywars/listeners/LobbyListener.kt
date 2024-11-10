@@ -7,6 +7,7 @@ import gg.pixelarcade.skywars.leaderboard.Leaderboard
 import net.evilblock.cubed.entity.event.PlayerRightClickEntityEvent
 import net.evilblock.cubed.entity.npc.NpcEntity
 import net.evilblock.cubed.util.bukkit.Tasks.delayed
+import org.bukkit.Location
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
@@ -28,7 +29,9 @@ class LobbyListener(private val plugin: SkyWarsLobby) : Listener {
         plugin.giveItems(e.player)
         val profile = SkyWarsShared.instance.getProfile(e.player.uniqueId)
 
-
+        e.player.teleport(
+            Location(e.player.world, -0.5, 93.0, -0.5, 90f, 0f)
+        )
 
         delayed(60L, Runnable {
             SkyWarsShared.instance.leaderboardHandler.getLeaderboards()

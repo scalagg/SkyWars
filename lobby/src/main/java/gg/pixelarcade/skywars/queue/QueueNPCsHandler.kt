@@ -47,9 +47,10 @@ class QueueNPCsHandler {
     }
 
     fun destroy() {
-        experimental.destroyForCurrentWatchers()
-        solo.destroyForCurrentWatchers()
-        doubles.destroyForCurrentWatchers()
+        for (npc in npcs) {
+            npc.destroyForCurrentWatchers()
+            EntityHandler.forgetEntity(npc)
+        }
     }
 
     fun getMenu(npc: NpcEntity, player: Player) {
@@ -76,8 +77,8 @@ class QueueNPCsHandler {
 
 
     private enum class NPCSpawnLocation(val location: Location) {
-        SPAWN_1(Location(Bukkit.getWorld("world"), 6.5, 100.0, 53.5, 180f, 0f)),
-        SPAWN_2(Location(Bukkit.getWorld("world"), 0.5, 100.0, 55.5, 180f, 0f)),
-        SPAWN_3(Location(Bukkit.getWorld("world"), -5.5, 100.0, 53.5, 180f, 0f))
+        SPAWN_1(Location(Bukkit.getWorld("world"), -37.5, 92.5, -3.5, -90f, 0f)),
+        SPAWN_2(Location(Bukkit.getWorld("world"), -38.5, 92.5, -0.5, -90f, 0f)),
+        SPAWN_3(Location(Bukkit.getWorld("world"), -37.5, 92.5, 2.5, -90f, 0f))
     }
 }

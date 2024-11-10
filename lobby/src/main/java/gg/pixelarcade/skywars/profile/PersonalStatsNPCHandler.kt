@@ -67,10 +67,10 @@ class PersonalStatsNPCHandler {
 
     companion object {
         private val NPC_LOCATION = Location(
-            Bukkit.getWorld("world"), -13.5, 100.0, 8.5, -120f, 10f
+            Bukkit.getWorld("world"), -11.5, 91.0, 5.5, -120f, 10f
         )
         private val HOLOGRAM_LOCATION = Location(
-            Bukkit.getWorld("world"), -13.5, 101.0, 8.5, -120f, 0f
+            Bukkit.getWorld("world"), -11.5, 92.0, 5.5, -120f, 0f
         )
     }
 }

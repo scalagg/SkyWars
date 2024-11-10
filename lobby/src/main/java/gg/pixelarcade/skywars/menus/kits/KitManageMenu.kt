@@ -40,7 +40,7 @@ class KitManageMenu //        this.setBordered(true);
 
     private fun purchaseKit(player: Player, profile: SkyWarsProfile, kit: Kit) {
         profile.ownedKits.add(kit.name)
-        profile.coins = profile.coins - kit.cost
+        profile.souls = profile.souls - kit.cost
         profile.save()
 
         player.sendMessage(ChatColor.GREEN.toString() + "You have purchased the " + kit.name + " Kit!")
@@ -58,8 +58,8 @@ class KitManageMenu //        this.setBordered(true);
     private inner class BuyKitButton(private val profile: SkyWarsProfile) : Button() {
 
         override fun getButtonItem(player: Player): ItemStack {
-            val hasKit = false /*profile.getOwnedKits().contains(kit.getName())*/
-            val canAffordKit = profile.coins >= kit.cost
+            val hasKit = kit.doesOwn(profile)
+            val canAffordKit = profile.souls >= kit.cost
 
             val lore: MutableList<String> = ArrayList()
 
@@ -67,11 +67,11 @@ class KitManageMenu //        this.setBordered(true);
             if (hasKit) {
                 lore.add("&aYou already own this kit.")
             } else {
-                lore.add("&fPrice: &e" + kit.cost)
+                lore.add("&fPrice: &b" + kit.cost)
                 lore.add("")
                 lore.add(
                     if (canAffordKit)
-                        "&aClick to purchase for " + kit.cost + " coins."
+                        "&aClick to purchase for " + kit.cost + " Souls."
                     else
                         "&cYou cannot afford this kit."
                 )
@@ -86,8 +86,8 @@ class KitManageMenu //        this.setBordered(true);
 
 
         override fun clicked(player: Player, slot: Int, clickType: ClickType, view: InventoryView) {
-            val hasKit = false /*profile.getOwnedKits().contains(kit.getName())*/
-            val canAffordKit = profile!!.coins >= kit.cost
+            val hasKit = kit.doesOwn(profile)
+            val canAffordKit = profile.souls >= kit.cost
 
             if (hasKit || !canAffordKit) return
 

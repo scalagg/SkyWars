@@ -177,13 +177,13 @@ class LeaderboardNPCsHandler {
 
 
     private enum class NPCSpawnLocation(val location: Location) {
-        GLOBAL_1(Location(Bukkit.getWorld("world"), -9.5, 102.0, 45.5, -90f, 0f)),
-        GLOBAL_2(Location(Bukkit.getWorld("world"), -8.5, 101.0, 47.5, -90f, 0f)),
-        GLOBAL_3(Location(Bukkit.getWorld("world"), -8.5, 100.0, 43.5, -90f, 0f)),
+        GLOBAL_1(Location(Bukkit.getWorld("world"), -25.5, 95.0, 17.5, -125f, 0f)),
+        GLOBAL_2(Location(Bukkit.getWorld("world"), -24.5, 94.0, 20.5, -125f, 0f)),
+        GLOBAL_3(Location(Bukkit.getWorld("world"), -21.5, 93.0, 21.5, -125f, 0f)),
 
-        RANKED_1(Location(Bukkit.getWorld("world"), 10.5, 102.0, 45.5, 90f, 0f)),
-        RANKED_2(Location(Bukkit.getWorld("world"), 9.5, 101.0, 47.5, 90f, 0f)),
-        RANKED_3(Location(Bukkit.getWorld("world"), 9.5, 100.0, 43.5, 90f, 0f)),
+        RANKED_1(Location(Bukkit.getWorld("world"), -25.5, 95.0, -18.5, 90f, 0f)),
+        RANKED_2(Location(Bukkit.getWorld("world"), -24.5, 94.0, -21.5, 90f, 0f)),
+        RANKED_3(Location(Bukkit.getWorld("world"), -21.5, 93.0, -22.5, 90f, 0f)),
     }
 
     companion object {

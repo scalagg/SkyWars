@@ -164,7 +164,7 @@ class GameHandler {
 
         skyWarsProfile.save()
 
-        for (message in this.sendWinningMessage(winner.uniqueId)) Bukkit.broadcastMessage(message)
+       // for (message in this.sendWinningMessage(winner.uniqueId)) Bukkit.broadcastMessage(message)
 
 
         // Kicks all players out of the game in 5 seconds
@@ -214,7 +214,34 @@ class GameHandler {
         Bukkit.getPluginManager().callEvent(event)
 
         game.players.add(player.uniqueId)
-        player.teleport(map.getLobbySpawn())
+        if (game.state == GameState.WAITING) {
+            player.teleport(map.getLobbySpawn())
+        } else {
+            val playerSpawn = map.randomSpawn!!
+
+            val randomCosmetic = CageCategory
+                .cosmetics()
+                .firstOrNull { cosmetic -> cosmetic.equipped(player) } as CageCosmeticLike?
+
+            val randomCage = randomCosmetic
+                ?.cage
+                ?.linkedSchema
+                ?.let { schema ->
+                    SchemaCageDataSync.cached().schemas[schema]
+                }
+                ?: SchemaCageDefaultSchemas.DEFAULT
+            val baseBlock = playerSpawn.world
+                .getBlockAt(playerSpawn)
+                .getRelative(BlockFace.DOWN)
+
+            randomCage.applyTo(baseBlock)
+            player.teleport(playerSpawn)
+            cages[player.uniqueId] = LocalCage(
+                cage = randomCage,
+                location = baseBlock.location.toVector(),
+                owner = player.uniqueId
+            )
+        }
     }
 
     fun removePlayer(player: Player) {

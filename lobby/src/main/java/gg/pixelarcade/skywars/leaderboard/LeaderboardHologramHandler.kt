@@ -29,16 +29,12 @@ class LeaderboardHologramHandler {
 
     init {
         // Create the holograms
-        levels = FormatUpdatingHologramEntity("levels", HologramLocation.LEVELS.location)
-        wins = FormatUpdatingHologramEntity("wins", HologramLocation.WINS.location)
+        levels = FormatUpdatingHologramEntity("&b&nLevels Leaderboard", HologramLocation.LEVELS.location)
+        wins = FormatUpdatingHologramEntity("&b&nWins Leaderboard", HologramLocation.WINS.location)
         levels.initializeData()
         wins.initializeData()
         EntityHandler.trackEntity(levels)
         EntityHandler.trackEntity(wins)
-
-        // Add titles
-       levels.format.add("&b&nLevels Leaderboard")
-        wins.format.add("&b&nWins Leaderboard")
 
         // Add a blank line
         levels.format.add( "")
@@ -74,7 +70,7 @@ class LeaderboardHologramHandler {
                 }.toList()
             profiles.stream().map { it: SkyWarsProfile ->
                 ("&e" + (profiles.indexOf(it) + 1) + ". &7" + it.niceName
-                        + " &e" + it.wins + " &7Wins")
+                        + " &e" + it.wins.value + " &7Wins")
             }.toList()
         }
 
@@ -95,6 +91,9 @@ class LeaderboardHologramHandler {
     fun destroy() {
         levels.destroyForCurrentWatchers()
         wins.destroyForCurrentWatchers()
+
+        EntityHandler.forgetEntity(levels)
+        EntityHandler.forgetEntity(wins)
         thread!!.interrupt()
     }
 
@@ -119,8 +118,8 @@ class LeaderboardHologramHandler {
 
     
     private enum class HologramLocation(val location: Location) {
-        LEVELS(Location(Bukkit.getWorld("world"), -14.5, 104.0, 2.5)),
-        WINS(Location(Bukkit.getWorld("world"), -14.5, 104.0, -1.5))
+        LEVELS(Location(Bukkit.getWorld("world"), -23.5, 90.0, -7.5)),
+        WINS(Location(Bukkit.getWorld("world"), -23.5, 90.0, 6.5))
     }
 
     companion object {

@@ -67,7 +67,7 @@ class SkyWarsMenu : Menu() {
         }
 
         override fun clicked(player: Player, slot: Int, clickType: ClickType, view: InventoryView) {
-            PerkListMenu().openMenu(player)
+                PerkListMenu().openMenu(player)
         }
     }
 

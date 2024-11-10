@@ -22,6 +22,6 @@ class ProfileItem(private val player: Player) : Item(player) {
     }
 
     override fun click(action: Action) {
-        player.sendMessage("&6OPENING MENU...")
+
     }
 }

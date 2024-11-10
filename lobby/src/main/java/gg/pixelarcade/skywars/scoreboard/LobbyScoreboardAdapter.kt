@@ -43,6 +43,7 @@ object LobbyScoreboardAdapter : ScoreboardAdapter() {
 
         lines.add("")
         lines.add("&6● &fCoins: &6" + profile.coins)
+        lines.add("&6● &fSouls: &b" + profile.souls)
 
         lines.add("")
         lines.add("&eplay.mccade.net")
