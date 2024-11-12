@@ -5,10 +5,13 @@ import gg.pixelarcade.skywars.SkyWarsShared
 import gg.pixelarcade.skywars.game.event.GameStartEvent
 import gg.pixelarcade.skywars.game.event.PlayerDamagePlayerEvent
 import gg.pixelarcade.skywars.game.event.PlayerKillEvent
+import gg.pixelarcade.skywars.isEnvironmental
 import gg.pixelarcade.skywars.items.ForceStartItem
 import gg.pixelarcade.skywars.items.LeaveGameItem
 import gg.pixelarcade.skywars.items.LoadoutItem
 import gg.pixelarcade.skywars.items.StatisticItem
+import gg.pixelarcade.skywars.perk.impl.purchasedPerks.BridgerPerk
+import gg.pixelarcade.skywars.perk.impl.purchasedPerks.EnderMasteryPerk
 import gg.pixelarcade.skywars.util.PlayerUtil
 import gg.pixelarcade.skywars.util.SpigotConstants
 import gg.scala.cgs.common.CgsGameEngine
@@ -23,6 +26,7 @@ import net.evilblock.cubed.util.bukkit.Tasks.delayed
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
+import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
 import org.bukkit.entity.Zombie
 import org.bukkit.event.EventHandler
@@ -44,7 +48,7 @@ import org.bukkit.inventory.ItemStack
  * @date 26/09/2023 / 22:12
  */
 
-class GameListener( private val plugin: SkyWarsGame ): Listener {
+class GameListener(private val plugin: SkyWarsGame) : Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     fun onPlayerJoinGame(event: PlayerJoinEvent) {
@@ -67,10 +71,12 @@ class GameListener( private val plugin: SkyWarsGame ): Listener {
     fun onGameStart(event: CgsGameEngine.CgsGameStartEvent?) {
         plugin.gameHandler.startGame()
     }
+
     @EventHandler
     fun onGameStart(event: CgsGameEngine.CgsGamePreStartEvent?) {
         plugin.gameHandler.startCountdown()
     }
+
     @EventHandler
     fun onGameStart(event: GameStartEvent?) {
         val zombieSpawns: List<Location> = plugin.gameHandler.map.zombieSpawns
@@ -165,8 +171,12 @@ class GameListener( private val plugin: SkyWarsGame ): Listener {
             player.killer.sendMessage("&6+35 coins!")
             player.killer.sendMessage("&b+1 Soul!")
 
+            killerProfile.applyPerks(player.killer);
+
+
             //TODO: Play a sound when a player gets a kill
-            deathMessage = "${SpigotConstants.GAME} $displayName &f was ${getMessageBundlePhrase(player.killer)}&f by $killerName&f."
+            deathMessage =
+                "${SpigotConstants.GAME} $displayName &f was ${getMessageBundlePhrase(player.killer)}&f by $killerName&f."
         }
 
         Bukkit.broadcastMessage(Color.translate(deathMessage))
@@ -178,8 +188,7 @@ class GameListener( private val plugin: SkyWarsGame ): Listener {
         else plugin.gameHandler.onDeath(player, null)
     }
 
-    private fun getMessageBundlePhrase(player: Player): String
-    {
+    private fun getMessageBundlePhrase(player: Player): String {
         val bundle = CosmeticRegistry
             .findRelatedTo(KillMessageBundleCosmeticCategory)
             .filter { like ->
@@ -188,8 +197,7 @@ class GameListener( private val plugin: SkyWarsGame ): Listener {
             .filterIsInstance<MessageBundle>()
             .flatMap { bundle -> bundle.phrases }
 
-        if (bundle.isEmpty())
-        {
+        if (bundle.isEmpty()) {
             return "slain"
         }
 
@@ -219,4 +227,38 @@ class GameListener( private val plugin: SkyWarsGame ): Listener {
             Bukkit.getPluginManager().callEvent(damageEvent)
         }
     }
+
+
+    @EventHandler(priority = EventPriority.HIGH)
+    fun onPerkBlockPlace(event: BlockPlaceEvent) {
+        val player = event.player
+        val profile = SkyWarsShared.instance.getProfile(player)?: return
+
+        if(profile.selectedPerks.contains("Bridger Perk")) {
+            (SkyWarsShared.instance.perkHandler.getPerkByName("Bridger Perk") as BridgerPerk).apply(player, event.block)
+        }
+    }
+    @EventHandler(priority = EventPriority.HIGH)
+    fun onPerkPlayerDamage(event: EntityDamageByEntityEvent) {
+        if(event.entity !is Player) return
+
+        val player = event.entity as Player
+        val profile = SkyWarsShared.instance.getProfile(player)?: return
+
+        if(profile.selectedPerks.contains("Ender Mastery Perk") && event.damager.type == EntityType.ENDER_PEARL) {
+            event.isCancelled = true
+        }
+    }
+    @EventHandler(priority = EventPriority.HIGH)
+    fun onPerkPlayerDamage(event: EntityDamageEvent) {
+        if(event.entity !is Player) return
+
+        val player = event.entity as Player
+        val profile = SkyWarsShared.instance.getProfile(player)?: return
+
+        if(profile.selectedPerks.contains("Environmental Expert Perk") && event.cause.isEnvironmental()) {
+            event.damage = (event.damage / .20)
+        }
+    }
+
 }

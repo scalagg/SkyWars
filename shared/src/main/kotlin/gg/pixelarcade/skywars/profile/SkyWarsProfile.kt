@@ -10,6 +10,7 @@ import gg.scala.store.controller.DataStoreObjectControllerCache
 import gg.scala.store.storage.type.DataStoreStorageType
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
+import org.bukkit.entity.Player
 import java.util.*
 import java.util.concurrent.CompletableFuture
 import kotlin.math.floor
@@ -231,6 +232,17 @@ class SkyWarsProfile(identifier: UUID) : GameSpecificStatistics(identifier) {
             ChatColor.GOLD.toString() + "---------------------------"
         )
         return toReturn
+    }
+
+    fun applyPerks(player: Player) {
+        SkyWarsShared.instance.perkHandler.getPerkByName("Bulldozer Perk")!!.apply(player)
+        SkyWarsShared.instance.perkHandler.getPerkByName("Juggernaut Perk")!!.apply(player)
+
+        val kit = SkyWarsShared.instance.kitHandler.getKitByName(selectedKit)?: return
+
+        val kitPerk = SkyWarsShared.instance.perkHandler.getPerkByName(kit.name + " Perk")?: return
+
+        kitPerk.apply(player)
     }
 
     companion object {

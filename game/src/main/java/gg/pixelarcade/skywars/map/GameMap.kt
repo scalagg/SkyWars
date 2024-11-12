@@ -39,6 +39,9 @@ class GameMap(val name: String, val bounds: Cuboid, val type: GameType) {
     @Transient
     var suddenDeathSpawnLoc: Location? = null
 
+    @Transient
+    var tntGeneratorSpawnLoc: Location? = null
+
     init {
         scanLocations()
     }
@@ -100,7 +103,12 @@ class GameMap(val name: String, val bounds: Cuboid, val type: GameType) {
                 // remove the block after
                 block.type = Material.AIR
             }
+            if (type == Material.EYE_OF_ENDER) {
+                tntGeneratorSpawnLoc = block.location.clone().add(0.5, 0.0, 0.5)
 
+                // remove the block after
+                block.type = Material.AIR
+            }
             if (type != Material.SKULL) {
                 return@forEachBlock
             }

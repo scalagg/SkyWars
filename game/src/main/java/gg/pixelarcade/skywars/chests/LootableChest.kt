@@ -4,8 +4,6 @@ import gg.pixelarcade.skywars.SkyWarsGame
 import gg.pixelarcade.skywars.chests.type.RefillType
 import gg.pixelarcade.skywars.game.Game
 import gg.pixelarcade.skywars.game.state.GameType
-import gg.pixelarcade.skywars.util.ChanceUtil.percent
-
 import net.evilblock.cubed.util.bukkit.Tasks.async
 import org.bukkit.Material
 import org.bukkit.block.Chest
@@ -43,32 +41,24 @@ abstract class LootableChest {
 
                 val chest = block.state as Chest
 
-                val itemsToAdd = ThreadLocalRandom.current().nextInt(MINIMUM_ITEMS, MAXIMUM_ITEMS)
                 val inventory: Inventory = chest.blockInventory
 
                 for (stage in this.stages) {
                     if (stage.refillType.isHigherThan(refillType)) continue
 
                     val items = if (value.equals("SPAWN", ignoreCase = true))
-                        stage.spawnLoot
+                        stage.getSpawnLoot()
                     else
-                        stage.middleLoot
+                        stage.getMiddleLoot()
 
-                    for (i in 0 until itemsToAdd) {
+                    items.forEach { item ->
                         val slot = ThreadLocalRandom.current().nextInt(27)
-
-                        val randomIndex = ThreadLocalRandom.current().nextInt(items!!.size)
-                        val chestItem = items[randomIndex]
-
-                        if (percent(chestItem!!.chance)) inventory.setItem(slot, chestItem.item)
+                        inventory.setItem(slot, item)
                     }
+
                 }
             }
         }
     }
 
-    companion object {
-        const val MINIMUM_ITEMS: Int = 3
-        const val MAXIMUM_ITEMS: Int = 6
-    }
 }

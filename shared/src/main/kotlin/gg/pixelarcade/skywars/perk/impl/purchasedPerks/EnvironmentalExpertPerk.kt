@@ -5,7 +5,6 @@ import gg.pixelarcade.skywars.perk.PerkRarity
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
-//TODO: Not sure how to implement this yet
 class EnvironmentalExpertPerk :
     Perk(
         "Environmental Expert Perk", Material.LEATHER_CHESTPLATE, 1000, PerkRarity.RARE,

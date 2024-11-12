@@ -11,23 +11,7 @@ import java.util.*
 class SecondInsaneStage : ChestStage() {
     override val refillType: RefillType
         get() = RefillType.SECOND
-    override val spawnLoot: List<ChestItem>
-        get() = listOf(
-            ChestItem(
-                ItemBuilder(
-                    Material.ENDER_PEARL,
-                    ThreadLocalRandom.current().nextInt(1, 6)
-                ).build(), 100.0
-            )
-        )
 
-    override val middleLoot: List<ChestItem>
-        get() = listOf(
-            ChestItem(
-                ItemBuilder(
-                    Material.ENDER_PEARL,
-                    ThreadLocalRandom.current().nextInt(1, 6)
-                ).build(), 100.0
-            )
-        )
+    override val tablePrefix: String
+        get() = "${refillType.name}-insane"
 }

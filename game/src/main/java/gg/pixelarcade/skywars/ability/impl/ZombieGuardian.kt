@@ -48,6 +48,7 @@ class ZombieGuardian : Ability(), Interact {
         zombie.customName = Color.translate("&b&lZombie Guardian")
         zombie.isCustomNameVisible = true
         zombie.removeWhenFarAway = false
+
         zombie.addPotionEffect(PotionEffect(PotionEffectType.FIRE_RESISTANCE, Int.MAX_VALUE, 0, false, false))
 
         for (entity in zombie.getNearbyEntities(
