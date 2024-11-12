@@ -8,6 +8,7 @@ import gg.pixelarcade.skywars.chests.lootable.model.LootTableItem
 import gg.scala.commons.acf.BaseCommand
 import gg.scala.commons.acf.annotation.CommandAlias
 import gg.scala.commons.acf.annotation.CommandPermission
+import gg.scala.commons.acf.annotation.Default
 import gg.scala.commons.acf.annotation.Name
 import gg.scala.commons.acf.annotation.Subcommand
 import net.evilblock.cubed.util.CC
@@ -82,7 +83,7 @@ object LootTableCommand : BaseCommand() {
     }
 
 
-    @Subcommand("list")
+    @Subcommand("list") @Default
     fun handleMenu(player: Player) {
         LootTableListMenu().openMenu(player)
     }

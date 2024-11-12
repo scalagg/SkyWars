@@ -11,7 +11,6 @@ import gg.pixelarcade.skywars.items.LeaveGameItem
 import gg.pixelarcade.skywars.items.LoadoutItem
 import gg.pixelarcade.skywars.items.StatisticItem
 import gg.pixelarcade.skywars.perk.impl.purchasedPerks.BridgerPerk
-import gg.pixelarcade.skywars.perk.impl.purchasedPerks.EnderMasteryPerk
 import gg.pixelarcade.skywars.util.PlayerUtil
 import gg.pixelarcade.skywars.util.SpigotConstants
 import gg.scala.cgs.common.CgsGameEngine
@@ -39,8 +38,11 @@ import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerMoveEvent
+import org.bukkit.event.player.PlayerPickupItemEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.inventory.ItemStack
+import org.bukkit.metadata.FixedMetadataValue
+import java.util.concurrent.TimeUnit
 
 /**
  * @author alfie
@@ -78,7 +80,7 @@ class GameListener(private val plugin: SkyWarsGame) : Listener {
     }
 
     @EventHandler
-    fun onGameStart(event: GameStartEvent?) {
+    fun onGameStartZombie(event: GameStartEvent?) {
         val zombieSpawns: List<Location> = plugin.gameHandler.map.zombieSpawns
         if (zombieSpawns == null || zombieSpawns.isEmpty()) {
             println("No zombie spawns found for arena " + plugin.gameHandler.map.name)
@@ -103,6 +105,32 @@ class GameListener(private val plugin: SkyWarsGame) : Listener {
                 ItemStack(Material.GOLD_BOOTS)
             )
         }
+    }
+    @EventHandler
+    fun onGameStartSpices(event: GameStartEvent?) {
+        val tntGeneratorSpawn: Location? = plugin.gameHandler.map.tntGeneratorSpawnLoc
+        if (tntGeneratorSpawn == null) {
+            println("No tnt generator spawn " + plugin.gameHandler.map.name)
+            return
+        }
+        val item = tntGeneratorSpawn.world.dropItem(
+            tntGeneratorSpawn.clone().add(0.0, 1.0, 0.0),
+            SkyWarsGame.gameInstance.abilityHandler.getAbilityById("throwabletnt")?.getItem()
+        )
+
+        item.setMetadata("TNT_GEN_ITEM", FixedMetadataValue(SkyWarsGame.gameInstance.plugin, true))
+    }
+
+    @EventHandler
+    fun onTntPickup(event: PlayerPickupItemEvent) {
+        if(!event.item.hasMetadata("TNT_GEN_ITEM"))
+            return
+        val tntGeneratorSpawn: Location? = plugin.gameHandler.map.tntGeneratorSpawnLoc
+        tntGeneratorSpawn?.block?.type = Material.IRON_BLOCK;
+        plugin.gameHandler.tntRespawning = true
+        plugin.gameHandler.tntRespawnsAt = System.currentTimeMillis() + 20_000L;
+
+
     }
 
     @EventHandler

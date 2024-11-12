@@ -2,6 +2,7 @@ package gg.pixelarcade.skywars.scoreboard
 
 import gg.pixelarcade.skywars.SkyWarsShared
 import gg.pixelarcade.skywars.scoreboard.api.animation.impl.TitleAnimation
+import gg.scala.lemon.LemonConstants
 import net.evilblock.cubed.scoreboard.ScoreboardAdapter
 import org.bukkit.entity.Player
 import java.text.SimpleDateFormat
@@ -34,7 +35,7 @@ object LobbyScoreboardAdapter : ScoreboardAdapter() {
         val level = profile.level
         val prestige = profile.getPrestige(level)
 
-        lines.add("&6● &fLevel: &r" + prestige.color + "[" + level + "✯]")
+        lines.add("&6● &fLevel: &r${prestige.color}[$level${prestige.star}]")
         lines.add(profile.getXPBar(prestige))
 
         lines.add("")
@@ -46,7 +47,7 @@ object LobbyScoreboardAdapter : ScoreboardAdapter() {
         lines.add("&6● &fSouls: &b" + profile.souls)
 
         lines.add("")
-        lines.add("&eplay.mccade.net")
+        lines.add("&esolara.gg")
     }
 
     override fun getTitle(player: Player): String {

@@ -13,6 +13,7 @@ import gg.pixelarcade.skywars.game.event.PlayerJoinGameEvent
 import gg.pixelarcade.skywars.game.event.PlayerLeaveGameEvent
 import gg.pixelarcade.skywars.game.state.GameState
 import gg.pixelarcade.skywars.game.state.GameType
+import gg.pixelarcade.skywars.game.task.GameTntGeneratorTask
 import gg.pixelarcade.skywars.kit.Kit
 import gg.pixelarcade.skywars.map.GameMap
 import gg.pixelarcade.skywars.profile.SkyWarsProfile
@@ -49,6 +50,9 @@ class GameHandler {
     )
     val cages = mutableMapOf<UUID, LocalCage>()
 
+    var tntRespawning: Boolean = false
+    var tntRespawnsAt: Long = -1
+
     fun startCountdown() {
         game.state = GameState.COUNTDOWN
 
@@ -84,7 +88,6 @@ class GameHandler {
           //  player.setMetadata("frozen", FixedMetadataValue(SkyWarsPlugin.instance, this))
         }
 
-       // Bukkit.getScheduler().runTaskTimer(SkyWarsPlugin.instance, GameCountdownTask(), 0L, 20L)
     }
 
     fun startGame() {
@@ -101,6 +104,7 @@ class GameHandler {
         Tasks.delayed(Game.SECOND_REFILL_DELAY.toLong(), Runnable { chest.fillChests(game, RefillType.SECOND) })
         Tasks.delayed(Game.THIRD_REFILL_DELAY.toLong(), Runnable { chest.fillChests(game, RefillType.THIRD) })
         Tasks.delayed(Game.SUDDEN_DEATH_COMMENCES.toLong(), Runnable { this.suddenDeath() })
+        Bukkit.getScheduler().runTaskTimer(SkyWarsPlugin.instance, GameTntGeneratorTask(), 0L, 20L)
 
         for (uuid in game.players) {
             val player: Player = Bukkit.getPlayer(uuid)
@@ -124,6 +128,8 @@ class GameHandler {
                     kit.equipKit(player)
                 }
             }
+
+
         }
 
         val event = GameStartEvent(game)

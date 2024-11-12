@@ -1,4 +1,4 @@
-package gg.pixelarcade.skywars.game.commands
+package gg.pixelarcade.skywars.admin.commands
 
 import gg.pixelarcade.skywars.cages.command.SchemaCageCommandCustomizers
 import gg.scala.commons.annotations.commands.customizer.CommandManagerCustomizer

@@ -15,7 +15,7 @@ class LootTableListMenu : PaginatedMenu() {
     override fun getAllPagesButtons(player: Player): Map<Int, Button> {
         val buttons: MutableMap<Int, Button> = HashMap()
         for (table in LootTableDataSync.cached().tables) {
-            buttons[buttons.size] = LootTableInfoButton(table)
+            buttons[buttons.size] = LootTableInfoButton(table.value)
         }
         return buttons
     }

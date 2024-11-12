@@ -107,7 +107,7 @@ class GameMap(val name: String, val bounds: Cuboid, val type: GameType) {
                 tntGeneratorSpawnLoc = block.location.clone().add(0.5, 0.0, 0.5)
 
                 // remove the block after
-                block.type = Material.AIR
+                block.type = Material.GOLD_BLOCK
             }
             if (type != Material.SKULL) {
                 return@forEachBlock
