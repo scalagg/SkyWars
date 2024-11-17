@@ -1,9 +1,11 @@
 package gg.pixelarcade.skywars.listeners
 
+import com.lunarclient.apollo.module.richpresence.ServerRichPresence
 import gg.pixelarcade.skywars.SkyWarsLobby
 import gg.pixelarcade.skywars.SkyWarsLobbyPlugin
 import gg.pixelarcade.skywars.SkyWarsShared
 import gg.pixelarcade.skywars.leaderboard.Leaderboard
+import gg.pixelarcade.skywars.setDiscordPresence
 import net.evilblock.cubed.entity.event.PlayerRightClickEntityEvent
 import net.evilblock.cubed.entity.npc.NpcEntity
 import net.evilblock.cubed.util.bukkit.Tasks.delayed
@@ -37,6 +39,12 @@ class LobbyListener(private val plugin: SkyWarsLobby) : Listener {
             SkyWarsShared.instance.leaderboardHandler.getLeaderboards()
                 .forEach(Consumer { leaderboard: Leaderboard -> leaderboard.update(profile) })
             SkyWarsLobby.lobbyInstance.personalStatsNPCHandler.spawnHologram(e.player)
+
+            e.player.setDiscordPresence(ServerRichPresence.builder()
+                .playerState("In Lobby")
+                .gameName("SkyWars")
+                .build()
+            )
         })
     }
 

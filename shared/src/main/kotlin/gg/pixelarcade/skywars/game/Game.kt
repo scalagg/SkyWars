@@ -12,11 +12,10 @@ import java.util.*
  * @date 26/09/2023 / 20:43
  */
 
-class Game(val gameType: GameType) {
+class Game(val gameType: GameType, val gameTeamType: GameTeamType) {
     val id: UUID = UUID.randomUUID()
 
     var winner: UUID? = null
-    var gameTeamType: GameTeamType? = null
 
     val spectators: MutableSet<UUID> = HashSet()
     val players: MutableSet<UUID> = HashSet()

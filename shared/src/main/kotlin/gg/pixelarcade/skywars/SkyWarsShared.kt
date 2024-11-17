@@ -1,5 +1,6 @@
 package gg.pixelarcade.skywars
 
+import gg.pixelarcade.skywars.arena.ArenaManager
 import gg.pixelarcade.skywars.item.listeners.ItemListener
 import gg.pixelarcade.skywars.kit.KitHandler
 import gg.pixelarcade.skywars.leaderboard.LeaderboardHandler
@@ -30,7 +31,7 @@ abstract class SkyWarsShared(val plugin: ExtendedScalaPlugin) {
     val perkHandler: PerkHandler
     val questHandler: QuestHandler
     val leaderboardHandler: LeaderboardHandler
-
+    val arenaManager: ArenaManager
 
     val commandHandler: PaperCommandManager
 
@@ -43,6 +44,7 @@ abstract class SkyWarsShared(val plugin: ExtendedScalaPlugin) {
         perkHandler = PerkHandler()
         questHandler = QuestHandler()
         leaderboardHandler = LeaderboardHandler()
+        arenaManager = ArenaManager()
 
         listOf(ItemListener()).forEach(Consumer { listener: ItemListener? ->
             Bukkit.getPluginManager().registerEvents(

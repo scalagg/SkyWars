@@ -35,6 +35,11 @@ allprojects {
         mavenCentral()
         maven(url = "https://jitpack.io")
         maven {
+            name = "lunarclient"
+            url = uri("https://repo.lunarclient.dev")
+        }
+
+        maven {
             url = uri("${property("artifactory_contextUrl")}/gradle-release")
 
             credentials {
@@ -66,6 +71,8 @@ allprojects {
             url = uri("https://repo.codemc.io/repository/maven-public/")
             name = "codemc-repo"
         }
+        maven("https://repo.glaremasters.me/repository/concuncan/")
+
     }
 
     dependencies {
@@ -84,6 +91,9 @@ allprojects {
 
         compileOnly("gg.scala.cloudsync:spigot:1.0.3")
         compileOnly("gg.tropic.game.extensions:tropic-core-game-extensions:1.3.0")
+
+        compileOnly("com.lunarclient:apollo-api:1.1.6")
+        compileOnly("com.grinderwolf:slimeworldmanager-plugin:2.2.1")
     }
 
     tasks.shadowJar {

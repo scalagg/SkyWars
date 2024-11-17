@@ -21,6 +21,7 @@ import org.bukkit.plugin.java.JavaPlugin
     PluginDependency("scala-commons"),
     PluginDependency("Lemon"),
     PluginDependency("ScGameLobby"),
+    PluginDependency("Apollo-Bukkit"),
     PluginDependency("cloudsync", soft = true),
 )
 class SkyWarsLobbyPlugin : ExtendedScalaPlugin() {

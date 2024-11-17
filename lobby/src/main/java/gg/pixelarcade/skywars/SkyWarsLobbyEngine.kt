@@ -1,7 +1,8 @@
 package gg.pixelarcade.skywars
 
 import com.cryptomorin.xseries.XMaterial
-import gg.pixelarcade.skywars.gamemode.SkyWarsSoloGamemode
+import gg.pixelarcade.skywars.gamemode.SkyWarsSoloInsaneGamemode
+import gg.pixelarcade.skywars.gamemode.SkyWarsSoloNormalGamemode
 import gg.pixelarcade.skywars.leaderboard.ranking.TopKillsRankingEntry
 import gg.pixelarcade.skywars.leaderboard.ranking.TopWinsRankingEntry
 import gg.pixelarcade.skywars.profile.SkyWarsProfile
@@ -9,10 +10,8 @@ import gg.pixelarcade.skywars.scoreboard.LobbyScoreboardAdapter
 import gg.scala.cgs.common.information.CgsGameGeneralInfo
 import gg.scala.cgs.common.instance.CgsServerInstance
 import gg.scala.cgs.lobby.gamemode.CgsGameLobby
-import gg.scala.cgs.lobby.leaderboard.CgsLobbyRankingEntry
 import gg.scala.cgs.lobby.updater.CgsGameInfoUpdater
 import net.evilblock.cubed.menu.Button
-import net.evilblock.cubed.scoreboard.ScoreboardAdapter
 import net.evilblock.cubed.util.CC
 import net.evilblock.cubed.util.bukkit.ItemBuilder
 import net.evilblock.cubed.util.bungee.BungeeUtil
@@ -64,20 +63,45 @@ object SkyWarsLobbyEngine : CgsGameLobby<SkyWarsProfile>(
     }
 
     override fun getGameModeButtons() = mutableMapOf(
-        13 to ItemBuilder(Material.FISHING_ROD)
-            .name("${CC.PRI}Solo")
+        12 to ItemBuilder(Material.FISHING_ROD)
+            .name("${CC.PRI}Normal Solo")
             .addToLore(
                 "${CC.GRAY}Join a game of",
-                "${CC.GRAY}Solo SkyWars!",
+                "${CC.GRAY}Normal Solo SkyWars!",
                 "",
-                " ${CC.WHITE}In Game: ${CC.PRI}${CgsGameInfoUpdater.gameModeCounts["solo"]}",
+                " ${CC.WHITE}In Game: ${CC.PRI}${CgsGameInfoUpdater.gameModeCounts["normal-solo"]}",
                 "",
                 "${CC.GREEN}Click to join game!"
             )
             .toButton { player, _ ->
                 val server = CgsGameInfoUpdater
                     .findAvailableServer(
-                        SkyWarsSoloGamemode, "SkyWars"
+                        SkyWarsSoloNormalGamemode, "SkyWars"
+                    )
+
+                if (server != null)
+                {
+                    player!!.sendMessage("${CC.SEC}Connecting you to ${CC.PRI}${server.internalServerId}${CC.SEC}...")
+                    BungeeUtil.sendToServer(player, server.internalServerId)
+                } else
+                {
+                    player!!.sendMessage("${CC.RED}Bare with us while we find you a game to join!")
+                }
+            },
+        14 to ItemBuilder(Material.FISHING_ROD)
+            .name("${CC.PRI}Insane Solo")
+            .addToLore(
+                "${CC.GRAY}Join a game of",
+                "${CC.GRAY}Insane Solo SkyWars!",
+                "",
+                " ${CC.WHITE}In Game: ${CC.PRI}${CgsGameInfoUpdater.gameModeCounts["insane-solo"]}",
+                "",
+                "${CC.GREEN}Click to join game!"
+            )
+            .toButton { player, _ ->
+                val server = CgsGameInfoUpdater
+                    .findAvailableServer(
+                        SkyWarsSoloInsaneGamemode, "SkyWars"
                     )
 
                 if (server != null)

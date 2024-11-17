@@ -17,6 +17,7 @@ import org.bukkit.plugin.java.JavaPlugin
     PluginDependency("Lemon"),
     PluginDependency("ScGameFramework"),
     PluginDependency("CoreGameExtensions"),
+    PluginDependency("Apollo-Bukkit"),
     PluginDependency("cloudsync", soft = true),
 )
 class SkyWarsPlugin : ExtendedScalaPlugin() {

@@ -1,29 +1,41 @@
 package gg.pixelarcade.skywars.game
 
+import com.lunarclient.apollo.module.richpresence.ServerRichPresence
 import gg.pixelarcade.skywars.SkyWarsGame
 import gg.pixelarcade.skywars.SkyWarsPlugin
-import gg.pixelarcade.skywars.cages.*
+import gg.pixelarcade.skywars.arena.engine.CgsSkywarsArena
+import gg.pixelarcade.skywars.arena.model.SkyWarsArena
+import gg.pixelarcade.skywars.cages.CageCategory
+import gg.pixelarcade.skywars.cages.CageCosmeticLike
+import gg.pixelarcade.skywars.cages.LocalCage
+import gg.pixelarcade.skywars.cages.SchemaCageDefaultSchemas
 import gg.pixelarcade.skywars.cages.sync.SchemaCageDataSync
 import gg.pixelarcade.skywars.chests.LootableChest
 import gg.pixelarcade.skywars.chests.type.RefillType
-import gg.pixelarcade.skywars.config.GameConfig
 import gg.pixelarcade.skywars.game.event.GameEndEvent
 import gg.pixelarcade.skywars.game.event.GameStartEvent
 import gg.pixelarcade.skywars.game.event.PlayerJoinGameEvent
 import gg.pixelarcade.skywars.game.event.PlayerLeaveGameEvent
 import gg.pixelarcade.skywars.game.state.GameState
+import gg.pixelarcade.skywars.game.state.GameTeamType
 import gg.pixelarcade.skywars.game.state.GameType
 import gg.pixelarcade.skywars.game.task.GameTntGeneratorTask
+import gg.pixelarcade.skywars.gamemode.SkywarsCgsGameMode
 import gg.pixelarcade.skywars.kit.Kit
 import gg.pixelarcade.skywars.map.GameMap
 import gg.pixelarcade.skywars.profile.SkyWarsProfile
-import gg.pixelarcade.skywars.util.*
+import gg.pixelarcade.skywars.setDiscordPresence
+import gg.pixelarcade.skywars.util.DefaultFontInfo
+import gg.pixelarcade.skywars.util.PlayerUtil
+import gg.pixelarcade.skywars.util.ServerUtil
+import gg.pixelarcade.skywars.util.Tuple
 import gg.pixelarcade.skywars.util.cuboid.Cuboid
+import gg.scala.cgs.common.CgsGameEngine
 import gg.scala.commons.agnostic.sync.ServerSync
 import gg.scala.lemon.util.QuickAccess
-
 import net.evilblock.cubed.util.Color
 import net.evilblock.cubed.util.bukkit.Tasks
+import org.apache.commons.lang.StringUtils
 import org.bukkit.Bukkit
 import org.bukkit.Sound
 import org.bukkit.block.BlockFace
@@ -38,20 +50,54 @@ import kotlin.math.min
  * @date 26/09/2023 / 21:16
  */
 class GameHandler {
-    val bounds = Cuboid(GameConfig.SETTINGS.firstCorner, GameConfig.SETTINGS.secondCorner)
+    val bounds: Cuboid;
 
     //TODO: make a method that can pass in a gameType when launching the server (depending on in what way it was launched)
 
-    val game = Game(GameConfig.SETTINGS.type)
-    val map: GameMap = GameMap(
-        GameConfig.SETTINGS.name,
-        bounds,
-        GameConfig.SETTINGS.type
-    )
+    val game: Game;
+    val map: GameMap;
+
+    init {
+        val cgsArena = CgsGameEngine.INSTANCE.gameArena as CgsSkywarsArena;
+        val gamemode = CgsGameEngine.INSTANCE.gameMode as SkywarsCgsGameMode;
+
+        val world = Bukkit.getWorld(cgsArena.getBukkitWorldName());
+
+        val arena: SkyWarsArena = cgsArena.arena
+
+        bounds = Cuboid(
+            arena.boundsLower?.toBukkit(world),
+            arena.boundsUpper?.toBukkit(world)
+        )
+        game = Game(
+            gamemode.gameType, if (gamemode.isSoloGame()) {
+                GameTeamType.SOLO
+            } else {
+                GameTeamType.DOUBLES
+            }
+        )
+        map = GameMap(
+            arena.name,
+            bounds,
+            game.gameType
+        );
+
+    }
+
     val cages = mutableMapOf<UUID, LocalCage>()
 
     var tntRespawning: Boolean = false
     var tntRespawnsAt: Long = -1
+
+    fun stopCountdown() {
+        game.state = GameState.WAITING
+        Tasks.delayed(2L) {
+            Bukkit.getOnlinePlayers().forEach {
+                updateRichPresence(it)
+            }
+        }
+
+    }
 
     fun startCountdown() {
         game.state = GameState.COUNTDOWN
@@ -85,9 +131,27 @@ class GameHandler {
                 owner = player.uniqueId
             )
             PlayerUtil.resetPlayer(player)
-          //  player.setMetadata("frozen", FixedMetadataValue(SkyWarsPlugin.instance, this))
+            //  player.setMetadata("frozen", FixedMetadataValue(SkyWarsPlugin.instance, this))
+        }
+        Tasks.delayed(2L) {
+            Bukkit.getOnlinePlayers().forEach {
+                updateRichPresence(it)
+            }
         }
 
+    }
+
+    fun updateRichPresence(player: Player) {
+        player.setDiscordPresence(
+            ServerRichPresence.builder()
+                .playerState("Playing")
+                .gameState(StringUtils.capitalize(CgsGameEngine.INSTANCE.gameState.name.lowercase()))
+                .gameName("SkyWars")
+                .mapName(SkyWarsGame.gameInstance.gameHandler.map.name)
+                .teamMaxSize(CgsGameEngine.INSTANCE.gameMode.getMaxTeams())
+                .teamCurrentSize(-1)
+                .build()
+        )
     }
 
     fun startGame() {
@@ -124,7 +188,7 @@ class GameHandler {
             if (player.inventory.firstEmpty() == 0) {
                 val profile: SkyWarsProfile = SkyWarsGame.gameInstance.getProfile(player.uniqueId)
                 val kit: Kit = SkyWarsGame.gameInstance.kitHandler.getKitByName(profile.selectedKit)!!
-                if(kit.gameType == game.gameType) {
+                if (kit.gameType == game.gameType) {
                     kit.equipKit(player)
                 }
             }
@@ -134,6 +198,12 @@ class GameHandler {
 
         val event = GameStartEvent(game)
         Bukkit.getPluginManager().callEvent(event)
+        Tasks.delayed(2L) {
+            Bukkit.getOnlinePlayers().forEach {
+                updateRichPresence(it)
+            }
+        }
+
     }
 
     fun suddenDeath() {
@@ -170,7 +240,7 @@ class GameHandler {
 
         skyWarsProfile.save()
 
-       // for (message in this.sendWinningMessage(winner.uniqueId)) Bukkit.broadcastMessage(message)
+        // for (message in this.sendWinningMessage(winner.uniqueId)) Bukkit.broadcastMessage(message)
 
 
         // Kicks all players out of the game in 5 seconds
@@ -199,11 +269,11 @@ class GameHandler {
         game.spectators.clear()
 
         // Delete the server deployment in 8 seconds from now
-       Tasks. delayed(
+        Tasks.delayed(
             20 * 8,
-       ) {
-           Deployer.deleteDeployment(ServerSync.local.id)
-       }
+        ) {
+            Deployer.deleteDeployment(ServerSync.local.id)
+        }
     }
 
     fun playSound(sound: Sound?) {
@@ -259,7 +329,7 @@ class GameHandler {
             ServerUtil.sendToLobby(player)
             return
         }
-        if(game.state == GameState.COUNTDOWN) {
+        if (game.state == GameState.COUNTDOWN) {
             cages[player.uniqueId]?.apply {
                 cage.removeAll(
                     location.toLocation(map.getLobbySpawn().world).block

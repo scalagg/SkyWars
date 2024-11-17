@@ -1,7 +1,6 @@
 package gg.pixelarcade.skywars.chests.lootable
 
 import gg.pixelarcade.skywars.chests.lootable.container.LootTableContainer
-import gg.pixelarcade.skywars.chests.lootable.model.LootTable
 import gg.scala.commons.persist.datasync.DataSyncKeys
 import gg.scala.commons.persist.datasync.DataSyncService
 import gg.scala.commons.persist.datasync.DataSyncSource

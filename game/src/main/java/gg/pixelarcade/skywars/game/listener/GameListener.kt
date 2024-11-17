@@ -1,5 +1,8 @@
 package gg.pixelarcade.skywars.game.listener
 
+import com.lunarclient.apollo.event.EventBus
+import com.lunarclient.apollo.event.player.ApolloRegisterPlayerEvent
+import com.lunarclient.apollo.module.richpresence.ServerRichPresence
 import gg.pixelarcade.skywars.SkyWarsGame
 import gg.pixelarcade.skywars.SkyWarsShared
 import gg.pixelarcade.skywars.game.event.GameStartEvent
@@ -11,6 +14,7 @@ import gg.pixelarcade.skywars.items.LeaveGameItem
 import gg.pixelarcade.skywars.items.LoadoutItem
 import gg.pixelarcade.skywars.items.StatisticItem
 import gg.pixelarcade.skywars.perk.impl.purchasedPerks.BridgerPerk
+import gg.pixelarcade.skywars.setDiscordPresence
 import gg.pixelarcade.skywars.util.PlayerUtil
 import gg.pixelarcade.skywars.util.SpigotConstants
 import gg.scala.cgs.common.CgsGameEngine
@@ -18,10 +22,11 @@ import gg.scala.lemon.util.QuickAccess.coloredName
 import gg.tropic.game.extensions.cosmetics.CosmeticRegistry
 import gg.tropic.game.extensions.cosmetics.messagebundles.KillMessageBundleCosmeticCategory
 import gg.tropic.game.extensions.cosmetics.messagebundles.cosmetics.MessageBundle
-
 import net.evilblock.cubed.util.CC
 import net.evilblock.cubed.util.Color
 import net.evilblock.cubed.util.bukkit.Tasks.delayed
+import org.apache.commons.lang.StringUtils
+import org.apache.commons.lang.WordUtils
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
@@ -42,7 +47,6 @@ import org.bukkit.event.player.PlayerPickupItemEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.metadata.FixedMetadataValue
-import java.util.concurrent.TimeUnit
 
 /**
  * @author alfie
@@ -51,6 +55,17 @@ import java.util.concurrent.TimeUnit
  */
 
 class GameListener(private val plugin: SkyWarsGame) : Listener {
+
+    init {
+        EventBus.getBus().register(ApolloRegisterPlayerEvent::class.java) {
+            handleApolloRegister(it)
+        }
+    }
+
+    private fun handleApolloRegister(event: ApolloRegisterPlayerEvent) {
+        val player = event.player.player as Player;
+        plugin.gameHandler.updateRichPresence(player)
+    }
 
     @EventHandler(priority = EventPriority.MONITOR)
     fun onPlayerJoinGame(event: PlayerJoinEvent) {
@@ -67,6 +82,8 @@ class GameListener(private val plugin: SkyWarsGame) : Listener {
         if (player.isOp) player.inventory.setItem(4, ForceStartItem(player).getItem(player))
 
         player.inventory.setItem(8, LeaveGameItem(player).getItem(player))
+
+
     }
 
     @EventHandler
@@ -77,6 +94,10 @@ class GameListener(private val plugin: SkyWarsGame) : Listener {
     @EventHandler
     fun onGameStart(event: CgsGameEngine.CgsGamePreStartEvent?) {
         plugin.gameHandler.startCountdown()
+    }
+    @EventHandler
+    fun onGameStatusUpdate(event: CgsGameEngine.CgsGamePreStartCancelEvent) {
+        plugin.gameHandler.stopCountdown()
     }
 
     @EventHandler
@@ -106,6 +127,7 @@ class GameListener(private val plugin: SkyWarsGame) : Listener {
             )
         }
     }
+
     @EventHandler
     fun onGameStartSpices(event: GameStartEvent?) {
         val tntGeneratorSpawn: Location? = plugin.gameHandler.map.tntGeneratorSpawnLoc
@@ -123,7 +145,7 @@ class GameListener(private val plugin: SkyWarsGame) : Listener {
 
     @EventHandler
     fun onTntPickup(event: PlayerPickupItemEvent) {
-        if(!event.item.hasMetadata("TNT_GEN_ITEM"))
+        if (!event.item.hasMetadata("TNT_GEN_ITEM"))
             return
         val tntGeneratorSpawn: Location? = plugin.gameHandler.map.tntGeneratorSpawnLoc
         tntGeneratorSpawn?.block?.type = Material.IRON_BLOCK;
@@ -260,31 +282,33 @@ class GameListener(private val plugin: SkyWarsGame) : Listener {
     @EventHandler(priority = EventPriority.HIGH)
     fun onPerkBlockPlace(event: BlockPlaceEvent) {
         val player = event.player
-        val profile = SkyWarsShared.instance.getProfile(player)?: return
+        val profile = SkyWarsShared.instance.getProfile(player) ?: return
 
-        if(profile.selectedPerks.contains("Bridger Perk")) {
+        if (profile.selectedPerks.contains("Bridger Perk")) {
             (SkyWarsShared.instance.perkHandler.getPerkByName("Bridger Perk") as BridgerPerk).apply(player, event.block)
         }
     }
+
     @EventHandler(priority = EventPriority.HIGH)
     fun onPerkPlayerDamage(event: EntityDamageByEntityEvent) {
-        if(event.entity !is Player) return
+        if (event.entity !is Player) return
 
         val player = event.entity as Player
-        val profile = SkyWarsShared.instance.getProfile(player)?: return
+        val profile = SkyWarsShared.instance.getProfile(player) ?: return
 
-        if(profile.selectedPerks.contains("Ender Mastery Perk") && event.damager.type == EntityType.ENDER_PEARL) {
+        if (profile.selectedPerks.contains("Ender Mastery Perk") && event.damager.type == EntityType.ENDER_PEARL) {
             event.isCancelled = true
         }
     }
+
     @EventHandler(priority = EventPriority.HIGH)
     fun onPerkPlayerDamage(event: EntityDamageEvent) {
-        if(event.entity !is Player) return
+        if (event.entity !is Player) return
 
         val player = event.entity as Player
-        val profile = SkyWarsShared.instance.getProfile(player)?: return
+        val profile = SkyWarsShared.instance.getProfile(player) ?: return
 
-        if(profile.selectedPerks.contains("Environmental Expert Perk") && event.cause.isEnvironmental()) {
+        if (profile.selectedPerks.contains("Environmental Expert Perk") && event.cause.isEnvironmental()) {
             event.damage = (event.damage / .20)
         }
     }

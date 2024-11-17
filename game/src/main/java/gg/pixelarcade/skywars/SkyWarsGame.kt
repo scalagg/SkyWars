@@ -4,22 +4,18 @@ import gg.pixelarcade.skywars.ability.AbilityHandler
 import gg.pixelarcade.skywars.ability.command.AbilityCommand
 import gg.pixelarcade.skywars.ability.listener.AbilityInteractListener
 import gg.pixelarcade.skywars.chests.ChestHandler
-import gg.pixelarcade.skywars.config.GameConfig
 import gg.pixelarcade.skywars.game.GameHandler
 import gg.pixelarcade.skywars.game.commands.GameCommand
 import gg.pixelarcade.skywars.game.listener.GameListener
 import gg.pixelarcade.skywars.game.listener.PreventionListener
 import gg.pixelarcade.skywars.game.listener.SpectatorListener
-import gg.pixelarcade.skywars.adapter.SkywarsScoreboardAdapter
-import gg.pixelarcade.skywars.arena.SkywarsArena
-import gg.pixelarcade.skywars.cages.command.SchemaCageCommandCustomizers
+import gg.pixelarcade.skywars.arena.engine.CgsSkywarsArena
+import gg.pixelarcade.skywars.gamemode.SkywarsCgsGameMode
 import gg.scala.cgs.common.information.arena.CgsGameArenaHandler
 import gg.scala.cgs.common.information.mode.CgsGameMode
 import gg.scala.commons.ExtendedScalaPlugin
 
 import org.bukkit.event.Listener
-import org.bukkit.plugin.java.JavaPlugin
-import java.util.*
 import java.util.function.Consumer
 
 //import gg.pixelarcade.skywars.map.GameMapHandler;
@@ -31,7 +27,6 @@ import java.util.function.Consumer
 
 class SkyWarsGame(plugin: ExtendedScalaPlugin) : SkyWarsShared(plugin) {
     lateinit var gameHandler: GameHandler
-    lateinit var gameConfig: GameConfig
     lateinit var chestHandler: ChestHandler
     lateinit var abilityHandler: AbilityHandler
 
@@ -40,23 +35,22 @@ class SkyWarsGame(plugin: ExtendedScalaPlugin) : SkyWarsShared(plugin) {
 
         val orchestration = plugin.loadConfig("orchestration.yml")
 
-        val mode = orchestration.getString("mode") ?: "gg.pixelarcade.skywars.gamemode.SkyWarsSoloGamemode"
+        val mode = orchestration.getString("mode") ?: "gg.pixelarcade.skywars.gamemode.SkyWarsSoloNormalGamemode"
 
         val modeClass = Class.forName(mode)
 
-        val modeClassObject = modeClass.getField("INSTANCE").get(null)
+        val modeClassObject: SkywarsCgsGameMode = modeClass.getField("INSTANCE").get(null) as SkywarsCgsGameMode
 
         val engine = SkyWarsEngine(
             plugin, SkyWarsGameInfo,
-            modeClassObject as CgsGameMode
+            modeClassObject
         )
         engine.initialLoad()
+        val arena = modeClassObject.getArenas().random();
 
-        engine.gameArena = SkywarsArena
-        CgsGameArenaHandler.arena = SkywarsArena
+        engine.gameArena = arena
+        CgsGameArenaHandler.arena = arena
         SkyWarsEngine.INSTANCE = engine
-
-        gameConfig = GameConfig
 
         gameHandler = GameHandler()
         chestHandler = ChestHandler()
