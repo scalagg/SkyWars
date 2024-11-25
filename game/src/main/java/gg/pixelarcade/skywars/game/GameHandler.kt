@@ -31,6 +31,8 @@ import gg.pixelarcade.skywars.util.ServerUtil
 import gg.pixelarcade.skywars.util.Tuple
 import gg.pixelarcade.skywars.util.cuboid.Cuboid
 import gg.scala.cgs.common.CgsGameEngine
+import gg.scala.cgs.common.teams.CgsGameTeam
+import gg.scala.cgs.common.teams.CgsGameTeamService
 import gg.scala.commons.agnostic.sync.ServerSync
 import gg.scala.lemon.util.QuickAccess
 import net.evilblock.cubed.util.Color
@@ -106,7 +108,7 @@ class GameHandler {
             val player: Player = Bukkit.getPlayer(uuid)
 
             // Paste the cage for the player
-            val playerSpawn = map.randomSpawn!!;
+            val playerSpawn = map.spawns[CgsGameTeamService.getTeamOf(player.uniqueId).id];
 
             val randomCosmetic = CageCategory
                 .cosmetics()
@@ -293,7 +295,7 @@ class GameHandler {
         if (game.state == GameState.WAITING) {
             player.teleport(map.getLobbySpawn())
         } else {
-            val playerSpawn = map.randomSpawn!!
+            val playerSpawn = map.spawns[CgsGameTeamService.getTeamOf(player.uniqueId).id];
 
             val randomCosmetic = CageCategory
                 .cosmetics()

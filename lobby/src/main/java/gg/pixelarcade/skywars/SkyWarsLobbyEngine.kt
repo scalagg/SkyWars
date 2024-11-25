@@ -1,8 +1,8 @@
 package gg.pixelarcade.skywars
 
 import com.cryptomorin.xseries.XMaterial
-import gg.pixelarcade.skywars.gamemode.SkyWarsSoloInsaneGamemode
-import gg.pixelarcade.skywars.gamemode.SkyWarsSoloNormalGamemode
+import gg.pixelarcade.skywars.gamemode.solo.SkyWarsRankedInsaneGamemode
+import gg.pixelarcade.skywars.gamemode.solo.SkyWarsDuoNormalGamemode
 import gg.pixelarcade.skywars.leaderboard.ranking.TopKillsRankingEntry
 import gg.pixelarcade.skywars.leaderboard.ranking.TopWinsRankingEntry
 import gg.pixelarcade.skywars.profile.SkyWarsProfile
@@ -76,7 +76,7 @@ object SkyWarsLobbyEngine : CgsGameLobby<SkyWarsProfile>(
             .toButton { player, _ ->
                 val server = CgsGameInfoUpdater
                     .findAvailableServer(
-                        SkyWarsSoloNormalGamemode, "SkyWars"
+                        SkyWarsDuoNormalGamemode, "SkyWars"
                     )
 
                 if (server != null)
@@ -101,7 +101,7 @@ object SkyWarsLobbyEngine : CgsGameLobby<SkyWarsProfile>(
             .toButton { player, _ ->
                 val server = CgsGameInfoUpdater
                     .findAvailableServer(
-                        SkyWarsSoloInsaneGamemode, "SkyWars"
+                        SkyWarsRankedInsaneGamemode, "SkyWars"
                     )
 
                 if (server != null)

@@ -35,7 +35,7 @@ class SkyWarsGame(plugin: ExtendedScalaPlugin) : SkyWarsShared(plugin) {
 
         val orchestration = plugin.loadConfig("orchestration.yml")
 
-        val mode = orchestration.getString("mode") ?: "gg.pixelarcade.skywars.gamemode.SkyWarsSoloNormalGamemode"
+        val mode = orchestration.getString("mode") ?: "gg.pixelarcade.skywars.gamemode.solo.SkyWarsSoloNormalGamemode"
 
         val modeClass = Class.forName(mode)
 

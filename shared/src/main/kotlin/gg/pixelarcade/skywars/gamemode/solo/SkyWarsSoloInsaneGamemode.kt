@@ -1,9 +1,7 @@
-package gg.pixelarcade.skywars.gamemode
+package gg.pixelarcade.skywars.gamemode.solo
 
-import gg.pixelarcade.skywars.SkyWarsShared
 import gg.pixelarcade.skywars.game.state.GameType
-import gg.scala.cgs.common.information.arena.CgsGameArena
-import gg.scala.cgs.common.information.mode.CgsGameMode
+import gg.pixelarcade.skywars.gamemode.SkywarsCgsGameMode
 import net.evilblock.cubed.util.CC
 import org.bukkit.Material
 
