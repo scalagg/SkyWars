@@ -7,7 +7,7 @@ import gg.pixelarcade.skywars.utils.SafeLocation
  * @date 11/15/2024
  * @author Moose1301
  */
-class SkyWarsArena(var id: String, val name: String, val gameType: GameType, val supportsTeams: Boolean) {
+class SkyWarsArena(var id: String, val name: String, val gameType: GameType, var supportsTeams: Boolean) {
 
     val spawns: MutableList<SafeLocation> = ArrayList()
     val zombieSpawns: MutableList<SafeLocation> = ArrayList()

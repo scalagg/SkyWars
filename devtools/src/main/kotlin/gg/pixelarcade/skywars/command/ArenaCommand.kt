@@ -46,6 +46,15 @@ class ArenaCommand {
             ArenaDataSync.cached().arenas[arg.lowercase()]
                 ?: throw ConditionFailedException("No arena by that name was found.")
         }
+        manager.commandContexts.registerContext(GameType::class.java) {
+            val arg = it.popFirstArg()
+
+            try {
+                GameType.valueOf(arg.lowercase())
+            } catch (ex: Exception) {
+                throw ConditionFailedException("No arena by that name was found.")
+            }
+        }
 
     }
 
@@ -107,5 +116,17 @@ class ArenaCommand {
         val arena: SkyWarsArena = ArenaDataSync.cached().arenas[player.getMetadata("ARENA-EDIT")[0].value()]!!
         arena.boundsUpper = SafeLocation(player.location)
         player.sendMessage(CC.GREEN + "Set Upper Bound")
+    }
+    @Subcommand("teams")
+    fun handleType(player: Player) {
+        if (!player.hasMetadata("ARENA-EDIT")) {
+            player.sendMessage(CC.RED + "You are currently not editing a Arena")
+            return
+        }
+        val arena: SkyWarsArena = ArenaDataSync.cached().arenas[player.getMetadata("ARENA-EDIT")[0].value()]!!
+
+        arena.supportsTeams = !arena.supportsTeams
+
+        player.sendMessage(CC.GREEN + "Set Team Support to: " + if(arena.supportsTeams) { CC.GREEN + "Enabled" } else { CC.RED + "Disabled"})
     }
 }
