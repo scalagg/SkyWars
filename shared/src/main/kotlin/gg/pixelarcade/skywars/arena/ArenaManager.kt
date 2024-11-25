@@ -18,11 +18,18 @@ class ArenaManager {
         for (entry in ArenaDataSync.cached().arenas.entries) {
             val arena = entry.value;
 
+
             arenas.put(arena.gameType, arena.id, CgsSkywarsArena(arena.id, arena))
         }
 
 
     }
+
+    fun getArena(id: String): CgsSkywarsArena {
+
+    }
+
+    fun getArenaIds(): Set<String> = arenas.columnKeySet()
 
     fun getArenas(gameType: GameType, teams: Boolean): List<CgsSkywarsArena> {
 
@@ -32,7 +39,7 @@ class ArenaManager {
 
         val arenas = ArrayList<CgsSkywarsArena>(arenas.row(gameType).values);
         arenas.removeIf {
-            if (!teams)
+            if (!teams || !it.arena.valid)
                 return@removeIf false;
 
             return@removeIf !it.arena.supportsTeams;

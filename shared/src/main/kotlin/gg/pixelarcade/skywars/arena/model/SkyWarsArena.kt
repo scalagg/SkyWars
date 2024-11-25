@@ -20,5 +20,5 @@ class SkyWarsArena(var id: String, val name: String, val gameType: GameType, val
     var boundsLower: SafeLocation? = null;
     var boundsUpper: SafeLocation? = null;
 
-
+    var valid: Boolean = false
 }
