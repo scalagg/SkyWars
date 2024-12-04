@@ -13,6 +13,7 @@ import net.evilblock.cubed.util.bukkit.AngleUtils.faceToYaw
 import org.bukkit.*
 import org.bukkit.block.Block
 import org.bukkit.block.BlockFace
+import org.bukkit.block.Sign
 import org.bukkit.block.Skull
 import org.bukkit.entity.Player
 import org.bukkit.metadata.FixedMetadataValue
@@ -60,7 +61,7 @@ object ArenaEditorSystem {
 
 
     fun scanPlayer(player: Player, arena: SkyWarsArena) {
-        if(arena.boundsLower == null || arena.boundsUpper == null) {
+        if (arena.boundsLower == null || arena.boundsUpper == null) {
             player.sendMessage(CC.RED + "Bounds are not set correctly")
             return
         }
@@ -69,96 +70,47 @@ object ArenaEditorSystem {
         arena.spawns.clear()
         arena.chests.clear()
 
-        forEachBlock(Cuboid(
-            arena.boundsLower!!.toBukkit(player.world),
-            arena.boundsUpper!!.toBukkit(player.world),
-        )) { block: Block ->
+        forEachBlock(
+            Cuboid(
+                arena.boundsLower!!.toBukkit(player.world),
+                arena.boundsUpper!!.toBukkit(player.world),
+            )
+        ) { block: Block ->
             val type = block.type
-
-
-            if (type == Material.BEACON) {
+            if (type != Material.WALL_SIGN && type != Material.SIGN)
+                return@forEachBlock
+            val sign = block.state as Sign;
+            if (sign.getLine(0).equals("[SuddenDeathSpawn]")) {
                 arena.suddenDeathSpawnLoc = SafeLocation(block.location.clone().add(0.5, 0.0, 0.5))
 
                 // remove the block after
                 block.type = Material.AIR
-            }
-
-            if (type == Material.BEDROCK) {
+            } else if (sign.getLine(0).equals("[ZombieSpawn]")) {
                 arena.zombieSpawns.add(SafeLocation(block.location.clone().add(0.5, 1.0, 0.5)))
 
                 // remove the block after
                 block.type = Material.AIR
-            }
-            if (type == Material.EYE_OF_ENDER) {
+            } else if (sign.getLine(0).equals("[TntGeneratorSpawn]")) {
                 arena.tntGeneratorSpawnLoc = SafeLocation(block.location.clone().add(0.5, 0.0, 0.5))
 
                 // remove the block after
                 block.type = Material.GOLD_BLOCK
-            }
-            if (type != Material.SKULL) {
-                return@forEachBlock
-            }
+            } else if (sign.getLine(0).equals("[LobbySpawn]")) {
+                arena.lobbySpawnLoc = SafeLocation(block.location.clone().add(0.5, 0.5, 0.5))
 
-            val skull = block.state as Skull
-            val below = block.getRelative(BlockFace.DOWN)
+                block.type = Material.AIR
+            } else if (sign.getLine(0).equals("[SpectatorSpawn]")) {
+                arena.spectatorSpawnLoc = SafeLocation(block.location.clone().add(0.5, 0.5, 0.5))
 
-            val skullLocation = block.location.clone().add(0.5, 1.5, 0.5)
-            skullLocation.yaw = (faceToYaw(skull.rotation) + 90).toFloat()
+                block.type = Material.AIR
+            } else if (sign.getLine(0).equals("[Spawn]")) {
+                arena.spawns.add(SafeLocation(block.location.clone().add(0.5, 0.5, 0.5)))
 
-            when (skull.skullType) {
-                SkullType.ZOMBIE -> {
-                    arena.lobbySpawnLoc = SafeLocation(skullLocation)
+                block.type = Material.AIR
+            }else if (sign.getLine(0).equals("[Chest]")) {
+                arena.chests[SafeLocation(block.location.clone().add(0.5, 0, 0.5))] = sign.getLine(1);
 
-                    block.type = Material.AIR
-
-                    if (below.type == Material.FENCE) {
-                        below.type = Material.AIR
-                    }
-                }
-
-                SkullType.SKELETON -> {
-                    arena.spectatorSpawnLoc = SafeLocation(skullLocation)
-
-                    block.type = Material.AIR
-
-                    if (below.type == Material.FENCE) {
-                        below.type = Material.AIR
-                    }
-                }
-
-                SkullType.PLAYER -> {
-                    arena.spawns.add(SafeLocation(skullLocation))
-
-                    block.type = Material.AIR
-
-                    if (below.type == Material.FENCE) {
-                        below.type = Material.AIR
-                    }
-                }
-
-                SkullType.CREEPER -> {
-                    arena.chests[SafeLocation(block.location.clone().add(0.5, -1.0, 0.5))] = "SPAWN"
-
-                    block.type = Material.AIR
-                    //block.setMetadata("placedByGame", FixedMetadataValue(SkyWarsPlugin.instance, true))
-
-                    if (below.type == Material.FENCE) {
-                        below.type = Material.CHEST
-                    }
-                }
-
-                SkullType.WITHER -> {
-                    arena.chests[SafeLocation(block.location.clone().add(0.5, -1.0, 0.5))] = "MIDDLE"
-
-                    block.type = Material.AIR
-                    //block.setMetadata("placedByGame", FixedMetadataValue(SkyWarsPlugin.instance, true))
-
-                    if (below.type == Material.FENCE) {
-                        below.type = Material.CHEST
-                    }
-                }
-
-                else -> {}
+                block.type = Material.AIR
             }
         }
     }
