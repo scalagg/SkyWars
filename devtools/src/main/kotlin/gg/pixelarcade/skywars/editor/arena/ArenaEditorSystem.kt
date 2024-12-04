@@ -108,7 +108,7 @@ object ArenaEditorSystem {
 
                 block.type = Material.AIR
             }else if (sign.getLine(0).equals("[Chest]")) {
-                arena.chests[SafeLocation(block.location.clone().add(0.5, 0, 0.5))] = sign.getLine(1);
+                arena.chests[SafeLocation(block.location.clone().add(0.5, 0.0, 0.5))] = sign.getLine(1);
 
                 block.type = Material.AIR
             }
