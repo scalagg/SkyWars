@@ -3,6 +3,8 @@ package gg.pixelarcade.skywars
 import com.lunarclient.apollo.Apollo
 import com.lunarclient.apollo.module.richpresence.RichPresenceModule
 import com.lunarclient.apollo.module.richpresence.ServerRichPresence
+import net.evilblock.cubed.util.text.ProgressBarBuilder
+import org.bukkit.ChatColor
 import org.bukkit.entity.Player
 import org.bukkit.event.entity.EntityDamageEvent
 
@@ -21,3 +23,4 @@ fun Player.setDiscordPresence(presence: ServerRichPresence) {
         discordModule.overrideServerRichPresence(it, presence)
     }
 }
+

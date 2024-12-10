@@ -1,6 +1,9 @@
 package gg.pixelarcade.skywars.util;
 
+import gg.pixelarcade.skywars.SkyWarsShared;
 import org.bukkit.GameMode;
+import org.bukkit.conversations.ConversationFactory;
+import org.bukkit.conversations.Prompt;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -12,7 +15,18 @@ import org.bukkit.inventory.ItemStack;
 
 
 public class PlayerUtil {
-
+    public static void startPrompt(Player player, Prompt prompt) {
+        startPrompt(player, prompt, 30);
+    }
+    public static void startPrompt(Player player, Prompt prompt ,int timeout) {
+        player.beginConversation(new ConversationFactory(SkyWarsShared.instance.getPlugin())
+                .withFirstPrompt(prompt)
+                .withModality(false)
+                .withLocalEcho(false)
+                .withTimeout(timeout)
+                .buildConversation(player)
+        );
+    }
     public static void resetPlayer(Player player) {
         player.getInventory().clear();
         player.getActivePotionEffects().clear();

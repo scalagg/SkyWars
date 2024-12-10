@@ -33,7 +33,7 @@ class SkyWarsPlugin : ExtendedScalaPlugin() {
     }
 
     override fun disable() {
-        SkyWarsGame.gameInstance.stop()
+        SkyWarsGame.gameInstance.shutdown()
         super.disable()
     }
 

@@ -186,6 +186,7 @@ class GameHandler {
 
             val skyWarsProfile: SkyWarsProfile = SkyWarsGame.gameInstance.getProfile(player.uniqueId)
             skyWarsProfile.incrementXP(10)
+            skyWarsProfile.gamesPlayed++;
 
             if (player.inventory.firstEmpty() == 0) {
                 val profile: SkyWarsProfile = SkyWarsGame.gameInstance.getProfile(player.uniqueId)
@@ -200,6 +201,7 @@ class GameHandler {
 
         val event = GameStartEvent(game)
         Bukkit.getPluginManager().callEvent(event)
+
         Tasks.delayed(2L) {
             Bukkit.getOnlinePlayers().forEach {
                 updateRichPresence(it)
@@ -295,7 +297,7 @@ class GameHandler {
         if (game.state == GameState.WAITING) {
             player.teleport(map.getLobbySpawn())
         } else {
-            val playerSpawn = map.spawns[CgsGameTeamService.getTeamOf(player.uniqueId).id];
+            val playerSpawn = map.spawns[CgsGameTeamService.getTeamOf(player.uniqueId)!!.id];
 
             val randomCosmetic = CageCategory
                 .cosmetics()

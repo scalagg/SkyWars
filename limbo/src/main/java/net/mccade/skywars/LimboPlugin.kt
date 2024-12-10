@@ -28,7 +28,7 @@ class LimboPlugin : ExtendedScalaPlugin() {
     }
 
     override fun  disable() {
-        Limbo.lobbyInstance.stop()
+        Limbo.lobbyInstance.shutdown()
     }
 
     companion object {

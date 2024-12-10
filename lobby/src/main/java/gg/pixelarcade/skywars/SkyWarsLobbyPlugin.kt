@@ -38,7 +38,7 @@ class SkyWarsLobbyPlugin : ExtendedScalaPlugin() {
     }
 
     override fun disable() {
-        SkyWarsShared.instance.stop()
+        SkyWarsShared.instance.shutdown()
         super.disable()
     }
 

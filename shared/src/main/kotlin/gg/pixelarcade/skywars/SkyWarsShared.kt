@@ -1,6 +1,8 @@
 package gg.pixelarcade.skywars
 
 import gg.pixelarcade.skywars.arena.ArenaManager
+import gg.pixelarcade.skywars.battlepass.BattlePassHandler
+import gg.pixelarcade.skywars.battlepass.BattlePassManager
 import gg.pixelarcade.skywars.item.listeners.ItemListener
 import gg.pixelarcade.skywars.kit.KitHandler
 import gg.pixelarcade.skywars.leaderboard.LeaderboardHandler
@@ -32,6 +34,7 @@ abstract class SkyWarsShared(val plugin: ExtendedScalaPlugin) {
     val questHandler: QuestHandler
     val leaderboardHandler: LeaderboardHandler
     val arenaManager: ArenaManager
+    val battlePassManager: BattlePassManager
 
     val commandHandler: PaperCommandManager
 
@@ -45,6 +48,7 @@ abstract class SkyWarsShared(val plugin: ExtendedScalaPlugin) {
         questHandler = QuestHandler()
         leaderboardHandler = LeaderboardHandler()
         arenaManager = ArenaManager()
+        battlePassManager = BattlePassManager()
 
         listOf(ItemListener()).forEach(Consumer { listener: ItemListener? ->
             Bukkit.getPluginManager().registerEvents(
@@ -73,8 +77,13 @@ abstract class SkyWarsShared(val plugin: ExtendedScalaPlugin) {
 
         return gameSpecificStatistics as SkyWarsProfile
     }
+    fun shutdown() {
+        stop()
+        battlePassManager.shutdown()
+    }
 
     abstract fun init()
+
     abstract fun stop()
 
 

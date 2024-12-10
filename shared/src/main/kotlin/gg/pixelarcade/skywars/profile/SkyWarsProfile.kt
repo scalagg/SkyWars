@@ -1,6 +1,7 @@
 package gg.pixelarcade.skywars.profile
 
 import gg.pixelarcade.skywars.SkyWarsShared
+import gg.pixelarcade.skywars.battlepass.BattlePass
 import gg.pixelarcade.skywars.leveling.enums.LevelEnum
 import gg.pixelarcade.skywars.perk.Perk
 import gg.scala.cache.uuid.ScalaStoreUuidCache
@@ -28,6 +29,7 @@ class SkyWarsProfile(identifier: UUID) : GameSpecificStatistics(identifier) {
     var elo = 0
     var heads = 0
     var souls = 0
+    var gamesPlayed = 0
 
     var ownedKits: MutableList<String> = ArrayList()
     var ownedPerks: MutableList<String> = ArrayList()
@@ -37,6 +39,7 @@ class SkyWarsProfile(identifier: UUID) : GameSpecificStatistics(identifier) {
 
     var canRate = false
     var arenasRated: MutableList<String> = ArrayList()
+    var battlePass = BattlePass()
 
     override fun save(): CompletableFuture<Void> {
         return DataStoreObjectControllerCache.findNotNull<SkyWarsProfile>()
