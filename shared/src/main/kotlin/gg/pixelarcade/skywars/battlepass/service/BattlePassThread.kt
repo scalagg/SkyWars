@@ -4,6 +4,7 @@ package gg.pixelarcade.skywars.battlepass.service
 import gg.pixelarcade.skywars.SkyWarsShared
 import gg.pixelarcade.skywars.battlepass.challenge.ChallengeHandler
 import gg.pixelarcade.skywars.battlepass.daily.DailyChallengeHandler
+import gg.pixelarcade.skywars.battlepass.weekly.WeeklyChallengeHandler
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 

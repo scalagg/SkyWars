@@ -8,6 +8,7 @@ import gg.pixelarcade.skywars.battlepass.tier.Tier
 import gg.pixelarcade.skywars.battlepass.tier.TierHandler
 import gg.pixelarcade.skywars.battlepass.tier.TierReward
 import gg.pixelarcade.skywars.battlepass.tier.serializer.TierSetJsonAdapter
+import gg.pixelarcade.skywars.battlepass.weekly.WeeklyChallengeHandler
 import org.bukkit.entity.Player
 import java.util.*
 

@@ -6,6 +6,7 @@ import gg.pixelarcade.skywars.battlepass.BattlePass
 import gg.pixelarcade.skywars.battlepass.challenge.Challenge
 import gg.pixelarcade.skywars.battlepass.challenge.ChallengeType
 import gg.pixelarcade.skywars.battlepass.daily.DailyChallengeHandler
+import gg.pixelarcade.skywars.battlepass.weekly.WeeklyChallengeHandler
 import gg.pixelarcade.skywars.util.PlayerUtil
 import org.bukkit.ChatColor
 import org.bukkit.Material

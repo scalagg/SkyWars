@@ -28,7 +28,7 @@ class PersonalStatsNPCHandler {
 
     fun getMenu(player: Player) {
         val playerName = player.name
-        player.sendMessage(ChatColor.UNDERLINE.toString() + ChatColor.AQUA.toString() + "www.mccade.net/u/" + playerName + "/general")
+        player.sendMessage(ChatColor.UNDERLINE.toString() + ChatColor.AQUA.toString() + "www.solara.gg/u/" + playerName + "/general")
     }
 
     fun destroy() {

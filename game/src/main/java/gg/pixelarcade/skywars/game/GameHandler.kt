@@ -108,7 +108,7 @@ class GameHandler {
             val player: Player = Bukkit.getPlayer(uuid)
 
             // Paste the cage for the player
-            val playerSpawn = map.spawns[CgsGameTeamService.getTeamOf(player.uniqueId).id];
+            val playerSpawn = map.spawns[CgsGameTeamService.getTeamOf(player.uniqueId)!!.id];
 
             val randomCosmetic = CageCategory
                 .cosmetics()

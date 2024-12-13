@@ -11,8 +11,8 @@ class TierReward() {
         this.tier = tier
     }
 
-    var text = arrayListOf<String>()
-    var commands = arrayListOf<String>()
+    var text = mutableListOf<String>()
+    var commands = mutableListOf<String>()
 
     fun addText(text: String) {
         this.text.add(text)
@@ -30,10 +30,12 @@ class TierReward() {
         this.commands.remove(command)
     }
 
+    @JvmName("getTextLines1")
     fun getTextLines(): List<String> {
         return this.text.toList()
     }
 
+    @JvmName("getCommands1")
     fun getCommands(): List<String> {
         return this.commands.toList()
     }

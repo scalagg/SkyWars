@@ -1,16 +1,11 @@
 package gg.pixelarcade.skywars.battlepass.challenge.listener
 
 
-import cc.fyre.hcf.battlepass.BattlePassHandler
-import cc.fyre.hcf.battlepass.challenge.ChallengeHandler
-import cc.fyre.hcf.battlepass.challenge.impl.ExecuteCommandChallenge
-import cc.fyre.hcf.battlepass.daily.DailyChallengeHandler
-import cc.fyre.hcf.game.event.GameCaptureEvent
-import cc.fyre.hcf.statistic.event.AsyncPlayTimeSyncEvent
 import gg.pixelarcade.skywars.battlepass.BattlePassHandler
 import gg.pixelarcade.skywars.battlepass.challenge.ChallengeHandler
 import gg.pixelarcade.skywars.battlepass.challenge.impl.ExecuteCommandChallenge
 import gg.pixelarcade.skywars.battlepass.daily.DailyChallengeHandler
+import gg.pixelarcade.skywars.battlepass.weekly.WeeklyChallengeHandler
 import gg.pixelarcade.skywars.game.event.GameEndEvent
 import gg.pixelarcade.skywars.game.event.GameStartEvent
 import gg.pixelarcade.skywars.game.event.PlayerKillEvent

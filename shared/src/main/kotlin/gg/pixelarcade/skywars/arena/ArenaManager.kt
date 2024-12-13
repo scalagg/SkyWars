@@ -25,9 +25,6 @@ class ArenaManager {
 
     }
 
-    fun getArena(id: String): CgsSkywarsArena {
-
-    }
 
     fun getArenaIds(): Set<String> = arenas.columnKeySet()
 

@@ -6,6 +6,7 @@ import gg.pixelarcade.skywars.battlepass.BattlePass
 import gg.pixelarcade.skywars.battlepass.challenge.Challenge
 import gg.pixelarcade.skywars.battlepass.challenge.ChallengeType
 import gg.pixelarcade.skywars.battlepass.daily.DailyChallengeHandler
+import gg.pixelarcade.skywars.battlepass.weekly.WeeklyChallengeHandler
 import gg.pixelarcade.skywars.utils.ColorUtils
 import net.evilblock.cubed.util.bukkit.Constants
 import net.evilblock.cubed.util.bukkit.prompt.NumberPrompt
@@ -30,7 +31,7 @@ class GamesPlayedChallenge(id: String, var games: Int) : Challenge(id) {
         val value = if (this.daily) {
             DailyChallengeHandler.getSession().getProgress(player.uniqueId).getPlays()
         } else if (this.weekly) {
-            WeeklyDailyChallengeHandler.getSession().getProgress(player.uniqueId).getPlays()
+            WeeklyChallengeHandler.getSession().getProgress(player.uniqueId).getPlays()
         } else {
             SkyWarsShared.instance.getProfile(player).gamesPlayed;
         }
