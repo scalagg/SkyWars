@@ -10,6 +10,7 @@ import gg.scala.commons.acf.annotation.CommandPermission
 import gg.scala.commons.acf.annotation.Default
 import gg.scala.commons.acf.annotation.Name
 import gg.scala.commons.acf.annotation.Subcommand
+import gg.scala.commons.annotations.commands.AutoRegister
 import gg.scala.commons.command.ScalaCommand
 import net.evilblock.cubed.util.CC
 import net.evilblock.cubed.util.Color
@@ -22,6 +23,7 @@ import org.bukkit.entity.Player
  * @date 11/11/2024
  * @author Moose1301
  */
+@AutoRegister
 @CommandPermission("skywars.admin")
 @CommandAlias("loottable")
 object LootTableCommand : ScalaCommand() {

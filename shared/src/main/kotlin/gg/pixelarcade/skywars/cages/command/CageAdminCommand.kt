@@ -4,6 +4,7 @@ import gg.pixelarcade.skywars.cages.menu.CageViewAllMenu
 import gg.scala.commons.acf.annotation.CommandAlias
 import gg.scala.commons.acf.annotation.CommandPermission
 import gg.scala.commons.acf.annotation.Default
+import gg.scala.commons.annotations.commands.AutoRegister
 import gg.scala.commons.command.ScalaCommand
 import org.bukkit.entity.Player
 
@@ -12,6 +13,7 @@ import org.bukkit.entity.Player
  * @since 8/25/2024
  */
 
+@AutoRegister
 @CommandAlias("cageadmin")
 @CommandPermission("practice.command.cageadmin")
 object CageAdminCommand : ScalaCommand()
