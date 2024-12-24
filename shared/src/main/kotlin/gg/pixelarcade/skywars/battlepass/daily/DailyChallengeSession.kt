@@ -18,16 +18,16 @@ class DailyChallengeSession(val uuid: UUID = UUID.randomUUID()) {
     var progress: MutableMap<UUID,DailyChallengeProgress> = hashMapOf()
 
 
-    @JsonAdapter(ChallengeSetJsonAdapter::class) var challenges: MutableList<Challenge> = generateChallenges()
+    @JsonAdapter(ChallengeSetJsonAdapter::class) var challenges: Set<Challenge> = generateChallenges()
 
     @JvmName("getChallenges1")
-    fun getChallenges(): List<Challenge> {
+    fun getChallenges(): Set<Challenge> {
         return challenges
     }
 
-    private fun generateChallenges(): MutableList<Challenge> {
+    private fun generateChallenges(): Set<Challenge> {
         val filtered = ChallengeHandler.getChallenges().filter { it.daily }.toMutableList()
-        val generated = arrayListOf<Challenge>()
+        val generated = mutableSetOf<Challenge>()
 
         for (i in 0..filtered.size.coerceAtMost(BattlePassHandler.DAILY_CHALLENGES)) {
             try {

@@ -16,7 +16,7 @@ class WeeklyChallengeProgress(val uuid: UUID) {
 
 
     @JsonAdapter(ChallengeSetJsonAdapter::class)
-    var completedChallenges: MutableList<Challenge> = arrayListOf()
+    var completedChallenges: MutableSet<Challenge> = mutableSetOf()
 
     @JvmName("getKills1")
     fun getKills(): Int {
