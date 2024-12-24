@@ -33,8 +33,5 @@ object SchemaCageCommandCustomizers
             LootTableDataSync.cached().tables[arg.lowercase()]
                 ?: throw ConditionFailedException("No Loot Table by that name was found.")
         }
-
-        manager.registerCommand(CageAdminCommand)
-        manager.registerCommand(LootTableCommand)
     }
 }

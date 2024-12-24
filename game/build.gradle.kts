@@ -14,7 +14,6 @@ repositories {
 dependencies {
     implementation(project(":shared"))
     compileOnly("studio.pinkcloud.deploy:spigot:1.0-SNAPSHOT")
-    compileOnly("org.paperspigot:PaperSpigot:1.8.8")
     compileOnly(files("libs/worldedit-1.8.8.jar"))
     compileOnly(files("libs/FastAsyncWorldEdit.jar"))
 }

@@ -5,12 +5,12 @@ import gg.pixelarcade.skywars.chests.lootable.LootTableDataSync
 import gg.pixelarcade.skywars.chests.lootable.menu.LootTableListMenu
 import gg.pixelarcade.skywars.chests.lootable.model.LootTable
 import gg.pixelarcade.skywars.chests.lootable.model.LootTableItem
-import gg.scala.commons.acf.BaseCommand
 import gg.scala.commons.acf.annotation.CommandAlias
 import gg.scala.commons.acf.annotation.CommandPermission
 import gg.scala.commons.acf.annotation.Default
 import gg.scala.commons.acf.annotation.Name
 import gg.scala.commons.acf.annotation.Subcommand
+import gg.scala.commons.command.ScalaCommand
 import net.evilblock.cubed.util.CC
 import net.evilblock.cubed.util.Color
 import org.bukkit.ChatColor
@@ -24,7 +24,7 @@ import org.bukkit.entity.Player
  */
 @CommandPermission("skywars.admin")
 @CommandAlias("loottable")
-object LootTableCommand : BaseCommand() {
+object LootTableCommand : ScalaCommand() {
     @Subcommand("create")
     fun handleList(
         player: Player,

@@ -2,9 +2,10 @@ package gg.pixelarcade.skywars.music.commands
 
 import gg.pixelarcade.skywars.SkyWarsLobby
 import gg.pixelarcade.skywars.profile.hasMusicEnabled
-import gg.scala.commons.acf.BaseCommand
 import gg.scala.commons.acf.CommandHelp
 import gg.scala.commons.acf.annotation.*
+import gg.scala.commons.annotations.commands.AutoRegister
+import gg.scala.commons.command.ScalaCommand
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -14,8 +15,9 @@ import org.bukkit.entity.Player
  * @project Skywars / gg.pixelarcade.game.music.commands
  * @date 18/10/2023 / 19:05
  */
+@AutoRegister
 @CommandAlias("music")
-class MusicCommand : BaseCommand() {
+class MusicCommand : ScalaCommand() {
     private val handler = SkyWarsLobby.lobbyInstance.musicHandler
 
     @HelpCommand

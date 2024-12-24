@@ -67,9 +67,6 @@ class SkyWarsGame(plugin: ExtendedScalaPlugin) : SkyWarsShared(plugin) {
                 SkyWarsPlugin.instance
             )
         })
-
-        commandHandler.registerCommand(GameCommand())
-        commandHandler.registerCommand(AbilityCommand())
     }
 
     override fun stop() {}

@@ -82,7 +82,7 @@ class LobbyHandler {
         }
 
         if (skywarsTemplates.isEmpty()) {
-            LimboPlugin.instance.getLogger().warning("No skywars templates found!")
+            LimboPlugin.instance.logger.warning("No skywars templates found!")
             return
         }
 

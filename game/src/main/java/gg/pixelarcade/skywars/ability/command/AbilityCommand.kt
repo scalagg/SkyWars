@@ -2,9 +2,10 @@ package gg.pixelarcade.skywars.ability.command
 
 import gg.pixelarcade.skywars.SkyWarsGame
 import gg.pixelarcade.skywars.ability.Ability
-import gg.scala.commons.acf.BaseCommand
 import gg.scala.commons.acf.CommandHelp
 import gg.scala.commons.acf.annotation.*
+import gg.scala.commons.annotations.commands.AutoRegister
+import gg.scala.commons.command.ScalaCommand
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
@@ -13,8 +14,10 @@ import org.bukkit.entity.Player
  * @project Skywars / gg.pixelarcade.game.ability.command
  * @date 03/10/2023 / 06:32
  */
+@AutoRegister
 @CommandAlias("ability")
-class AbilityCommand : BaseCommand() {
+class AbilityCommand : ScalaCommand() {
+
     @Subcommand("give")
     @CommandPermission("skywars.ability.give")
     fun give(player: Player, @Name("abilityName") abilityName: String, @Optional @Name("amount") amount: Int) {

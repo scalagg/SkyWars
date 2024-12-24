@@ -3,8 +3,9 @@ package gg.pixelarcade.skywars.admin.commands
 import gg.pixelarcade.skywars.SkyWarsShared
 import gg.pixelarcade.skywars.leaderboard.impl.LevelLeaderboard
 import gg.pixelarcade.skywars.util.GsonProvider
-import gg.scala.commons.acf.BaseCommand
 import gg.scala.commons.acf.annotation.*
+import gg.scala.commons.annotations.commands.AutoRegister
+import gg.scala.commons.command.ScalaCommand
 import net.evilblock.cubed.util.bukkit.Tasks
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
@@ -13,9 +14,11 @@ import org.bukkit.entity.Player
 import java.util.*
 import java.util.function.Consumer
 
+@AutoRegister
 @CommandPermission("skywars.admin")
-@CommandAlias("skywarsexp")
-class AdminExp : BaseCommand() {
+@CommandAlias("skywarsadmin|swadmin|skywars-admin|sw-admin")
+class AdminExp : ScalaCommand() {
+
     @Subcommand("givecoins")
     @Description("Give [player] an amount of coins")
     fun giveCoins(sender: CommandSender, @Name("player") name: String?, @Name("amount") amount: Int) {

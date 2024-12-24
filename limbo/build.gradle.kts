@@ -19,8 +19,6 @@ dependencies {
     compileOnly("net.kyori:adventure-api:4.14.0")
     compileOnly("org.projectlombok:lombok:1.18.24")
 
-    compileOnly("org.paperspigot:PaperSpigot:1.8.8")
-
     compileOnly("studio.pinkcloud.deploy:spigot:1.0-SNAPSHOT")
 
 

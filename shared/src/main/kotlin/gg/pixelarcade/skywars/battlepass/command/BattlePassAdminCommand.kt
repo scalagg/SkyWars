@@ -3,12 +3,12 @@ package gg.pixelarcade.skywars.battlepass.command
 import gg.pixelarcade.skywars.SkyWarsShared
 import gg.pixelarcade.skywars.battlepass.BattlePass
 import gg.pixelarcade.skywars.battlepass.menu.editor.BattlePassEditorMenu
-import gg.scala.commons.acf.BaseCommand
 import gg.scala.commons.acf.annotation.CommandAlias
 import gg.scala.commons.acf.annotation.CommandPermission
 import gg.scala.commons.acf.annotation.Name
 import gg.scala.commons.acf.annotation.Subcommand
 import gg.scala.commons.annotations.commands.AutoRegister
+import gg.scala.commons.command.ScalaCommand
 import gg.scala.commons.issuer.ScalaPlayer
 import net.evilblock.cubed.util.bukkit.Tasks
 import org.bukkit.Bukkit
@@ -22,7 +22,7 @@ import java.util.*
 @AutoRegister
 @CommandAlias("battlepassadmin")
 @CommandPermission("skywars.battlepass.admin")
-object BattlePassAdminCommand : BaseCommand() {
+object BattlePassAdminCommand : ScalaCommand() {
 
     @Subcommand("setxp")
     @CommandPermission("skywars.battlepass.admin.setxp")

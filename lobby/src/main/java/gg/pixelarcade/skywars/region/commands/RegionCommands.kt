@@ -6,9 +6,10 @@ import gg.pixelarcade.skywars.region.Region
 import gg.pixelarcade.skywars.region.RegionHandler
 import gg.pixelarcade.skywars.region.menu.RegionEditorMenu
 import gg.pixelarcade.skywars.region.selection.RegionSelection
-import gg.scala.commons.acf.BaseCommand
 import gg.scala.commons.acf.CommandHelp
 import gg.scala.commons.acf.annotation.*
+import gg.scala.commons.annotations.commands.AutoRegister
+import gg.scala.commons.command.ScalaCommand
 import net.evilblock.cubed.util.Color
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -18,9 +19,10 @@ import org.bukkit.entity.Player
  * @project Skywars / gg.pixelarcade.game.region.commands
  * @date 19/10/2023 / 16:12
  */
+@AutoRegister
 @CommandAlias("region||regions")
 @CommandPermission("skywars.region")
-class RegionCommands : BaseCommand() {
+class RegionCommands : ScalaCommand() {
     private val handler: RegionHandler = SkyWarsLobby.lobbyInstance.regionHandler
 
     @HelpCommand

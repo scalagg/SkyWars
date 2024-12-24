@@ -36,12 +36,8 @@ abstract class SkyWarsShared(val plugin: ExtendedScalaPlugin) {
     val arenaManager: ArenaManager
     val battlePassManager: BattlePassManager
 
-    val commandHandler: PaperCommandManager
-
     init {
         instance = this
-
-        commandHandler = ScalaCommonsSpigot.instance.commandManager
 
         kitHandler = KitHandler()
         perkHandler = PerkHandler()

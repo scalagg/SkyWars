@@ -63,10 +63,6 @@ class SkyWarsLobby(plugin: ExtendedScalaPlugin) : SkyWarsShared(plugin) {
             Bukkit.getPluginManager().registerEvents(listener, SkyWarsLobbyPlugin.instance)
         })
 
-        commandHandler.registerCommand(MusicCommand())
-        commandHandler.registerCommand(RegionCommands())
-        commandHandler.registerCommand(AdminExp())
-
         plugin.server.messenger.registerOutgoingPluginChannel(plugin, "BungeeCord")
 
         Bukkit.getWorlds()[0].entities

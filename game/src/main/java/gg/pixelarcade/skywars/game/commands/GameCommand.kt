@@ -3,18 +3,19 @@ package gg.pixelarcade.skywars.game.commands
 import gg.pixelarcade.skywars.SkyWarsGame
 import gg.pixelarcade.skywars.game.state.GameType
 import gg.pixelarcade.skywars.util.SpigotConstants
-import gg.scala.commons.acf.BaseCommand
 import gg.scala.commons.acf.CommandHelp
 import gg.scala.commons.acf.ConditionFailedException
 import gg.scala.commons.acf.annotation.*
+import gg.scala.commons.annotations.commands.AutoRegister
+import gg.scala.commons.command.ScalaCommand
 
 import net.evilblock.cubed.util.Color
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-
+@AutoRegister
 @CommandAlias("game")
-class GameCommand : BaseCommand() {
+class GameCommand : ScalaCommand() {
     private val handler = SkyWarsGame.gameInstance.gameHandler
 
     @Subcommand("join")
