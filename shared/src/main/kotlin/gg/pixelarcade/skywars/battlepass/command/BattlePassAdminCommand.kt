@@ -3,10 +3,8 @@ package gg.pixelarcade.skywars.battlepass.command
 import gg.pixelarcade.skywars.SkyWarsShared
 import gg.pixelarcade.skywars.battlepass.BattlePass
 import gg.pixelarcade.skywars.battlepass.menu.editor.BattlePassEditorMenu
-import gg.scala.commons.acf.annotation.CommandAlias
-import gg.scala.commons.acf.annotation.CommandPermission
-import gg.scala.commons.acf.annotation.Name
-import gg.scala.commons.acf.annotation.Subcommand
+import gg.scala.commons.acf.CommandHelp
+import gg.scala.commons.acf.annotation.*
 import gg.scala.commons.annotations.commands.AutoRegister
 import gg.scala.commons.command.ScalaCommand
 import gg.scala.commons.issuer.ScalaPlayer
@@ -23,6 +21,12 @@ import java.util.*
 @CommandAlias("battlepassadmin")
 @CommandPermission("skywars.battlepass.admin")
 object BattlePassAdminCommand : ScalaCommand() {
+
+    @Default
+    @HelpCommand
+    fun onHelp(help: CommandHelp) {
+        help.showHelp()
+    }
 
     @Subcommand("setxp")
     @CommandPermission("skywars.battlepass.admin.setxp")
@@ -74,9 +78,9 @@ object BattlePassAdminCommand : ScalaCommand() {
     @CommandPermission("skywars.battlepass.admin.reset")
     fun handleReset(sender: ScalaPlayer, @Name("player") player: UUID) {
         Tasks.async {
-            val profile = SkyWarsShared.instance.getProfile(player);
+            val profile = SkyWarsShared.instance.getProfile(player)
 
-            profile.battlePass = BattlePass()
+            profile.battlePass = BattlePass
 
             profile.save()
 

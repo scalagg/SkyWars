@@ -13,10 +13,10 @@ import org.bukkit.entity.Player
 import java.util.*
 
 
-class BattlePass {
+object BattlePass {
 
     var premium = false
-    var experience = 0
+    var xp = 0
     var commandsExecuted = mutableSetOf<String>()
 
     @JsonAdapter(TierSetJsonAdapter::class) var claimedRewardsFree = mutableSetOf<Tier>()
@@ -29,37 +29,34 @@ class BattlePass {
         return this.premium
     }
 
-    @JvmName("setPremium1")
     fun setPremium(uuid: UUID, premium: Boolean) {
         this.premium = premium
         this.requiresUpdate = true
     }
 
-    @JvmName("setExperience1")
     fun setExperience(uuid: UUID,exp: Int) {
-        this.experience = exp
+        this.xp = exp
         this.requiresUpdate = true
     }
 
-    @JvmName("getExperience1")
     fun getExperience(): Int {
-        return this.experience
+        return this.xp
     }
 
     fun addExperience(player: Player,exp: Int) {
-        this.experience += exp
+        this.xp += exp
     }
 
     fun isTierUnlocked(tier: Tier): Boolean {
-        return this.experience >= tier.requiredExperience
+        return this.xp >= tier.requiredExperience
     }
 
     fun getNextTier(): Tier? {
-        return TierHandler.getAllTiers().sortedBy{it.requiredExperience}.firstOrNull{this.experience < it.requiredExperience}
+        return TierHandler.getAllTiers().sortedBy{it.requiredExperience}.firstOrNull{this.xp < it.requiredExperience}
     }
 
     fun getCurrentTier(): Tier? {
-        return TierHandler.getAllTiers().sortedBy{it.requiredExperience}.lastOrNull{this.experience >= it.requiredExperience}
+        return TierHandler.getAllTiers().sortedBy{it.requiredExperience}.lastOrNull{this.xp >= it.requiredExperience}
     }
 
     fun hasCompletedChallenge(player: Player,challenge: Challenge): Boolean {
@@ -73,7 +70,7 @@ class BattlePass {
     }
 
     fun completeChallenge(player: Player,challenge: Challenge) {
-        this.experience += challenge.rewardXp
+        this.xp += challenge.rewardXp
 
         if (challenge.daily) {
             DailyChallengeHandler.getSession().getProgress(player.uniqueId).completeChallenge(challenge)

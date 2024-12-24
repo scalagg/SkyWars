@@ -39,7 +39,7 @@ class SkyWarsProfile(identifier: UUID) : GameSpecificStatistics(identifier) {
 
     var canRate = false
     var arenasRated: MutableList<String> = ArrayList()
-    var battlePass = BattlePass()
+    var battlePass = BattlePass
 
     override fun save(): CompletableFuture<Void> {
         return DataStoreObjectControllerCache.findNotNull<SkyWarsProfile>()
