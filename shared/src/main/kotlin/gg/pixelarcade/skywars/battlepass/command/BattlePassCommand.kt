@@ -4,6 +4,7 @@ import gg.pixelarcade.skywars.SkyWarsShared
 import gg.pixelarcade.skywars.battlepass.BattlePass
 import gg.pixelarcade.skywars.battlepass.menu.BattlePass2Menu
 import gg.pixelarcade.skywars.battlepass.menu.editor.BattlePassEditorMenu
+import gg.scala.commons.acf.BaseCommand
 import gg.scala.commons.acf.annotation.CommandAlias
 import gg.scala.commons.acf.annotation.CommandPermission
 import gg.scala.commons.acf.annotation.Default
@@ -23,7 +24,7 @@ import java.util.*
  */
 @AutoRegister
 @CommandAlias("battlepass|bp|bpass")
-object BattlePassCommand {
+object BattlePassCommand : BaseCommand() {
     @Default
     fun execute(player: Player) {
         BattlePass2Menu(SkyWarsShared.instance.getProfile(player).battlePass).openMenu(player)

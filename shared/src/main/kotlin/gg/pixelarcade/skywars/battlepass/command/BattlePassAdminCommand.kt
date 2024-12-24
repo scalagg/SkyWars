@@ -3,6 +3,7 @@ package gg.pixelarcade.skywars.battlepass.command
 import gg.pixelarcade.skywars.SkyWarsShared
 import gg.pixelarcade.skywars.battlepass.BattlePass
 import gg.pixelarcade.skywars.battlepass.menu.editor.BattlePassEditorMenu
+import gg.scala.commons.acf.BaseCommand
 import gg.scala.commons.acf.annotation.CommandAlias
 import gg.scala.commons.acf.annotation.CommandPermission
 import gg.scala.commons.acf.annotation.Name
@@ -21,7 +22,7 @@ import java.util.*
 @AutoRegister
 @CommandAlias("battlepassadmin")
 @CommandPermission("skywars.battlepass.admin")
-object BattlePassAdminCommand {
+object BattlePassAdminCommand : BaseCommand() {
 
     @Subcommand("setxp")
     @CommandPermission("skywars.battlepass.admin.setxp")
