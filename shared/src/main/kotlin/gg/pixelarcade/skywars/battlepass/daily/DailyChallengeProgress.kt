@@ -16,7 +16,7 @@ class DailyChallengeProgress(val uuid: UUID) {
 
 
     @JsonAdapter(ChallengeSetJsonAdapter::class)
-    var completedChallenges: Set<Challenge> = mutableSetOf()
+    var completedChallenges: MutableSet<Challenge> = mutableSetOf()
 
     @JvmName("getKills1")
     fun getKills(): Int {
