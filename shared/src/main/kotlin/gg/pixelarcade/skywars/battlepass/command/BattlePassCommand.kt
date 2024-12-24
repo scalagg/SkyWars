@@ -13,10 +13,10 @@ import org.bukkit.entity.Player
  * @author Moose1301
  */
 @AutoRegister
-@CommandAlias("battlepass|bp|bpass")
 object BattlePassCommand : ScalaCommand() {
-    @Default
-    fun execute(player: Player) {
+
+    @CommandAlias("battlepass|bp|bpass")
+    fun onBattlePass(player: Player) {
         BattlePass2Menu(SkyWarsShared.instance.getProfile(player).battlePass).openMenu(player)
     }
 
