@@ -18,7 +18,7 @@ import java.util.*
  * @author Moose1301
  */
 @AutoRegister
-@CommandAlias("battlepassadmin")
+@CommandAlias("battlepassadmin|bpadmin|bp-admin|battlepass-admin|bpa")
 @CommandPermission("skywars.battlepass.admin")
 object BattlePassAdminCommand : ScalaCommand() {
 

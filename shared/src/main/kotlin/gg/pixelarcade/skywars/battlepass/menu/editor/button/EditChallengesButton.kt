@@ -18,7 +18,7 @@ class EditChallengesButton : Button() {
         val lore = arrayListOf<String>()
 
         lore.add("")
-        lore.addAll(TextSplitter.split(text = "Challenges reward players experience to level up their BattlePass tiers.", linePrefix = "${ChatColor.GRAY}"))
+        lore.addAll(TextSplitter.split(text = "Challenges reward players experience to level up their Battle Pass tiers.", linePrefix = "${ChatColor.GRAY}"))
         lore.add("")
         lore.add("${ChatColor.GREEN}${ChatColor.BOLD}LEFT-CLICK ${ChatColor.GREEN}to edit premium challenges")
         lore.add("${ChatColor.AQUA}${ChatColor.BOLD}SHIFT RIGHT-CLICK ${ChatColor.AQUA}to edit weekly challenges")

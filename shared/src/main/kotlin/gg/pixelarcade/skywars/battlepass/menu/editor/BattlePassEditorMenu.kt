@@ -14,7 +14,7 @@ class BattlePassEditorMenu : Menu() {
     }
 
     override fun getTitle(player: Player): String {
-        return "BattlePass Editor"
+        return "Battle Pass Editor"
     }
 
     override fun getButtons(player: Player): MutableMap<Int,Button> {

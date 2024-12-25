@@ -3,6 +3,7 @@ package gg.pixelarcade.skywars.admin.commands
 import gg.pixelarcade.skywars.SkyWarsShared
 import gg.pixelarcade.skywars.leaderboard.impl.LevelLeaderboard
 import gg.pixelarcade.skywars.util.GsonProvider
+import gg.scala.commons.acf.CommandHelp
 import gg.scala.commons.acf.annotation.*
 import gg.scala.commons.annotations.commands.AutoRegister
 import gg.scala.commons.command.ScalaCommand
@@ -16,8 +17,14 @@ import java.util.function.Consumer
 
 @AutoRegister
 @CommandPermission("skywars.admin")
-@CommandAlias("skywarsadmin|swadmin|skywars-admin|sw-admin")
+@CommandAlias("skywarsadmin|swadmin|skywars-admin|sw-admin|swa")
 class AdminExp : ScalaCommand() {
+
+    @Default
+    @HelpCommand
+    fun onHelp(help: CommandHelp) {
+        help.showHelp()
+    }
 
     @Subcommand("givecoins")
     @Description("Give [player] an amount of coins")

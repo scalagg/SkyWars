@@ -20,7 +20,7 @@ class EditTiersButton : Button() {
         val lore = arrayListOf<String>()
 
         lore.add("")
-        lore.addAll(TextSplitter.split(text = "Tiers are BattlePass milestones that give rewards as you gain experience through completing challenges.", linePrefix = "${ChatColor.GRAY}"))
+        lore.addAll(TextSplitter.split(text = "Tiers are Battle Pass milestones that give rewards as you gain experience through completing challenges.", linePrefix = "${ChatColor.GRAY}"))
         lore.add("")
         lore.add("${ChatColor.GREEN}${ChatColor.BOLD}Left click to edit")
 

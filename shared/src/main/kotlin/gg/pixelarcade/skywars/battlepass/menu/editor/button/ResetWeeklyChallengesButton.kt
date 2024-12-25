@@ -35,7 +35,7 @@ class ResetWeeklyChallengesButton : Button() {
             if (confirmed) {
                 WeeklyChallengeHandler.refresh()
 
-                player.sendMessage("${ChatColor.GREEN}You have reset the BattlePass's weekly challenges!")
+                player.sendMessage("${ChatColor.GREEN}You have reset the Battle Pass's weekly challenges!")
             }
 
             BattlePassEditorMenu().openMenu(player)

@@ -4,18 +4,18 @@ import gg.scala.lemon.util.QuickAccess
 import net.evilblock.cubed.util.Color
 import net.evilblock.cubed.util.bukkit.Tasks
 import net.mccade.skywars.Limbo
-import net.mccade.skywars.LimboPlugin
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
+import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
 
 
-class LobbyListener(private val plugin: Limbo) : org.bukkit.event.Listener {
+class LobbyListener(private val plugin: Limbo) : Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     fun onPlayerJoin(event: PlayerJoinEvent) {
