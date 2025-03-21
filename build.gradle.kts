@@ -70,7 +70,6 @@ allprojects {
     dependencies {
         compileOnly("net.kyori:adventure-api:4.14.0")
         compileOnly("gg.scala.spigot:server:1.1.0")
-        kapt("gg.scala.spigot:server:1.1.0")
 
         compileOnly("gg.scala.commons:bukkit:4.0.0")
         kapt("gg.scala.commons:bukkit:4.0.0")
