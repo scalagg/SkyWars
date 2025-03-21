@@ -10,7 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin
     name = "SkyWars-Limbo",
     version = "%remote%/%branch%/%id%"
 )
-@PluginAuthor("Solara")
+@PluginAuthor("Scala")
 @PluginWebsite("https://scala.gg")
 @PluginDependencyComposite(
     PluginDependency("scala-commons"),

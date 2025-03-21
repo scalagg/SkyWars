@@ -17,7 +17,7 @@ import org.bukkit.inventory.ItemStack
 class KitEditorItem(private val player: Player) : Item(player) {
     override fun getItem(player: Player): ItemStack {
         return ItemBuilder(XMaterial.EMERALD, 1)
-            .name(Color.translate("&aSkyWars Editor &7(Right Click)"))
+            .name(Color.translate("&aSkyWars Shop &7(Right Click)"))
             .build()
     }
 

@@ -7,7 +7,7 @@ import gg.scala.commons.core.plugin.*
     name = "SkyWars-Game",
     version = "%remote%/%branch%/%id%"
 )
-@PluginAuthor("Solara")
+@PluginAuthor("Scala")
 @PluginWebsite("https://scala.gg")
 @PluginDependencyComposite(
     PluginDependency("scala-commons"),
