@@ -25,8 +25,8 @@ allprojects {
     apply(plugin = "org.jetbrains.kotlin.kapt")
     apply(plugin = "com.jfrog.artifactory")
 
-    group = "gg.pixelarcade"
-    version = "1.0.9${
+    group = "gg.scala.skywars"
+    version = "1.1.0${
         if (currentBranch == "develop") "-dev" else ""
     }"
 
@@ -46,14 +46,6 @@ allprojects {
                 username = property("artifactory_user").toString()
                 password = property("artifactory_password").toString()
             }
-        }
-        maven {
-            url = uri("https://maven.refinedev.xyz/repository/maven-releases/")
-            name = "refine-releases"
-        }
-        maven {
-            url = uri("https://maven.refinedev.xyz/repository/public-repo/")
-            name = "refine-public"
         }
         maven {
             url = uri("https://repo.mincats.eu/mirrors")
@@ -91,7 +83,7 @@ allprojects {
         compileOnly("gg.scala.store:shared:0.1.9")
 
         compileOnly("gg.scala.cloudsync:spigot:1.0.3")
-        compileOnly("gg.tropic.game.extensions:tropic-core-game-extensions:1.3.0")
+        compileOnly("gg.scala.game.extensions:scala-core-game-extensions:1.3.0")
 
         compileOnly("com.lunarclient:apollo-api:1.1.6")
         compileOnly("com.grinderwolf:slimeworldmanager-plugin:2.2.1")

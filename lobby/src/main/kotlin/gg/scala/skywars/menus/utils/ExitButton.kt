@@ -1,0 +1,26 @@
+package gg.scala.skywars.menus.utils
+
+import com.cryptomorin.xseries.XMaterial
+import net.evilblock.cubed.menu.Button
+import net.evilblock.cubed.util.bukkit.ItemBuilder
+import org.bukkit.ChatColor
+import org.bukkit.entity.Player
+import org.bukkit.event.inventory.ClickType
+import org.bukkit.inventory.InventoryView
+import org.bukkit.inventory.ItemStack
+
+class ExitButton : Button() {
+    override fun getButtonItem(player: Player): ItemStack {
+        return ItemBuilder(XMaterial.BARRIER)
+            .name(ChatColor.RED.toString() + "EXIT")
+            .addToLore(
+                "",
+                ChatColor.GRAY.toString() + "Click to Exit!"
+            )
+            .build()
+    }
+
+    override fun clicked(player: Player, slot: Int, clickType: ClickType, view: InventoryView) {
+        player.closeInventory()
+    }
+}
