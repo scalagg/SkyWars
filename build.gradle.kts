@@ -17,7 +17,7 @@ if (currentBranch != "master") {
 
 allprojects {
     group = "gg.scala.skywars"
-    version = "1.1.0${
+    version = "1.1.1${
         if (currentBranch == "develop") "-dev" else ""
     }"
 

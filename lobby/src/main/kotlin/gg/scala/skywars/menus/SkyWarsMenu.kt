@@ -55,7 +55,7 @@ class SkyWarsMenu : Menu() {
         //-- Create Buttons with given values
         override fun getButtonItem(player: Player): ItemStack {
             return ItemBuilder(material)
-                .name(ChatColor.DARK_PURPLE.toString() + gameType.displayName + "Perks")
+                .name(ChatColor.DARK_PURPLE.toString() + gameType.displayName + " Perks")
                 .addToLore(
                     "",
                     ChatColor.GREEN.toString() + "Click to view."
