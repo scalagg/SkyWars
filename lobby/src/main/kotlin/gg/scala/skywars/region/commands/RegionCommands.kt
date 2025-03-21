@@ -22,7 +22,6 @@ import org.bukkit.entity.Player
 @CommandAlias("region||regions")
 @CommandPermission("skywars.region")
 object RegionCommands : ScalaCommand() {
-    private val handler: RegionHandler = SkyWarsLobby.lobbyInstance.regionHandler
 
     @Default
     @HelpCommand
@@ -49,15 +48,15 @@ object RegionCommands : ScalaCommand() {
     @Description("Create a region")
     @CommandPermission("skywars.region.create")
     fun create(player: Player, @Name("name") name: String) {
-        val selection = handler.getSelection(player)
+        val selection = RegionHandler.getSelection(player)
         if (!selection.isValidSelection) {
             player.sendMessage(Color.translate("&cYou must select a region first."))
             return
         }
 
         val region = Region(selection.region!!.bounds, name)
-        handler.addRegion(region)
-        handler.saveRegions()
+        RegionHandler.addRegion(region)
+        RegionHandler.saveRegions()
 
         player.removeMetadata(RegionSelection.SELECTION_WAND_KEY, SkyWarsLobbyPlugin.instance)
         player.sendMessage(Color.translate("&eYou have created a region with the name &6$name&e."))
@@ -67,14 +66,14 @@ object RegionCommands : ScalaCommand() {
     @Description("Delete a region")
     @CommandPermission("skywars.region.delete")
     fun delete(player: Player, @Name("name") name: String) {
-        val region = handler.getRegion(name)
+        val region = RegionHandler.getRegion(name)
         if (region == null) {
             player.sendMessage(Color.translate("&cA region with that name does not exist."))
             return
         }
 
-        handler.removeRegion(region)
-        handler.saveRegions()
+        RegionHandler.removeRegion(region)
+        RegionHandler.saveRegions()
         player.sendMessage(Color.translate("&eYou have deleted the region with the name &6$name&e."))
     }
 
