@@ -16,7 +16,6 @@ import org.bukkit.entity.Player
 @AutoRegister
 @CommandAlias("game")
 class GameCommand : ScalaCommand() {
-    private val handler = SkyWarsGame.gameInstance.gameHandler
 
     @Subcommand("join")
     @Syntax("<type>")
@@ -53,7 +52,7 @@ class GameCommand : ScalaCommand() {
 
     @Subcommand("leave")
     fun leave(player: Player) {
-        handler.removePlayer(player)
+        SkyWarsGame.gameInstance.gameHandler.removePlayer(player)
 
         val map = SkyWarsGame.gameInstance.gameHandler.map
 
@@ -68,10 +67,10 @@ class GameCommand : ScalaCommand() {
     @Subcommand("forcestart")
     @CommandPermission("skywars.forcestart")
     fun forcestart(player: Player?) {
-        if (handler.game.forceStarted) throw ConditionFailedException("Already force started")
+        if (SkyWarsGame.gameInstance.gameHandler.game.forceStarted) throw ConditionFailedException("Already force started")
 
-        handler.game.forceStarted = true
-        handler.startCountdown()
+        SkyWarsGame.gameInstance.gameHandler.game.forceStarted = true
+        SkyWarsGame.gameInstance.gameHandler.startCountdown()
     }
 
     @Default

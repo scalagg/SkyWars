@@ -55,7 +55,7 @@ class WorldEditUtils {
             return clipboard
         }
 
-        fun clear(bounds: _root_ide_package_.gg.scala.skywars.util.cuboid.Cuboid) {
+        fun clear(bounds: Cuboid) {
             clear(
                 Vector(bounds.lowerX, bounds.lowerY, bounds.lowerZ),
                 Vector(bounds.upperX, bounds.upperY, bounds.upperZ)

@@ -18,7 +18,6 @@ import org.bukkit.entity.Player
 @AutoRegister
 @CommandAlias("music")
 class MusicCommand : ScalaCommand() {
-    private val handler = SkyWarsLobby.lobbyInstance.musicHandler
 
     @Default
     @HelpCommand
@@ -29,10 +28,10 @@ class MusicCommand : ScalaCommand() {
     @Subcommand("toggle")
     @Description("Toggles the music for the player")
     fun toggle(sender: Player) {
-        if (handler.radioSongPlayer!!.playerUUIDs.contains(sender.uniqueId)) {
-            handler.radioSongPlayer!!.removePlayer(sender.uniqueId)
+        if (SkyWarsLobby.lobbyInstance.musicHandler.radioSongPlayer!!.playerUUIDs.contains(sender.uniqueId)) {
+            SkyWarsLobby.lobbyInstance.musicHandler.radioSongPlayer!!.removePlayer(sender.uniqueId)
         } else {
-            handler.radioSongPlayer!!.addPlayer(sender.uniqueId)
+            SkyWarsLobby.lobbyInstance.musicHandler.radioSongPlayer!!.addPlayer(sender.uniqueId)
         }
     }
 
@@ -40,7 +39,7 @@ class MusicCommand : ScalaCommand() {
     @Description("Skip the current song")
     @CommandPermission("skywars.music.skip")
     fun skip(sender: CommandSender) {
-        handler.radioSongPlayer!!.playNextSong()
+        SkyWarsLobby.lobbyInstance.musicHandler.radioSongPlayer!!.playNextSong()
         sender.sendMessage("§aYou have skipped the current song.")
     }
 
@@ -48,7 +47,7 @@ class MusicCommand : ScalaCommand() {
     @Description("Stop all music for all players")
     @CommandPermission("skywars.music.stopall")
     fun stopAll(sender: CommandSender) {
-        for (uuid in handler.radioSongPlayer!!.playerUUIDs) handler.radioSongPlayer!!.removePlayer(uuid)
+        for (uuid in SkyWarsLobby.lobbyInstance.musicHandler.radioSongPlayer!!.playerUUIDs) SkyWarsLobby.lobbyInstance.musicHandler.radioSongPlayer!!.removePlayer(uuid)
 
         sender.sendMessage("§aYou have stopped all music for all players.")
     }
@@ -57,11 +56,11 @@ class MusicCommand : ScalaCommand() {
     @Description("Play all music for all players")
     @CommandPermission("skywars.music.playall")
     fun playAll(sender: CommandSender) {
-        for (uuid in handler.radioSongPlayer!!.playerUUIDs) {
+        for (uuid in SkyWarsLobby.lobbyInstance.musicHandler.radioSongPlayer!!.playerUUIDs) {
             val player = Bukkit.getPlayer(uuid)
             if (player == null || !player.hasMusicEnabled()) continue
 
-            handler.radioSongPlayer!!.addPlayer(uuid)
+            SkyWarsLobby.lobbyInstance.musicHandler.radioSongPlayer!!.addPlayer(uuid)
         }
 
         sender.sendMessage("§aYou have played all music for all players.")
@@ -71,10 +70,10 @@ class MusicCommand : ScalaCommand() {
     @Description("View information about the current song")
     fun information(sender: CommandSender) {
         sender.sendMessage(" ")
-        sender.sendMessage("§6■ §fCurrent Song: §e" + handler.radioSongPlayer!!.song.title)
-        sender.sendMessage("§6■ §fCurrent Author: §e" + handler.radioSongPlayer!!.song.author)
-        sender.sendMessage("§6■ §fCurrent Length: §e" + handler.radioSongPlayer!!.song.length)
-        sender.sendMessage("§6■ §fCurrent Tempo: §e" + handler.radioSongPlayer!!.song.speed)
+        sender.sendMessage("§6■ §fCurrent Song: §e" + SkyWarsLobby.lobbyInstance.musicHandler.radioSongPlayer!!.song.title)
+        sender.sendMessage("§6■ §fCurrent Author: §e" + SkyWarsLobby.lobbyInstance.musicHandler.radioSongPlayer!!.song.author)
+        sender.sendMessage("§6■ §fCurrent Length: §e" + SkyWarsLobby.lobbyInstance.musicHandler.radioSongPlayer!!.song.length)
+        sender.sendMessage("§6■ §fCurrent Tempo: §e" + SkyWarsLobby.lobbyInstance.musicHandler.radioSongPlayer!!.song.speed)
         sender.sendMessage(" ")
     }
 }
