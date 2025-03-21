@@ -140,9 +140,9 @@ class LeaderboardHologramHandler {
 
     
     private enum class HologramLocation(val location: Location) {
-        LEVELS(Location(Bukkit.getWorld("world"), -31.5, 92.0, -41.5)),
-        WINS(Location(Bukkit.getWorld("world"), -31.5, 92.0, -39.5)),
-        RANKED(Location(Bukkit.getWorld("world"), -31.5, 92.0, -39.5))
+        LEVELS(Location(Bukkit.getWorld("world"), -31.5, 91.0, -44.5)),
+        WINS(Location(Bukkit.getWorld("world"), -31.5, 91.0, -41.5)),
+        RANKED(Location(Bukkit.getWorld("world"), -31.5, 91.0, -38.5))
     }
 
     companion object {

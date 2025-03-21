@@ -75,8 +75,8 @@ class QueueNPCsHandler {
 
 
     private enum class NPCSpawnLocation(val location: Location) {
-        SPAWN_1(Location(Bukkit.getWorld("world"), -10.5, 91.0, -35.5, -90f, 0f)),
-        SPAWN_2(Location(Bukkit.getWorld("world"), -5.5, 91.0, -37.5, -90f, 0f)),
-        SPAWN_3(Location(Bukkit.getWorld("world"), -4.5, 91.0, -37.5, -90f, 0f))
+        SPAWN_1(Location(Bukkit.getWorld("world"), -10.5, 91.0, -35.5)),
+        SPAWN_2(Location(Bukkit.getWorld("world"), -5.5, 91.0, -37.5)),
+        SPAWN_3(Location(Bukkit.getWorld("world"), 4.5, 91.0, -37.5))
     }
 }
