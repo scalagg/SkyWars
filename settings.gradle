@@ -1,5 +1,0 @@
-rootProject.name = "Skywars"
-include("shared", "lobby", "game", "limbo")
-include 'devtools'
-include 'devtools'
-

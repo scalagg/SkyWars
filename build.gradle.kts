@@ -1,73 +1,48 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
-    id("java")
-    id("maven-publish")
-    kotlin("jvm") version "1.9.10"
-    kotlin("kapt") version "1.9.10"
-    id("com.jfrog.artifactory") version "4.29.2"
-    id("com.github.johnrengelman.shadow") version "7.1.2"
+    java
+    `maven-publish`
+    kotlin("jvm") version "2.0.0"
+    kotlin("kapt") version "2.0.0"
     id("org.ajoberstar.grgit") version "4.1.1"
-}
-
-
-version = "1.0"
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
 var currentBranch: String = grgit.branch.current().name
+if (currentBranch != "master") {
+    println("Starting in development mode")
+}
 
 allprojects {
-    apply(plugin = "maven-publish")
-    apply(plugin = "com.github.johnrengelman.shadow")
-    apply(plugin = "org.jetbrains.kotlin.jvm")
-    apply(plugin = "org.jetbrains.kotlin.kapt")
-    apply(plugin = "com.jfrog.artifactory")
-
     group = "gg.scala.skywars"
     version = "1.1.0${
         if (currentBranch == "develop") "-dev" else ""
     }"
 
     repositories {
-        mavenLocal()
+        configureScalaRepository()
         mavenCentral()
-        maven(url = "https://jitpack.io")
+        mavenLocal()
         maven {
             name = "lunarclient"
             url = uri("https://repo.lunarclient.dev")
         }
-
-        maven {
-            url = uri("${property("artifactory_contextUrl")}/gradle-release")
-
-            credentials {
-                username = property("artifactory_user").toString()
-                password = property("artifactory_password").toString()
-            }
-        }
-        maven {
-            url = uri("https://repo.mincats.eu/mirrors")
-            name = "mincats-mirrors"
-        }
-        maven {
-            url = uri("https://repo.purpurmc.org/snapshots")
-            name = "purpur"
-        }
-        maven {
-            url = uri("https://jitpack.io")
-            name = "jitpack"
-        }
-        maven {
-            url = uri("https://repo.codemc.io/repository/maven-public/")
-            name = "codemc-repo"
-        }
         maven("https://repo.glaremasters.me/repository/concuncan/")
-
+        maven("https://repo.dmulloy2.net/repository/public/")
     }
+}
+
+    subprojects {
+        apply(plugin = "org.jetbrains.kotlin.jvm")
+        apply(plugin = "org.jetbrains.kotlin.kapt")
+        apply(plugin = "com.github.johnrengelman.shadow")
+        apply(plugin = "maven-publish")
 
     dependencies {
+        compileOnly(kotlin("stdlib"))
+
         compileOnly("net.kyori:adventure-api:4.14.0")
         compileOnly("gg.scala.spigot:server:1.1.0")
 
@@ -88,44 +63,75 @@ allprojects {
         compileOnly("com.grinderwolf:slimeworldmanager-plugin:2.2.1")
     }
 
-    tasks.shadowJar {
-        archiveClassifier.set("")
+    kapt {
+        keepJavacAnnotationProcessors = true
+    }
 
-        exclude("**/*.kotlin_metadata")
-        exclude("**/*.kotlin_module")
+    tasks.withType<JavaCompile> {
+        options.compilerArgs.add("-parameters")
+        options.fork()
+        options.encoding = "UTF-8"
+    }
 
-        archiveFileName.set("skywars-${project.name}.jar")
+    kotlin {
+        jvmToolchain(jdkVersion = 17)
+    }
+
+    tasks {
+        withType<ShadowJar> {
+            archiveClassifier.set("")
+            exclude(
+                "**/*.kotlin_metadata",
+                "**/*.kotlin_builtins"
+            )
+
+            archiveFileName.set(
+                "ScSkyWars-${project.name}.jar"
+            )
+        }
+
+        withType<JavaCompile> {
+            options.compilerArgs.add("-parameters")
+            options.fork()
+            options.encoding = "UTF-8"
+        }
+
+        withType<KotlinCompile> {
+            kotlinOptions.javaParameters = true
+            kotlinOptions.jvmTarget = "17"
+        }
+
+        getByName("build") {
+            dependsOn(
+                "shadowJar",
+                "publishMavenJavaPublicationToScalaRepository"
+            )
+        }
     }
 
     publishing {
+        repositories.configureScalaRepository(dev = currentBranch != "master")
+
         publications {
-            create<MavenPublication>("shadow") {
-                project.shadow.component(this)
-            }
-        }
-
-        repositories {
-            maven {
-                name = "scala"
-                url = uri("${property("artifactory_contextUrl")}/gradle-release")
-
-                credentials {
-                    username = property("artifactory_user") as String
-                    password = property("artifactory_password") as String
-                }
-            }
+            register(
+                name = "mavenJava",
+                type = MavenPublication::class,
+                configurationAction = shadow::component
+            )
         }
     }
-
-    tasks.build {
-        dependsOn(
-            tasks.shadowJar,
-            //tasks.named("publishShadowPublicationToScalaRepository")
-        )
-    }
-
 }
 
+fun RepositoryHandler.configureScalaRepository(dev: Boolean = false)
+{
+    maven("${property("artifactory_contextUrl")}/gradle-${if (dev) "dev" else "release"}") {
+        name = "scala"
+        credentials {
+            username = property("artifactory_user").toString()
+            password = property("artifactory_password").toString()
+        }
+    }
+}
 
 
 
