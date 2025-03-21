@@ -20,9 +20,9 @@ import org.bukkit.entity.Player
 class MusicCommand : ScalaCommand() {
     private val handler = SkyWarsLobby.lobbyInstance.musicHandler
 
+    @Default
     @HelpCommand
-    @Syntax("[page]")
-    fun doHelp(sender: CommandSender?, help: CommandHelp) {
+    fun onHelp(help: CommandHelp) {
         help.showHelp()
     }
 

@@ -40,9 +40,9 @@ class AbilityCommand : ScalaCommand() {
         }
     }
 
+    @Default
     @HelpCommand
-    @Syntax("[page]")
-    fun doHelp(sender: CommandSender?, help: CommandHelp) {
+    fun onHelp(help: CommandHelp) {
         help.showHelp()
     }
 }

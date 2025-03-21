@@ -74,8 +74,9 @@ class GameCommand : ScalaCommand() {
         handler.startCountdown()
     }
 
+    @Default
     @HelpCommand
-    fun doHelp(sender: CommandSender?, help: CommandHelp) {
+    fun onHelp(help: CommandHelp) {
         help.showHelp()
     }
 }
