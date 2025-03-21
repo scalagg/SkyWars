@@ -90,7 +90,7 @@ class LeaderboardNPCsHandler {
 
     /** Updates the npcs  */
     fun update() {
-        npcmap.forEach { (id: Int?, supplier: Supplier<CompletableFuture<SkyWarsProfile>>) ->
+        npcmap.forEach { (id: Int, supplier: Supplier<CompletableFuture<SkyWarsProfile>>) ->
             val future: CompletableFuture<SkyWarsProfile> = supplier.get()
             val profile = future.join()
 
