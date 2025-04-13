@@ -70,6 +70,9 @@ class LobbyHandler {
 
     fun deployGame(sendOnDeploy: Boolean) {
         //-- Instance Variables
+
+
+
         val templates: List<String> = Deployer.getTemplates()
         val skywarsTemplates: MutableList<String> = ArrayList()
 
