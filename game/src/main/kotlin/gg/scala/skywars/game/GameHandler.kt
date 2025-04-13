@@ -1,6 +1,9 @@
 package gg.scala.skywars.game
 
 import com.lunarclient.apollo.module.richpresence.ServerRichPresence
+import gg.scala.cgs.common.CgsGameEngine
+import gg.scala.cgs.common.packet.CgsPacketService
+import gg.scala.cgs.common.packet.impl.DeleteServerPacket
 import gg.scala.skywars.SkyWarsGame
 import gg.scala.skywars.SkyWarsPlugin
 import gg.scala.skywars.arena.engine.CgsSkywarsArena
@@ -26,10 +29,11 @@ import gg.scala.skywars.map.GameMap
 import gg.scala.skywars.profile.SkyWarsProfile
 import gg.scala.skywars.setDiscordPresence
 import gg.scala.skywars.util.DefaultFontInfo
-import gg.scala.cgs.common.CgsGameEngine
-import gg.scala.cgs.common.teams.CgsGameTeamService
 import gg.scala.commons.agnostic.sync.ServerSync
 import gg.scala.lemon.util.QuickAccess
+import gg.scala.skywars.util.PlayerUtil
+import gg.scala.skywars.util.ServerUtil
+import gg.scala.skywars.util.cuboid.Cuboid
 import net.evilblock.cubed.util.Color
 import net.evilblock.cubed.util.bukkit.Tasks
 import org.apache.commons.lang.StringUtils
@@ -37,7 +41,6 @@ import org.bukkit.Bukkit
 import org.bukkit.Sound
 import org.bukkit.block.BlockFace
 import org.bukkit.entity.Player
-import studio.pinkcloud.deploy.spigot.api.Deployer
 import java.util.*
 import kotlin.math.min
 
@@ -47,7 +50,7 @@ import kotlin.math.min
  * @date 26/09/2023 / 21:16
  */
 class GameHandler {
-    val bounds: _root_ide_package_.gg.scala.skywars.util.cuboid.Cuboid;
+    val bounds: Cuboid;
 
     //TODO: make a method that can pass in a gameType when launching the server (depending on in what way it was launched)
 
@@ -62,7 +65,7 @@ class GameHandler {
 
         val arena: SkyWarsArena = cgsArena.arena
 
-        bounds = _root_ide_package_.gg.scala.skywars.util.cuboid.Cuboid(
+        bounds = Cuboid(
             arena.boundsLower?.toBukkit(world),
             arena.boundsUpper?.toBukkit(world)
         )
@@ -127,7 +130,7 @@ class GameHandler {
                 location = baseBlock.location.toVector(),
                 owner = player.uniqueId
             )
-            _root_ide_package_.gg.scala.skywars.util.PlayerUtil.resetPlayer(player)
+            PlayerUtil.resetPlayer(player)
             //  player.setMetadata("frozen", FixedMetadataValue(SkyWarsPlugin.instance, this))
         }
         Tasks.delayed(2L) {
@@ -171,7 +174,7 @@ class GameHandler {
             val player: Player = Bukkit.getPlayer(uuid)
             player.removeMetadata("frozen", SkyWarsPlugin.instance)
 
-            _root_ide_package_.gg.scala.skywars.util.PlayerUtil.resetPlayer(player)
+            PlayerUtil.resetPlayer(player)
             cages[player.uniqueId]?.apply {
                 cage.removeAll(
                     location.toLocation(map.getLobbySpawn().world).block
@@ -244,18 +247,18 @@ class GameHandler {
 
         // Kicks all players out of the game in 5 seconds
         Tasks.delayed(20 * 5L, Runnable {
-            _root_ide_package_.gg.scala.skywars.util.ServerUtil.sendToLobby(winner)
+            ServerUtil.sendToLobby(winner)
             for (player in Bukkit.getOnlinePlayers()) {
                 if (player == null) continue
 
-                _root_ide_package_.gg.scala.skywars.util.ServerUtil.sendToLobby(player)
+                ServerUtil.sendToLobby(player)
             }
         })
 
         endGame()
     }
 
-    fun endGame() {
+    private fun endGame() {
         game.state = GameState.ENDED
         game.active = false
         game.endedAt = Date()
@@ -268,10 +271,10 @@ class GameHandler {
         game.spectators.clear()
 
         // Delete the server deployment in 8 seconds from now
-        Tasks.delayed(
-            20 * 8,
-        ) {
-            Deployer.deleteDeployment(ServerSync.local.id)
+        Tasks.delayed(20 * 8) {
+            /*Deployer.deleteDeployment(ServerSync.local.id)
+            CgsPacketService.sendToAll(DeleteServerPacket(ServerSync.local.id))*/
+            TODO("add removal of server container to SERVER SYNC")
         }
     }
 
@@ -292,6 +295,7 @@ class GameHandler {
         if (game.state == GameState.WAITING) {
             player.teleport(map.getLobbySpawn())
         } else {
+            // TODO: ????
             val playerSpawn = map.spawns[CgsGameTeamService.getTeamOf(player.uniqueId)!!.id];
 
             val randomCosmetic = CageCategory

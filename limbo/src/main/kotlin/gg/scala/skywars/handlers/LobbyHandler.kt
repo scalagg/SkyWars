@@ -1,9 +1,7 @@
 package gg.scala.skywars.handlers
 
+import gg.scala.cgs.common.CgsGameEngine
 import gg.scala.cgs.common.game.GameType
-import gg.scala.cgs.common.packet.CgsPacketService
-import gg.scala.cgs.common.packet.impl.RequestServerPacket
-import gg.scala.commons.agnostic.sync.ServerSync
 
 import net.evilblock.cubed.util.bungee.BungeeUtil
 import gg.scala.skywars.Limbo
@@ -12,9 +10,9 @@ import gg.scala.skywars.config.LimboConfig
 import gg.scala.skywars.handlers.task.CountdownTask
 import gg.scala.skywars.util.LimboState
 import gg.scala.skywars.util.StartingState
+import net.evilblock.cubed.util.CC
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
-import studio.pinkcloud.deploy.spigot.api.Deployer
 import java.util.*
 import java.util.concurrent.ThreadLocalRandom
 import java.util.function.Consumer
@@ -69,13 +67,13 @@ class LobbyHandler {
             lobby.limboState = LimboState.DEPLOYED
         }
 
-        Bukkit.broadcastMessage("Countdown stopped (Unfulfilled requirements)")
+        Bukkit.broadcastMessage("${CC.GREEN}Countdown ${CC.RED}stopped ${CC.GRAY}(Unfulfilled requirements)")
     }
 
     fun deployGame(sendOnDeploy: Boolean) {
         //-- Instance Variables
 
-        val templates: List<String> = Deployer.getTemplates()
+        val templates: List<String> = CgsGameEngine.getTemplates()
         val skywarsTemplates: MutableList<String> = ArrayList()
 
         if (templates.isEmpty()) {
@@ -103,7 +101,7 @@ class LobbyHandler {
                 return@createServer
             }
             for (player in Bukkit.getOnlinePlayers()) {
-                player.sendMessage("Sending you to the game!")
+                player.sendMessage("${CC.GREEN}Sending you to $serverName!")
                 BungeeUtil.sendToServer(player, serverName)
             }
         }
@@ -111,8 +109,8 @@ class LobbyHandler {
 
     private fun createServer(templateName: String?, consumer: Consumer<String>?) {
         val gameType = templateName?.let { GameType.getGameByDisplayName(it) }
-        CgsPacketService.sendToAll(RequestServerPacket(templateName + "-" + getId(), templateName!!, gameType!!.maxTeamSize, gameType.toString()))
-        consumer.accept()
+        val serverName = templateName + "-" + getId()
+        CgsGameEngine.createServer(serverName, templateName!!, gameType!!.maxTeamSize, gameType.toString(), consumer)
     }
 
     private fun getId(): String {

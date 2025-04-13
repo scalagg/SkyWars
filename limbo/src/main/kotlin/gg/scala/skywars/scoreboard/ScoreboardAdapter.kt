@@ -2,6 +2,7 @@ package gg.scala.skywars.scoreboard
 
 import net.evilblock.cubed.scoreboard.ScoreboardAdapter
 import gg.scala.skywars.Limbo
+import gg.scala.skywars.game.state.GameType
 import gg.scala.skywars.util.StartingState
 import gg.scala.skywars.utils.ScoreboardTitleService
 import org.bukkit.entity.Player
@@ -44,9 +45,9 @@ class ScoreboardAdapter(private val plugin: Limbo) :  ScoreboardAdapter() {
         board.add("&fType: &6&l$goodType")
         board.add("&fMode: " + "&6&l" + plugin.lobbyHandler.lobby.gameType.displayName)
         val gameType = plugin.lobbyHandler.lobby.gameType
-        //        if (gameType == GameType.RANKED) {
-//            //lines.add("&fBracket: " + playerBracket"); TODO: Show the player's bracket
-//        }
+        if (gameType == GameType.RANKED) {
+            //board.add("&fBracket: " + ); // TODO: Show the player's bracket (Currently there is no playerBracket method)
+        }
         board.add("")
 
         //-- Footer

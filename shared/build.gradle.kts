@@ -1,3 +1,3 @@
 dependencies {
-    compileOnly("studio.pinkcloud.deploy:spigot:1.0-SNAPSHOT")
+    compileOnly("gg.scala.cgs:common:1.5.3")
 }

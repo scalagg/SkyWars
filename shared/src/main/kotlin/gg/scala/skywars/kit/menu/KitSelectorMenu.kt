@@ -37,7 +37,6 @@ class KitSelectorMenu : PaginatedMenu() {
         override fun getButtonItem(player: Player): ItemStack {
             val profile = SkyWarsShared.instance.getProfile(player);
 
-            // TODO:
             val owned = kit.canUse(profile)
 
             val item = ItemBuilder(kit.displayMaterial)

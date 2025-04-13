@@ -8,7 +8,7 @@ import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Player
 
-class SniperPerk  //TODO: Doubles the effect of the Blazing Arrow and ArrowRecovery Perks
+class SniperPerk
     : Perk(
     "Sniper Perk", Material.BOW, 0, PerkRarity.COMMON,
     "Archery Bow gains 1 level of Power after each kill."
@@ -29,8 +29,6 @@ class SniperPerk  //TODO: Doubles the effect of the Blazing Arrow and ArrowRecov
                 //-- Make sure we only grab a bow item
 
                 if (inventorySlot.type == Material.BOW) {
-                    //TODO: Make it so that only the bow you receive from the Sniper kit gets the upgrade
-
                     if (inventorySlot.containsEnchantment(enchantment)) {
                         powerLevel = inventorySlot.getEnchantmentLevel(enchantment)
                         inventorySlot.addEnchantment(enchantment, powerLevel++)

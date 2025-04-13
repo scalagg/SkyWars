@@ -25,8 +25,6 @@ class ArmorerPerk : Perk(
 
             //-- Iterate through each armor piece
             for (armorPiece in armor) {
-                //TODO: Make it so that only the armor you receive from the Armorer kit gets the upgrade
-
                 if (armorPiece.containsEnchantment(enchantment)) {
                     protectionLevel = armorPiece.getEnchantmentLevel(enchantment)
                     armorPiece.addEnchantment(enchantment, protectionLevel++)

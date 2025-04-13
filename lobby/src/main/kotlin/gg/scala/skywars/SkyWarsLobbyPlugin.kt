@@ -30,13 +30,6 @@ class SkyWarsLobbyPlugin : ExtendedScalaPlugin() {
 
         SkyWarsLobby(this)
 
-        val delay = 10000L
-        val timer = Timer()
-        timer.scheduleAtFixedRate(TimerTask() {
-
-        }, delay, 5000L)
-        timer.scheduleAtFixedRate(GenerateTeamGameServerTask(), delay, 5000L)
-
         val lobby = SkyWarsLobbyEngine
         lobby.resourcePlugin = this
         CgsGameLobby.INSTANCE = lobby

@@ -13,7 +13,7 @@ repositories {
 
 dependencies {
     implementation(project(":shared"))
-    compileOnly("studio.pinkcloud.deploy:spigot:1.0-SNAPSHOT")
+    implementation("gg.scala.cgs:common:1.5.3")
     compileOnly(files("libs/worldedit-1.8.8.jar"))
     compileOnly(files("libs/FastAsyncWorldEdit.jar"))
 }
