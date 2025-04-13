@@ -1,6 +1,8 @@
 package gg.scala.skywars.handlers
 
-import gg.scala.cgs.common.CgsGameEngine
+import gg.scala.cgs.common.game.GameType
+import gg.scala.cgs.common.packet.CgsPacketService
+import gg.scala.cgs.common.packet.impl.RequestServerPacket
 import gg.scala.commons.agnostic.sync.ServerSync
 
 import net.evilblock.cubed.util.bungee.BungeeUtil
@@ -13,8 +15,10 @@ import gg.scala.skywars.util.StartingState
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import studio.pinkcloud.deploy.spigot.api.Deployer
+import java.util.*
 import java.util.concurrent.ThreadLocalRandom
 import java.util.function.Consumer
+import kotlin.collections.ArrayList
 
 
 class LobbyHandler {
@@ -71,8 +75,6 @@ class LobbyHandler {
     fun deployGame(sendOnDeploy: Boolean) {
         //-- Instance Variables
 
-
-
         val templates: List<String> = Deployer.getTemplates()
         val skywarsTemplates: MutableList<String> = ArrayList()
 
@@ -108,11 +110,16 @@ class LobbyHandler {
     }
 
     private fun createServer(templateName: String?, consumer: Consumer<String>?) {
-        Deployer.deploy(
-            templateName,
-            ServerSync.local.region.name,
-            consumer
-        )
+        val gameType = templateName?.let { GameType.getGameByDisplayName(it) }
+        CgsPacketService.sendToAll(RequestServerPacket(templateName + "-" + getId(), templateName!!, gameType!!.maxTeamSize, gameType.toString()))
+        consumer.accept()
+    }
+
+    private fun getId(): String {
+        val uuid = UUID.randomUUID()
+        val uuidString = uuid.toString()
+        val chars = uuidString.substring(0, 8)
+        return chars
     }
 }
 

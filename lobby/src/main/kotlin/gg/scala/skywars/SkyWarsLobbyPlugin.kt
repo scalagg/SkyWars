@@ -3,6 +3,7 @@ package gg.scala.skywars
 import gg.scala.cgs.lobby.gamemode.CgsGameLobby
 import gg.scala.commons.ExtendedScalaPlugin
 import gg.scala.commons.core.plugin.*
+import java.util.*
 
 /**
  * @author alfie
@@ -28,6 +29,13 @@ class SkyWarsLobbyPlugin : ExtendedScalaPlugin() {
         instance = this
 
         SkyWarsLobby(this)
+
+        val delay = 10000L
+        val timer = Timer()
+        timer.scheduleAtFixedRate(TimerTask() {
+
+        }, delay, 5000L)
+        timer.scheduleAtFixedRate(GenerateTeamGameServerTask(), delay, 5000L)
 
         val lobby = SkyWarsLobbyEngine
         lobby.resourcePlugin = this
